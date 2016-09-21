@@ -68,7 +68,7 @@ router.post('/images', multipartMiddleware, function (req, res) {
   newPath += '\\' + fileName;
   fs.rename(file.path, newPath, function (err) {
     if (!err) {
-      var url = config.userImagesUrlPrefix + file.originalFilename;
+      var url = config.userImagesUrlPrefix + fileName;
       sendInfo(errorCodes.Success, res, url);
     } else {
       handleErrors(err, res, '');
