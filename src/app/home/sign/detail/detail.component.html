@@ -1,0 +1,32 @@
+<div class="title">
+  <span>软件工程</span>
+</div>
+<div class="info wrap">
+  <ul class="status-list">
+    <li><label>开始时间</label><span>2016-09-01 10:00</span></li>
+    <li><label>结束时间</label><span>2016-09-01 11:50</span></li>
+    <li><label>签到状态</label><span class="green-font">进行中</span></li>
+  </ul>
+  <div class="qr-code">
+    <qr-code [data]="'123'" [size]="'120'"></qr-code>
+    <div class="qr-code-tip">点我放大</div>
+  </div>
+  <div class="sign-in">签到进度</div>
+</div>
+<div class="body">
+  <div class="radio-group">
+    <button type="button" [class.inactive]="radiosInactive[0]" (click)="selectRadio(0)">课前</button>
+    <button type="button" [class.inactive]="radiosInactive[1]" (click)="selectRadio(1)">课后</button>
+  </div>
+  <ul class="sign-in-list">
+    <li>
+      <img class="avatar" src="" onerror="javascript:this.src='/public/images/default.png'" />
+      <div>周晓华</div>
+      <div class="red-font">100m</div>
+      <div class="confirm-group wrap">
+        <button type="button" class="confirm-btn"></button>
+        <button type="button" class="cancel-btn"></button>
+      </div>
+    </li>
+  </ul>
+</div>

@@ -20,5 +20,6 @@
 <list [headerOptions]="headerOptions" [cellOptions]="cellOptions" 
     [operationOption]="operationOption"  
     [datas]="signs | filter:selectedCourseName:'courseName' | filterDate:selectedDate:'startTime'"    
-    (onSelect)="receiveCheckedSigns($event)" (onDelete)="removeSign($event)">
+    (onSelect)="receiveCheckedSigns($event)" (onDelete)="removeSign($event)"
+    (onRowClick)="toDetail($event)">
 </list>

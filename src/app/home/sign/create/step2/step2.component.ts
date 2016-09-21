@@ -28,13 +28,6 @@ export class Step2Component implements OnInit {
       if (+body.code == 200) {
         this.courses = body.data;
         this.selectedCourse = this._signService.relatedCourse ? this._signService.relatedCourse : '';
-        // if (this._signService.course) {
-        //   this.selectedCourse = this._signService.course;
-        // } else if (this._signService.relatedCourse) {
-        //   this.selectedCourse = this._signService.relatedCourse;
-        // } else {
-        //   this.selectedCourse = '';
-        // }
       } else {
         alert(body.data);
       }

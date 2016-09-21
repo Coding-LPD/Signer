@@ -1,0 +1,117 @@
+:host {
+  display: block;  
+  border-radius: 5px;
+  background-color: white;  
+}
+
+.title {
+  padding: 15px 25px;
+  font-size: 1.3em;  
+  color: #797979;
+  border-bottom: 1px solid #EFF2F7;
+}
+
+.title span {
+  display: inline-block;
+  padding: 8px 15px;
+  color: white;  
+  background-color: #F5A623;
+  border-radius: 5px;
+}
+
+.info {
+  padding: 15px 25px;
+  border-bottom: 1px solid #EFF2F7;
+}
+
+.status-list {
+  float: left;
+}
+
+.status-list li {
+  margin: 30px 10px;
+  color: #666;
+  font-size: 1.2em;
+}
+
+.status-list label {
+  display: inline-block;
+  width: 7em;
+}
+
+.qr-code {
+  float: left;
+  margin-top: 20px;
+  margin-left: 20px;
+  cursor: pointer;
+}
+
+.qr-code-tip {
+  margin-top: 5px;
+  text-align: center;
+  color: #58C9F3;
+}
+
+.sign-in {
+  float: right;
+}
+
+.body {
+  padding: 15px 25px;
+}
+
+.radio-group {
+  display: inline-block;
+  border: 1px solid #97CC00;
+  border-radius: 12px;  
+}
+
+.radio-group button {
+  display: inline-block;
+  width: auto;  
+  margin-left: -13px;
+  padding: 8px 40px;
+  border-radius: 10px;  
+}
+
+.radio-group button:first-child {
+  margin-left: 0px;
+}
+
+.radio-group button.inactive {
+  color: #97CC00;
+  background-color: transparent;  
+}
+
+.sign-in-list li {
+  display: inline-block;
+  margin: 30px 20px;
+  text-align: center;
+  color: #666;
+}
+
+.avatar {
+  width: 100px;
+  height: 100px;
+}
+
+.confirm-group button {
+  width: 35px;
+  height: 35px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: transparent;
+}
+
+.confirm-btn {
+  float: left;
+  background-image: url('/public/images/confirm.png');
+}
+
+.cancel-btn {
+  float: right;
+  background-image: url('/public/images/cancel.png');
+}
+
+.green-font { color: #97CC00; }
+.red-font   { color: #FF6C60; }

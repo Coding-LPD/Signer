@@ -117,6 +117,7 @@ a:hover {
   border-bottom: 4px solid transparent;
 }
 
+.green        { color: white; background-color: #97CC00; }
 .blue         { color: white; background-color: #58C9F3; }
 .red          { color: white; background-color: #FF6C60; }
 .orange       { color: white; background-color: #F5A623; }

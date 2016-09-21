@@ -17,7 +17,9 @@ export interface OperationOption {
   // 是否要编辑按钮
   hasEdit?: boolean,
   // 是否要删除按钮
-  hasDelete?: boolean
+  hasDelete?: boolean,
+  // 数据行是否可以点击
+  canClick?: boolean
 }
 
 // 表头配置
@@ -63,6 +65,8 @@ export class ListComponent implements OnChanges {
   // 编辑和删除事件
   @Output() onEdit = new EventEmitter<any>();
   @Output() onDelete = new EventEmitter<any>();
+  // 点击某一行数据
+  @Output() onRowClick = new EventEmitter<any>();
   // 封装父组件提供的数据
   allDatas: WrapData[];
   // 当前页显示的数据
@@ -119,6 +123,12 @@ export class ListComponent implements OnChanges {
   deleteData(data: any) {
     this.onDelete.emit(data);
   } 
+
+  clickRow(data: any) {
+    if (this.operationOption.canClick) {
+      this.onRowClick.emit(data); 
+    }    
+  }
 
   /**
    * 将普通数据封装成WrapData数据

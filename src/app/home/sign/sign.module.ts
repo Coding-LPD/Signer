@@ -5,6 +5,7 @@ import { QRCodeModule } from 'angular2-qrcode';
 import { SharedModule } from '../../shared';
 import { SignComponent } from './sign.component';
 import { SignService } from './sign.service';
+import { DetailComponent } from './detail';
 import { 
   CreateComponent, 
   Step1Component, 
@@ -25,7 +26,8 @@ import {
     Step1Component,
     Step2Component,
     Step3Component,
-    CompleteComponent        
+    CompleteComponent,
+    DetailComponent    
   ],
   exports: [
     SignComponent,
@@ -33,7 +35,8 @@ import {
     Step1Component,
     Step2Component,
     Step3Component,
-    CompleteComponent 
+    CompleteComponent,
+    DetailComponent
   ],
   providers: [
     SignService

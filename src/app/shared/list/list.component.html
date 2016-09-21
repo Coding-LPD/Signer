@@ -13,7 +13,7 @@
     </tr>
   </thead>
   <tbody *ngIf="allDatas">  
-    <tr *ngFor="let d of showDatas">
+    <tr *ngFor="let d of showDatas" [class.can-click]="operationOption.canClick || false" (click)="clickRow(d.data)">
       <td></td>
       <td class="checkbox" *ngIf="operationOption.hasCheck || false">
         <input type="checkbox" [(ngModel)]="d.checked"

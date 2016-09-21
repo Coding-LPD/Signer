@@ -18,7 +18,7 @@ export class SignComponent implements OnInit {
   // selectedDate = moment().format('YYYY-MM-DD');
   selectedDate: string;
   // list组件配置
-  operationOption: OperationOption = { hasDelete: true };
+  operationOption: OperationOption = { hasDelete: true, canClick: true };
   headerOptions: HeaderOption[] = [
     { name: '所属课程' }, { name: '起始时间', width: '130px' }, { name: '终止时间', width: '130px' },
     { name: '已签', width: '70px' }, { name: '总数', width: '70px' }, { name: '签到状态' }, 
@@ -79,6 +79,10 @@ export class SignComponent implements OnInit {
           alert(body.msg);
         }
       })
+  }
+
+  toDetail(sign: Sign) {
+    this._router.navigate(['/home/sign/detail']);
   }
 
 }
