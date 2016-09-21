@@ -1,0 +1,31 @@
+header {
+  z-index: 1000;
+}
+
+sidebar {
+  padding-top: 75px;
+}
+
+.main-content {
+  animation: fold 100ms forwards; 
+}
+
+.main-content.full-width {
+  animation: expand 100ms forwards;
+}
+
+.wrap {
+  padding-top: 75px;
+  padding-bottom: 15px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+@keyframes expand {
+  from { margin-left: 180px; }  
+  to { margin-left: 0; }
+}
+
+@keyframes fold {  
+  to { margin-left: 180px; }
+}

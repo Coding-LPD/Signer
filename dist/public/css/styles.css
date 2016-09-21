@@ -1,0 +1,115 @@
+body {
+  background-color: #F1F2F7;
+}
+
+body, input, button {
+  font-size: 13px;
+  font-family: "Microsoft YaHei" !important;
+}
+
+body, h1, h2, h3, h4, h5, h6, input, ul {
+  margin: 0;
+  padding: 0;
+}
+
+ul {
+  list-style: none;
+}
+
+input, select {
+  display: block;
+  width: 99%;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 10px;
+  border: 1px solid #DDDDDD;
+  border-radius: 5px;  
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+          box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+  -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+       -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+          transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+}
+input:focus {
+  border-color: #66afe9;
+  outline: 0;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, .6);
+          box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, .6);
+}
+
+button {
+  display: block;
+  width: 100%;
+  padding: 10px 0;
+  border: none;  
+  border-radius: 5px;
+  outline: none;
+  color: white;
+  background-color: #97CC00;
+  cursor: pointer;   
+}
+button:active {
+  background-color: #698e00;
+}
+button[disabled] {
+  background-color: #b6db4d;
+}
+
+a {
+  color: #ABABAB; 
+  text-decoration: none;
+  cursor: pointer;
+}
+a:hover {
+  color: #97CC00;
+}
+
+/* clear float */
+.wrap {
+  zoom: 1; /*==for IE6/7 Maxthon2==*/
+}
+.wrap:after {
+  clear: both;
+  content: '.';
+  display: block;
+  width: 0;
+  height: 0;
+  visibility: hidden;
+}
+
+.form-group {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.form-group .error {   
+  padding: 15px 20px;
+  border-radius: 5px;
+  color: #BE706F;   
+  background-color: #F2DEDE;   
+}
+
+.form-group label.left {
+  float: left;
+  height: 39px;
+  line-height: 39px;
+  color: #797979;
+  font-size: 1.1em;
+}
+
+.form-group .right {
+  float: right;
+  width: 84%;
+}
+
+.form-group input.right {
+  width: 83%;
+}
+
+.caret {
+  display: inline-block;
+  border-top: 4px solid black;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+}

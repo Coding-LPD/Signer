@@ -1,0 +1,37 @@
+<img class="logo-img" src="/public/images/logo-img.png" />
+<img class="logo-name" src="/public/images/logo-name.png" />
+<div class="login-wrap">  
+  <h3 class="title">教师登录</h3>
+  <form class="login-form" (submit)="login(user)" #loginForm="ngForm" *ngIf="active">
+    
+    <div class="form-group">
+      <input type="text" name="phone" [(ngModel)]="user.phone" placeholder="手机号码" required #phone="ngModel" />
+      <div class="error" [hidden]="phone.pristine || phone.valid">必须填写手机号码</div>      
+    </div>
+
+    <div class="form-group" *ngIf="isPasswordLogin">
+      <input type="password" name="password" [(ngModel)]="user.password" placeholder="密码" required #password="ngModel" />
+      <div class="error" [hidden]="password.pristine || password.valid">必须填写密码</div>
+    </div>
+
+    <div class="form-group" *ngIf="!isPasswordLogin">
+      <div class="wrap sms-code-wrap">
+        <input type="text" name="smsCode" [(ngModel)]="extra.smsCode" placeholder="验证码" required #smsCode="ngModel" />
+        <sms-code class="" [phone]="user.phone" [isDisabled]="!phone.valid" (onSuccess)="extra.smsid = $event" (onFail)="handleError($event)"></sms-code>
+      </div>
+      <div class="error" [hidden]="smsCode.pristine || smsCode.valid">必须填写验证码</div>      
+    </div>
+
+    <div class="wrap opt-group">
+      <a class="opt-left" href="#" (click)="toggleLoginMode($event)">{{isPasswordLogin ? '验证码登录' : '密码登录'}}</a>
+      <a class="opt-right" href="#" (click)="resetPassword($event)">忘记密码</a>      
+    </div>
+
+    <button class="login-btn" type="submit" [disabled]="!loginForm.form.valid">登录</button>
+
+    <a class="register-link" routerLink="/register">还没注册?</a>
+
+  </form>
+</div>
+<pop-up></pop-up>
+<div class="cover"></div>

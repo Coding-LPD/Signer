@@ -1,0 +1,7 @@
+<ul class="btn-group">
+  <li><button type="button" (click)="toPage(currentPage-1)" [disabled]="currentPage == 1">← Prev</button></li>
+  <li *ngFor="let page of pages; let i = index">
+    <button type="button" (click)="toPage(i+1)" [class.active]="currentPage == i+1">{{ i + 1 }}</button>
+  </li>
+  <li><button type="button" (click)="toPage(currentPage+1)" [disabled]="currentPage == pages.length">Next →</button></li>
+</ul>

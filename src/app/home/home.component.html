@@ -1,0 +1,7 @@
+<header (onToggleSidebar)="showSidebar = $event"></header>
+<sidebar *ngIf="showSidebar" @slide></sidebar>
+<div class="main-content" [class.full-width]="!showSidebar">
+  <div class="wrap">
+    <router-outlet></router-outlet>
+  </div>
+</div>

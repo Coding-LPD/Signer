@@ -1,0 +1,64 @@
+<div class="wrap">
+  <ul class="statistic-menu">
+    <li>
+      <div class="symbol symbol-people"></div>
+      <div class="content">
+        <div class="value">22</div>
+        <div class="description">我的学生</div>
+      </div>
+    </li>
+    <li>
+      <div class="symbol symbol-course"></div>
+      <div class="content">
+        <div class="value">345</div>
+        <div class="description">我的课程</div>
+      </div>
+    </li>
+    <li>
+      <div class="symbol symbol-label"></div>
+      <div class="content">
+        <div class="value">140</div>
+        <div class="description">我的签到</div>
+      </div>
+    </li>
+    <li>
+      <div class="symbol symbol-chart"></div>
+      <div class="content">
+        <div class="value">34500</div>
+        <div class="description">我的统计</div>
+      </div>
+    </li>
+  </ul>
+  <div class="calendar">
+    <div class="header">
+      <ul class="opt-group">
+        <li><button type="button" (click)="subMonth()">&nbsp;◄&nbsp;</button></li>
+        <li><button type="button" (click)="addMonth()">&nbsp;►&nbsp;</button></li>        
+      </ul>
+      <button class="today-btn" type="button" (click)="toToday()">今天</button>
+      <div class="date">{{selectedDate | date:'yyyy-MM-dd'}}</div>
+    </div>
+    <div class="body">
+      <table cellspacing="0">
+        <thead>
+          <tr>
+            <th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let weeks of calendarDate | calendarMonth">
+            <td *ngFor="let date of weeks" (click)="selectDate(date)">
+              <div class="day-number" [ngClass]="setDayNumberClass(date)">
+                {{date.getDate()}}
+              </div>
+              <div class="date-btn-group">
+                <button class="add-btn" type="button" (click)="createSign($event)"></button>
+                <button class="detail-btn" type="button" (click)="toDaySignDetail($event)"></button>                
+              </div>                            
+            </td>            
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

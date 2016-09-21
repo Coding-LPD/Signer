@@ -1,0 +1,38 @@
+<img class="logo-img" src="/public/images/logo-img.png" />
+<img class="logo-name" src="/public/images/logo-name.png" />
+<div class="register-wrap">  
+  <h3 class="title">教师注册</h3>
+  <form class="register-form" (submit)="register(user)" #registerForm="ngForm">
+
+    <div class="form-group">
+      <input type="text" name="phone" [(ngModel)]="user.phone" placeholder="手机号码" required #phone="ngModel" />
+      <div class="error" [hidden]="phone.valid || phone.pristine">必须填写手机号码</div>       
+    </div>
+
+    <div class="form-group">
+      <div class="wrap sms-code-wrap">
+        <input type="text" name="smsCode" [(ngModel)]="extra.smsCode" placeholder="验证码" required #smsCode="ngModel" />
+        <sms-code [isDisabled]="!phone.valid" [phone]="user.phone" (onSuccess)="extra.smsid = $event" (onFail)="handleError($event)"></sms-code>
+      </div>
+      <div class="error sms-code-error" [hidden]="smsCode.valid || smsCode.pristine">必须填写验证码</div>
+    </div>
+
+    <div class="form-group">
+      <input type="password" name="password" [(ngModel)]="user.password" placeholder="密码" required #password="ngModel" />
+      <div class="error" [hidden]="password.valid || password.pristine">必须填写密码</div>
+    </div>
+
+    <div class="form-group">
+      <input type="password" name="confirmPassword" [(ngModel)]="extra.confirmPassword" placeholder="确认密码" required #confirmPassword="ngModel" />
+      <div class="error" [hidden]="confirmPassword.pristine || confirmPassword.valid">必须填写确认密码</div>
+      <div class="error" [hidden]="!confirmPassword.valid || user.password === extra.confirmPassword">与输入的密码不一致</div>                
+    </div>    
+
+    <button class="register-btn" type="submit" [disabled]="!registerForm.form.valid || user.password !== extra.confirmPassword">注册</button>    
+
+    <a class="login-link" routerLink="/login">返回登录</a>
+
+  </form>
+</div>
+<pop-up></pop-up>
+<div class="cover"></div>
