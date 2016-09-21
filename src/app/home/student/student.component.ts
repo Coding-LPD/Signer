@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Student, Course, OperationOption, HeaderOption, CellOption } from '../../shared';
+import { SignStudent, Course, OperationOption, HeaderOption, CellOption } from '../../shared';
 import { LoginService } from '../../login';
 import { CourseService } from '../course';
 import { StudentService } from './student.service';
@@ -15,7 +15,7 @@ export class StudentComponent implements OnInit {
   // 教师对应的所有课程
   courses: Course[];
   // 某课程下所有学生数据
-  students: Student[];
+  students: SignStudent[];
   // 文件上传指令的基本配置
   uploadOptions = {
     url: this._studentService.getUploadUrl(),
@@ -75,7 +75,7 @@ export class StudentComponent implements OnInit {
     }
   }
 
-  receiveCheckedStudents(students: Student[]) {
+  receiveCheckedStudents(students: SignStudent[]) {
     console.log(students);
   }
 

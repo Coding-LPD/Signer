@@ -11,17 +11,17 @@ export class StudentService extends BaseService {
   }
 
   getStudent() {
-    return this._http.get(API.domain + API.student, { withCredentials: true })
+    return this._http.get(API.domain + API.signStudent, { withCredentials: true })
       .map(this.extractData)
       .catch(this.handleError);
   }
 
   getUploadUrl() {
-    return API.domain + API.studentImport;
+    return API.domain + API.signStudentImport;
   }
 
   search(conditions: any) {
-    return this._http.post(API.domain + API.studentSearch, conditions, { withCredentials: true })
+    return this._http.post(API.domain + API.signStudentSearch, conditions, { withCredentials: true })
       .map(this.extractData)
       .catch(this.handleError);
   }

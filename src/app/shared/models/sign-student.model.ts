@@ -1,4 +1,4 @@
-export class Student {
+export class SignStudent {
 
   constructor(
     public _id?: string,
