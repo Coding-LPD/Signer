@@ -1,0 +1,9 @@
+{
+  "globalDependencies": {
+    "express": "registry:dt/express#4.0.0+20160708185218",
+    "express-serve-static-core": "registry:dt/express-serve-static-core#4.0.0+20160715232503",
+    "mongoose": "registry:dt/mongoose#4.5.4+20160804041818",
+    "node": "registry:dt/node#6.0.0+20160805072842",
+    "serve-static": "registry:dt/serve-static#0.0.0+20160606155157"
+  }
+}

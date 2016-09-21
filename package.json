@@ -1,0 +1,71 @@
+{
+  "name": "ClassHelper",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www",
+    "postinstall": "typings install",
+    "typings": "typings"
+  },
+  "dependencies": {
+    "body-parser": "~1.15.1",
+    "connect-multiparty": "^2.0.0",
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.2.0",
+    "express": "~4.13.4",
+    "jade": "~1.11.0",
+    "moment": "^2.14.1",
+    "mongoose": "^4.5.8",
+    "morgan": "~1.7.0",
+    "njwt": "^0.3.1",
+    "node-rsa": "^0.4.1",
+    "node-uuid": "^1.4.7",
+    "serve-favicon": "~2.3.0",
+    "xlsx": "^0.8.0"
+  },
+  "apidoc": {
+    "name": "华师小签后台API",
+    "version": "1.0.0",
+    "description": "为华师小签各个终端提供资源的Restful api服务",
+    "title": "title",
+    "url": "http://linkdust.xicp.net:50843/api",
+    "header": {
+      "title": "说明",
+      "filename": "header.md"
+    },
+    "footer": {
+      "title": "操作码表",
+      "filename": "footer.md"
+    },
+    "order": [
+      "Key",
+      "User",
+      "PostUser",
+      "PostUserLogin",
+      "PostUserLoginWithSmsCode",
+      "SmsCode",
+      "PostSmsCode",
+      "PostSmsCodeVerification",
+      "PostSmsCodeState",
+      "Student",
+      "GetStudent",
+      "PutStudent",
+      "PostStudentSearch",
+      "PostStudentImage",
+      "Teacher",
+      "GetTeacher",
+      "PostTeacherSearch",
+      "Course",
+      "GetCourse",
+      "PostCourse",
+      "DeleteCourse",
+      "PostCourseSearch",
+      "Sign",
+      "GetSign",
+      "PostSign"
+    ],
+    "template": {
+      "withGenerator": false
+    }
+  }
+}
