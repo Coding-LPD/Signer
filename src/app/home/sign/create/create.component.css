@@ -1,0 +1,55 @@
+:host {
+  display: block;  
+  border-radius: 5px;
+  background-color: white;  
+}
+
+.title {
+  padding: 15px 25px;
+  font-size: 1.3em;
+  color: #797979;
+  border-bottom: 1px solid #EFF2F7;
+}
+
+.body {
+  padding: 15px 25px;
+}
+
+.step-tip {
+  width: 450px;
+  height: 100px;    
+  margin-top: 15px;
+  margin-bottom: 60px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.circle {
+  float: left;
+  width: 100px;
+  height: 100px;
+  margin: 0 25px;  
+  border-radius: 50px;
+  font-size: 1.3em;
+  text-align: center;
+  line-height: 100px;
+  color: #797979;
+  background-color: #EEE;     
+}
+
+.circle.active {
+  color: white;
+  background-color: #97CC00;
+}
+
+.step-opt-group .left {
+  float: left;
+}
+
+.step-opt-group .right {
+  float: right;
+}
+
+button {
+  padding: 10px 20px;  
+}

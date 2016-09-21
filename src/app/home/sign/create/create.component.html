@@ -1,0 +1,18 @@
+<div class="title">创建签到</div>
+<div class="body">
+  <div class="step-tip" *ngIf="!complete">
+    <div class="circle" [class.active]="step" *ngFor="let step of steps; let i=index">
+      Step&nbsp;{{i + 1}}
+    </div>
+  </div>
+  <router-outlet></router-outlet>
+  <div class="step-opt-group wrap" *ngIf="!complete">
+    <div class="left">
+      <button type="button" class="blue" (click)="toPreviousStep()" *ngIf="!steps[0]">上一步</button>
+    </div>
+    <div class="right">
+      <button type="button" class="blue" (click)="toNextStep()" *ngIf="!steps[steps.length-1]">下一步</button>
+      <button type="button" class="red" (click)="toComplete()" *ngIf="steps[steps.length-1]">完成</button>
+    </div>
+  </div>
+</div>

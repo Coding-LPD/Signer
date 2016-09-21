@@ -1,0 +1,37 @@
+import { Injectable } from '@angular/core';
+import { Http } from '@angular/http';
+
+import { BaseService, API, Course } from '../../shared';
+
+@Injectable()
+export class CourseService extends BaseService {
+
+  constructor(private _http: Http) {
+    super();
+  }
+
+  getCourse() {
+    return this._http.get(API.domain + API.course, { withCredentials: true })
+      .map(this.extractData)
+      .catch(this.handleError);
+  }
+
+  createCourse(course: Course) {
+    return this._http.post(API.domain + API.course, course, { withCredentials: true })
+      .map(this.extractData)
+      .catch(this.handleError);
+  }
+
+  deleteCourse(courseId: string) {
+    return this._http.delete(API.domain + API.course + '/' + courseId, { withCredentials: true })
+      .map(this.extractData)
+      .catch(this.handleError);
+  }
+
+  search(conditions: Object) {
+    return this._http.post(API.domain + API.courseSearch, conditions, { withCredentials: true })
+      .map(this.extractData)
+      .catch(this.handleError);
+  }
+
+}

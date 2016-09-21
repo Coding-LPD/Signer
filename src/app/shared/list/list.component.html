@@ -1,0 +1,42 @@
+<table cellspacing="0">
+  <thead>
+    <tr>
+      <th></th>
+      <th class="checkbox" *ngIf="operationOption.hasCheck || false">
+        <input type="checkbox" [(ngModel)]="allSelected"
+            (click)="toggleSelectAll(showDatas)" />
+      </th>
+      <th *ngFor="let h of headerOptions" [style.width]="h.width || ''">
+        {{h.name}}
+      </th>
+      <th></th>      
+    </tr>
+  </thead>
+  <tbody *ngIf="allDatas">  
+    <tr *ngFor="let d of showDatas">
+      <td></td>
+      <td class="checkbox" *ngIf="operationOption.hasCheck || false">
+        <input type="checkbox" [(ngModel)]="d.checked"
+            (click)="toggleSelectOne(d)" />
+      </td>
+      <td *ngFor="let c of cellOptions; " [ngStyle]="c.mainStyles">
+        <span *ngIf="!c.valueEnum">{{d.data[c.prop] || c.default || '暂无'}}</span>
+        <span *ngIf="c.valueEnum" [ngStyle]="c.valueEnum[d.data[c.prop]].style">
+          {{c.valueEnum[d.data[c.prop]].value || '暂无'}}
+        </span>
+      </td>
+      <td>
+        <button type="button" class="edit blue-green" *ngIf="operationOption.hasEdit || false" (click)="editData(d.data)"></button>
+        <button type="button" class="delete red" *ngIf="operationOption.hasDelete || false" (click)="deleteData(d.data)"></button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<div class="footer wrap">
+  <div class="sum">
+    {{showDatas ? showDatas.length : 0}} 
+    / 
+    {{allDatas ? allDatas.length : 0}}
+  </div>
+  <pagination [data]="allDatas" (onSelectPage)="selectePage($event)"></pagination>
+</div>

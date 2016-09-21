@@ -1,0 +1,57 @@
+:host {
+  display: block;    
+  border-radius: 5px;
+  background-color: white;  
+}
+
+.header {
+  padding: 15px 25px;
+  border-bottom: 1px solid #EFF2F7;
+}
+
+.title {
+  font-size: 1.3em;
+  color: #797979;
+}
+
+.header > .title {
+  float: left;
+}
+
+.search-box {
+  float: right;
+}
+
+.search-box > .title {
+  float: left;
+  height: 29px;
+  line-height: 29px;
+}
+
+.search {
+  float: right;
+  width: 65%;
+  padding: 5px 10px;
+}
+
+.menu {
+  padding: 15px 25px;
+}
+
+.menu-list {
+  float: left;
+}
+
+.menu-list li {
+  display: inline-block;
+  margin-right: 20px;
+}
+
+.menu-list li button {
+  width: 80px;
+}
+
+.course-list {
+  float: right;
+  width: 130px;
+}

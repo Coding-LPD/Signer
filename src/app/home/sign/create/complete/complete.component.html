@@ -1,0 +1,4 @@
+<div class="title">创建成功</div>
+<qr-code [data]="sign.code" [size]="'250'"></qr-code>
+<div class="qrcode">Code: <span class="qrcode-num">{{sign.code}}</span></div>
+<button type="button" class="back-btn red" (click)="toCalendar()">返回首页</button>

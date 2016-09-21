@@ -1,0 +1,26 @@
+<div class="header wrap">
+  <div class="title">我的学生</div>
+  <div class="search-box wrap">
+    <div class="title">搜索</div>
+    <input class="search" type="text" />
+  </div>
+</div>
+<div class="menu wrap">
+  <input type="file" style="display:none" ngFileSelect [options]="uploadOptions" (onUpload)="handleUpload($event)" #fileInput>
+  <ul class="menu-list">
+    <li><button type="button" (click)="importStudent(fileInput)">导入Excel</button></li>
+    <li><button type="button" class="orange">导出Excel</button></li>
+    <li><button type="button" class="red">删除选中</button></li>
+    <li><button type="button" class="purple">添加学生</button></li>
+  </ul>
+  <select class="course-list" (change)="selectCourse($event.target.value)">
+    <option value="">请选择课程</option>
+    <option *ngFor="let c of courses" [value]="c._id">
+      {{c.name}}
+    </option>    
+  </select>
+</div>
+<list [headerOptions]="headerOptions" [cellOptions]="cellOptions" 
+    [operationOption]="operationOption" [datas]="students"
+    (onSelect)="receiveCheckedStudents($event)">
+</list>

@@ -1,0 +1,17 @@
+<img class="menu-btn" src="/public/images/menu-btn.png" title="菜单栏" (click)="toggleSidebar()" />
+<div class="dropdown">
+  <a class="dropdown-toggle" (click)="toggleMenu()">
+    <img src="/public/images/avatar.jpg" />
+    <span>卢沛东</span>
+    <span class="caret"></span>
+  </a>
+  <div class="arrow-up" [hidden]="hideMenu"></div>
+  <ul class="dropdown-menu" [hidden]="hideMenu">    
+    <li>
+      <a>
+        <img src="/public/images/logout.png" />
+        注销
+      </a>
+    </li>
+  </ul>
+</div>

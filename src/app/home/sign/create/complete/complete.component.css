@@ -1,0 +1,36 @@
+.title {
+  text-align: center;
+  font-size: 2em;
+  color: #7ED321;
+}
+
+qr-code {
+  display: block;
+  width: 250px;
+  height: 250px;
+  margin: 20px auto;
+}
+
+.qrcode {
+  text-align: center;
+  font-size: 1.5em;
+}
+
+.qrcode-num {
+  color: #7ED321;
+}
+
+button {
+  padding: 10px 20px;
+  color: white;
+  background-color: #58C9F3;
+}
+
+button.red {  
+  background-color: #FF6C60; 
+}
+
+.back-btn {
+  width: 10%;
+  margin: 20px auto;
+}

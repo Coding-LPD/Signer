@@ -1,0 +1,24 @@
+<div class="header wrap">
+  <div class="title">我的签到</div>
+  <div class="search-box wrap">
+    <div class="title">搜索</div>
+    <input class="search" type="text" />
+  </div>
+</div>
+<div class="menu wrap">
+  <ul class="menu-list">
+    <li><button type="button" (click)="createSign()">创建签到</button></li>
+  </ul>
+  <select class="course-list" [(ngModel)]="selectedCourseName">
+    <option value="">所有课程</option>
+    <option *ngFor="let name of signs | filterDate:selectedDate:'startTime' | distinct:'courseName'" [value]="name">
+      {{name}}
+    </option>    
+  </select>
+  <input type="date" class="filter-date" [(ngModel)]="selectedDate" />  
+</div>
+<list [headerOptions]="headerOptions" [cellOptions]="cellOptions" 
+    [operationOption]="operationOption"  
+    [datas]="signs | filter:selectedCourseName:'courseName' | filterDate:selectedDate:'startTime'"    
+    (onSelect)="receiveCheckedSigns($event)" (onDelete)="removeSign($event)">
+</list>

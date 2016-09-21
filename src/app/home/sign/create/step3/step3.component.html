@@ -1,0 +1,22 @@
+<div class="form-group wrap">
+  <label class="left">所属课程</label>
+  <div class="right">{{course ? course.name : '无'}}</div>
+</div>
+<div class="form-group wrap">
+  <label class="left">开始时间</label>
+  <div class="right">
+    <span *ngIf="sign.startTime">{{sign.startTime | date:'yyyy-MM-dd HH:mm'}}</span>
+    <span *ngIf="!sign.startTime">无</span>
+  </div>
+</div>
+<div class="form-group wrap">
+  <label class="left">结束时间</label>
+  <div class="right">
+    <span *ngIf="sign.endTime">{{sign.endTime | date:'yyyy-MM-dd HH:mm'}}</span>
+    <span *ngIf="!sign.endTime">无</span>
+  </div>
+</div>
+<div class="form-group wrap">
+  <label class="left">学生人数</label>
+  <div class="right">{{relatedCourse ? relatedCourse.studentCount : 0}}人</div>
+</div>

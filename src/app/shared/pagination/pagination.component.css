@@ -1,0 +1,22 @@
+:host {
+  display: block;
+}
+
+.btn-group li {
+  display: inline-block;
+}
+
+button {  
+  padding: 5px 10px;
+  border: 1px solid #E3E3E3;
+  color: #797979;
+  background-color: white;  
+}
+
+button.active {
+  background-color: #EFEFEF;
+}
+
+button[disabled] {
+  opacity: 0.5;
+}
