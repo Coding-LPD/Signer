@@ -88,11 +88,17 @@
   margin: 30px 20px;
   text-align: center;
   color: #666;
+  vertical-align: middle;
+}
+
+.sign-in-list div {
+  margin-top: 3px;
 }
 
 .avatar {
   width: 100px;
   height: 100px;
+  border-radius: 50px;
 }
 
 .confirm-group button {
@@ -112,6 +118,18 @@
   float: right;
   background-image: url('/public/images/cancel.png');
 }
+
+.all-confirm-group button {
+  display: inline-block;
+  width: auto;
+  margin-right: 40px;
+  padding: 10px 20px;  
+}
+
+.confirm-state {
+  height: 35px;
+  line-height: 35px;
+} 
 
 .green-font { color: #97CC00; }
 .red-font   { color: #FF6C60; }

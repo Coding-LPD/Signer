@@ -19,14 +19,22 @@
     <button type="button" [class.inactive]="radiosInactive[1]" (click)="selectRadio(1)">课后</button>
   </div>
   <ul class="sign-in-list">
-    <li>
-      <img class="avatar" src="" onerror="javascript:this.src='/public/images/default.png'" />
-      <div>周晓华</div>
-      <div class="red-font">100m</div>
-      <div class="confirm-group wrap">
+    <li *ngFor="let r of records">
+      <img class="avatar" [src]="r.studentAvatar" onerror="javascript:this.src='/public/images/default.png'" />
+      <div>{{r.studentName}}</div>
+      <div class="red-font">{{r.distance}}m</div>
+      <div class="confirm-group wrap" *ngIf="r.state == 0">
         <button type="button" class="confirm-btn"></button>
         <button type="button" class="cancel-btn"></button>
       </div>
-    </li>
+      <div class="confirm-state" *ngIf="r.state != 0">
+        <span class="green-font" [hidden]="r.state != 1">已准许</span>
+        <span class="red-font" [hidden]="r.state != 2">已拒绝</span>
+      </div>      
+    </li>    
   </ul>
+  <div class="all-confirm-group">
+    <button type="button" class="blue">全部同意</button>
+    <button type="button" class="red">全部拒绝</button>
+  </div>
 </div>
