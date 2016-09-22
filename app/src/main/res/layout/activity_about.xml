@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorActivityBackground"
+    android:gravity="center_horizontal">
+
+    <include layout="@layout/actionbar_main"/>
+
+    <ImageView
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:src="@mipmap/ic_launcher"
+        android:layout_marginTop="80dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/about_version"
+        android:textColor="#555"
+        android:textSize="15sp"
+        android:layout_marginTop="15dp"/>
+
+    <com.scnu.zhou.signer.view.cell.TitleTextCell
+        android:id="@+id/tc_update"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="26dp"
+        app:cell_title="@string/about_update"
+        app:cell_isdivider="true">
+
+    </com.scnu.zhou.signer.view.cell.TitleTextCell>
+
+    <com.scnu.zhou.signer.view.cell.TitleTextCell
+        android:id="@+id/tc_web"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cell_title="@string/about_web"
+        app:cell_isdivider="false">
+
+    </com.scnu.zhou.signer.view.cell.TitleTextCell>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/about_copyright"
+        android:textColor="#666"
+        android:textSize="12sp"
+        android:layout_marginTop="40dp"/>
+
+</LinearLayout>

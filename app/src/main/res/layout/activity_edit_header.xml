@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorActivityBackground">
+
+    <LinearLayout
+        android:id="@+id/ll_info"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include layout="@layout/actionbar_main"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingTop="30dp"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/iv_header01"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/default_header_male"/>
+
+            <ImageView
+                android:id="@+id/iv_header02"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/default_header_female"
+                android:layout_marginLeft="60dp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingTop="35dp"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/iv_header03"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/default_header_male02"/>
+
+            <ImageView
+                android:id="@+id/iv_header04"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/default_header_female02"
+                android:layout_marginLeft="60dp"/>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#eee"
+            android:layout_marginTop="30dp"/>
+
+        <com.scnu.zhou.signer.view.cell.TitleTextCell
+            android:id="@+id/tc_picker"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cell_text="从手机相册选择">
+
+        </com.scnu.zhou.signer.view.cell.TitleTextCell>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#eee"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_preview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#fff"
+        android:orientation="vertical"
+        android:gravity="center_vertical"
+        android:visibility="gone">
+
+        <android.support.v7.widget.CardView
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:padding="5dp"
+            card_view:cardCornerRadius="4dp"
+            card_view:cardElevation="4dp">
+
+            <include layout="@layout/actionbar_main"/>
+
+            <LinearLayout
+                android:id="@+id/ll_profile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="51dp"
+                android:background="#fff"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_preview_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#333"
+                    android:textSize="16sp"
+                    android:layout_marginTop="55dp" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="5dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#333"
+                        android:textSize="16sp"
+                        android:text="10"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#666"
+                        android:textSize="12sp"
+                        android:text="@string/info_sign"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#333"
+                        android:textSize="16sp"
+                        android:text="10"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#666"
+                        android:textSize="12sp"
+                        android:text="@string/info_speak"/>
+
+                </LinearLayout>
+
+
+                <Button
+                    android:id="@+id/btn_set_header"
+                    android:layout_width="100dp"
+                    android:layout_height="35dp"
+                    android:background="@drawable/btn_set_header_selector"
+                    android:text="@string/info_set_header"
+                    android:textSize="15sp"
+                    android:textColor="@color/colorTheme"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="15dp"
+                    style="?android:attr/borderlessButtonStyle"/>
+
+            </LinearLayout>
+
+            <com.scnu.zhou.signer.view.image.CircleImageView
+                android:id="@+id/civ_preview_header"
+                android:layout_width="76dp"
+                android:layout_height="76dp"
+                android:layout_marginTop="15dp"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/default_header_male"
+                app:border_width="0dp"
+                app:border_color="#fff"/>
+
+        </android.support.v7.widget.CardView>
+
+        <TextView
+            android:id="@+id/tv_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:text="@string/info_close"
+            android:textColor="#666"
+            android:textSize="15sp"
+            android:padding="8dp"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

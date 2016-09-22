@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff">
+
+    <include layout="@layout/actionbar_main"/>
+
+
+    <LinearLayout
+        android:id="@+id/ll_profile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:visibility="gone">
+
+        <com.scnu.zhou.signer.view.image.CircleImageView
+            android:id="@+id/civ_user_header"
+            android:layout_width="76dp"
+            android:layout_height="76dp"
+            android:layout_marginTop="15dp"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/default_header_male"
+            app:border_width="0dp"
+            app:border_color="#fff"/>
+
+        <TextView
+            android:id="@+id/tv_user_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#333"
+            android:textSize="16sp"
+            android:text="15603006208"
+            android:layout_marginTop="15dp"/>
+
+    </LinearLayout>
+
+    <com.scnu.zhou.signer.view.edit.TextClearableEditText
+        android:id="@+id/et_user"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title="@string/login_user_title"
+        app:hint="@string/login_user_hint"
+        app:lineColor="@color/colorTheme"
+        app:singleline="true"
+        app:clearDrawable="@drawable/icon_clear"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="50dp">
+
+    </com.scnu.zhou.signer.view.edit.TextClearableEditText>
+
+    <com.scnu.zhou.signer.view.edit.TextClearableEditText
+        android:id="@+id/et_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title="@string/login_password_title"
+        app:hint="@string/login_password_hint"
+        app:lineColor="@color/colorTheme"
+        app:singleline="true"
+        app:clearDrawable="@drawable/icon_clear"
+        app:password="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="15dp">
+
+    </com.scnu.zhou.signer.view.edit.TextClearableEditText>
+
+    <Button
+        android:id="@+id/btn_login"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@drawable/btn_login_selector"
+        android:layout_marginLeft="26dp"
+        android:layout_marginRight="26dp"
+        android:layout_marginTop="35dp"
+        android:text="@string/login_button_title"
+        android:textSize="16sp"
+        android:textColor="#fff"
+        android:enabled="false"
+        style="?android:attr/borderlessButtonStyle"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="26dp"
+        android:layout_marginRight="26dp">
+
+        <TextView
+            android:id="@+id/tv_regist"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/login_button_regist"
+            android:textColor="#666"
+            android:textSize="15sp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/login_button_forget"
+            android:textColor="#666"
+            android:textSize="15sp"
+            android:layout_alignParentRight="true"/>
+
+    </RelativeLayout>
+
+</LinearLayout>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="TextClearableEditText">
+        <attr name="title" format="string"/>
+        <attr name="txt" format="string"/>
+        <attr name="hint" format="string"/>
+        <attr name="lineColor" format="color"/>
+        <attr name="singleline" format="boolean"/>
+        <attr name="clearDrawable" format="reference"/>
+        <attr name="password" format="boolean"/>
+    </declare-styleable>
+
+    <declare-styleable name="WhiteClearableEditText">
+        <attr name="input_text" format="string"/>
+        <attr name="input_hint" format="string"/>
+        <attr name="clearIcon" format="reference"/>
+        <attr name="ispassword" format="boolean"/>
+    </declare-styleable>
+
+    <declare-styleable name="IconTitleCell">
+        <attr name="text" format="string"/>
+        <attr name="icon" format="reference"/>
+        <attr name="isdivider" format="boolean"/>
+    </declare-styleable>
+
+    <declare-styleable name="TitleTextCell">
+        <attr name="cell_title" format="string"/>
+        <attr name="cell_text" format="string"/>
+        <attr name="cell_isdivider" format="boolean"/>
+    </declare-styleable>
+
+    <declare-styleable name="CircleImageView">
+        <attr name="border_width" format="dimension"/>
+        <attr name="border_color" format="color"/>
+    </declare-styleable>
+
+
+    <declare-styleable name="innerrect">
+        <attr name="inner_width" format="integer"/>
+        <attr name="inner_height" format="integer"/>
+        <attr name="inner_margintop" format="integer" />
+        <attr name="inner_corner_color" format="color" />
+        <attr name="inner_corner_length" format="integer" />
+        <attr name="inner_corner_width" format="integer" />
+        <attr name="inner_scan_bitmap" format="reference" />
+        <attr name="inner_scan_speed" format="integer" />
+    </declare-styleable>
+</resources>

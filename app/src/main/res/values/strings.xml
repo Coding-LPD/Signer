@@ -1,0 +1,60 @@
+<resources>
+    <string name="app_name">Signer</string>
+
+    <string name="app_logo_text">用新方式记录课堂</string>
+
+    <string name="login_user_title">手机</string>
+    <string name="login_user_hint">请输入手机号码</string>
+    <string name="login_password_title">密码</string>
+    <string name="login_password_hint">请输入登录密码</string>
+    <string name="login_button_title">登录</string>
+    <string name="login_button_regist">手机快速注册</string>
+    <string name="login_button_forget">找回密码</string>
+
+    <string name="regist_phone_title">+ 86</string>
+    <string name="regist_next_step">下一步</string>
+    <string name="regist_code_title">验证码</string>
+    <string name="regist_code_hint">请输入验证码</string>
+    <string name="regist_code_resend">重新发送</string>
+    <string name="regist_confirm_title">确认</string>
+    <string name="regist_confirm_hint">请确认登录密码</string>
+    <string name="regist_finish">完成注册</string>
+
+    <string name="tab_home">首页</string>
+    <string name="tab_discover">发现</string>
+    <string name="tab_notice">通知</string>
+    <string name="tab_mine">我的</string>
+
+    <string name="home_search_title">搜索与你相关的课程</string>
+
+
+    <string name="mine_cell01_title">我的签到</string>
+    <string name="mine_cell02_title">我的发言</string>
+    <string name="mine_cell03_title">我的圆桌</string>
+    <string name="mine_cell04_title">设置</string>
+
+
+    <string name="info_sign"> 签到 / </string>
+    <string name="info_speak"> 发言 </string>
+    <string name="info_close">取消预览</string>
+    <string name="info_set_header">设为头像</string>
+
+    <string name="settings_password">修改密码</string>
+    <string name="settings_private">隐私设置</string>
+    <string name="settings_about">关于Signer</string>
+    <string name="settings_feedback">意见反馈</string>
+    <string name="settings_clear">清理缓存</string>
+    <string name="settings_logout">退出登录</string>
+
+    <string name="private_option01">名片上显示学号信息</string>
+    <string name="private_option02">名片上显示学院专业信息</string>
+    <string name="private_option03">名片上显示年级班级信息</string>
+    <string name="private_option04">名片上显示邮箱信息</string>
+    
+    <string name="feedback_hint">请输入反馈内容</string>
+
+    <string name="about_version">版本号 (1.0.1)</string>
+    <string name="about_update">检测更新</string>
+    <string name="about_web">web网址</string>
+    <string name="about_copyright">华南师范大学计算机学院版权所有@2016</string>
+</resources>

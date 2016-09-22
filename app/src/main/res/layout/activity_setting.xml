@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorActivityBackground">
+
+    <include layout="@layout/actionbar_main"/>
+
+    <com.scnu.zhou.signer.view.cell.TitleTextCell
+        android:id="@+id/tc_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:cell_title="@string/settings_password"
+        app:cell_isdivider="true">
+
+    </com.scnu.zhou.signer.view.cell.TitleTextCell>
+
+    <com.scnu.zhou.signer.view.cell.TitleTextCell
+        android:id="@+id/tc_private"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cell_title="@string/settings_private"
+        app:cell_isdivider="false">
+
+    </com.scnu.zhou.signer.view.cell.TitleTextCell>
+
+    <com.scnu.zhou.signer.view.cell.TitleTextCell
+        android:id="@+id/tc_about"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:cell_title="@string/settings_about"
+        app:cell_isdivider="true">
+
+    </com.scnu.zhou.signer.view.cell.TitleTextCell>
+
+    <com.scnu.zhou.signer.view.cell.TitleTextCell
+        android:id="@+id/tc_feedback"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cell_title="@string/settings_feedback"
+        app:cell_isdivider="false">
+
+    </com.scnu.zhou.signer.view.cell.TitleTextCell>
+
+    <com.scnu.zhou.signer.view.cell.TitleTextCell
+        android:id="@+id/tc_clear"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:cell_title="@string/settings_clear"
+        app:cell_isdivider="false">
+
+    </com.scnu.zhou.signer.view.cell.TitleTextCell>
+
+    <com.scnu.zhou.signer.view.cell.TitleTextCell
+        android:id="@+id/tc_logout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:cell_title="@string/settings_logout"
+        app:cell_isdivider="false">
+
+    </com.scnu.zhou.signer.view.cell.TitleTextCell>
+
+</LinearLayout>
