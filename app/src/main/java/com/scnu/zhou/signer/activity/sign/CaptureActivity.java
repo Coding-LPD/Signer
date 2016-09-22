@@ -1,4 +1,4 @@
-package com.scnu.zhou.signer.zxing;
+package com.scnu.zhou.signer.activity.sign;
 
 import android.content.Intent;
 import android.content.res.AssetFileDescriptor;

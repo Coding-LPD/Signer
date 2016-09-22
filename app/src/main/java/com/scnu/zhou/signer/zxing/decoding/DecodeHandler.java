@@ -29,7 +29,7 @@ import com.google.zxing.ReaderException;
 import com.google.zxing.Result;
 import com.google.zxing.common.HybridBinarizer;
 import com.scnu.zhou.signer.R;
-import com.scnu.zhou.signer.zxing.CaptureActivity;
+import com.scnu.zhou.signer.activity.sign.CaptureActivity;
 import com.scnu.zhou.signer.zxing.camera.CameraManager;
 import com.scnu.zhou.signer.zxing.camera.PlanarYUVLuminanceSource;
 

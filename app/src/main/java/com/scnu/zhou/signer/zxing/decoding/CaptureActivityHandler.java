@@ -28,7 +28,7 @@ import android.util.Log;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
 import com.scnu.zhou.signer.R;
-import com.scnu.zhou.signer.zxing.CaptureActivity;
+import com.scnu.zhou.signer.activity.sign.CaptureActivity;
 import com.scnu.zhou.signer.zxing.camera.CameraManager;
 import com.scnu.zhou.signer.zxing.view.ViewfinderResultPointCallback;
 

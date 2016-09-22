@@ -51,10 +51,12 @@
 
         <activity
             android:configChanges="orientation|keyboardHidden"
-            android:name=".zxing.CaptureActivity"
+            android:name=".activity.sign.CaptureActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden" >
         </activity>
+
+        <activity android:name=".activity.sign.ConfirmSignActivity"/>
 
     </application>
 

@@ -14,7 +14,7 @@ import com.scnu.zhou.signer.fragment.HomeFragment;
 import com.scnu.zhou.signer.fragment.MineFragment;
 import com.scnu.zhou.signer.fragment.NoticeFragment;
 import com.scnu.zhou.signer.util.tabbar.TabBarManager;
-import com.scnu.zhou.signer.zxing.CaptureActivity;
+import com.scnu.zhou.signer.activity.sign.CaptureActivity;
 
 import java.util.ArrayList;
 import java.util.List;
