@@ -69,6 +69,14 @@ public class CaptureActivity extends BaseSlideActivity implements Callback {
 
 		tv_right = (TextView) findViewById(R.id.tv_right);
 		tv_right.setText("输入");
+		tv_right.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(CaptureActivity.this, ConfirmSignActivity.class);
+				startActivity(intent);
+				overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+			}
+		});
 
 		ll_return = (LinearLayout) findViewById(R.id.ll_return);
 		ll_return.setVisibility(View.VISIBLE);
