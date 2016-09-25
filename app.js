@@ -14,6 +14,7 @@ var teacher = require('./routes/teacher');
 var signStudent = require('./routes/sign-student');
 var course = require('./routes/course');
 var sign = require('./routes/sign');
+var signRecord = require('./routes/sign-record');
 
 var app = express();
 
@@ -46,6 +47,7 @@ app.use('/api/teachers', teacher);
 app.use('/api/signStudents', signStudent);
 app.use('/api/courses', course);
 app.use('/api/signs', sign);
+app.use('/api/signRecords', signRecord);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

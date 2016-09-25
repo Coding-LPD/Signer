@@ -9,7 +9,8 @@ var student = require('../models/student');
 var teacher = require('../models/teacher');
 var course = require('../models/course');
 var sign = require('../models/sign');
-var signStudent = require('../models/signStudent');
+var signStudent = require('../models/sign-student');
+var signRecord = require('../models/sign-record');
 
 mongoose.connect(config.connection);
 mongoose.set('debug', config.debug);
@@ -25,6 +26,7 @@ var TeacherSchema = mongoose.Schema(teacher);
 var CourseSchema = mongoose.Schema(course);
 var SignSchema = mongoose.Schema(sign.model);
 var SignStudentSchema = mongoose.Schema(signStudent);
+var SignRecordSchema = mongoose.Schema(signRecord);
 
 SignSchema.statics = sign.statics;
 
@@ -34,6 +36,7 @@ var Teacher = mongoose.model('teacher', TeacherSchema);
 var Course = mongoose.model('course', CourseSchema);
 var Sign = mongoose.model('sign', SignSchema);
 var SignStudent = mongoose.model('signStudent', SignStudentSchema);
+var SignRecord = mongoose.model('signRecord', SignRecordSchema);
 
 exports.User = User;
 exports.Student = Student;
@@ -41,3 +44,4 @@ exports.Teacher = Teacher;
 exports.Course = Course;
 exports.Sign = Sign;
 exports.SignStudent = SignStudent;
+exports.SignRecord = SignRecord;
