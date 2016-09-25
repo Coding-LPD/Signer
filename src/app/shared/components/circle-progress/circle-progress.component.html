@@ -1,28 +1,46 @@
 <svg  [attr.width] = "boxSize" [attr.height] = "boxSize" >
-  <circle
+  <!--<circle
     [attr.cx] = "cx"
     [attr.cy] = "cy"
     [attr.r] = "radius"
     [attr.fill]="backgroundColor"
-    [attr.stroke]="color"/>
+    [attr.stroke]="color"/>-->
+
+  <circle
+    [attr.cx] = "cx"
+    [attr.cy] = "cy"
+    [attr.r] = "radius"
+    [attr.fill]="backgroundColor"/>
 
   <path
     [attr.d] = "circleM+ circleL+ circleA+ '0 ' + arcSweep + circleEnd + 'Z'"
     [attr.stroke]="color"
     [attr.fill]="color"/>
-  <circle
+  <!--<circle
     [attr.cx] = "cx"
     [attr.cy] = "cy"
     [attr.r] = "innerRadius"
     [attr.fill]="innerFill"
-    [attr.stroke]="color" />
+    [attr.stroke]="color" />-->
+  <circle
+    [attr.cx] = "cx"
+    [attr.cy] = "cy"
+    [attr.r] = "innerRadius"
+    [attr.fill]="innerFill"/>
+
   <text
     [attr.x]="fontX"
     [attr.y]="fontY"
     [attr.text-anchor]="textAnchor"
     [attr.fill]="fontColor"
     [attr.font-size]="fontSize"
-    [attr.font-family]="fontFamily">{{circleText}}</text>
+    [attr.font-family]="fontFamily">
+    <tspan *ngIf="showPercent">{{circleText}}</tspan>
+    <tspan *ngIf="!showPercent">
+      <tspan [attr.fill]="'#97CC00'" [attr.font-size]="fontSize*1.5">{{_nowValue}}</tspan>
+      <tspan *ngIf="!showPercent"> / {{maxValue}}</tspan>
+    </tspan>    
+  </text>
 </svg>
 
 

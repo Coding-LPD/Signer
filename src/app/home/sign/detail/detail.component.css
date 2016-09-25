@@ -54,6 +54,8 @@
 
 .sign-in {
   float: right;
+  margin-top: 20px;
+  margin-right: 50px;
 }
 
 .body {
@@ -130,6 +132,20 @@
   height: 35px;
   line-height: 35px;
 } 
+
+.big-qr-code {
+  padding: 30px 0;
+  text-align: center;
+}
+
+.big-qr-code qr-code {
+  cursor: pointer;
+}
+
+.big-qr-code .qr-code-tip {
+  margin-top: 30px;
+  font-size: 1.5em;  
+}
 
 .green-font { color: #97CC00; }
 .red-font   { color: #FF6C60; }

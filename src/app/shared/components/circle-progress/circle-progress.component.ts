@@ -28,6 +28,17 @@ export class CircleProgressComponent implements OnInit {
   @Input() innerFill:string = "white";
   @Input() textAnchor:string = "middle";
 
+  // 新增的内容
+  _nowValue:number = 0;
+  @Input() showPercent:boolean = false;
+  @Input() minValue:number = 0;
+  @Input() maxValue:number = 100;
+  @Input() set nowValue(v: number) {
+    this._nowValue = v;
+    this.percent = this._nowValue / (this.maxValue - this.minValue) * 100;
+    this.setInputs();
+    this.calculateAll();
+  }
 
   angle:number;
   radian:number;

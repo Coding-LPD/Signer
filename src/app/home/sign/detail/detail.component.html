@@ -1,25 +1,24 @@
 <div class="title">
   <span>软件工程</span>
 </div>
-<div class="info wrap">
+<div class="info wrap" *ngIf="!isLargeQRCode">
   <ul class="status-list">
     <li><label>开始时间</label><span>2016-09-01 10:00</span></li>
     <li><label>结束时间</label><span>2016-09-01 11:50</span></li>
     <li><label>签到状态</label><span class="green-font">进行中</span></li>
   </ul>
-  <div class="qr-code">
+  <div class="qr-code" (click)="ToggleQRCodeSize()">
     <qr-code [data]="'123'" [size]="'120'"></qr-code>
     <div class="qr-code-tip">点我放大</div>
   </div>
   <div class="sign-in">
-    <circle-progress #circleProg1
-        [percent]="25" [boxSize]="400" [radius]="140" [border]="20"
-        [lowColor]="'red'" [middleColor]="'orange'" [interColor]="'#f1c40f'" [highColor]="'#16a085'"
-        [time]="5" (click)="circleProg1.animate()"
-    ></circle-progress>
+    <circle-progress [nowValue]="15" [fontSize]="18" [fontColor]="'gray'"
+        [boxSize]="140" [radius]="70" [border]="12" [backgroundColor]="'#DDD'"        
+        [lowColor]="'#97CC00'" [middleColor]="'#97CC00'" [interColor]="'#97CC00'" [highColor]="'#97CC00'">
+    </circle-progress>
   </div>
 </div>
-<div class="body">
+<div class="body" *ngIf="!isLargeQRCode">
   <div class="radio-group">
     <button type="button" [class.inactive]="radiosInactive[0]" (click)="selectRadio(0)">课前</button>
     <button type="button" [class.inactive]="radiosInactive[1]" (click)="selectRadio(1)">课后</button>
@@ -43,4 +42,9 @@
     <button type="button" class="blue">全部同意</button>
     <button type="button" class="red">全部拒绝</button>
   </div>
+</div>
+
+<div class="big-qr-code" *ngIf="isLargeQRCode">
+    <qr-code [data]="'123'" [size]="'350'" (click)="ToggleQRCodeSize()"></qr-code>
+    <div class="qr-code-tip">点我缩小</div>
 </div>

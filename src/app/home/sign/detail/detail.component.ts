@@ -10,6 +10,7 @@ import { SignRecord } from '../../../shared';
 export class DetailComponent {
 
   radiosInactive = [false, true];
+  isLargeQRCode = false;
   records: any[] = [
     { 
       studentAvatar: 'http://localhost:3000/images/user/1474517916567756.png',
@@ -48,6 +49,10 @@ export class DetailComponent {
       this.radiosInactive[index] = true;
     })
     this.radiosInactive[index] = false;
+  }
+
+  ToggleQRCodeSize() {
+    this.isLargeQRCode = !this.isLargeQRCode;
   }
 
 }
