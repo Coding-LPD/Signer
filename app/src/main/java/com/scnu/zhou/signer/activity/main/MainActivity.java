@@ -4,17 +4,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.widget.Toast;
 
 import com.scnu.zhou.signer.R;
 import com.scnu.zhou.signer.activity.base.BaseFragmentActivity;
+import com.scnu.zhou.signer.activity.sign.CaptureActivity;
+import com.scnu.zhou.signer.activity.sign.ConfirmSignActivity;
 import com.scnu.zhou.signer.adapter.HomePagerAdapter;
 import com.scnu.zhou.signer.fragment.DiscoverFragment;
 import com.scnu.zhou.signer.fragment.HomeFragment;
 import com.scnu.zhou.signer.fragment.MineFragment;
 import com.scnu.zhou.signer.fragment.NoticeFragment;
 import com.scnu.zhou.signer.util.tabbar.TabBarManager;
-import com.scnu.zhou.signer.activity.sign.CaptureActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -146,7 +146,11 @@ public class MainActivity extends BaseFragmentActivity{
         if (resultCode == RESULT_OK) {
             Bundle bundle = data.getExtras();
             String scanResult = bundle.getString("result");
-            Toast.makeText(this, scanResult, Toast.LENGTH_LONG).show();
+            //Toast.makeText(this, scanResult, Toast.LENGTH_LONG).show();
+
+            Intent intent = new Intent(this, ConfirmSignActivity.class);
+            startActivity(intent);
+            overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
         }
     }
 }

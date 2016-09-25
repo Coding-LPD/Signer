@@ -57,4 +57,9 @@
     <string name="about_update">检测更新</string>
     <string name="about_web">web网址</string>
     <string name="about_copyright">华南师范大学计算机学院版权所有@2016</string>
+
+
+    <string name="sign_student_tip">以下同学也参与了签到:</string>
+    <string name="sign_before_course">课前签到</string>
+    <string name="sign_after_course">课后签到</string>
 </resources>
