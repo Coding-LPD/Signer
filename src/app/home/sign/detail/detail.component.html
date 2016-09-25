@@ -11,7 +11,13 @@
     <qr-code [data]="'123'" [size]="'120'"></qr-code>
     <div class="qr-code-tip">点我放大</div>
   </div>
-  <div class="sign-in">签到进度</div>
+  <div class="sign-in">
+    <circle-progress #circleProg1
+        [percent]="25" [boxSize]="400" [radius]="140" [border]="20"
+        [lowColor]="'red'" [middleColor]="'orange'" [interColor]="'#f1c40f'" [highColor]="'#16a085'"
+        [time]="5" (click)="circleProg1.animate()"
+    ></circle-progress>
+  </div>
 </div>
 <div class="body">
   <div class="radio-group">

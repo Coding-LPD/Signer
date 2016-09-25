@@ -6,12 +6,12 @@ import { FormsModule } from '@angular/forms';
 import { JsEncryptService } from './js-encrypt.service';
 import { UserService } from './user.service';
 import { API } from './api';
-import { SmsCodeService, SmsCodeComponent } from './sms-code';
-import { PopUpComponent } from './pop-up';
-import { PaginationComponent } from './pagination';
-import { ListComponent } from './list';
 import { MyDateDirective } from './my-date';
 import { FilterDatePipe, DistinctPipe, FilterPipe } from './pipes';
+import {   
+  SmsCodeComponent, PopUpComponent, PaginationComponent, ListComponent,
+  SmsCodeService, CircleProgressComponent
+} from './components';
 
 @NgModule({
   imports: [
@@ -26,7 +26,8 @@ import { FilterDatePipe, DistinctPipe, FilterPipe } from './pipes';
     MyDateDirective,
     FilterDatePipe,
     DistinctPipe,
-    FilterPipe
+    FilterPipe,
+    CircleProgressComponent
   ],
   exports: [
     CommonModule,
@@ -38,7 +39,8 @@ import { FilterDatePipe, DistinctPipe, FilterPipe } from './pipes';
     MyDateDirective,
     FilterDatePipe,
     DistinctPipe,
-    FilterPipe
+    FilterPipe,
+    CircleProgressComponent
   ]
 })
 export class SharedModule { 
