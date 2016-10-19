@@ -14,11 +14,11 @@ import android.widget.TextView;
 
 import com.scnu.zhou.signer.R;
 import com.scnu.zhou.signer.activity.base.BaseSlideActivity;
-import com.scnu.zhou.signer.config.SignerApi;
-import com.scnu.zhou.signer.bean.http.ResultResponse;
-import com.scnu.zhou.signer.util.http.RetrofitServer;
-import com.scnu.zhou.signer.widget.dialog.LoadingDialog;
-import com.scnu.zhou.signer.widget.toast.ToastView;
+import com.scnu.zhou.signer.elss.config.SignerApi;
+import com.scnu.zhou.signer.elss.bean.http.ResultResponse;
+import com.scnu.zhou.signer.elss.util.http.RetrofitServer;
+import com.scnu.zhou.signer.elss.widget.dialog.LoadingDialog;
+import com.scnu.zhou.signer.elss.widget.toast.ToastView;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

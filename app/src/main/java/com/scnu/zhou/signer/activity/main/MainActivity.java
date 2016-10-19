@@ -9,12 +9,12 @@ import com.scnu.zhou.signer.R;
 import com.scnu.zhou.signer.activity.base.BaseFragmentActivity;
 import com.scnu.zhou.signer.activity.sign.CaptureActivity;
 import com.scnu.zhou.signer.activity.sign.ConfirmSignActivity;
-import com.scnu.zhou.signer.adapter.HomePagerAdapter;
+import com.scnu.zhou.signer.elss.adapter.HomePagerAdapter;
 import com.scnu.zhou.signer.fragment.DiscoverFragment;
 import com.scnu.zhou.signer.fragment.HomeFragment;
 import com.scnu.zhou.signer.fragment.MineFragment;
 import com.scnu.zhou.signer.fragment.NoticeFragment;
-import com.scnu.zhou.signer.util.tabbar.TabBarManager;
+import com.scnu.zhou.signer.elss.util.tabbar.TabBarManager;
 
 import java.util.ArrayList;
 import java.util.List;

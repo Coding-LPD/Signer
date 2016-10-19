@@ -65,7 +65,7 @@
 
     </LinearLayout>
 
-    <com.scnu.zhou.signer.widget.image.CircleImageView
+    <com.scnu.zhou.signer.elss.widget.image.CircleImageView
         android:id="@+id/civ_user_header"
         android:layout_width="76dp"
         android:layout_height="76dp"

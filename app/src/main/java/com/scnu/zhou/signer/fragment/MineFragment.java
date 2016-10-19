@@ -15,14 +15,14 @@ import android.widget.TextView;
 import com.scnu.zhou.signer.R;
 import com.scnu.zhou.signer.activity.user.info.UserInfoActivity;
 import com.scnu.zhou.signer.activity.user.settings.SettingActivity;
-import com.scnu.zhou.signer.cache.UserCache;
-import com.scnu.zhou.signer.config.SignerApi;
-import com.scnu.zhou.signer.bean.http.ResultResponse;
-import com.scnu.zhou.signer.bean.user.Student;
-import com.scnu.zhou.signer.util.http.RetrofitServer;
-import com.scnu.zhou.signer.util.image.ImageLoaderUtil;
-import com.scnu.zhou.signer.widget.image.CircleImageView;
-import com.scnu.zhou.signer.widget.toast.ToastView;
+import com.scnu.zhou.signer.elss.cache.UserCache;
+import com.scnu.zhou.signer.elss.config.SignerApi;
+import com.scnu.zhou.signer.elss.bean.http.ResultResponse;
+import com.scnu.zhou.signer.elss.bean.user.Student;
+import com.scnu.zhou.signer.elss.util.http.RetrofitServer;
+import com.scnu.zhou.signer.elss.util.image.ImageLoaderUtil;
+import com.scnu.zhou.signer.elss.widget.image.CircleImageView;
+import com.scnu.zhou.signer.elss.widget.toast.ToastView;
 
 import java.util.List;
 

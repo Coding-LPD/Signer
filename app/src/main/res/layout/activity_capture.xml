@@ -8,7 +8,7 @@
         android:layout_height="fill_parent"
         android:layout_centerInParent="true"/>
 
-    <com.scnu.zhou.signer.zxing.view.ViewfinderView
+    <com.scnu.zhou.signer.elss.zxing.view.ViewfinderView
         android:id="@+id/viewfinder_view"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
