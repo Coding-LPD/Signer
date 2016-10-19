@@ -7,13 +7,13 @@
 
     <include layout="@layout/actionbar_main"/>
 
-    <com.scnu.zhou.signer.view.edit.WhiteClearableEditText
+    <com.scnu.zhou.signer.widget.edit.WhiteClearableEditText
         android:id="@+id/et_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         app:clearIcon="@drawable/icon_clear">
 
-    </com.scnu.zhou.signer.view.edit.WhiteClearableEditText>
+    </com.scnu.zhou.signer.widget.edit.WhiteClearableEditText>
 
 </LinearLayout>

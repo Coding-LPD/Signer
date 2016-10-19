@@ -10,7 +10,7 @@ import android.view.WindowManager;
 import com.scnu.zhou.signer.R;
 import com.scnu.zhou.signer.util.statusbar.StatusBarUtil;
 import com.scnu.zhou.signer.util.statusbar.SystemBarTintManager;
-import com.scnu.zhou.signer.view.dialog.LoadingDialog;
+import com.scnu.zhou.signer.widget.dialog.LoadingDialog;
 
 /**
  * Created by zhou on 16/9/2.

@@ -63,13 +63,13 @@
             android:background="#eee"
             android:layout_marginTop="30dp"/>
 
-        <com.scnu.zhou.signer.view.cell.TitleTextCell
+        <com.scnu.zhou.signer.widget.cell.TitleTextCell
             android:id="@+id/tc_picker"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cell_text="从手机相册选择">
 
-        </com.scnu.zhou.signer.view.cell.TitleTextCell>
+        </com.scnu.zhou.signer.widget.cell.TitleTextCell>
 
         <View
             android:layout_width="match_parent"
@@ -167,7 +167,7 @@
 
             </LinearLayout>
 
-            <com.scnu.zhou.signer.view.image.CircleImageView
+            <com.scnu.zhou.signer.widget.image.CircleImageView
                 android:id="@+id/civ_preview_header"
                 android:layout_width="76dp"
                 android:layout_height="76dp"

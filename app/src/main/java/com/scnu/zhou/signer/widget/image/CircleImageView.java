@@ -1,4 +1,4 @@
-package com.scnu.zhou.signer.view.image;
+package com.scnu.zhou.signer.widget.image;
 
 import android.content.Context;
 import android.content.res.TypedArray;

@@ -14,8 +14,8 @@ import android.widget.TextView;
 import com.scnu.zhou.signer.R;
 import com.scnu.zhou.signer.activity.base.BaseSlideActivity;
 import com.scnu.zhou.signer.util.phone.PhoneUtil;
-import com.scnu.zhou.signer.view.edit.TextClearableEditText;
-import com.scnu.zhou.signer.view.toast.ToastView;
+import com.scnu.zhou.signer.widget.edit.TextClearableEditText;
+import com.scnu.zhou.signer.widget.toast.ToastView;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

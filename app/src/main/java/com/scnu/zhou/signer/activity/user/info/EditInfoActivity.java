@@ -11,12 +11,12 @@ import android.widget.TextView;
 import com.scnu.zhou.signer.R;
 import com.scnu.zhou.signer.activity.base.BaseSlideActivity;
 import com.scnu.zhou.signer.config.SignerApi;
-import com.scnu.zhou.signer.model.http.ResultResponse;
-import com.scnu.zhou.signer.model.user.Student;
+import com.scnu.zhou.signer.bean.http.ResultResponse;
+import com.scnu.zhou.signer.bean.user.Student;
 import com.scnu.zhou.signer.util.http.RetrofitServer;
-import com.scnu.zhou.signer.view.dialog.LoadingDialog;
-import com.scnu.zhou.signer.view.edit.WhiteClearableEditText;
-import com.scnu.zhou.signer.view.toast.ToastView;
+import com.scnu.zhou.signer.widget.dialog.LoadingDialog;
+import com.scnu.zhou.signer.widget.edit.WhiteClearableEditText;
+import com.scnu.zhou.signer.widget.toast.ToastView;
 
 import java.util.HashMap;
 import java.util.Map;

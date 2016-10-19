@@ -1,4 +1,4 @@
-package com.scnu.zhou.signer.view.toast;
+package com.scnu.zhou.signer.widget.toast;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

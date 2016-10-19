@@ -7,8 +7,8 @@ import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 
 import com.scnu.zhou.signer.R;
-import com.scnu.zhou.signer.model.view.CellModel;
-import com.scnu.zhou.signer.view.cell.TitleTextCell;
+import com.scnu.zhou.signer.bean.view.CellBean;
+import com.scnu.zhou.signer.widget.cell.TitleTextCell;
 
 import java.util.List;
 
@@ -18,9 +18,9 @@ import java.util.List;
 public class UserInfoCellAdapter extends BaseAdapter {
 
     private Activity context;
-    private List<CellModel> mData;
+    private List<CellBean> mData;
 
-    public UserInfoCellAdapter(Activity context, List<CellModel> mData){
+    public UserInfoCellAdapter(Activity context, List<CellBean> mData){
         this.context = context;
         this.mData = mData;
     }
@@ -31,7 +31,7 @@ public class UserInfoCellAdapter extends BaseAdapter {
     }
 
     @Override
-    public CellModel getItem(int position) {
+    public CellBean getItem(int position) {
         return mData.get(position);
     }
 

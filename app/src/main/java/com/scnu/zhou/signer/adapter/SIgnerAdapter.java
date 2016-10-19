@@ -7,9 +7,9 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.scnu.zhou.signer.R;
-import com.scnu.zhou.signer.model.signer.Signer;
+import com.scnu.zhou.signer.bean.signer.Signer;
 import com.scnu.zhou.signer.util.image.ImageLoaderUtil;
-import com.scnu.zhou.signer.view.image.CircleImageView;
+import com.scnu.zhou.signer.widget.image.CircleImageView;
 
 import java.util.List;
 

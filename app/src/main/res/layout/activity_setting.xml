@@ -7,7 +7,7 @@
 
     <include layout="@layout/actionbar_main"/>
 
-    <com.scnu.zhou.signer.view.cell.TitleTextCell
+    <com.scnu.zhou.signer.widget.cell.TitleTextCell
         android:id="@+id/tc_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -15,18 +15,18 @@
         app:cell_title="@string/settings_password"
         app:cell_isdivider="true">
 
-    </com.scnu.zhou.signer.view.cell.TitleTextCell>
+    </com.scnu.zhou.signer.widget.cell.TitleTextCell>
 
-    <com.scnu.zhou.signer.view.cell.TitleTextCell
+    <com.scnu.zhou.signer.widget.cell.TitleTextCell
         android:id="@+id/tc_private"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cell_title="@string/settings_private"
         app:cell_isdivider="false">
 
-    </com.scnu.zhou.signer.view.cell.TitleTextCell>
+    </com.scnu.zhou.signer.widget.cell.TitleTextCell>
 
-    <com.scnu.zhou.signer.view.cell.TitleTextCell
+    <com.scnu.zhou.signer.widget.cell.TitleTextCell
         android:id="@+id/tc_about"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -34,18 +34,18 @@
         app:cell_title="@string/settings_about"
         app:cell_isdivider="true">
 
-    </com.scnu.zhou.signer.view.cell.TitleTextCell>
+    </com.scnu.zhou.signer.widget.cell.TitleTextCell>
 
-    <com.scnu.zhou.signer.view.cell.TitleTextCell
+    <com.scnu.zhou.signer.widget.cell.TitleTextCell
         android:id="@+id/tc_feedback"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cell_title="@string/settings_feedback"
         app:cell_isdivider="false">
 
-    </com.scnu.zhou.signer.view.cell.TitleTextCell>
+    </com.scnu.zhou.signer.widget.cell.TitleTextCell>
 
-    <com.scnu.zhou.signer.view.cell.TitleTextCell
+    <com.scnu.zhou.signer.widget.cell.TitleTextCell
         android:id="@+id/tc_clear"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -53,9 +53,9 @@
         app:cell_title="@string/settings_clear"
         app:cell_isdivider="false">
 
-    </com.scnu.zhou.signer.view.cell.TitleTextCell>
+    </com.scnu.zhou.signer.widget.cell.TitleTextCell>
 
-    <com.scnu.zhou.signer.view.cell.TitleTextCell
+    <com.scnu.zhou.signer.widget.cell.TitleTextCell
         android:id="@+id/tc_logout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -63,6 +63,6 @@
         app:cell_title="@string/settings_logout"
         app:cell_isdivider="false">
 
-    </com.scnu.zhou.signer.view.cell.TitleTextCell>
+    </com.scnu.zhou.signer.widget.cell.TitleTextCell>
 
 </LinearLayout>

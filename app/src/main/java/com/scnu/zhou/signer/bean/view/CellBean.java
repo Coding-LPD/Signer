@@ -1,9 +1,9 @@
-package com.scnu.zhou.signer.model.view;
+package com.scnu.zhou.signer.bean.view;
 
 /**
  * Created by zhou on 16/9/7.
  */
-public class CellModel {
+public class CellBean {
 
     private String title;
     private String text;

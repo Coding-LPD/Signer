@@ -1,4 +1,4 @@
-package com.scnu.zhou.signer.view.picker;
+package com.scnu.zhou.signer.widget.picker;
 
 import android.app.Activity;
 import android.app.Dialog;

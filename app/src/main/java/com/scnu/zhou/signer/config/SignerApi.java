@@ -1,8 +1,8 @@
 package com.scnu.zhou.signer.config;
 
-import com.scnu.zhou.signer.model.http.ResultResponse;
-import com.scnu.zhou.signer.model.user.Student;
-import com.scnu.zhou.signer.model.user.User;
+import com.scnu.zhou.signer.bean.http.ResultResponse;
+import com.scnu.zhou.signer.bean.user.Student;
+import com.scnu.zhou.signer.bean.user.User;
 
 import java.util.List;
 import java.util.Map;

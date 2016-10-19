@@ -12,7 +12,7 @@ import com.scnu.zhou.signer.activity.login.LoginActivity;
 import com.scnu.zhou.signer.activity.main.MainActivity;
 import com.scnu.zhou.signer.cache.ClearCache;
 import com.scnu.zhou.signer.cache.UserCache;
-import com.scnu.zhou.signer.view.picker.MenuPicker;
+import com.scnu.zhou.signer.widget.picker.MenuPicker;
 
 import java.util.ArrayList;
 import java.util.List;

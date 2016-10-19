@@ -16,13 +16,13 @@ import com.scnu.zhou.signer.R;
 import com.scnu.zhou.signer.activity.base.BaseSlideActivity;
 import com.scnu.zhou.signer.cache.UserCache;
 import com.scnu.zhou.signer.config.SignerApi;
-import com.scnu.zhou.signer.model.http.ResultResponse;
-import com.scnu.zhou.signer.model.user.Student;
+import com.scnu.zhou.signer.bean.http.ResultResponse;
+import com.scnu.zhou.signer.bean.user.Student;
 import com.scnu.zhou.signer.util.http.RetrofitServer;
 import com.scnu.zhou.signer.util.image.FileUtils;
 import com.scnu.zhou.signer.util.image.ImagePicker;
-import com.scnu.zhou.signer.view.image.CircleImageView;
-import com.scnu.zhou.signer.view.toast.ToastView;
+import com.scnu.zhou.signer.widget.image.CircleImageView;
+import com.scnu.zhou.signer.widget.toast.ToastView;
 
 import java.io.File;
 import java.util.HashMap;

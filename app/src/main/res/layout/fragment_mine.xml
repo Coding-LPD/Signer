@@ -45,7 +45,7 @@
         android:paddingLeft="16dp"
         android:paddingRight="16dp">
 
-        <com.scnu.zhou.signer.view.image.CircleImageView
+        <com.scnu.zhou.signer.widget.image.CircleImageView
             android:id="@+id/civ_user_header"
             android:layout_width="54dp"
             android:layout_height="54dp"
@@ -89,7 +89,7 @@
 
     </RelativeLayout>
 
-    <com.scnu.zhou.signer.view.cell.IconTitleCell
+    <com.scnu.zhou.signer.widget.cell.IconTitleCell
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:text="@string/mine_cell01_title"
@@ -97,27 +97,27 @@
         app:isdivider="true"
         android:layout_marginTop="16dp">
 
-    </com.scnu.zhou.signer.view.cell.IconTitleCell>
+    </com.scnu.zhou.signer.widget.cell.IconTitleCell>
 
-    <com.scnu.zhou.signer.view.cell.IconTitleCell
+    <com.scnu.zhou.signer.widget.cell.IconTitleCell
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:text="@string/mine_cell02_title"
         app:icon="@mipmap/icon_table_speak"
         app:isdivider="true">
 
-    </com.scnu.zhou.signer.view.cell.IconTitleCell>
+    </com.scnu.zhou.signer.widget.cell.IconTitleCell>
 
-    <com.scnu.zhou.signer.view.cell.IconTitleCell
+    <com.scnu.zhou.signer.widget.cell.IconTitleCell
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:text="@string/mine_cell03_title"
         app:icon="@mipmap/icon_table_circle"
         app:isdivider="false">
 
-    </com.scnu.zhou.signer.view.cell.IconTitleCell>
+    </com.scnu.zhou.signer.widget.cell.IconTitleCell>
 
-    <com.scnu.zhou.signer.view.cell.IconTitleCell
+    <com.scnu.zhou.signer.widget.cell.IconTitleCell
         android:id="@+id/tc_settings"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -126,6 +126,6 @@
         app:isdivider="false"
         android:layout_marginTop="16dp">
 
-    </com.scnu.zhou.signer.view.cell.IconTitleCell>
+    </com.scnu.zhou.signer.widget.cell.IconTitleCell>
 
 </LinearLayout>

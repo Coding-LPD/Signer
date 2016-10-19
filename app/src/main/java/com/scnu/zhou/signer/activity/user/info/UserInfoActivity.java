@@ -19,14 +19,14 @@ import com.scnu.zhou.signer.activity.base.BaseSlideActivity;
 import com.scnu.zhou.signer.adapter.UserInfoCellAdapter;
 import com.scnu.zhou.signer.cache.UserCache;
 import com.scnu.zhou.signer.config.SignerApi;
-import com.scnu.zhou.signer.model.http.ResultResponse;
-import com.scnu.zhou.signer.model.user.Student;
-import com.scnu.zhou.signer.model.view.CellModel;
+import com.scnu.zhou.signer.bean.http.ResultResponse;
+import com.scnu.zhou.signer.bean.user.Student;
+import com.scnu.zhou.signer.bean.view.CellBean;
 import com.scnu.zhou.signer.util.http.RetrofitServer;
 import com.scnu.zhou.signer.util.image.ImageLoaderUtil;
-import com.scnu.zhou.signer.view.image.CircleImageView;
-import com.scnu.zhou.signer.view.picker.MenuPicker;
-import com.scnu.zhou.signer.view.toast.ToastView;
+import com.scnu.zhou.signer.widget.image.CircleImageView;
+import com.scnu.zhou.signer.widget.picker.MenuPicker;
+import com.scnu.zhou.signer.widget.toast.ToastView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -51,7 +51,7 @@ public class UserInfoActivity extends BaseSlideActivity{
 
     @Bind(R.id.lv_cell) ListView lv_cell;
     private UserInfoCellAdapter adapter;
-    private List<CellModel> cellModels;
+    private List<CellBean> cellBeen;
     private String[] cellTitles = {"学号","姓名","性别","学校","学院","专业","年级","班级","邮箱"};
     private String[] cellTexts;
 
@@ -97,17 +97,17 @@ public class UserInfoActivity extends BaseSlideActivity{
 
     private void initCell(){
 
-        cellModels = new ArrayList<>();
+        cellBeen = new ArrayList<>();
 
         for (int i=0; i<cellTitles.length; i++){
 
-            CellModel model = new CellModel();
+            CellBean model = new CellBean();
             model.setTitle(cellTitles[i]);
             model.setText(cellTexts[i]);
-            cellModels.add(model);
+            cellBeen.add(model);
         }
 
-        adapter = new UserInfoCellAdapter(this, cellModels);
+        adapter = new UserInfoCellAdapter(this, cellBeen);
         lv_cell.setAdapter(adapter);
     }
 
@@ -119,7 +119,6 @@ public class UserInfoActivity extends BaseSlideActivity{
     @Override
     public void loadData() {
 
-        //new GetStudentInfoTask().execute();
         getStudentInfo();
     }
 
@@ -145,7 +144,7 @@ public class UserInfoActivity extends BaseSlideActivity{
     @OnItemClick(R.id.lv_cell)
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-        if (cellModels.get(position).getTitle().equals("性别")) {
+        if (cellBeen.get(position).getTitle().equals("性别")) {
 
             List<String> genders = new ArrayList<>();
             genders.add("男");
@@ -153,7 +152,7 @@ public class UserInfoActivity extends BaseSlideActivity{
             genders.add("保密");
             new GenderPicker().show(this, genders);
         }
-        else if (cellModels.get(position).getTitle().equals("年级")) {
+        else if (cellBeen.get(position).getTitle().equals("年级")) {
 
             Calendar calendar = Calendar.getInstance();
             int year = calendar.get(Calendar.YEAR);
@@ -164,7 +163,7 @@ public class UserInfoActivity extends BaseSlideActivity{
             grades.add(year - 3 + "级");
             new GradePicker().show(this, grades);
         }
-        else if (cellModels.get(position).getTitle().equals("班级")) {
+        else if (cellBeen.get(position).getTitle().equals("班级")) {
 
             List<String> classes = new ArrayList<>();
             classes.add("1班");
@@ -180,8 +179,8 @@ public class UserInfoActivity extends BaseSlideActivity{
         else {
             Intent intent = new Intent(this, EditInfoActivity.class);
             intent.putExtra("userid", userid);
-            intent.putExtra("title", cellModels.get(position).getTitle());
-            intent.putExtra("text", cellModels.get(position).getText());
+            intent.putExtra("title", cellBeen.get(position).getTitle());
+            intent.putExtra("text", cellBeen.get(position).getText());
             startActivity(intent);
             overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
         }
@@ -195,13 +194,10 @@ public class UserInfoActivity extends BaseSlideActivity{
         @Override
         public void execute() {
 
-            //cellModels.get(2).setText(this.getSelect());
-            //adapter.notifyDataSetChanged();
             this.dismiss();
 
             showLoadingDialog("提交中");
             updateStudentInfo("gender", this.getSelect());
-            //new UpdateStudentInfoTask().execute("gender", this.getSelect());
         }
     }
 
@@ -213,8 +209,6 @@ public class UserInfoActivity extends BaseSlideActivity{
         @Override
         public void execute() {
 
-            //cellModels.get(6).setText(this.getSelect());
-            //adapter.notifyDataSetChanged();
             this.dismiss();
 
             showLoadingDialog("提交中");
@@ -230,8 +224,6 @@ public class UserInfoActivity extends BaseSlideActivity{
         @Override
         public void execute() {
 
-            //cellModels.get(7).setText(this.getSelect());
-            //adapter.notifyDataSetChanged();
             this.dismiss();
 
             showLoadingDialog("提交中");

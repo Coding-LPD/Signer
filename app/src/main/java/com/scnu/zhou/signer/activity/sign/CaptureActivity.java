@@ -21,7 +21,7 @@ import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
 import com.scnu.zhou.signer.R;
 import com.scnu.zhou.signer.activity.base.BaseSlideActivity;
-import com.scnu.zhou.signer.view.toast.ToastView;
+import com.scnu.zhou.signer.widget.toast.ToastView;
 import com.scnu.zhou.signer.zxing.camera.CameraManager;
 import com.scnu.zhou.signer.zxing.decoding.CaptureActivityHandler;
 import com.scnu.zhou.signer.zxing.decoding.InactivityTimer;

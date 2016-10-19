@@ -9,7 +9,7 @@ import android.widget.TextView;
 import com.scnu.zhou.signer.R;
 import com.scnu.zhou.signer.activity.base.BaseSlideActivity;
 import com.scnu.zhou.signer.adapter.SignerAdapter;
-import com.scnu.zhou.signer.model.signer.Signer;
+import com.scnu.zhou.signer.bean.signer.Signer;
 
 import java.util.ArrayList;
 import java.util.List;

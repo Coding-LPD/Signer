@@ -18,13 +18,13 @@ import com.scnu.zhou.signer.activity.login.LoginActivity;
 import com.scnu.zhou.signer.activity.main.MainActivity;
 import com.scnu.zhou.signer.config.SignerApi;
 import com.scnu.zhou.signer.engine.RegistEngine;
-import com.scnu.zhou.signer.model.http.ResultResponse;
-import com.scnu.zhou.signer.model.user.User;
+import com.scnu.zhou.signer.bean.http.ResultResponse;
+import com.scnu.zhou.signer.bean.user.User;
 import com.scnu.zhou.signer.util.encrypt.RSAEncryptUtil;
 import com.scnu.zhou.signer.util.http.ResponseCodeUtil;
 import com.scnu.zhou.signer.util.http.RetrofitServer;
-import com.scnu.zhou.signer.view.edit.TextClearableEditText;
-import com.scnu.zhou.signer.view.toast.ToastView;
+import com.scnu.zhou.signer.widget.edit.TextClearableEditText;
+import com.scnu.zhou.signer.widget.toast.ToastView;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

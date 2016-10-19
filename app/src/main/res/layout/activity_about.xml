@@ -22,7 +22,7 @@
         android:textSize="15sp"
         android:layout_marginTop="15dp"/>
 
-    <com.scnu.zhou.signer.view.cell.TitleTextCell
+    <com.scnu.zhou.signer.widget.cell.TitleTextCell
         android:id="@+id/tc_update"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -30,16 +30,16 @@
         app:cell_title="@string/about_update"
         app:cell_isdivider="true">
 
-    </com.scnu.zhou.signer.view.cell.TitleTextCell>
+    </com.scnu.zhou.signer.widget.cell.TitleTextCell>
 
-    <com.scnu.zhou.signer.view.cell.TitleTextCell
+    <com.scnu.zhou.signer.widget.cell.TitleTextCell
         android:id="@+id/tc_web"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cell_title="@string/about_web"
         app:cell_isdivider="false">
 
-    </com.scnu.zhou.signer.view.cell.TitleTextCell>
+    </com.scnu.zhou.signer.widget.cell.TitleTextCell>
 
     <TextView
         android:layout_width="wrap_content"

@@ -1,4 +1,4 @@
-package com.scnu.zhou.signer.model.http;
+package com.scnu.zhou.signer.bean.http;
 
 /**
  * Created by zhou on 2016/9/19.

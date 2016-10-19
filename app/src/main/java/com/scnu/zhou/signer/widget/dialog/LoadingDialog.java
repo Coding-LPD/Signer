@@ -1,4 +1,4 @@
-package com.scnu.zhou.signer.view.dialog;
+package com.scnu.zhou.signer.widget.dialog;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
