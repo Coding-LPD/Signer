@@ -41,38 +41,55 @@ public class UserInfoCellAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(final int position, final View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, ViewGroup parent) {
 
-        View view = View.inflate(context, R.layout.listitem_cell, null);
+        ViewHolder viewHolder;
 
-        View header = view.findViewById(R.id.header);
-        if (position % 3 == 0){
-            header.setVisibility(View.VISIBLE);
-        }
-
-        TitleTextCell cell = (TitleTextCell) view.findViewById(R.id.cell);
-        cell.setTitle(mData.get(position).getTitle());
-
-        if (!mData.get(position).getText().equals("")) {
-            cell.setText(mData.get(position).getText());
+        if (convertView != null) {
+            viewHolder = (ViewHolder) convertView.getTag();
         }
         else{
-            cell.setText("未填写");
+            convertView = View.inflate(context, R.layout.listitem_cell, null);
+
+            viewHolder = new ViewHolder();
+            viewHolder.header = convertView.findViewById(R.id.header);
+            viewHolder.cell = (TitleTextCell) convertView.findViewById(R.id.cell);
+
+            convertView.setTag(viewHolder);
+        }
+
+
+        if (position % 3 == 0){
+            viewHolder.header.setVisibility(View.VISIBLE);
+        }
+
+        viewHolder.cell.setTitle(mData.get(position).getTitle());
+
+        if (!mData.get(position).getText().equals("")) {
+            viewHolder.cell.setText(mData.get(position).getText());
+        }
+        else{
+            viewHolder.cell.setText("未填写");
         }
 
         if (position % 3 == 2){
-            cell.setDivider(false);
+            viewHolder.cell.setDivider(false);
         }
         else{
-            cell.setDivider(true);
+            viewHolder.cell.setDivider(true);
         }
 
         if (position == mData.size()-1){
-            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) cell.getLayoutParams();
+            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) viewHolder.cell.getLayoutParams();
             params.setMargins(0, 0, 0, 30);
-            cell.setLayoutParams(params);
+            viewHolder.cell.setLayoutParams(params);
         }
 
-        return view;
+        return convertView;
+    }
+
+    private static class ViewHolder{
+        View header;
+        TitleTextCell cell;
     }
 }

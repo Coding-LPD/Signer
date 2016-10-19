@@ -9,18 +9,19 @@ import android.media.MediaPlayer.OnCompletionListener;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Vibrator;
+import android.view.Gravity;
 import android.view.SurfaceHolder;
 import android.view.SurfaceHolder.Callback;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
 import com.scnu.zhou.signer.R;
 import com.scnu.zhou.signer.activity.base.BaseSlideActivity;
+import com.scnu.zhou.signer.view.toast.ToastView;
 import com.scnu.zhou.signer.zxing.camera.CameraManager;
 import com.scnu.zhou.signer.zxing.decoding.CaptureActivityHandler;
 import com.scnu.zhou.signer.zxing.decoding.InactivityTimer;
@@ -196,7 +197,10 @@ public class CaptureActivity extends BaseSlideActivity implements Callback {
 		String resultString = result.getText();
 		//FIXME
 		if (resultString.equals("")) {
-			Toast.makeText(CaptureActivity.this, "Scan failed!", Toast.LENGTH_SHORT).show();
+			//Toast.makeText(CaptureActivity.this, "Scan failed!", Toast.LENGTH_SHORT).show();
+			ToastView toastView = new ToastView(this, "扫描失败");
+			toastView.setGravity(Gravity.CENTER, 0, 0);
+			toastView.show();
 		}else {
 //			System.out.println("Result:"+resultString);
 			Intent resultIntent = new Intent();

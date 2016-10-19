@@ -42,6 +42,7 @@
                     android:background="@drawable/icon_calendar"/>
 
                 <TextView
+                    android:id="@+id/tv_week"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="周二"
@@ -64,6 +65,7 @@
                     android:background="@drawable/icon_time"/>
 
                 <TextView
+                    android:id="@+id/tv_session"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="第1 - 2节"
@@ -96,6 +98,7 @@
                     android:background="@drawable/icon_location"/>
 
                 <TextView
+                    android:id="@+id/tv_location"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="南508"
@@ -118,6 +121,7 @@
                     android:background="@drawable/icon_teacher"/>
 
                 <TextView
+                    android:id="@+id/tv_teacher"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="庞雄文"
@@ -149,8 +153,11 @@
             android:layout_margin="15dp"/>
 
         <GridView
+            android:id="@+id/gv_signer"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:numColumns="5"
+            android:layout_marginBottom="5dp">
 
         </GridView>
 

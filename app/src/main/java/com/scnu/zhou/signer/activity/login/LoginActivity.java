@@ -191,10 +191,10 @@ public class LoginActivity extends BaseActivity implements TextWatcher{
                     @Override
                     public void onError(Throwable e) {
 
-                        Log.e("error", e.toString());
+                        Log.e("error", "获取公钥： " + e.toString());
 
                         dismissLoadingDialog();
-                        ToastView toastView = new ToastView(LoginActivity.this, "登录出错");
+                        ToastView toastView = new ToastView(LoginActivity.this, "请检查您的网络连接");
                         toastView.setGravity(Gravity.CENTER, 0, 0);
                         toastView.show();
                     }
@@ -250,7 +250,7 @@ public class LoginActivity extends BaseActivity implements TextWatcher{
                         Log.e("error", e.toString());
 
                         dismissLoadingDialog();
-                        ToastView toastView = new ToastView(LoginActivity.this, "登录出错");
+                        ToastView toastView = new ToastView(LoginActivity.this, "请检查您的网络连接");
                         toastView.setGravity(Gravity.CENTER, 0, 0);
                         toastView.show();
                     }

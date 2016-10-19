@@ -153,7 +153,7 @@ public class InputPasswordActivity extends BaseSlideActivity implements TextWatc
                         Log.e("error", e.toString());
 
                         dismissLoadingDialog();
-                        ToastView toastView = new ToastView(InputPasswordActivity.this, "注册失败");
+                        ToastView toastView = new ToastView(InputPasswordActivity.this, "请检查您的网络连接");
                         toastView.setGravity(Gravity.CENTER, 0, 0);
                         toastView.show();
                     }
@@ -205,7 +205,7 @@ public class InputPasswordActivity extends BaseSlideActivity implements TextWatc
                         Log.e("error", e.toString());
 
                         dismissLoadingDialog();
-                        ToastView toastView = new ToastView(InputPasswordActivity.this, "注册失败");
+                        ToastView toastView = new ToastView(InputPasswordActivity.this, "请检查您的网络连接");
                         toastView.setGravity(Gravity.CENTER, 0, 0);
                         toastView.show();
                     }
