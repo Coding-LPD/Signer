@@ -26,37 +26,37 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.main.SplashActivity">
+        <activity android:name=".ui.activity.main.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.main.MainActivity"/>
+        <activity android:name=".ui.activity.main.MainActivity"/>
 
-        <activity android:name=".activity.login.LoginActivity"/>
+        <activity android:name=".ui.activity.login.LoginActivity"/>
 
-        <activity android:name=".activity.regist.InputPhoneActivity"/>
-        <activity android:name=".activity.regist.InputCodeActivity"/>
-        <activity android:name=".activity.regist.InputPasswordActivity"/>
+        <activity android:name=".ui.activity.regist.InputPhoneActivity"/>
+        <activity android:name=".ui.activity.regist.InputCodeActivity"/>
+        <activity android:name=".ui.activity.regist.InputPasswordActivity"/>
 
-        <activity android:name=".activity.user.info.UserInfoActivity"/>
-        <activity android:name=".activity.user.info.EditInfoActivity"/>
-        <activity android:name=".activity.user.info.EditHeaderActivity"/>
-        <activity android:name=".activity.user.settings.SettingActivity"/>
-        <activity android:name=".activity.user.settings.FeedbackActivity"/>
-        <activity android:name=".activity.user.settings.AboutActivity"/>
-        <activity android:name=".activity.user.settings.PrivateActivity"/>
+        <activity android:name=".ui.activity.user.info.UserInfoActivity"/>
+        <activity android:name=".ui.activity.user.info.EditInfoActivity"/>
+        <activity android:name=".ui.activity.user.info.EditHeaderActivity"/>
+        <activity android:name=".ui.activity.user.settings.SettingActivity"/>
+        <activity android:name=".ui.activity.user.settings.FeedbackActivity"/>
+        <activity android:name=".ui.activity.user.settings.AboutActivity"/>
+        <activity android:name=".ui.activity.user.settings.PrivateActivity"/>
 
         <activity
             android:configChanges="orientation|keyboardHidden"
-            android:name=".activity.sign.CaptureActivity"
+            android:name=".ui.activity.sign.CaptureActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden" >
         </activity>
 
-        <activity android:name=".activity.sign.ConfirmSignActivity"/>
+        <activity android:name=".ui.activity.sign.ConfirmSignActivity"/>
 
     </application>
 

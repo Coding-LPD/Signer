@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:gravity="center_horizontal">
 
-    <com.scnu.zhou.signer.elss.widget.image.CircleImageView
+    <com.scnu.zhou.signer.ui.widget.image.CircleImageView
         android:id="@+id/civ_header"
         android:layout_width="43dp"
         android:layout_height="43dp"

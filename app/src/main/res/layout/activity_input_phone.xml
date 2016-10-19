@@ -7,7 +7,7 @@
 
     <include layout="@layout/actionbar_main"/>
 
-    <com.scnu.zhou.signer.elss.widget.edit.TextClearableEditText
+    <com.scnu.zhou.signer.ui.widget.edit.TextClearableEditText
         android:id="@+id/et_phone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -20,7 +20,7 @@
         android:layout_marginRight="10dp"
         android:layout_marginTop="25dp">
 
-    </com.scnu.zhou.signer.elss.widget.edit.TextClearableEditText>
+    </com.scnu.zhou.signer.ui.widget.edit.TextClearableEditText>
 
     <Button
         android:id="@+id/btn_next"
