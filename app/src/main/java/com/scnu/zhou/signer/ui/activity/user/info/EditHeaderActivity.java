@@ -13,34 +13,27 @@ import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.scnu.zhou.signer.R;
-import com.scnu.zhou.signer.ui.activity.base.BaseSlideActivity;
-import com.scnu.zhou.signer.component.cache.UserCache;
-import com.scnu.zhou.signer.component.config.SignerApi;
 import com.scnu.zhou.signer.component.bean.http.ResultResponse;
 import com.scnu.zhou.signer.component.bean.user.Student;
-import com.scnu.zhou.signer.component.util.http.RetrofitServer;
+import com.scnu.zhou.signer.component.cache.UserCache;
 import com.scnu.zhou.signer.component.util.image.FileUtils;
 import com.scnu.zhou.signer.component.util.image.ImagePicker;
+import com.scnu.zhou.signer.presenter.user.UserPresenter;
+import com.scnu.zhou.signer.ui.activity.base.BaseSlideActivity;
 import com.scnu.zhou.signer.ui.widget.image.CircleImageView;
 import com.scnu.zhou.signer.ui.widget.toast.ToastView;
+import com.scnu.zhou.signer.view.user.IUserHeaderView;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import okhttp3.MediaType;
-import okhttp3.RequestBody;
-import rx.Observer;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 /**
  * Created by zhou on 2016/9/10.
  */
-public class EditHeaderActivity extends BaseSlideActivity{
+public class EditHeaderActivity extends BaseSlideActivity implements IUserHeaderView{
 
     @Bind(R.id.ll_return) LinearLayout ll_return;
     @Bind(R.id.tv_title) TextView tv_title;
@@ -58,6 +51,8 @@ public class EditHeaderActivity extends BaseSlideActivity{
     @Bind(R.id.tv_preview_name) TextView tv_preview_name;
 
     private int preview_pos = 1;
+
+    private UserPresenter userPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,11 +77,8 @@ public class EditHeaderActivity extends BaseSlideActivity{
     public void initData() {
 
         userid = getIntent().getStringExtra("userid");
-    }
 
-    @Override
-    public void loadData() {
-
+        userPresenter = new UserPresenter(this);
     }
 
 
@@ -195,14 +187,14 @@ public class EditHeaderActivity extends BaseSlideActivity{
             case 0:
                 showLoadingDialog("提交中");
                 file = new File(FileUtils.getFilePathFromUri(context, headerUri));
-                uploadUserImage();
+                userPresenter.uploadStudentAvatar(file);
                 break;
             case 1:
             case 2:
             case 3:
             case 4:
                 showLoadingDialog("提交中");
-                getDefaultImageUrl();
+                userPresenter.getDefaultImageUrl(preview_pos);
                 break;
             default:break;
         }
@@ -234,156 +226,101 @@ public class EditHeaderActivity extends BaseSlideActivity{
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    /**
-     * 获取用户默认头像url
-     */
-    private void getDefaultImageUrl(){
 
-        RetrofitServer.getRetrofit()
-                .create(SignerApi.class)
-                .getDefaultImageUrl(preview_pos)
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<ResultResponse<String>>() {
+    // 获取默认头像成功
+    @Override
+    public void onGetDefaultImageSuccess(ResultResponse<String> response) {
 
-                    @Override
-                    public void onCompleted() {
+        dismissLoadingDialog();
 
-                    }
+        if (response.getCode().equals("200")){
 
-                    @Override
-                    public void onError(Throwable e) {
-
-                        Log.e("error", e.toString());
-
-                        dismissLoadingDialog();
-                        ToastView toastView = new ToastView(context, "设置头像失败");
-                        toastView.setGravity(Gravity.CENTER, 0, 0);
-                        toastView.show();
-                    }
-
-                    @Override
-                    public void onNext(ResultResponse<String> response) {
-
-                        dismissLoadingDialog();
-
-                        if (response.getCode().equals("200")){
-
-                            updateStudentAvatar(response.getData());
-                        }
-                        else{
-                            String data = response.getMsg();
-                            ToastView toastView = new ToastView(context, data);
-                            toastView.setGravity(Gravity.CENTER, 0, 0);
-                            toastView.show();
-                        }
-                    }
-                });
-    }
-
-    /**
-     * 更新学生头像
-     */
-    private void updateStudentAvatar(String avatar){
-
-        Map<String, String> infos = new HashMap<>();
-        infos.put("avatar", avatar);
-
-        RetrofitServer.getRetrofit()
-                .create(SignerApi.class)
-                .updateStudentInfo(userid, infos)
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<ResultResponse<Student>>() {
-
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                        Log.e("error", e.toString());
-
-                        dismissLoadingDialog();
-                        ToastView toastView = new ToastView(context, "更新头像失败");
-                        toastView.setGravity(Gravity.CENTER, 0, 0);
-                        toastView.show();
-                    }
-
-                    @Override
-                    public void onNext(ResultResponse<Student> response) {
-
-                        dismissLoadingDialog();
-
-                        if (response.getCode().equals("200")){
-
-                            ToastView toastView = new ToastView(context, "修改成功");
-                            toastView.setGravity(Gravity.CENTER, 0, 0);
-                            toastView.show();
-                            finish();
-                        }
-                        else{
-                            String data = response.getMsg();
-                            ToastView toastView = new ToastView(context, data);
-                            toastView.setGravity(Gravity.CENTER, 0, 0);
-                            toastView.show();
-                        }
-                    }
-                });
+            userPresenter.updateStudentInfo(userid, "avatar", response.getData());
+        }
+        else{
+            String data = response.getMsg();
+            ToastView toastView = new ToastView(context, data);
+            toastView.setGravity(Gravity.CENTER, 0, 0);
+            toastView.show();
+        }
     }
 
 
-    /**
-     * 上传用户头像
-     */
-    private void uploadUserImage(){
+    // 获取默认头像失败
+    @Override
+    public void onGetDefaultImageError(Throwable e) {
 
-        Log.e("file", file.getName());
+        Log.e("get default image error", e.toString());
 
-        // 创建 RequestBody，用于封装 请求RequestBody
-        RequestBody requestFile =
-                RequestBody.create(MediaType.parse("multipart/form-data"), file);
+        dismissLoadingDialog();
+        ToastView toastView = new ToastView(context, "设置头像失败");
+        toastView.setGravity(Gravity.CENTER, 0, 0);
+        toastView.show();
+    }
 
-        RetrofitServer.getRetrofit()
-                .create(SignerApi.class)
-                .uploadUserImage(requestFile)
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<ResultResponse<String>>() {
 
-                    @Override
-                    public void onCompleted() {
+    // 更新头像成功
+    @Override
+    public void onUpdateAvatarSuccess(ResultResponse<Student> response) {
 
-                    }
+        dismissLoadingDialog();
 
-                    @Override
-                    public void onError(Throwable e) {
+        if (response.getCode().equals("200")){
 
-                        Log.e("error", e.toString());
+            ToastView toastView = new ToastView(context, "修改成功");
+            toastView.setGravity(Gravity.CENTER, 0, 0);
+            toastView.show();
+            finish();
+        }
+        else{
+            String data = response.getMsg();
+            ToastView toastView = new ToastView(context, data);
+            toastView.setGravity(Gravity.CENTER, 0, 0);
+            toastView.show();
+        }
+    }
 
-                        dismissLoadingDialog();
-                        ToastView toastView = new ToastView(context, "上传头像失败");
-                        toastView.setGravity(Gravity.CENTER, 0, 0);
-                        toastView.show();
-                    }
 
-                    @Override
-                    public void onNext(ResultResponse<String> response) {
+    // 更新头像失败
+    @Override
+    public void onUpdateAvatarError(Throwable e) {
 
-                        dismissLoadingDialog();
+        Log.e("update avatar error", e.toString());
 
-                        //Log.e("url", response.getData());
-                        if (response.getCode().equals("200")){
-                            updateStudentAvatar(response.getData());
-                        }
-                        else{
-                            ToastView toastView = new ToastView(context, response.getMsg());
-                            toastView.setGravity(Gravity.CENTER, 0, 0);
-                            toastView.show();
-                        }
-                    }
-                });
+        dismissLoadingDialog();
+        ToastView toastView = new ToastView(context, "更新头像失败");
+        toastView.setGravity(Gravity.CENTER, 0, 0);
+        toastView.show();
+    }
+
+
+    // 上传头像成功
+    @Override
+    public void onUploadAvatarSuccess(ResultResponse<String> response) {
+
+        dismissLoadingDialog();
+
+        //Log.e("url", response.getData());
+        if (response.getCode().equals("200")){
+            userPresenter.updateStudentInfo(userid, "avatar", response.getData());
+        }
+        else{
+            ToastView toastView = new ToastView(context, response.getMsg());
+            toastView.setGravity(Gravity.CENTER, 0, 0);
+            toastView.show();
+        }
+    }
+
+
+    // 上传头像失败
+    @Override
+    public void onUploadAvatarError(Throwable e) {
+
+        Log.e("upload avatar error", e.toString());
+
+        dismissLoadingDialog();
+        ToastView toastView = new ToastView(context, "上传头像失败");
+        toastView.setGravity(Gravity.CENTER, 0, 0);
+        toastView.show();
     }
 }

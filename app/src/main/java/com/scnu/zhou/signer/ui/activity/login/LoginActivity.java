@@ -13,33 +13,31 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.scnu.zhou.signer.R;
+import com.scnu.zhou.signer.component.bean.http.ResultResponse;
+import com.scnu.zhou.signer.component.bean.user.User;
+import com.scnu.zhou.signer.component.cache.UserCache;
+import com.scnu.zhou.signer.component.engine.LoginEngine;
+import com.scnu.zhou.signer.component.util.encrypt.RSAEncryptUtil;
+import com.scnu.zhou.signer.component.util.http.ResponseCodeUtil;
+import com.scnu.zhou.signer.component.util.image.ImageLoaderUtil;
+import com.scnu.zhou.signer.presenter.login.ILoginPresenter;
+import com.scnu.zhou.signer.presenter.login.LoginPresenter;
 import com.scnu.zhou.signer.ui.activity.base.BaseActivity;
 import com.scnu.zhou.signer.ui.activity.main.MainActivity;
 import com.scnu.zhou.signer.ui.activity.regist.InputPhoneActivity;
-import com.scnu.zhou.signer.component.cache.UserCache;
-import com.scnu.zhou.signer.component.config.SignerApi;
-import com.scnu.zhou.signer.component.engine.LoginEngine;
-import com.scnu.zhou.signer.component.bean.http.ResultResponse;
-import com.scnu.zhou.signer.component.bean.user.User;
-import com.scnu.zhou.signer.component.util.encrypt.RSAEncryptUtil;
-import com.scnu.zhou.signer.component.util.http.ResponseCodeUtil;
-import com.scnu.zhou.signer.component.util.http.RetrofitServer;
-import com.scnu.zhou.signer.component.util.image.ImageLoaderUtil;
 import com.scnu.zhou.signer.ui.widget.edit.TextClearableEditText;
 import com.scnu.zhou.signer.ui.widget.image.CircleImageView;
 import com.scnu.zhou.signer.ui.widget.toast.ToastView;
+import com.scnu.zhou.signer.view.login.ILoginView;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import rx.Observer;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 /**
  * Created by zhou on 16/9/3.
  */
-public class LoginActivity extends BaseActivity implements TextWatcher{
+public class LoginActivity extends BaseActivity implements ILoginView, TextWatcher{
 
     @Bind(R.id.tv_title) TextView tv_title;
     @Bind(R.id.tv_right) TextView tv_right;
@@ -60,6 +58,8 @@ public class LoginActivity extends BaseActivity implements TextWatcher{
     private boolean isCache = false;   // 记录之前是否有登录过
     private String user_phone = "";
 
+    private ILoginPresenter loginPresenter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,6 +69,7 @@ public class LoginActivity extends BaseActivity implements TextWatcher{
         ButterKnife.bind(this);
         instance = this;
         initView();
+        initData();
     }
 
     @Override
@@ -98,11 +99,7 @@ public class LoginActivity extends BaseActivity implements TextWatcher{
     @Override
     public void initData() {
 
-    }
-
-    @Override
-    public void loadData() {
-
+        loginPresenter = new LoginPresenter(this);
     }
 
 
@@ -121,7 +118,7 @@ public class LoginActivity extends BaseActivity implements TextWatcher{
     public void login(){
 
         showLoadingDialog("登录中");
-        getPublicKey();
+        loginPresenter.GetPublicKey();
     }
 
 
@@ -172,118 +169,86 @@ public class LoginActivity extends BaseActivity implements TextWatcher{
     }
 
 
-    /**
-     * 获取公钥
-     */
-    private void getPublicKey(){
+    // 获取公钥成功
+    @Override
+    public void onGetPublicKeySuccess(ResultResponse<String> response) {
 
-        RetrofitServer.getRetrofit()
-                .create(SignerApi.class)
-                .getPublicKey()
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<ResultResponse<String>>() {
-                    @Override
-                    public void onCompleted() {
+        if (response.getCode().equals("200")) {
 
-                    }
+            publicKey = response.getData();
+            String key = RSAEncryptUtil.encryptData(et_password.getText().toString(), publicKey);
 
-                    @Override
-                    public void onError(Throwable e) {
+            if (isCache){
+                loginPresenter.login(user_phone, key);
+            }else {
+                loginPresenter.login(et_user.getText(), key);
+            }
+        }
+        else{
 
-                        Log.e("error", "获取公钥： " + e.toString());
-
-                        dismissLoadingDialog();
-                        ToastView toastView = new ToastView(LoginActivity.this, "请检查您的网络连接");
-                        toastView.setGravity(Gravity.CENTER, 0, 0);
-                        toastView.show();
-                    }
-
-                    @Override
-                    public void onNext(ResultResponse<String> response) {
-
-                        //Log.e("data", response.getData());
-
-                        if (response.getCode().equals("200")) {
-
-                            publicKey = response.getData();
-                            String key = RSAEncryptUtil.encryptData(et_password.getText().toString(), publicKey);
-
-                            if (isCache){
-                                postLogin(user_phone, key);
-                            }else {
-                               postLogin(et_user.getText(), key);
-                            }
-                        }
-                        else{
-
-                            dismissLoadingDialog();
-                            ToastView toastView = new ToastView(LoginActivity.this,
-                                    ResponseCodeUtil.getMessage(response.getCode()));
-                            toastView.setGravity(Gravity.CENTER, 0, 0);
-                            toastView.show();
-                        }
-                    }
-                });
+            dismissLoadingDialog();
+            ToastView toastView = new ToastView(LoginActivity.this,
+                    ResponseCodeUtil.getMessage(response.getCode()));
+            toastView.setGravity(Gravity.CENTER, 0, 0);
+            toastView.show();
+        }
     }
 
 
-    /**
-     *  登录操作
-     */
-    private void postLogin(String phone, String password){
+    // 获取公钥失败
+    @Override
+    public void onGetPublicKeyError(Throwable e) {
 
-        RetrofitServer.getRetrofit()
-                .create(SignerApi.class)
-                .login(phone, password)
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<ResultResponse<User>>() {
-                    @Override
-                    public void onCompleted() {
+        Log.e("error", "获取公钥： " + e.toString());
 
-                    }
+        dismissLoadingDialog();
+        ToastView toastView = new ToastView(LoginActivity.this, "请检查您的网络连接");
+        toastView.setGravity(Gravity.CENTER, 0, 0);
+        toastView.show();
+    }
 
-                    @Override
-                    public void onError(Throwable e) {
 
-                        Log.e("error", e.toString());
+    // 登录成功
+    @Override
+    public void onPostLoginSuccess(ResultResponse<User> response) {
 
-                        dismissLoadingDialog();
-                        ToastView toastView = new ToastView(LoginActivity.this, "请检查您的网络连接");
-                        toastView.setGravity(Gravity.CENTER, 0, 0);
-                        toastView.show();
-                    }
+        if (response.getCode().equals("200")){
 
-                    @Override
-                    public void onNext(ResultResponse<User> response) {
+            dismissLoadingDialog();
 
-                        if (response.getCode().equals("200")){
+            // 保存登录信息
+            LoginEngine engine = new LoginEngine(LoginActivity.this);
+            if (isCache){
+                engine.login(user_phone, et_password.getText());
+            }
+            else {
+                engine.login(et_user.getText(), et_password.getText());
+            }
 
-                            dismissLoadingDialog();
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            startActivity(intent);
+            overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+            finish();
+        }
+        else{
+            dismissLoadingDialog();
+            String msg = response.getMsg();
+            ToastView toastView = new ToastView(LoginActivity.this, msg);
+            toastView.setGravity(Gravity.CENTER, 0, 0);
+            toastView.show();
+        }
+    }
 
-                            // 保存登录信息
-                            LoginEngine engine = new LoginEngine(LoginActivity.this);
-                            if (isCache){
-                                engine.login(user_phone, et_password.getText());
-                            }
-                            else {
-                                engine.login(et_user.getText(), et_password.getText());
-                            }
 
-                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                            startActivity(intent);
-                            overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
-                            finish();
-                        }
-                        else{
-                            dismissLoadingDialog();
-                            String msg = response.getMsg();
-                            ToastView toastView = new ToastView(LoginActivity.this, msg);
-                            toastView.setGravity(Gravity.CENTER, 0, 0);
-                            toastView.show();
-                        }
-                    }
-                });
+    // 登录失败
+    @Override
+    public void onPostLoginError(Throwable e) {
+
+        Log.e("error", e.toString());
+
+        dismissLoadingDialog();
+        ToastView toastView = new ToastView(LoginActivity.this, "请检查您的网络连接");
+        toastView.setGravity(Gravity.CENTER, 0, 0);
+        toastView.show();
     }
 }

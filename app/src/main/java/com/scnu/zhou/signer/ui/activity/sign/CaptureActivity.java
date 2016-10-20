@@ -62,7 +62,6 @@ public class CaptureActivity extends BaseSlideActivity implements Callback {
 		inactivityTimer = new InactivityTimer(this);
 	}
 
-	@Override
 	public void initView() {
 
 		tv_title = (TextView) findViewById(R.id.tv_title);
@@ -87,16 +86,6 @@ public class CaptureActivity extends BaseSlideActivity implements Callback {
 				finish();
 			}
 		});
-	}
-
-	@Override
-	public void initData() {
-
-	}
-
-	@Override
-	public void loadData() {
-
 	}
 
 	@Override

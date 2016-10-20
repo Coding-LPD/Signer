@@ -9,29 +9,23 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.scnu.zhou.signer.R;
-import com.scnu.zhou.signer.ui.activity.base.BaseSlideActivity;
-import com.scnu.zhou.signer.component.config.SignerApi;
 import com.scnu.zhou.signer.component.bean.http.ResultResponse;
 import com.scnu.zhou.signer.component.bean.user.Student;
-import com.scnu.zhou.signer.component.util.http.RetrofitServer;
-import com.scnu.zhou.signer.ui.widget.dialog.LoadingDialog;
+import com.scnu.zhou.signer.presenter.user.IUserPresenter;
+import com.scnu.zhou.signer.presenter.user.UserPresenter;
+import com.scnu.zhou.signer.ui.activity.base.BaseSlideActivity;
 import com.scnu.zhou.signer.ui.widget.edit.WhiteClearableEditText;
 import com.scnu.zhou.signer.ui.widget.toast.ToastView;
-
-import java.util.HashMap;
-import java.util.Map;
+import com.scnu.zhou.signer.view.user.IUserUpdateView;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import rx.Observer;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 /**
  * Created by zhou on 16/9/7.
  */
-public class EditInfoActivity extends BaseSlideActivity{
+public class EditInfoActivity extends BaseSlideActivity implements IUserUpdateView{
 
     @Bind(R.id.ll_return) LinearLayout ll_return;
     @Bind(R.id.tv_title) TextView tv_title;
@@ -42,7 +36,8 @@ public class EditInfoActivity extends BaseSlideActivity{
     @Bind(R.id.et_info) WhiteClearableEditText et_info;
 
     private Context context;
-    private LoadingDialog dialog;
+
+    private IUserPresenter userPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,13 +71,7 @@ public class EditInfoActivity extends BaseSlideActivity{
         title = getIntent().getStringExtra("title");
         text = getIntent().getStringExtra("text");
 
-        dialog = new LoadingDialog(context);
-        dialog.setTitle("提交中");
-    }
-
-    @Override
-    public void loadData() {
-
+        userPresenter = new UserPresenter(this);
     }
 
 
@@ -96,8 +85,8 @@ public class EditInfoActivity extends BaseSlideActivity{
     // 保存动作
     @OnClick(R.id.tv_right)
     public void saveInfo(){
-        dialog.show();
-        updateStudentInfo(getVariableName(title), et_info.getText());
+        showLoadingDialog("提交中");
+        userPresenter.updateStudentInfo(userid, getVariableName(title), et_info.getText());
     }
 
 
@@ -118,56 +107,37 @@ public class EditInfoActivity extends BaseSlideActivity{
     }
 
 
-    /**
-     * 更新学生信息
-     */
-    private void updateStudentInfo(String key, String value){
+    // 更新信息成功
+    @Override
+    public void onUpdateStudentInfoSuccess(ResultResponse<Student> response) {
 
-        Map<String, String> infos = new HashMap<>();
-        infos.put(key, value);
+        dismissLoadingDialog();
 
-        RetrofitServer.getRetrofit()
-                .create(SignerApi.class)
-                .updateStudentInfo(userid, infos)
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<ResultResponse<Student>>() {
+        if (response.getCode().equals("200")){
 
-                    @Override
-                    public void onCompleted() {
+            ToastView toastView = new ToastView(context, "修改成功");
+            toastView.setGravity(Gravity.CENTER, 0, 0);
+            toastView.show();
+            finish();
+        }
+        else{
+            String data = response.getMsg();
+            ToastView toastView = new ToastView(context, data);
+            toastView.setGravity(Gravity.CENTER, 0, 0);
+            toastView.show();
+        }
+    }
 
-                    }
 
-                    @Override
-                    public void onError(Throwable e) {
+    // 更新信息失败
+    @Override
+    public void onUpdateStudentInfoError(Throwable e) {
 
-                        Log.e("error", e.toString());
+        Log.e("update info error", e.toString());
 
-                        dismissLoadingDialog();
-                        ToastView toastView = new ToastView(context, "修改失败");
-                        toastView.setGravity(Gravity.CENTER, 0, 0);
-                        toastView.show();
-                    }
-
-                    @Override
-                    public void onNext(ResultResponse<Student> response) {
-
-                        dismissLoadingDialog();
-
-                        if (response.getCode().equals("200")){
-
-                            ToastView toastView = new ToastView(context, "修改成功");
-                            toastView.setGravity(Gravity.CENTER, 0, 0);
-                            toastView.show();
-                            finish();
-                        }
-                        else{
-                            String data = response.getMsg();
-                            ToastView toastView = new ToastView(context, data);
-                            toastView.setGravity(Gravity.CENTER, 0, 0);
-                            toastView.show();
-                        }
-                    }
-                });
+        dismissLoadingDialog();
+        ToastView toastView = new ToastView(context, "修改失败");
+        toastView.setGravity(Gravity.CENTER, 0, 0);
+        toastView.show();
     }
 }

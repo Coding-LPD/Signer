@@ -45,7 +45,6 @@ public class InputPhoneActivity extends BaseSlideActivity{
         initView();
     }
 
-    @Override
     public void initView() {
 
         ll_return.setVisibility(View.VISIBLE);
@@ -72,16 +71,6 @@ public class InputPhoneActivity extends BaseSlideActivity{
 
             }
         });
-    }
-
-    @Override
-    public void initData() {
-
-    }
-
-    @Override
-    public void loadData() {
-
     }
 
 

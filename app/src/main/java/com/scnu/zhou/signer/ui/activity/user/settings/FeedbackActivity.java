@@ -31,22 +31,11 @@ public class FeedbackActivity extends BaseSlideActivity{
         initView();
     }
 
-    @Override
     public void initView() {
 
         ll_return.setVisibility(View.VISIBLE);
         tv_title.setText("意见反馈");
         tv_right.setText("发送");
-    }
-
-    @Override
-    public void initData() {
-
-    }
-
-    @Override
-    public void loadData() {
-
     }
 
 

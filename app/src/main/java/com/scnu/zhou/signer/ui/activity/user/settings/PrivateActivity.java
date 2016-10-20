@@ -36,21 +36,10 @@ public class PrivateActivity extends BaseSlideActivity{
         initView();
     }
 
-    @Override
     public void initView() {
 
         ll_return.setVisibility(View.VISIBLE);
         tv_title.setText("隐私设置");
-    }
-
-    @Override
-    public void initData() {
-
-    }
-
-    @Override
-    public void loadData() {
-
     }
 
 

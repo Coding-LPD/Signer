@@ -14,7 +14,7 @@ import com.scnu.zhou.signer.ui.widget.dialog.LoadingDialog;
 /**
  * Created by zhou on 16/9/2.
  */
-public abstract class BaseSlideActivity extends SlideBackActivity {
+public class BaseSlideActivity extends SlideBackActivity {
 
     private LoadingDialog dialog;
 
@@ -34,12 +34,6 @@ public abstract class BaseSlideActivity extends SlideBackActivity {
 
         dialog = new LoadingDialog(this);
     }
-
-    public abstract void initView();
-
-    public abstract void initData();
-
-    public abstract void loadData();
 
     @TargetApi(19)
     private void setTranslucentStatus(boolean on) {

@@ -15,37 +15,33 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.scnu.zhou.signer.R;
-import com.scnu.zhou.signer.ui.activity.base.BaseSlideActivity;
 import com.scnu.zhou.signer.component.adapter.UserInfoCellAdapter;
-import com.scnu.zhou.signer.component.cache.UserCache;
-import com.scnu.zhou.signer.component.config.SignerApi;
 import com.scnu.zhou.signer.component.bean.http.ResultResponse;
 import com.scnu.zhou.signer.component.bean.user.Student;
 import com.scnu.zhou.signer.component.bean.view.CellBean;
-import com.scnu.zhou.signer.component.util.http.RetrofitServer;
+import com.scnu.zhou.signer.component.cache.UserCache;
 import com.scnu.zhou.signer.component.util.image.ImageLoaderUtil;
+import com.scnu.zhou.signer.presenter.user.IUserPresenter;
+import com.scnu.zhou.signer.presenter.user.UserPresenter;
+import com.scnu.zhou.signer.ui.activity.base.BaseSlideActivity;
 import com.scnu.zhou.signer.ui.widget.image.CircleImageView;
 import com.scnu.zhou.signer.ui.widget.picker.MenuPicker;
 import com.scnu.zhou.signer.ui.widget.toast.ToastView;
+import com.scnu.zhou.signer.view.user.IUserInfoView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnItemClick;
-import rx.Observer;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 /**
  * Created by zhou on 16/9/6.
  */
-public class UserInfoActivity extends BaseSlideActivity{
+public class UserInfoActivity extends BaseSlideActivity implements IUserInfoView{
 
     @Bind(R.id.ll_return) LinearLayout ll_return;
 
@@ -64,6 +60,8 @@ public class UserInfoActivity extends BaseSlideActivity{
     private String avatar;
 
     @Bind(R.id.iv_loading) ImageView iv_loading;
+
+    private IUserPresenter userPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,12 +112,13 @@ public class UserInfoActivity extends BaseSlideActivity{
     @Override
     public void initData() {
 
+        userPresenter = new UserPresenter(this);
     }
 
     @Override
     public void loadData() {
 
-        getStudentInfo();
+        userPresenter.getStudentInfo(UserCache.getPhone(this));
     }
 
 
@@ -197,7 +196,7 @@ public class UserInfoActivity extends BaseSlideActivity{
             this.dismiss();
 
             showLoadingDialog("提交中");
-            updateStudentInfo("gender", this.getSelect());
+            userPresenter.updateStudentInfo(userid, "gender", this.getSelect());
         }
     }
 
@@ -212,7 +211,7 @@ public class UserInfoActivity extends BaseSlideActivity{
             this.dismiss();
 
             showLoadingDialog("提交中");
-            updateStudentInfo("grade", this.getSelect());
+            userPresenter.updateStudentInfo(userid, "grade", this.getSelect());
         }
     }
 
@@ -227,132 +226,103 @@ public class UserInfoActivity extends BaseSlideActivity{
             this.dismiss();
 
             showLoadingDialog("提交中");
-            updateStudentInfo("_class", this.getSelect());
+            userPresenter.updateStudentInfo(userid, "_class", this.getSelect());
         }
     }
 
-    /**
-     * 获取学生信息
-     */
-    private void getStudentInfo(){
 
-        RetrofitServer.getRetrofit()
-                .create(SignerApi.class)
-                .getStudentInfoByPhone(UserCache.getPhone(context))
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<ResultResponse<List<Student>>>() {
+    // 获取用户学生信息成功
+    @Override
+    public void onGetStudentInfoSuccess(ResultResponse<List<Student>> response) {
 
-                    @Override
-                    public void onCompleted() {
+        if (response.getCode().equals("200")){
 
-                    }
+            userid = response.getData().get(0).get_id();
 
-                    @Override
-                    public void onError(Throwable e) {
+            tv_user_name.setText(response.getData().get(0).getName());
 
-                        Log.e("error", e.toString());
-                    }
+            avatar = response.getData().get(0).getAvatar();
+            if (!avatar.equals("")){
+                ImageLoaderUtil.getInstance().displayHeaderImage(civ_user_header, avatar);
+            }
+            else{
+                if (response.getData().get(0).getGender().equals("女")){
+                    civ_user_header.setImageResource(R.drawable.default_header_female);
+                }
+                else{
+                    civ_user_header.setImageResource(R.drawable.default_header_male);
+                }
+            }
 
-                    @Override
-                    public void onNext(ResultResponse<List<Student>> response) {
+            cellTexts = new String[9];
+            cellTexts[0] = response.getData().get(0).getNumber();
+            cellTexts[1] = response.getData().get(0).getName();
+            cellTexts[2] = response.getData().get(0).getGender();
+            cellTexts[3] = response.getData().get(0).getSchool();
+            cellTexts[4] = response.getData().get(0).getAcademy();
+            cellTexts[5] = response.getData().get(0).getMajor();
+            cellTexts[6] = response.getData().get(0).getGrade();
+            cellTexts[7] = response.getData().get(0).get_class();
+            cellTexts[8] = response.getData().get(0).getMail();
 
-                        if (response.getCode().equals("200")){
+            iv_loading.setVisibility(View.GONE);
 
-                            userid = response.getData().get(0).get_id();
-
-                            tv_user_name.setText(response.getData().get(0).getName());
-
-                            avatar = response.getData().get(0).getAvatar();
-                            if (!avatar.equals("")){
-                                ImageLoaderUtil.getInstance().displayHeaderImage(civ_user_header, avatar);
-                            }
-                            else{
-                                if (response.getData().get(0).getGender().equals("女")){
-                                    civ_user_header.setImageResource(R.drawable.default_header_female);
-                                }
-                                else{
-                                    civ_user_header.setImageResource(R.drawable.default_header_male);
-                                }
-                            }
-
-                            cellTexts = new String[9];
-                            cellTexts[0] = response.getData().get(0).getNumber();
-                            cellTexts[1] = response.getData().get(0).getName();
-                            cellTexts[2] = response.getData().get(0).getGender();
-                            cellTexts[3] = response.getData().get(0).getSchool();
-                            cellTexts[4] = response.getData().get(0).getAcademy();
-                            cellTexts[5] = response.getData().get(0).getMajor();
-                            cellTexts[6] = response.getData().get(0).getGrade();
-                            cellTexts[7] = response.getData().get(0).get_class();
-                            cellTexts[8] = response.getData().get(0).getMail();
-
-                            iv_loading.setVisibility(View.GONE);
-
-                            initCell();
-                        }
-                        else{
-                            String data = response.getMsg();
-                            ToastView toastView = new ToastView(context, data);
-                            toastView.setGravity(Gravity.CENTER, 0, 0);
-                            toastView.show();
-                        }
-                    }
-                });
+            initCell();
+        }
+        else{
+            String data = response.getMsg();
+            ToastView toastView = new ToastView(context, data);
+            toastView.setGravity(Gravity.CENTER, 0, 0);
+            toastView.show();
+        }
     }
 
-    /**
-     * 更新学生信息
-     */
-    private void updateStudentInfo(String key, String value){
 
-        Map<String, String> infos = new HashMap<>();
-        infos.put(key, value);
+    // 获取用户学生信息失败
+    @Override
+    public void onGetStudentInfoError(Throwable e) {
 
-        RetrofitServer.getRetrofit()
-                .create(SignerApi.class)
-                .updateStudentInfo(userid, infos)
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<ResultResponse<Student>>() {
+        Log.e("get info error", e.toString());
 
-                    @Override
-                    public void onCompleted() {
+        ToastView toastView = new ToastView(UserInfoActivity.this, "请检查您的网络连接");
+        toastView.setGravity(Gravity.CENTER, 0, 0);
+        toastView.show();
+    }
 
-                    }
 
-                    @Override
-                    public void onError(Throwable e) {
+    // 更新用户学生信息成功
+    @Override
+    public void onUpdateStudentInfoSuccess(ResultResponse<Student> response) {
 
-                        Log.e("error", e.toString());
+        dismissLoadingDialog();
 
-                        dismissLoadingDialog();
-                        ToastView toastView = new ToastView(context, "修改失败");
-                        toastView.setGravity(Gravity.CENTER, 0, 0);
-                        toastView.show();
-                    }
+        if (response.getCode().equals("200")){
 
-                    @Override
-                    public void onNext(ResultResponse<Student> response) {
+            ToastView toastView = new ToastView(context, "修改成功");
+            toastView.setGravity(Gravity.CENTER, 0, 0);
+            toastView.show();
 
-                        dismissLoadingDialog();
+            onResume();
+        }
+        else{
+            String data = response.getMsg();
+            ToastView toastView = new ToastView(context, data);
+            toastView.setGravity(Gravity.CENTER, 0, 0);
+            toastView.show();
+        }
+    }
 
-                        if (response.getCode().equals("200")){
 
-                            ToastView toastView = new ToastView(context, "修改成功");
-                            toastView.setGravity(Gravity.CENTER, 0, 0);
-                            toastView.show();
+    // 更新用户学生信息失败
+    @Override
+    public void onUpdateStudentInfoError(Throwable e) {
 
-                            onResume();
-                        }
-                        else{
-                            String data = response.getMsg();
-                            ToastView toastView = new ToastView(context, data);
-                            toastView.setGravity(Gravity.CENTER, 0, 0);
-                            toastView.show();
-                        }
-                    }
-                });
+        Log.e("update info error", e.toString());
+
+        dismissLoadingDialog();
+        ToastView toastView = new ToastView(context, "修改失败");
+        toastView.setGravity(Gravity.CENTER, 0, 0);
+        toastView.show();
     }
 
 

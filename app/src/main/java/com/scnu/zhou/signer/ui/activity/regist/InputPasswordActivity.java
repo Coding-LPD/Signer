@@ -13,30 +13,28 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.scnu.zhou.signer.R;
+import com.scnu.zhou.signer.component.bean.http.ResultResponse;
+import com.scnu.zhou.signer.component.bean.user.User;
+import com.scnu.zhou.signer.component.engine.RegistEngine;
+import com.scnu.zhou.signer.component.util.encrypt.RSAEncryptUtil;
+import com.scnu.zhou.signer.component.util.http.ResponseCodeUtil;
+import com.scnu.zhou.signer.presenter.regist.IRegistPresenter;
+import com.scnu.zhou.signer.presenter.regist.RegistPresenter;
 import com.scnu.zhou.signer.ui.activity.base.BaseSlideActivity;
 import com.scnu.zhou.signer.ui.activity.login.LoginActivity;
 import com.scnu.zhou.signer.ui.activity.main.MainActivity;
-import com.scnu.zhou.signer.component.config.SignerApi;
-import com.scnu.zhou.signer.component.engine.RegistEngine;
-import com.scnu.zhou.signer.component.bean.http.ResultResponse;
-import com.scnu.zhou.signer.component.bean.user.User;
-import com.scnu.zhou.signer.component.util.encrypt.RSAEncryptUtil;
-import com.scnu.zhou.signer.component.util.http.ResponseCodeUtil;
-import com.scnu.zhou.signer.component.util.http.RetrofitServer;
 import com.scnu.zhou.signer.ui.widget.edit.TextClearableEditText;
 import com.scnu.zhou.signer.ui.widget.toast.ToastView;
+import com.scnu.zhou.signer.view.regist.IRegistView;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import rx.Observer;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 /**
  * Created by zhou on 16/9/3.
  */
-public class InputPasswordActivity extends BaseSlideActivity implements TextWatcher{
+public class InputPasswordActivity extends BaseSlideActivity implements IRegistView, TextWatcher{
 
     @Bind(R.id.ll_return) LinearLayout ll_return;
     @Bind(R.id.tv_title) TextView tv_title;
@@ -47,6 +45,8 @@ public class InputPasswordActivity extends BaseSlideActivity implements TextWatc
 
     private String phone;
     private String publicKey;  // 加密公钥
+
+    private IRegistPresenter registPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,12 +73,97 @@ public class InputPasswordActivity extends BaseSlideActivity implements TextWatc
     public void initData() {
 
         phone = getIntent().getStringExtra("phone");
+
+        registPresenter = new RegistPresenter(this);
     }
 
+
+    // 获取公钥成功
     @Override
-    public void loadData() {
+    public void onGetPublicKeySuccess(ResultResponse<String> response) {
 
+        //Log.e("data", response.getData());
+
+        if (response.getCode().equals("200")) {
+
+            publicKey = response.getData();
+
+            String key = RSAEncryptUtil.encryptData(et_password.getText().toString(), publicKey);
+
+            registPresenter.regist(phone, key);
+        }
+        else{
+
+            dismissLoadingDialog();
+            ToastView toastView = new ToastView(InputPasswordActivity.this,
+                    ResponseCodeUtil.getMessage(response.getCode()));
+            toastView.setGravity(Gravity.CENTER, 0, 0);
+            toastView.show();
+        }
     }
+
+
+    // 获取公钥失败
+    @Override
+    public void onGetPublicKeyError(Throwable e) {
+
+        Log.e("get key error", e.toString());
+
+        dismissLoadingDialog();
+        ToastView toastView = new ToastView(InputPasswordActivity.this, "请检查您的网络连接");
+        toastView.setGravity(Gravity.CENTER, 0, 0);
+        toastView.show();
+    }
+
+
+    // 注册成功
+    @Override
+    public void onPostRegistSuccess(ResultResponse<User> response) {
+
+        if (response.getCode().equals("200")){
+
+            dismissLoadingDialog();
+
+            ToastView toastView = new ToastView(InputPasswordActivity.this, "注册成功");
+            toastView.setGravity(Gravity.CENTER, 0, 0);
+            toastView.show();
+
+            // 注册成功
+            LoginActivity.getInstance().finish();
+            InputPhoneActivity.getInstance().finish();
+            InputCodeActivity.getInstance().finish();
+
+            // 保存注册信息
+            RegistEngine engine = new RegistEngine(InputPasswordActivity.this);
+            engine.regist(getPhone(), et_password.getText().toString());
+
+            Intent intent = new Intent(InputPasswordActivity.this, MainActivity.class);
+            startActivity(intent);
+            overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+            finish();
+        }
+        else{
+            dismissLoadingDialog();
+            String msg = response.getMsg();
+            ToastView toastView = new ToastView(InputPasswordActivity.this, msg);
+            toastView.setGravity(Gravity.CENTER, 0, 0);
+            toastView.show();
+        }
+    }
+
+
+    // 注册失败
+    @Override
+    public void onPostRegistError(Throwable e) {
+
+        Log.e("regist error", e.toString());
+
+        dismissLoadingDialog();
+        ToastView toastView = new ToastView(InputPasswordActivity.this, "请检查您的网络连接");
+        toastView.setGravity(Gravity.CENTER, 0, 0);
+        toastView.show();
+    }
+
 
     public String getPhone() {
         return phone;
@@ -104,7 +189,7 @@ public class InputPasswordActivity extends BaseSlideActivity implements TextWatc
         else{
 
             showLoadingDialog("注册中");
-            getPublicKey();
+            registPresenter.getPublicKey();
         }
     }
 
@@ -128,121 +213,5 @@ public class InputPasswordActivity extends BaseSlideActivity implements TextWatc
     @Override
     public void afterTextChanged(Editable s) {
 
-    }
-
-
-    /**
-     * 获取公钥
-     */
-    private void getPublicKey(){
-
-        RetrofitServer.getRetrofit()
-                .create(SignerApi.class)
-                .getPublicKey()
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<ResultResponse<String>>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                        Log.e("error", e.toString());
-
-                        dismissLoadingDialog();
-                        ToastView toastView = new ToastView(InputPasswordActivity.this, "请检查您的网络连接");
-                        toastView.setGravity(Gravity.CENTER, 0, 0);
-                        toastView.show();
-                    }
-
-                    @Override
-                    public void onNext(ResultResponse<String> response) {
-
-                        //Log.e("data", response.getData());
-
-                        if (response.getCode().equals("200")) {
-
-                            publicKey = response.getData();
-
-                            String key = RSAEncryptUtil.encryptData(et_password.getText().toString(), publicKey);
-
-                            postRegist(phone, key);
-                        }
-                        else{
-
-                            dismissLoadingDialog();
-                            ToastView toastView = new ToastView(InputPasswordActivity.this,
-                                    ResponseCodeUtil.getMessage(response.getCode()));
-                            toastView.setGravity(Gravity.CENTER, 0, 0);
-                            toastView.show();
-                        }
-                    }
-                });
-    }
-
-    /**
-     * 注册
-     */
-    private void postRegist(String phone, String password){
-
-        RetrofitServer.getRetrofit()
-                .create(SignerApi.class)
-                .regist(phone, password, "0")
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<ResultResponse<User>>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                        Log.e("error", e.toString());
-
-                        dismissLoadingDialog();
-                        ToastView toastView = new ToastView(InputPasswordActivity.this, "请检查您的网络连接");
-                        toastView.setGravity(Gravity.CENTER, 0, 0);
-                        toastView.show();
-                    }
-
-                    @Override
-                    public void onNext(ResultResponse<User> response) {
-
-                        if (response.getCode().equals("200")){
-
-                            dismissLoadingDialog();
-
-                            ToastView toastView = new ToastView(InputPasswordActivity.this, "注册成功");
-                            toastView.setGravity(Gravity.CENTER, 0, 0);
-                            toastView.show();
-
-                            // 注册成功
-                            LoginActivity.getInstance().finish();
-                            InputPhoneActivity.getInstance().finish();
-                            InputCodeActivity.getInstance().finish();
-
-                            // 保存注册信息
-                            RegistEngine engine = new RegistEngine(InputPasswordActivity.this);
-                            engine.regist(getPhone(), et_password.getText().toString());
-
-                            Intent intent = new Intent(InputPasswordActivity.this, MainActivity.class);
-                            startActivity(intent);
-                            overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
-                            finish();
-                        }
-                        else{
-                            dismissLoadingDialog();
-                            String msg = response.getMsg();
-                            ToastView toastView = new ToastView(InputPasswordActivity.this, msg);
-                            toastView.setGravity(Gravity.CENTER, 0, 0);
-                            toastView.show();
-                        }
-                    }
-                });
     }
 }

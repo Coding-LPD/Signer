@@ -30,21 +30,10 @@ public class AboutActivity extends BaseSlideActivity{
         initView();
     }
 
-    @Override
     public void initView() {
 
         ll_return.setVisibility(View.VISIBLE);
         tv_title.setText("关于Signer");
-    }
-
-    @Override
-    public void initData() {
-
-    }
-
-    @Override
-    public void loadData() {
-
     }
 
 

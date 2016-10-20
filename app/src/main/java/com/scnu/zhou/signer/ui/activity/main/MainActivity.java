@@ -41,27 +41,15 @@ public class MainActivity extends BaseFragmentActivity{
 
         ButterKnife.bind(this);
         instance = this;
-        initData();
-        initView();
+
+        manager = new TabBarManager(this);
+        manager.setSelect(0);
+        initViewPager();
     }
 
     public static MainActivity getInstance(){
         return instance;
     }
-
-    @Override
-    public void initView() {
-
-        initViewPager();
-    }
-
-    @Override
-    public void initData() {
-
-        manager = new TabBarManager(this);
-        manager.setSelect(0);
-    }
-
 
     private void initViewPager(){
 
@@ -79,12 +67,6 @@ public class MainActivity extends BaseFragmentActivity{
         adapter = new HomePagerAdapter(getSupportFragmentManager(), fragments);
         vp_main.setAdapter(adapter);
         //vp_main.setOnPageChangeListener(this);
-    }
-
-
-    @Override
-    public void loadData() {
-
     }
 
 

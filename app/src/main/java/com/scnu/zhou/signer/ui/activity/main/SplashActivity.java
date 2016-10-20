@@ -22,29 +22,13 @@ public class SplashActivity extends BaseActivity {
 
         setContentView(R.layout.activity_splash);
 
-        initData();
+        ImageLoaderUtil.getInstance().initImageLoader(this);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 turnToPage();
             }
         }, 2000);
-    }
-
-    @Override
-    public void initView() {
-
-    }
-
-    @Override
-    public void initData() {
-
-        ImageLoaderUtil.getInstance().initImageLoader(this);
-    }
-
-    @Override
-    public void loadData() {
-
     }
 
     /**

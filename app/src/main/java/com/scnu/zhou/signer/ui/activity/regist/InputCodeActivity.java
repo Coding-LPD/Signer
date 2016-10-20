@@ -13,25 +13,22 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.scnu.zhou.signer.R;
-import com.scnu.zhou.signer.ui.activity.base.BaseSlideActivity;
-import com.scnu.zhou.signer.component.config.SignerApi;
 import com.scnu.zhou.signer.component.bean.http.ResultResponse;
-import com.scnu.zhou.signer.component.util.http.RetrofitServer;
-import com.scnu.zhou.signer.ui.widget.dialog.LoadingDialog;
+import com.scnu.zhou.signer.presenter.regist.ISmsPresenter;
+import com.scnu.zhou.signer.presenter.regist.SmsPresenter;
+import com.scnu.zhou.signer.ui.activity.base.BaseSlideActivity;
 import com.scnu.zhou.signer.ui.widget.toast.ToastView;
+import com.scnu.zhou.signer.view.regist.ISmsView;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnTextChanged;
-import rx.Observer;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 /**
  * Created by zhou on 16/9/3.
  */
-public class InputCodeActivity extends BaseSlideActivity{
+public class InputCodeActivity extends BaseSlideActivity implements ISmsView{
 
     @Bind(R.id.ll_return) LinearLayout ll_return;
     @Bind(R.id.tv_title) TextView tv_title;
@@ -45,9 +42,9 @@ public class InputCodeActivity extends BaseSlideActivity{
     private String phone;
     private String smsCode;
 
-    private LoadingDialog dialog;
-
     private static InputCodeActivity instance;
+
+    private ISmsPresenter smsPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +60,7 @@ public class InputCodeActivity extends BaseSlideActivity{
         MyHandler.postDelayed(MyRunnable, 1000);
 
         // 发送短信验证码
-        // sendSmsCode();
+        //smsPresenter.sendSmsCode(phone);
     }
 
     private Handler MyHandler = new Handler();
@@ -92,20 +89,59 @@ public class InputCodeActivity extends BaseSlideActivity{
 
         ll_return.setVisibility(View.VISIBLE);
         tv_title.setText("请填写验证码");
-
-        dialog = new LoadingDialog(this);
-        dialog.setTitle("验证中");
     }
 
     @Override
     public void initData() {
 
         phone = getIntent().getStringExtra("phone");
+
+        smsPresenter = new SmsPresenter(this);
     }
 
-    @Override
-    public void loadData() {
 
+    // 发送短信验证码成功
+    @Override
+    public void onSendSmsSuccess(ResultResponse<String> response) {
+
+        Log.e("smsId", response.getData());
+    }
+
+
+    // 发送短信验证码失败
+    @Override
+    public void onSendSmsError(Throwable e) {
+
+        Log.e("send sms error", e.toString());
+    }
+
+
+    // 验证短信验证码成功
+    @Override
+    public void onVerifySmsSuccess(ResultResponse<String> response) {
+
+        dismissLoadingDialog();
+        if (response.getCode().equals("200")){
+            Intent intent = new Intent(InputCodeActivity.this, InputPasswordActivity.class);
+            intent.putExtra("phone", phone);
+            startActivity(intent);
+            overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+        }
+        else{
+            String data = response.getMsg();
+            ToastView toastView = new ToastView(InputCodeActivity.this, data);
+            toastView.setGravity(Gravity.CENTER, 0, 0);
+            toastView.show();
+        }
+    }
+
+
+    // 验证短信验证码失败
+    @Override
+    public void onVerifySmsError(Throwable e) {
+
+        dismissLoadingDialog();
+        Log.e("verify sms error", e.toString());
     }
 
 
@@ -127,7 +163,8 @@ public class InputCodeActivity extends BaseSlideActivity{
     // 下一步:验证短信
     @OnClick(R.id.btn_next)
     public void next(){
-        //verifySmsCode();
+        showLoadingDialog("验证中");
+        //smsPresenter.verifySmsCode(phone, smsCode);
         Intent intent = new Intent(InputCodeActivity.this, InputPasswordActivity.class);
         intent.putExtra("phone", phone);
         startActivity(intent);
@@ -147,80 +184,6 @@ public class InputCodeActivity extends BaseSlideActivity{
         }
 
         smsCode = et_smscode.getText().toString();
-    }
-
-    /**
-     * 获取短信验证码
-     */
-    private void sendSmsCode(){
-
-        RetrofitServer.getRetrofit()
-                .create(SignerApi.class)
-                .sendSmsCode(phone)
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<ResultResponse<String>>() {
-
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                        Log.e("error", e.toString());
-                    }
-
-                    @Override
-                    public void onNext(ResultResponse<String> response) {
-
-                        Log.e("smsId", response.getData());
-                    }
-                });
-    }
-
-
-    /**
-     * 验证短信验证码
-     */
-    private void verifySmsCode(){
-
-        RetrofitServer.getRetrofit()
-                .create(SignerApi.class)
-                .verifySmsCode(phone, smsCode)
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<ResultResponse<String>>() {
-
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                        Log.e("error", e.toString());
-                    }
-
-                    @Override
-                    public void onNext(ResultResponse<String> response) {
-
-                        if (response.getCode().equals("200")){
-                            Intent intent = new Intent(InputCodeActivity.this, InputPasswordActivity.class);
-                            intent.putExtra("phone", phone);
-                            startActivity(intent);
-                            overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
-                        }
-                        else{
-                            String data = response.getMsg();
-                            ToastView toastView = new ToastView(InputCodeActivity.this, data);
-                            toastView.setGravity(Gravity.CENTER, 0, 0);
-                            toastView.show();
-                        }
-                    }
-                });
     }
 
     public static InputCodeActivity getInstance(){

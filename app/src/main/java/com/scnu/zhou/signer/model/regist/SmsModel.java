@@ -1,8 +1,7 @@
-package com.scnu.zhou.signer.model.login;
+package com.scnu.zhou.signer.model.regist;
 
-import com.scnu.zhou.signer.callback.login.LoginCallback;
+import com.scnu.zhou.signer.callback.regist.SmsCallBack;
 import com.scnu.zhou.signer.component.bean.http.ResultResponse;
-import com.scnu.zhou.signer.component.bean.user.User;
 import com.scnu.zhou.signer.component.config.SignerApi;
 import com.scnu.zhou.signer.component.util.http.RetrofitServer;
 
@@ -11,19 +10,20 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 /**
- * Created by zhou on 16/10/19.
+ * Created by zhou on 16/10/20.
  */
-public class LoginModel implements ILoginModel{
+public class SmsModel implements ISmsModel {
 
     @Override
-    public void getPublicKey(final LoginCallback callback) {
+    public void sendSmsCode(String phone, final SmsCallBack callBack) {
 
         RetrofitServer.getRetrofit()
                 .create(SignerApi.class)
-                .getPublicKey()
+                .sendSmsCode(phone)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<ResultResponse<String>>() {
+
                     @Override
                     public void onCompleted() {
 
@@ -32,28 +32,28 @@ public class LoginModel implements ILoginModel{
                     @Override
                     public void onError(Throwable e) {
 
-                        callback.onGetPublicKeyError(e);
+                        callBack.onSendSmsError(e);
                     }
 
                     @Override
                     public void onNext(ResultResponse<String> response) {
 
-                        //Log.e("data", response.getData());
-
-                        callback.onGetPublicKeySuccess(response);
+                        callBack.onSendSmsSuccess(response);
                     }
                 });
     }
 
+
     @Override
-    public void postLogin(String phone, String password, final LoginCallback callback) {
+    public void verifySmsCode(String phone, String code, final SmsCallBack callBack) {
 
         RetrofitServer.getRetrofit()
                 .create(SignerApi.class)
-                .login(phone, password)
+                .verifySmsCode(phone, code)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<ResultResponse<User>>() {
+                .subscribe(new Observer<ResultResponse<String>>() {
+
                     @Override
                     public void onCompleted() {
 
@@ -62,13 +62,13 @@ public class LoginModel implements ILoginModel{
                     @Override
                     public void onError(Throwable e) {
 
-                        callback.onPostLoginError(e);
+                        callBack.onVerifySmsError(e);
                     }
 
                     @Override
-                    public void onNext(ResultResponse<User> response) {
+                    public void onNext(ResultResponse<String> response) {
 
-                        callback.onPostLoginSuccess(response);
+                        callBack.onVerifySmsSuccess(response);
                     }
                 });
     }

@@ -47,14 +47,12 @@ public class ConfirmSignActivity extends BaseSlideActivity{
         initData();
     }
 
-    @Override
     public void initView() {
 
         tv_title.setText("课程详情");
         ll_return.setVisibility(View.VISIBLE);
     }
 
-    @Override
     public void initData() {
 
         signers = new ArrayList<>();
@@ -72,11 +70,6 @@ public class ConfirmSignActivity extends BaseSlideActivity{
 
         adapter = new SignerAdapter(this, signers);
         gv_signer.setAdapter(adapter);
-    }
-
-    @Override
-    public void loadData() {
-
     }
 
 

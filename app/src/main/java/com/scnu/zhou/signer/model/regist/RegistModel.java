@@ -1,6 +1,6 @@
-package com.scnu.zhou.signer.model.login;
+package com.scnu.zhou.signer.model.regist;
 
-import com.scnu.zhou.signer.callback.login.LoginCallback;
+import com.scnu.zhou.signer.callback.regist.RegistCallback;
 import com.scnu.zhou.signer.component.bean.http.ResultResponse;
 import com.scnu.zhou.signer.component.bean.user.User;
 import com.scnu.zhou.signer.component.config.SignerApi;
@@ -11,12 +11,12 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 /**
- * Created by zhou on 16/10/19.
+ * Created by zhou on 16/10/20.
  */
-public class LoginModel implements ILoginModel{
+public class RegistModel implements IRegistModel {
 
     @Override
-    public void getPublicKey(final LoginCallback callback) {
+    public void getPublicKey(final RegistCallback callback) {
 
         RetrofitServer.getRetrofit()
                 .create(SignerApi.class)
@@ -38,19 +38,18 @@ public class LoginModel implements ILoginModel{
                     @Override
                     public void onNext(ResultResponse<String> response) {
 
-                        //Log.e("data", response.getData());
-
                         callback.onGetPublicKeySuccess(response);
                     }
                 });
     }
 
+
     @Override
-    public void postLogin(String phone, String password, final LoginCallback callback) {
+    public void postRegist(String phone, String password, final RegistCallback callback) {
 
         RetrofitServer.getRetrofit()
                 .create(SignerApi.class)
-                .login(phone, password)
+                .regist(phone, password, "0")
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<ResultResponse<User>>() {
@@ -62,13 +61,13 @@ public class LoginModel implements ILoginModel{
                     @Override
                     public void onError(Throwable e) {
 
-                        callback.onPostLoginError(e);
+                        callback.onPostRegistError(e);
                     }
 
                     @Override
                     public void onNext(ResultResponse<User> response) {
 
-                        callback.onPostLoginSuccess(response);
+                        callback.onPostRegistSuccess(response);
                     }
                 });
     }

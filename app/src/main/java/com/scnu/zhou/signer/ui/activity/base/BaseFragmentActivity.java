@@ -15,7 +15,7 @@ import com.scnu.zhou.signer.ui.widget.dialog.LoadingDialog;
 /**
  * Created by zhou on 16/9/2.
  */
-public abstract class BaseFragmentActivity extends FragmentActivity {
+public class BaseFragmentActivity extends FragmentActivity {
 
     private LoadingDialog dialog;
 
@@ -35,12 +35,6 @@ public abstract class BaseFragmentActivity extends FragmentActivity {
 
         dialog = new LoadingDialog(this);
     }
-
-    public abstract void initView();
-
-    public abstract void initData();
-
-    public abstract void loadData();
 
     @TargetApi(19)
     private void setTranslucentStatus(boolean on) {

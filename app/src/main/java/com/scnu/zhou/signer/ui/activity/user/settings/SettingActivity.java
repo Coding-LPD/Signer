@@ -39,21 +39,10 @@ public class SettingActivity extends BaseSlideActivity{
         initView();
     }
 
-    @Override
     public void initView() {
 
         ll_return.setVisibility(View.VISIBLE);
         tv_title.setText("设置");
-    }
-
-    @Override
-    public void initData() {
-
-    }
-
-    @Override
-    public void loadData() {
-
     }
 
 
