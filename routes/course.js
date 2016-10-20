@@ -19,34 +19,7 @@ router.get('/', function (req, res) {
 });
 
 router.post('/', function (req, res) {
-  var startTime = new Date(req.body.startTime);
-  var endTime = new Date(req.body.endTime);
-
-  // 时间格式不对，返回错误信息 
-  if (isNaN(startTime.valueOf())) {
-    sendInfo(errorCodes.CourseStartTimeInvalid, res, {});
-    return;
-  }
-  if (isNaN(endTime.valueOf())) {
-    sendInfo(errorCodes.CourseEndTimeInvalid, res, {});
-    return;
-  }
-  // 起始时间晚于结束时间
-  if (moment(endTime).isBefore(startTime)) {
-    sendInfo(errorCodes.CourseTimeRangeError, res, {});
-    return;
-  }
-
   var newCourse = new Course(req.body);
-  // 根据当前时间与课程时间，判断课程状态
-  var now = moment(new Date());
-  if (now.isBefore(startTime)) {
-    newCourse.set('state', 0);
-  } else if (now.isAfter(endTime)) {
-    newCourse.set('state', 2);
-  } else {
-    newCourse.set('state', 1);
-  }
   newCourse.save(function (err, savedCourse) {
     if (!err) {
       sendInfo(errorCodes.Success, res, savedCourse);
