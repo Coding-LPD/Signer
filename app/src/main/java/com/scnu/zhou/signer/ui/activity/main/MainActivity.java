@@ -6,15 +6,15 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 
 import com.scnu.zhou.signer.R;
+import com.scnu.zhou.signer.component.adapter.HomePagerAdapter;
+import com.scnu.zhou.signer.component.util.tabbar.TabBarManager;
 import com.scnu.zhou.signer.ui.activity.base.BaseFragmentActivity;
 import com.scnu.zhou.signer.ui.activity.sign.CaptureActivity;
 import com.scnu.zhou.signer.ui.activity.sign.ConfirmSignActivity;
-import com.scnu.zhou.signer.component.adapter.HomePagerAdapter;
 import com.scnu.zhou.signer.ui.fragment.DiscoverFragment;
 import com.scnu.zhou.signer.ui.fragment.HomeFragment;
 import com.scnu.zhou.signer.ui.fragment.MineFragment;
 import com.scnu.zhou.signer.ui.fragment.NoticeFragment;
-import com.scnu.zhou.signer.component.util.tabbar.TabBarManager;
 
 import java.util.ArrayList;
 import java.util.List;
