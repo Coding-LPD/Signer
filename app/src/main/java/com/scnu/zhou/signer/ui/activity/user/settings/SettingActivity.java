@@ -112,8 +112,7 @@ public class SettingActivity extends BaseSlideActivity{
 
         @Override
         public void execute() {
-            ClearCache.clear();
-
+            ClearCache.getInstance().clear();
             this.dismiss();
         }
     }
@@ -131,7 +130,7 @@ public class SettingActivity extends BaseSlideActivity{
             startActivity(intent);
             overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
 
-            UserCache.logout(SettingActivity.this);
+            UserCache.getInstance().logout(SettingActivity.this);
 
             MainActivity.getInstance().finish();
             finish();

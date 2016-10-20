@@ -120,7 +120,7 @@ public class EditHeaderActivity extends BaseSlideActivity implements IUserHeader
     // 从相册选择头像
     @OnClick(R.id.tc_picker)
     public void pickFromAblum(){
-        ImagePicker.pickFromAblum(this);
+        ImagePicker.getInstance().pickFromAblum(this);
     }
 
 
@@ -147,7 +147,7 @@ public class EditHeaderActivity extends BaseSlideActivity implements IUserHeader
 
         ll_info.setVisibility(View.GONE);
         ll_preview.setVisibility(View.VISIBLE);
-        tv_preview_name.setText(UserCache.getName(this));
+        tv_preview_name.setText(UserCache.getInstance().getName(this));
 
         switch (pos){
             case 0:
@@ -205,7 +205,7 @@ public class EditHeaderActivity extends BaseSlideActivity implements IUserHeader
 
         if (requestCode == ImagePicker.STATE_ABLUM){
             if (resultCode == RESULT_OK) {
-                ImagePicker.cropPhoto(this, data.getData());// 裁剪图片
+                ImagePicker.getInstance().cropPhoto(this, data.getData());// 裁剪图片
             }
 
         }
@@ -218,7 +218,7 @@ public class EditHeaderActivity extends BaseSlideActivity implements IUserHeader
                 if (head != null) {
 
                     //headerUri = Uri.parse(MediaStore.Images.Media.insertImage(getContentResolver(), head, null,null));
-                    headerUri = ImagePicker.getPictureUri();
+                    headerUri = ImagePicker.getInstance().getPictureUri();
                     openPreview(0);
                 }
             }

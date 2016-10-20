@@ -77,16 +77,16 @@ public class LoginActivity extends BaseActivity implements ILoginView, TextWatch
         tv_title.setText("Signer登录");
         v_bottomline.setVisibility(View.GONE);
 
-        if (!TextUtils.isEmpty(UserCache.getPhone(this))){
+        if (!TextUtils.isEmpty(UserCache.getInstance().getPhone(this))){
 
             isCache = true;
-            user_phone = UserCache.getPhone(this);
+            user_phone = UserCache.getInstance().getPhone(this);
 
             ll_profile.setVisibility(View.VISIBLE);
             et_user.setVisibility(View.GONE);
 
-            ImageLoaderUtil.getInstance().displayHeaderImage(civ_user_header, UserCache.getAvatar(this));
-            tv_user_phone.setText(UserCache.getPhone(this));
+            ImageLoaderUtil.getInstance().displayHeaderImage(civ_user_header, UserCache.getInstance().getAvatar(this));
+            tv_user_phone.setText(UserCache.getInstance().getPhone(this));
 
             tv_right.setText("切换账号");
         }
@@ -217,10 +217,10 @@ public class LoginActivity extends BaseActivity implements ILoginView, TextWatch
 
             // 保存登录信息
             if (isCache){
-                UserCache.login(this, user_phone, et_password.getText());
+                UserCache.getInstance().login(this, user_phone, et_password.getText());
             }
             else {
-                UserCache.login(this, et_user.getText(), et_password.getText());
+                UserCache.getInstance().login(this, et_user.getText(), et_password.getText());
             }
 
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);

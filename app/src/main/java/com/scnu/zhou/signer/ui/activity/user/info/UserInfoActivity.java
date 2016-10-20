@@ -80,8 +80,8 @@ public class UserInfoActivity extends BaseSlideActivity implements IUserInfoView
 
         ll_return.setVisibility(View.VISIBLE);
 
-        ImageLoaderUtil.getInstance().displayHeaderImage(civ_user_header, UserCache.getAvatar(context));
-        tv_user_name.setText(UserCache.getName(context));
+        ImageLoaderUtil.getInstance().displayHeaderImage(civ_user_header, UserCache.getInstance().getAvatar(context));
+        tv_user_name.setText(UserCache.getInstance().getName(context));
 
         RotateAnimation mAnim = new RotateAnimation(0, 360, Animation.RESTART, 0.5f,
                 Animation.RESTART, 0.5f);
@@ -118,7 +118,7 @@ public class UserInfoActivity extends BaseSlideActivity implements IUserInfoView
     @Override
     public void loadData() {
 
-        userPresenter.getStudentInfo(UserCache.getPhone(this));
+        userPresenter.getStudentInfo(UserCache.getInstance().getPhone(this));
     }
 
 

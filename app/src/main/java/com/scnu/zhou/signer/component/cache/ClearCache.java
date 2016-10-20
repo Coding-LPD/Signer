@@ -7,11 +7,23 @@ import com.nostra13.universalimageloader.core.ImageLoader;
  */
 public class ClearCache {
 
-    public static void clear() {
+    private ClearCache(){}
+
+    private static class ClearCacheHolder{
+
+        private static final ClearCache instance = new ClearCache();
+    }
+
+    public static final ClearCache getInstance(){
+
+        return ClearCacheHolder.instance;
+    }
+
+    public void clear() {
         clearImageCache();
     }
 
-    public static void clearImageCache() {
+    public void clearImageCache() {
 
         // 清除图片缓存
         ImageLoader.getInstance().clearMemoryCache();

@@ -14,17 +14,16 @@ import com.scnu.zhou.signer.R;
  */
 public class ImageLoaderUtil {
 
-	private ImageLoaderUtil() {
+	private ImageLoaderUtil() {}
 
+	private static class ImageLoaderHolder{
+
+		private static final ImageLoaderUtil instance = new ImageLoaderUtil();
 	}
 
-	private static ImageLoaderUtil instance = null;
+	public static final ImageLoaderUtil getInstance(){
 
-	public static synchronized ImageLoaderUtil getInstance() {
-		if (instance == null) {
-			instance = new ImageLoaderUtil();
-		}
-		return instance;
+		return ImageLoaderHolder.instance;
 	}
 
 	/**

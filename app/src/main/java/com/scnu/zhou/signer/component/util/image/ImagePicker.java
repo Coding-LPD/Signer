@@ -14,10 +14,22 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class ImagePicker {
+
+	private ImagePicker(){}
+
+	private static class ImagePickerHolder{
+
+		private static final ImagePicker instance = new ImagePicker();
+	}
+
+	public static final ImagePicker getInstance(){
+
+		return ImagePickerHolder.instance;
+	}
 	
-	private static String path = AppConfig.PhotoDir; // sd路径
-	private static String pictureName = "header.jpg";
-	private static Uri pictureUri;
+	private String path = AppConfig.PhotoDir; // sd路径
+	private String pictureName = "header.jpg";
+	private Uri pictureUri;
 	
 	public static int STATE_CAMARE = 1;
 	public static int STATE_ABLUM = 2;
@@ -26,7 +38,7 @@ public class ImagePicker {
 	/**
 	 * 从相册中选择
 	 */
-	public static void pickFromAblum(Activity activity){
+	public void pickFromAblum(Activity activity){
 		Intent intent1 = new Intent(Intent.ACTION_PICK, null);
 		intent1.setDataAndType(
 				MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
@@ -37,7 +49,7 @@ public class ImagePicker {
 	/**
 	 * 拍照获取
 	 */
-	public static void pickFromCamera(Activity activity){
+	public void pickFromCamera(Activity activity){
 
 		String state = Environment.getExternalStorageState();
 		if (state.equals(Environment.MEDIA_MOUNTED)) {
@@ -78,7 +90,7 @@ public class ImagePicker {
 	 * 
 	 * @param uri
 	 */
-	public static void cropPhoto(Activity activity, Uri uri) {
+	public void cropPhoto(Activity activity, Uri uri) {
 		
 		pictureUri = uri;
 		
@@ -95,11 +107,11 @@ public class ImagePicker {
 		activity.startActivityForResult(intent, STATE_CROP);
 	}
 	
-	public static String getPictureName(){
+	public String getPictureName(){
 		return pictureName;
 	}
 	
-	public static Uri getPictureUri(){
+	public Uri getPictureUri(){
 		return pictureUri;
 	}
 }

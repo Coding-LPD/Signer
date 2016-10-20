@@ -63,9 +63,9 @@ public class MineFragment extends Fragment implements IUserInfoView{
 
     @Override
     public void initView() {
-        tv_user_name.setText(UserCache.getName(context));
-        tv_user_id.setText("ID:" + UserCache.getPhone(context));
-        ImageLoaderUtil.getInstance().displayHeaderImage(civ_user_header, UserCache.getAvatar(context));
+        tv_user_name.setText(UserCache.getInstance().getName(context));
+        tv_user_id.setText("ID:" + UserCache.getInstance().getPhone(context));
+        ImageLoaderUtil.getInstance().displayHeaderImage(civ_user_header, UserCache.getInstance().getAvatar(context));
     }
 
     @Override
@@ -77,7 +77,7 @@ public class MineFragment extends Fragment implements IUserInfoView{
     @Override
     public void loadData() {
 
-        userPresenter.getStudentInfo(UserCache.getPhone(context));
+        userPresenter.getStudentInfo(UserCache.getInstance().getPhone(context));
     }
 
     // 查看个人信息
@@ -121,8 +121,8 @@ public class MineFragment extends Fragment implements IUserInfoView{
 
 
             // 本地缓存
-            UserCache.setName(context, list.get(0).getName());
-            UserCache.setAvatar(context, list.get(0).getAvatar());
+            UserCache.getInstance().setName(context, list.get(0).getName());
+            UserCache.getInstance().setAvatar(context, list.get(0).getAvatar());
         }
         else{
             String data = response.getMsg();

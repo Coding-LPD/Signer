@@ -134,7 +134,7 @@ public class InputPasswordActivity extends BaseSlideActivity implements IRegistV
             InputCodeActivity.getInstance().finish();
 
             // 保存注册信息
-            UserCache.login(this, getPhone(), et_password.getText().toString());
+            UserCache.getInstance().login(this, getPhone(), et_password.getText().toString());
 
             Intent intent = new Intent(InputPasswordActivity.this, MainActivity.class);
             startActivity(intent);

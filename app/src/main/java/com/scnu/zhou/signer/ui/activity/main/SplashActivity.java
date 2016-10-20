@@ -36,8 +36,8 @@ public class SplashActivity extends BaseActivity {
      */
     private void turnToPage(){
 
-        if (!TextUtils.isEmpty(UserCache.getPhone(this)) &&
-                !TextUtils.isEmpty(UserCache.getPassword(this))){
+        if (!TextUtils.isEmpty(UserCache.getInstance().getPhone(this)) &&
+                !TextUtils.isEmpty(UserCache.getInstance().getPassword(this))){
             Intent intent = new Intent(SplashActivity.this, MainActivity.class);
             startActivity(intent);
             overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
