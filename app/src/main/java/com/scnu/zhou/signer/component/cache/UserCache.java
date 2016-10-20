@@ -48,6 +48,16 @@ public class UserCache {
         return sharedPreferences.getString("avatar", "");
     }
 
+
+    public static void login(Context context, String phone, String password){
+        SharedPreferences sharedPreferences = context.getSharedPreferences("User", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("phone", phone);
+        editor.putString("password", password);
+        editor.commit();
+    }
+
+
     public static void logout(Context context){
         SharedPreferences sharedPreferences = context.getSharedPreferences("User", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();

@@ -3,6 +3,7 @@ package com.scnu.zhou.signer.ui.fragment;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +13,7 @@ import com.scnu.zhou.signer.R;
 /**
  * Created by zhou on 16/9/6.
  */
-public class HomeFragment extends BaseFragment {
+public class HomeFragment extends Fragment {
 
     private Activity context;
 
@@ -29,21 +30,5 @@ public class HomeFragment extends BaseFragment {
         super.onActivityCreated(savedInstanceState);
 
         context = getActivity();
-        initView();
-    }
-
-    @Override
-    public void initView() {
-
-    }
-
-    @Override
-    public void initData() {
-
-    }
-
-    @Override
-    public void loadData() {
-
     }
 }

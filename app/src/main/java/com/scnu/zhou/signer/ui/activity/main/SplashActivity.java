@@ -6,9 +6,9 @@ import android.os.Handler;
 import android.text.TextUtils;
 
 import com.scnu.zhou.signer.R;
+import com.scnu.zhou.signer.component.cache.UserCache;
 import com.scnu.zhou.signer.ui.activity.base.BaseActivity;
 import com.scnu.zhou.signer.ui.activity.login.LoginActivity;
-import com.scnu.zhou.signer.component.engine.LoginEngine;
 import com.scnu.zhou.signer.component.util.image.ImageLoaderUtil;
 
 /**
@@ -36,9 +36,8 @@ public class SplashActivity extends BaseActivity {
      */
     private void turnToPage(){
 
-        LoginEngine engine = new LoginEngine(this);
-        if (!TextUtils.isEmpty(engine.getUserPhone()) &&
-                !TextUtils.isEmpty(engine.getUserPassword())){
+        if (!TextUtils.isEmpty(UserCache.getPhone(this)) &&
+                !TextUtils.isEmpty(UserCache.getPassword(this))){
             Intent intent = new Intent(SplashActivity.this, MainActivity.class);
             startActivity(intent);
             overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);

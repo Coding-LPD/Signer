@@ -16,7 +16,6 @@ import com.scnu.zhou.signer.R;
 import com.scnu.zhou.signer.component.bean.http.ResultResponse;
 import com.scnu.zhou.signer.component.bean.user.User;
 import com.scnu.zhou.signer.component.cache.UserCache;
-import com.scnu.zhou.signer.component.engine.LoginEngine;
 import com.scnu.zhou.signer.component.util.encrypt.RSAEncryptUtil;
 import com.scnu.zhou.signer.component.util.http.ResponseCodeUtil;
 import com.scnu.zhou.signer.component.util.image.ImageLoaderUtil;
@@ -217,12 +216,11 @@ public class LoginActivity extends BaseActivity implements ILoginView, TextWatch
             dismissLoadingDialog();
 
             // 保存登录信息
-            LoginEngine engine = new LoginEngine(LoginActivity.this);
             if (isCache){
-                engine.login(user_phone, et_password.getText());
+                UserCache.login(this, user_phone, et_password.getText());
             }
             else {
-                engine.login(et_user.getText(), et_password.getText());
+                UserCache.login(this, et_user.getText(), et_password.getText());
             }
 
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);

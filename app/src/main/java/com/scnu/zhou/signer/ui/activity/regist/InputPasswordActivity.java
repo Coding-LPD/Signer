@@ -15,7 +15,7 @@ import android.widget.TextView;
 import com.scnu.zhou.signer.R;
 import com.scnu.zhou.signer.component.bean.http.ResultResponse;
 import com.scnu.zhou.signer.component.bean.user.User;
-import com.scnu.zhou.signer.component.engine.RegistEngine;
+import com.scnu.zhou.signer.component.cache.UserCache;
 import com.scnu.zhou.signer.component.util.encrypt.RSAEncryptUtil;
 import com.scnu.zhou.signer.component.util.http.ResponseCodeUtil;
 import com.scnu.zhou.signer.presenter.regist.IRegistPresenter;
@@ -134,8 +134,7 @@ public class InputPasswordActivity extends BaseSlideActivity implements IRegistV
             InputCodeActivity.getInstance().finish();
 
             // 保存注册信息
-            RegistEngine engine = new RegistEngine(InputPasswordActivity.this);
-            engine.regist(getPhone(), et_password.getText().toString());
+            UserCache.login(this, getPhone(), et_password.getText().toString());
 
             Intent intent = new Intent(InputPasswordActivity.this, MainActivity.class);
             startActivity(intent);
