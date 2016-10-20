@@ -26,14 +26,14 @@ var SignRecord = {
     type: Number,
     enum: {
       values: [0, 1, 2],
-      message: errorCodes.RoleEnum
+      message: errorCodes.RoleError
     }
   },
   type: {
     type: Number,
     enum: {
       values: [0, 1],
-      message: errorCodes.RoleEnum
+      message: errorCodes.RoleError
     }
   },
   createdAt: {

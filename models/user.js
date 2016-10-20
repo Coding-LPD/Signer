@@ -14,7 +14,7 @@ var User = {
     required: errorCodes.RoleRequired,
     enum: {
       values: ['0', '1'],
-      message: errorCodes.RoleEnum
+      message: errorCodes.RoleError
     }
   }
 };

@@ -3,7 +3,7 @@ var errorCodes = {
   PhoneRequired:          '1000',
   PasswordRequired:       '1001',  
   RoleRequired:           '1002',
-  RoleEnum:               '1003',
+  RoleError:               '1003',
   PhoneError:             '1004',
   PasswordDecryptError:   '1005',
   StudentNumberRequired:  '1006',
