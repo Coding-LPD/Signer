@@ -21,7 +21,7 @@ input, select {
   width: 99%;
   padding-top: 10px;
   padding-bottom: 10px;
-  padding-left: 10px;
+  text-indent: 1em;
   border: 1px solid #DDDDDD;
   border-radius: 5px;  
   -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
@@ -38,6 +38,10 @@ input:focus {
 }
 input[type=checkbox], input[type=radio] {
   width: auto;
+}
+
+select, input[type=date] {
+  text-indent: 0.5em;
 }
 
 button {
@@ -103,10 +107,6 @@ a:hover {
 .form-group .right {
   float: right;
   width: 84%;
-}
-
-.form-group input.right {
-  width: 83%;
 }
 
 .caret {

@@ -1,0 +1,23 @@
+.day {
+  float: left;
+  width: 30%;
+}
+
+.class-index {
+  float: right;
+  width: 68%;
+  text-align: right;
+}
+
+.class-index * {
+  display: inline-block;
+}
+
+.class-index select {
+  width: 47%;
+}
+
+.seperator {  
+  padding: 0 1px;
+  text-align: center;
+}

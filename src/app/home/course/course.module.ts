@@ -5,7 +5,7 @@ import { HttpModule } from '@angular/http';
 import { SharedModule } from '../../shared';
 import { CourseComponent } from './course.component';
 import { CourseService } from './course.service';
-import { CreateComponent } from './create';
+import { CreateComponent, ClassTimeComponent } from './create';
 
 @NgModule({
   imports: [
@@ -15,11 +15,13 @@ import { CreateComponent } from './create';
   ],
   declarations: [
     CourseComponent,
-    CreateComponent
+    CreateComponent,
+    ClassTimeComponent
   ],
   exports: [
     CourseComponent,
-    CreateComponent
+    CreateComponent,
+    ClassTimeComponent
   ],
   providers: [
     CourseService
