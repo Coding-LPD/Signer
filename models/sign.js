@@ -22,7 +22,7 @@ var Sign = {
     type: Number,
     enum: {
       values: [0, 1, 2],
-      message: errorCodes.RoleError
+      message: errorCodes.SignStateError
     },
     required: true
   },
