@@ -78,21 +78,6 @@ public class ConfirmSignActivity extends BaseSlideActivity implements ISignView{
 
         signPresenter = new SignPresenter(this);
         signPresenter.getScanResult(code);
-
-        /*
-        Signer signer = new Signer();
-        signer.setAvatar("http://file.bmob.cn/M03/08/D3/oYYBAFb8qjyAXEu7AAE6_OuqxNA225.jpg");
-        signer.setName("haha");
-
-        signers.add(signer);
-        signers.add(signer);
-        signers.add(signer);
-        signers.add(signer);
-        signers.add(signer);
-        signers.add(signer);
-
-        adapter = new SignerAdapter(this, signers);
-        gv_signer.setAdapter(adapter);*/
     }
 
 
