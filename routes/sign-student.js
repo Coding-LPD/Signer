@@ -53,8 +53,6 @@ router.post('/import', multipartMiddleware, function (req, res) {
       return;
     }
     var course = courses[0];
-    course.set('location', courseExtra.get('location'));
-    course.set('time', courseExtra.get('time'));
     course.set('academy', courseExtra.get('academy'));         
     course.set('studentCount', course.get('studentCount') + signStudents.length);
     promises.push(course.save());
