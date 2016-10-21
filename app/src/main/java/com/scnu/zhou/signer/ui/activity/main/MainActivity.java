@@ -131,6 +131,7 @@ public class MainActivity extends BaseFragmentActivity{
             //Toast.makeText(this, scanResult, Toast.LENGTH_LONG).show();
 
             Intent intent = new Intent(this, ConfirmSignActivity.class);
+            intent.putExtra("code", scanResult);
             startActivity(intent);
             overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
         }

@@ -1,4 +1,4 @@
-package com.scnu.zhou.signer.component.bean.signer;
+package com.scnu.zhou.signer.component.bean.sign;
 
 /**
  * Created by zhou on 16/10/19.

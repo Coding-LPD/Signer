@@ -1,6 +1,7 @@
 package com.scnu.zhou.signer.component.config;
 
 import com.scnu.zhou.signer.component.bean.http.ResultResponse;
+import com.scnu.zhou.signer.component.bean.sign.ScanResult;
 import com.scnu.zhou.signer.component.bean.user.Student;
 import com.scnu.zhou.signer.component.bean.user.User;
 
@@ -28,7 +29,9 @@ public interface SignerApi {
     Observable<ResultResponse<String>> getPublicKey();
 
 
-
+    /**
+     * Login and Regist
+     */
     @FormUrlEncoded
     @POST("/api/smsCode")    // 发送短信验证码
     Observable<ResultResponse<String>> sendSmsCode(@Field("phone") String phone);
@@ -48,7 +51,9 @@ public interface SignerApi {
     Observable<ResultResponse<User>> login(@Field("phone") String phone, @Field("password") String password);
 
 
-
+    /**
+     * User Info Get and Update
+     */
     @FormUrlEncoded
     @POST("/api/students/search")    // 根据手机获取学生用户信息
     Observable<ResultResponse<List<Student>>> getStudentInfoByPhone(@Field("phone") String phone);
@@ -65,4 +70,12 @@ public interface SignerApi {
     @Multipart
     @POST("/api/students/images")    // 上传头像
     Observable<ResultResponse<String>> uploadUserImage(@Part("file\"; filename=\"image.png") RequestBody file);
+
+
+    /**
+     * Scan and Sign
+     */
+    @FormUrlEncoded
+    @PUT("/api/signs/scanning/{code}")    // 根据签到码获取课程和签到信息
+    Observable<ResultResponse<ScanResult>> getScanResult(@Path("code") String code);
 }
