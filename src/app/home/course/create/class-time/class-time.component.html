@@ -9,30 +9,11 @@
 </select>
 <div class="class-index">
   <select [ngModel]="startIndex" (ngModelChange)="selectStartIndex($event)">
-    <option value="1">第1节</option>
-    <option value="2">第2节</option>
-    <option value="3">第3节</option>
-    <option value="4">第4节</option>
-    <option value="5">第5节</option>
-    <option value="6">第6节</option>
-    <option value="7">第7节</option>
-    <option value="8">第8节</option>
-    <option value="9">第9节</option>
-    <option value="10">第10节</option>
-    <option value="11">第11节</option>
+    <option *ngFor="let o of options; let i = index" [value]="i+1">第{{i+1}}节</option>
   </select>
   <div class="seperator">—</div>
   <select [ngModel]="endIndex" (ngModelChange)="selectEndIndex($event)">
-    <option value="1">第1节</option>
-    <option value="2">第2节</option>
-    <option value="3">第3节</option>
-    <option value="4">第4节</option>
-    <option value="5">第5节</option>
-    <option value="6">第6节</option>
-    <option value="7">第7节</option>
-    <option value="8">第8节</option>
-    <option value="9">第9节</option>
-    <option value="10">第10节</option>
-    <option value="11">第11节</option>
+    <option *ngFor="let o of options; let i = index" [value]="i+1">第{{i+1}}节</option>
   </select>
 </div>
+<div class="clear"></div>

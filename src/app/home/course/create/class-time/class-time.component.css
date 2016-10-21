@@ -1,3 +1,7 @@
+:host {
+  display: block;  
+}
+
 .day {
   float: left;
   width: 30%;
@@ -20,4 +24,8 @@
 .seperator {  
   padding: 0 1px;
   text-align: center;
+}
+
+.clear {
+  clear: both;
 }
