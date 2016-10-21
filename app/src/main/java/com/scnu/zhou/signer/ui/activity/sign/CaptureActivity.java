@@ -75,6 +75,7 @@ public class CaptureActivity extends BaseSlideActivity implements Callback {
 				Intent intent = new Intent(CaptureActivity.this, InputSignActivity.class);
 				startActivity(intent);
 				overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+				finish();
 			}
 		});
 

@@ -15,7 +15,8 @@
             android:layout_weight="1"
             android:text="1"
             android:background="@drawable/btn_keyboard_selector"
-            android:layout_margin="5dp"/>
+            android:layout_margin="5dp"
+            style="?android:attr/borderlessButtonStyle"/>
 
         <Button
             android:id="@+id/button2"
@@ -24,7 +25,8 @@
             android:layout_weight="1"
             android:text="2"
             android:background="@drawable/btn_keyboard_selector"
-            android:layout_margin="5dp"/>
+            android:layout_margin="5dp"
+            style="?android:attr/borderlessButtonStyle"/>
 
         <Button
             android:id="@+id/button3"
@@ -33,7 +35,8 @@
             android:layout_weight="1"
             android:text="3"
             android:background="@drawable/btn_keyboard_selector"
-            android:layout_margin="5dp"/>
+            android:layout_margin="5dp"
+            style="?android:attr/borderlessButtonStyle"/>
 
     </LinearLayout>
 
@@ -49,7 +52,8 @@
             android:layout_weight="1"
             android:text="4"
             android:background="@drawable/btn_keyboard_selector"
-            android:layout_margin="5dp"/>
+            android:layout_margin="5dp"
+            style="?android:attr/borderlessButtonStyle"/>
 
         <Button
             android:id="@+id/button5"
@@ -58,7 +62,8 @@
             android:layout_weight="1"
             android:text="5"
             android:background="@drawable/btn_keyboard_selector"
-            android:layout_margin="5dp"/>
+            android:layout_margin="5dp"
+            style="?android:attr/borderlessButtonStyle"/>
 
         <Button
             android:id="@+id/button6"
@@ -67,7 +72,8 @@
             android:layout_weight="1"
             android:text="6"
             android:background="@drawable/btn_keyboard_selector"
-            android:layout_margin="5dp"/>
+            android:layout_margin="5dp"
+            style="?android:attr/borderlessButtonStyle"/>
 
     </LinearLayout>
 
@@ -83,7 +89,8 @@
             android:layout_weight="1"
             android:text="7"
             android:background="@drawable/btn_keyboard_selector"
-            android:layout_margin="5dp"/>
+            android:layout_margin="5dp"
+            style="?android:attr/borderlessButtonStyle"/>
 
         <Button
             android:id="@+id/button8"
@@ -92,7 +99,8 @@
             android:layout_weight="1"
             android:text="8"
             android:background="@drawable/btn_keyboard_selector"
-            android:layout_margin="5dp"/>
+            android:layout_margin="5dp"
+            style="?android:attr/borderlessButtonStyle"/>
 
         <Button
             android:id="@+id/button9"
@@ -101,7 +109,8 @@
             android:layout_weight="1"
             android:text="9"
             android:background="@drawable/btn_keyboard_selector"
-            android:layout_margin="5dp"/>
+            android:layout_margin="5dp"
+            style="?android:attr/borderlessButtonStyle"/>
 
     </LinearLayout>
 
@@ -116,7 +125,8 @@
             android:layout_weight="1"
             android:text=""
             android:background="@drawable/btn_keyboard_selector"
-            android:layout_margin="5dp"/>
+            android:layout_margin="5dp"
+            style="?android:attr/borderlessButtonStyle"/>
 
         <Button
             android:id="@+id/button0"
@@ -125,7 +135,8 @@
             android:layout_weight="1"
             android:text="0"
             android:background="@drawable/btn_keyboard_selector"
-            android:layout_margin="5dp"/>
+            android:layout_margin="5dp"
+            style="?android:attr/borderlessButtonStyle"/>
 
         <Button
             android:id="@+id/button_delete"
@@ -134,7 +145,8 @@
             android:layout_weight="1"
             android:text="del"
             android:background="@drawable/btn_keyboard_selector"
-            android:layout_margin="5dp"/>
+            android:layout_margin="5dp"
+            style="?android:attr/borderlessButtonStyle"/>
 
     </LinearLayout>
 

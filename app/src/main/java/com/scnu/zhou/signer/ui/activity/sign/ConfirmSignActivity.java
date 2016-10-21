@@ -104,32 +104,35 @@ public class ConfirmSignActivity extends BaseSlideActivity implements ISignView{
 
             ScanResult result = response.getData();
 
-            tv_title.setText(result.getCourse().getName());
-            tv_name.setText(result.getCourse().getName());
-            tv_location.setText(result.getCourse().getLocation());
-            tv_teacher.setText(result.getCourse().getTeacherName());
+            if (result != null) {
 
-            //Log.e("data", result.getCourse().getTime());
-            //String time = "星期一 1节-3节,星期四 5节-8节";
-            String time = result.getCourse().getTime();
-            String[] sessions = time.split(",");   // 按逗号分开
+                tv_title.setText(result.getCourse().getName());
+                tv_name.setText(result.getCourse().getName());
+                tv_location.setText(result.getCourse().getLocation());
+                tv_teacher.setText(result.getCourse().getTeacherName());
 
-            String week = "";
-            String session = "";
-            for (String se:sessions){
-                String[] s = se.split("\\s+");    // 按空格分开
-                if (week.equals("")) week += s[0];
-                else week += ";" + s[0];
-                if (session.equals("")) session += s[1];
-                else session += ";" + s[1];
+                //Log.e("data", result.getCourse().getTime());
+                //String time = "星期一 1节-3节,星期四 5节-8节";
+                String time = result.getCourse().getTime();
+                String[] sessions = time.split(",");   // 按逗号分开
+
+                String week = "";
+                String session = "";
+                for (String se : sessions) {
+                    String[] s = se.split("\\s+");    // 按空格分开
+                    if (week.equals("")) week += s[0];
+                    else week += ";" + s[0];
+                    if (session.equals("")) session += s[1];
+                    else session += ";" + s[1];
+                }
+
+                tv_week.setText(week);
+                tv_session.setText(session);
+
+                signers = result.getRecords();
+                adapter = new SignerAdapter(this, signers);
+                gv_signer.setAdapter(adapter);
             }
-
-            tv_week.setText(week);
-            tv_session.setText(session);
-
-            signers = result.getRecords();
-            adapter = new SignerAdapter(this, signers);
-            gv_signer.setAdapter(adapter);
         }
         else{
 
@@ -137,6 +140,10 @@ public class ConfirmSignActivity extends BaseSlideActivity implements ISignView{
                     ResponseCodeUtil.getMessage(response.getCode()));
             toastView.setGravity(Gravity.CENTER, 0, 0);
             toastView.show();
+
+            if (response.getCode().equals("4000")){
+                finish();
+            }
         }
     }
 

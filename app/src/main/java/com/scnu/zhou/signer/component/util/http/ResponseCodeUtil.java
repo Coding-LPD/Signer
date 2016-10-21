@@ -58,6 +58,9 @@ public class ResponseCodeUtil {
         else if (code.equals("3004")){
             return "无效的smsid";
         }
+        else if (code.equals("4000")){
+            return "未找到相应签到信息";
+        }
         else if (code.equals("401")){
             return "认证信息有误";
         }

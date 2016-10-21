@@ -218,7 +218,7 @@ public class UserInfoActivity extends BaseSlideActivity implements IUserInfoView
                 if (diff > 10) {
                     RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) civ_user_header.getLayoutParams();
 
-                    if (params.width > 75) {
+                    if (params.width > 0.4 * header_width) {
                         params.height -= (int) (diff * 0.1);
                         params.width -= (int) (diff * 0.1);
                         civ_user_header.setLayoutParams(params);
@@ -235,9 +235,9 @@ public class UserInfoActivity extends BaseSlideActivity implements IUserInfoView
                 }
 
                 RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) civ_user_header.getLayoutParams();
-                if (params.width < 75){
-                    params.height = 75;
-                    params.width = 75;
+                if (params.width < 0.4 * header_width){
+                    params.height = (int)(0.4 * header_width);
+                    params.width = (int)(0.4 * header_width);
                     civ_user_header.setLayoutParams(params);
                 }
                 else if (params.width > header_width){

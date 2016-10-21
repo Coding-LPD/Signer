@@ -7,65 +7,6 @@
 
     <include layout="@layout/actionbar_main"/>
 
-    <!--
-    <LinearLayout
-        android:id="@+id/ll_profile"
-        android:layout_width="match_parent"
-        android:layout_height="116dp"
-        android:layout_marginTop="51dp"
-        android:background="#fff"
-        android:gravity="center_horizontal"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/tv_user_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#333"
-            android:textSize="16sp"
-            android:layout_marginTop="55dp"/>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="5dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#333"
-                android:textSize="16sp"
-                android:text="0"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#666"
-                android:textSize="12sp"
-                android:text="@string/info_sign"
-                android:layout_marginLeft="2dp"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#333"
-                android:textSize="16sp"
-                android:text="0"
-                android:layout_marginLeft="3dp"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#666"
-                android:textSize="12sp"
-                android:text="@string/info_speak"
-                android:layout_marginLeft="2dp"/>
-
-        </LinearLayout>
-
-    </LinearLayout>-->
-
     <ListView
         android:id="@+id/lv_cell"
         android:layout_width="match_parent"
@@ -81,7 +22,7 @@
         android:id="@+id/civ_user_header"
         android:layout_width="76dp"
         android:layout_height="76dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="12dp"
         android:layout_centerHorizontal="true"
         android:src="@drawable/default_header_male"
         app:border_width="0dp"
@@ -94,115 +35,5 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:background="@drawable/icon_loading_rotate" />
-
-    <!--
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scrollbars="none"
-        android:layout_below="@+id/ll_profile">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingBottom="20dp">
-
-            <com.scnu.zhou.signer.view.cell.TitleTextCell
-                android:id="@+id/numCell"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cell_title="学号"
-                app:cell_text="20132100118"
-                app:cell_isdivider="true"
-                android:layout_marginTop="16dp">
-
-            </com.scnu.zhou.signer.view.cell.TitleTextCell>
-
-            <com.scnu.zhou.signer.view.cell.TitleTextCell
-                android:id="@+id/nameCell"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cell_title="姓名"
-                app:cell_text="周楚鹏"
-                app:cell_isdivider="true">
-
-            </com.scnu.zhou.signer.view.cell.TitleTextCell>
-
-            <com.scnu.zhou.signer.view.cell.TitleTextCell
-                android:id="@+id/genderCell"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cell_title="性别"
-                app:cell_text="保密"
-                app:cell_isdivider="false">
-
-            </com.scnu.zhou.signer.view.cell.TitleTextCell>
-
-            <com.scnu.zhou.signer.view.cell.TitleTextCell
-                android:id="@+id/schoolCell"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cell_title="学校"
-                app:cell_text="华南师范大学"
-                app:cell_isdivider="true"
-                android:layout_marginTop="16dp">
-
-            </com.scnu.zhou.signer.view.cell.TitleTextCell>
-
-            <com.scnu.zhou.signer.view.cell.TitleTextCell
-                android:id="@+id/academyCell"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cell_title="学院"
-                app:cell_text="计算机学院"
-                app:cell_isdivider="true">
-
-            </com.scnu.zhou.signer.view.cell.TitleTextCell>
-
-            <com.scnu.zhou.signer.view.cell.TitleTextCell
-                android:id="@+id/majorCell"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cell_title="专业"
-                app:cell_text="软件应用技术"
-                app:cell_isdivider="false">
-
-            </com.scnu.zhou.signer.view.cell.TitleTextCell>
-
-            <com.scnu.zhou.signer.view.cell.TitleTextCell
-                android:id="@+id/gradeCell"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cell_title="年级"
-                app:cell_text="2013级"
-                app:cell_isdivider="true"
-                android:layout_marginTop="16dp">
-
-            </com.scnu.zhou.signer.view.cell.TitleTextCell>
-
-            <com.scnu.zhou.signer.view.cell.TitleTextCell
-                android:id="@+id/classCell"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cell_title="班级"
-                app:cell_text="5班"
-                app:cell_isdivider="true">
-
-            </com.scnu.zhou.signer.view.cell.TitleTextCell>
-
-            <com.scnu.zhou.signer.view.cell.TitleTextCell
-                android:id="@+id/emailCell"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cell_title="邮箱"
-                app:cell_text="752979730@qq.com"
-                app:cell_isdivider="false">
-
-            </com.scnu.zhou.signer.view.cell.TitleTextCell>
-
-        </LinearLayout>
-
-    </ScrollView>-->
 
 </RelativeLayout>
