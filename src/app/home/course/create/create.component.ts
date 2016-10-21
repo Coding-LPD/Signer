@@ -34,7 +34,11 @@ export class CreateComponent implements OnInit {
   }
 
   saveCourse(course: Course) {    
-    course.time = this.courseTimes.join(',');
+    var times: string[] = [];
+    this.courseTimes.forEach(function (v, i) {
+      times.push(v.value);
+    })
+    course.time = times.join(',');
     this._courseService.createCourse(course)
       .subscribe(body => {
         if (+body.code == 200) {
