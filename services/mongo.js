@@ -11,6 +11,7 @@ var course = require('../models/course');
 var sign = require('../models/sign');
 var signStudent = require('../models/sign-student');
 var signRecord = require('../models/sign-record');
+var position = require('../models/position');
 
 mongoose.connect(config.connection);
 mongoose.set('debug', config.debug);
@@ -27,6 +28,7 @@ var CourseSchema = mongoose.Schema(course);
 var SignSchema = mongoose.Schema(sign.model);
 var SignStudentSchema = mongoose.Schema(signStudent);
 var SignRecordSchema = mongoose.Schema(signRecord);
+var PositionSchema = mongoose.Schema(position);
 
 SignSchema.statics = sign.statics;
 
@@ -37,6 +39,7 @@ var Course = mongoose.model('course', CourseSchema);
 var Sign = mongoose.model('sign', SignSchema);
 var SignStudent = mongoose.model('signStudent', SignStudentSchema);
 var SignRecord = mongoose.model('signRecord', SignRecordSchema);
+var Position = mongoose.model('position', PositionSchema);
 
 exports.User = User;
 exports.Student = Student;
@@ -45,3 +48,4 @@ exports.Course = Course;
 exports.Sign = Sign;
 exports.SignStudent = SignStudent;
 exports.SignRecord = SignRecord;
+exports.Position = Position;
