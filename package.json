@@ -63,7 +63,7 @@
       "Sign",
       "GetSign",
       "PostSign",
-      "PostSignScanning"
+      "GetSignScanning"
     ],
     "template": {
       "withGenerator": false

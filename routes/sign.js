@@ -6,6 +6,7 @@ var handleErrors = require('../services/error-handler').handleErrors;
 var sendInfo = require('../services/error-handler').sendInfo; 
 var errorCodes = require('../services/error-codes').errorCodes;
 var common = require('../services/common');
+var Teacher = require('../services/mongo').Teacher;
 var Course = require('../services/mongo').Course;
 var Sign = require('../services/mongo').Sign;
 var SignRecord = require('../services/mongo').SignRecord;
@@ -109,7 +110,7 @@ router.post('/search', function (req, res) {
   });
 });
 
-router.post('/scanning/:code', function (req, res) {
+router.get('/scanning/:code', function (req, res) {
   Sign.find({code: req.params['code']}, function (err, signs) {
     if (err) {
       handleErrors(err, res, {});
@@ -122,11 +123,13 @@ router.post('/scanning/:code', function (req, res) {
     var sign = signs[0];
     
     var promises = [];
-    promises.push(Course.findById(sign.get('courseId')));
-    promises.push(SignRecord.find({signId: sign._id}, null, { limit: 10 }));
+    promises.push(Course.findById(sign.get('courseId'), 'name time location'));
+    promises.push(Teacher.findById(sign.get('teacherId'), 'name'));
+    promises.push(SignRecord.find({signId: sign._id}, 'studentName studentAvatar', { limit: 10, sort: { createdAt: -1 } }));
     Promise.all(promises).then(function (findedData) {
-      var course = findedData[0];
-      var signRecords = findedData[1];
+      var course = findedData[0].toObject();
+      course.teacherName = findedData[1].get('name');
+      var signRecords = findedData[2];
       if (!course) {
         sendInfo(errorCodes.SignNotRelatedCourse, res, {});
         return;

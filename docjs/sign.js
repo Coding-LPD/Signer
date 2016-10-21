@@ -52,9 +52,9 @@
  */
 
 /**
- * @api {post} /signs/scanning/:code 扫描
+ * @api {get} /signs/scanning/:code 扫描
  * @apiVersion 1.0.0
- * @apiName PostSignScanning
+ * @apiName GetSignScanning
  * @apiGroup Sign
  * @apiDescription 根据签到码code，返回相关课程信息与最后10条学生的签到信息
  * 
