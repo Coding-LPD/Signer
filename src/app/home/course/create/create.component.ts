@@ -5,6 +5,10 @@ import { Course } from '../../../shared';
 import { LoginService } from '../../../login';
 import { CourseService } from '../course.service';
 
+interface WrapString {
+  value: string;
+}
+
 @Component({
   selector: 'create',
   templateUrl: './create.component.html',
@@ -12,7 +16,9 @@ import { CourseService } from '../course.service';
 })
 export class CreateComponent implements OnInit {
 
-  course = new Course();
+  private _defaultTime = '星期一 1节-2节';
+  course = new Course();  
+  courseTimes: WrapString[] = [{value:this._defaultTime}];
 
   constructor(
     private _router: Router,
@@ -28,15 +34,24 @@ export class CreateComponent implements OnInit {
   }
 
   saveCourse(course: Course) {    
+    course.time = this.courseTimes.join(',');
     this._courseService.createCourse(course)
       .subscribe(body => {
         if (+body.code == 200) {
           alert('创建成功');
           this._router.navigate(['/home/course']);
         } else {
-          alert(body.data);
+          alert(body.msg);
         }
       });
+  }
+
+  addClassTime() {
+    this.courseTimes.push({value:this._defaultTime});
+  }
+
+  customTrackBy(index: number, obj: any): any {
+    return index;
   }
 
 }

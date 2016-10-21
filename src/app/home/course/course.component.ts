@@ -48,11 +48,11 @@ export class CourseComponent implements OnInit {
           if (+body.code == 200) {
             this.courses = body.data;
           } else {
-            alert(body.data);
+            alert(body.msg);
           }
         });
       } else {
-        alert(body.data);
+        alert(body.msg);
       }
     })
   }

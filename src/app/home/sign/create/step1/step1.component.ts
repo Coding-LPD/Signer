@@ -30,7 +30,7 @@ export class Step1Component implements OnInit {
         this.courses = body.data;
         this.selectedCourse = this._signService.course ? this._signService.course : '';
       } else {
-        alert(body.data);
+        alert(body.msg);
       }
     })
   }

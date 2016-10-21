@@ -36,7 +36,7 @@ export class LoginComponent {
             this.popup.show('登录成功');
             setTimeout(() => this._router.navigate([redirectUrl]), 1500);            
           } else {
-            this.popup.show(body.data);
+            this.popup.show(body.msg);
           }
         }); 
     } else {
@@ -47,7 +47,7 @@ export class LoginComponent {
             this.popup.show('登录成功');  
             setTimeout(() => this._router.navigate([redirectUrl]), 1500);          
           } else {
-            this.popup.show(body.data);
+            this.popup.show(body.msg);
           }
         });
     }       

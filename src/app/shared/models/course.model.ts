@@ -7,11 +7,8 @@ export class Course {
     public location?: string,
     public time?: string,
     public academy?: string,
-    public startTime?: string,
-    public endTime?: string,
     public studentCount?: number,
-    public signCount?: number,
-    public state?: string
+    public signCount?: number
   ) {}
 
 }

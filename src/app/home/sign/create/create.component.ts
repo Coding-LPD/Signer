@@ -43,7 +43,7 @@ export class CreateComponent {
           this.complete = true;
           this._router.navigate(['/home/sign/create/complete']);
         } else {
-          alert(body.data);
+          alert(body.msg);
         }
       })    
   }

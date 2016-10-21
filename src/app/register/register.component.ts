@@ -32,7 +32,7 @@ export class RegisterComponent {
           // 验证码验证成功才能进行注册
           this.register(user);          
         } else {
-          this.popup.show(body.data);
+          this.popup.show(body.msg);
         }
       });
   }

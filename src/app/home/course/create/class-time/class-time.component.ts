@@ -7,9 +7,9 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 })
 export class ClassTimeComponent {
 
-  day = '星期一';
-  startIndex = 1;
-  endIndex = 1;
+  day = '';
+  startIndex = 0;
+  endIndex = 0;
   minIndex = 1;
   maxIndex = 11;
   // 用于生成option选项
@@ -41,15 +41,29 @@ export class ClassTimeComponent {
     this.timeChange.emit(this.getTimeString());
   }
 
-  selectStartIndex(startIndex: number) {
-    this.startIndex = startIndex;
+  selectStartIndex(startIndex: string) {
+    this.startIndex = Number(startIndex);
     this.checkIndex();
+    // var si = Number(startIndex);
+    // if (si > this.endIndex) {
+    //   this.startIndex = this.endIndex;
+    //   this.endIndex = si;
+    // } else {
+    //   this.startIndex = si;
+    // }
     this.timeChange.emit(this.getTimeString());
   }
 
-  selectEndIndex(endIndex: number) {
-    this.endIndex = endIndex;
+  selectEndIndex(endIndex: string) {
+    this.endIndex = Number(endIndex);
     this.checkIndex();
+    // var ei = Number(endIndex);
+    // if (ei < this.startIndex) {
+    //   this.endIndex = this.startIndex;
+    //   this.startIndex = ei;
+    // } else {
+    //   this.endIndex = ei;
+    // }
     this.timeChange.emit(this.getTimeString());
   }
 

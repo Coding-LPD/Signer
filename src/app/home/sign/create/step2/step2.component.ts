@@ -29,7 +29,7 @@ export class Step2Component implements OnInit {
         this.courses = body.data;
         this.selectedCourse = this._signService.relatedCourse ? this._signService.relatedCourse : '';
       } else {
-        alert(body.data);
+        alert(body.msg);
       }
     }) 
   }

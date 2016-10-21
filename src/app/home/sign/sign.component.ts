@@ -50,11 +50,11 @@ export class SignComponent implements OnInit {
           if (+body.code ==200) {
             this.signs = body.data;
           } else {
-            alert(body.data);
+            alert(body.msg);
           }
         });
       } else {
-        alert(body.data);
+        alert(body.msg);
       }      
     })    
   }
