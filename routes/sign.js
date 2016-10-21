@@ -129,12 +129,20 @@ router.get('/scanning/:code', function (req, res) {
     Promise.all(promises).then(function (findedData) {
       var course = findedData[0].toObject();
       course.teacherName = findedData[1].get('name');
-      var signRecords = findedData[2];
+      // 格式化返回值的属性名
+      var records = [];
+      findedData[2].forEach(function (value, index) {
+        records[index] = {
+          _id: value._id,
+          name: value.get('studentName'),
+          avatar: value.get('studentAvatar')
+        };
+      });
       if (!course) {
         sendInfo(errorCodes.SignNotRelatedCourse, res, {});
         return;
       }
-      sendInfo(errorCodes.Success, res, { course, records: signRecords });            
+      sendInfo(errorCodes.Success, res, { course, records });            
     }).catch(function (err) {
       handleErrors(err, res, {});
     })
