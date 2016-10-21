@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
@@ -12,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.scnu.zhou.signer.R;
@@ -37,6 +40,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnItemClick;
+import butterknife.OnTouch;
 
 /**
  * Created by zhou on 16/9/6.
@@ -53,7 +57,10 @@ public class UserInfoActivity extends BaseSlideActivity implements IUserInfoView
 
 
     @Bind(R.id.civ_user_header) CircleImageView civ_user_header;
-    @Bind(R.id.tv_user_name) TextView tv_user_name;
+    private TextView tv_user_name;
+    private View header_profile = null;
+    private int header_width = 0;
+    private int scrollY = 0;
 
     private Context context;
     private String userid = "";
@@ -80,6 +87,15 @@ public class UserInfoActivity extends BaseSlideActivity implements IUserInfoView
 
         ll_return.setVisibility(View.VISIBLE);
 
+        header_profile = LayoutInflater.from(this).inflate(R.layout.headerview_userinfo, null);
+        lv_cell.addHeaderView(header_profile);
+
+        // 获取头像原始宽度
+        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) civ_user_header.getLayoutParams();
+        header_width = params.width;
+
+        // 设置头像姓名
+        tv_user_name = (TextView) header_profile.findViewById(R.id.tv_user_name);
         ImageLoaderUtil.getInstance().displayHeaderImage(civ_user_header, UserCache.getInstance().getAvatar(context));
         tv_user_name.setText(UserCache.getInstance().getName(context));
 
@@ -143,47 +159,101 @@ public class UserInfoActivity extends BaseSlideActivity implements IUserInfoView
     @OnItemClick(R.id.lv_cell)
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-        if (cellBeen.get(position).getTitle().equals("性别")) {
+        if (position != 0) {
 
-            List<String> genders = new ArrayList<>();
-            genders.add("男");
-            genders.add("女");
-            genders.add("保密");
-            new GenderPicker().show(this, genders);
-        }
-        else if (cellBeen.get(position).getTitle().equals("年级")) {
+            if (cellBeen.get(position - 1).getTitle().equals("性别")) {
 
-            Calendar calendar = Calendar.getInstance();
-            int year = calendar.get(Calendar.YEAR);
-            List<String> grades = new ArrayList<>();
-            grades.add(year + "级");
-            grades.add(year - 1 + "级");
-            grades.add(year - 2 + "级");
-            grades.add(year - 3 + "级");
-            new GradePicker().show(this, grades);
-        }
-        else if (cellBeen.get(position).getTitle().equals("班级")) {
+                List<String> genders = new ArrayList<>();
+                genders.add("男");
+                genders.add("女");
+                genders.add("保密");
+                new GenderPicker().show(this, genders);
+            } else if (cellBeen.get(position - 1).getTitle().equals("年级")) {
 
-            List<String> classes = new ArrayList<>();
-            classes.add("1班");
-            classes.add("2班");
-            classes.add("3班");
-            classes.add("4班");
-            classes.add("5班");
-            classes.add("6班");
-            classes.add("7班");
-            classes.add("8班");
-            new ClassPicker().show(this, classes);
-        }
-        else {
-            Intent intent = new Intent(this, EditInfoActivity.class);
-            intent.putExtra("userid", userid);
-            intent.putExtra("title", cellBeen.get(position).getTitle());
-            intent.putExtra("text", cellBeen.get(position).getText());
-            startActivity(intent);
-            overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+                Calendar calendar = Calendar.getInstance();
+                int year = calendar.get(Calendar.YEAR);
+                List<String> grades = new ArrayList<>();
+                grades.add(year + "级");
+                grades.add(year - 1 + "级");
+                grades.add(year - 2 + "级");
+                grades.add(year - 3 + "级");
+                new GradePicker().show(this, grades);
+            } else if (cellBeen.get(position - 1).getTitle().equals("班级")) {
+
+                List<String> classes = new ArrayList<>();
+                classes.add("1班");
+                classes.add("2班");
+                classes.add("3班");
+                classes.add("4班");
+                classes.add("5班");
+                classes.add("6班");
+                classes.add("7班");
+                classes.add("8班");
+                new ClassPicker().show(this, classes);
+            } else {
+                Intent intent = new Intent(this, EditInfoActivity.class);
+                intent.putExtra("userid", userid);
+                intent.putExtra("title", cellBeen.get(position - 1).getTitle());
+                intent.putExtra("text", cellBeen.get(position - 1).getText());
+                startActivity(intent);
+                overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+            }
         }
     }
+
+    int startY = 0;
+    // 监听ListView滑动事件
+    @OnTouch(R.id.lv_cell)
+    public boolean onTouch(View v, MotionEvent event) {
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                // 触摸按下时的操作
+                startY = (int) event.getY();
+                break;
+            case MotionEvent.ACTION_MOVE:
+                // 触摸移动时的操作
+                int moveY = (int) event.getY();
+
+                int diff = startY - moveY;
+                if (diff > 10) {
+                    RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) civ_user_header.getLayoutParams();
+
+                    if (params.width > 75) {
+                        params.height -= (int) (diff * 0.1);
+                        params.width -= (int) (diff * 0.1);
+                        civ_user_header.setLayoutParams(params);
+                    }
+                }
+                else if (-diff > 10) {
+                    RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) civ_user_header.getLayoutParams();
+
+                    if (params.width < header_width) {
+                        params.height += (int) (-diff * 0.1);
+                        params.width += (int) (-diff * 0.1);
+                        civ_user_header.setLayoutParams(params);
+                    }
+                }
+
+                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) civ_user_header.getLayoutParams();
+                if (params.width < 75){
+                    params.height = 75;
+                    params.width = 75;
+                    civ_user_header.setLayoutParams(params);
+                }
+                else if (params.width > header_width){
+                    params.height = header_width;
+                    params.width = header_width;
+                    civ_user_header.setLayoutParams(params);
+                }
+                break;
+            case MotionEvent.ACTION_UP:
+                // 触摸抬起时的操作
+
+                break;
+        }
+        return false;
+    }
+
 
     /**
      * 性别选择picker
@@ -235,6 +305,9 @@ public class UserInfoActivity extends BaseSlideActivity implements IUserInfoView
     @Override
     public void onGetStudentInfoSuccess(ResultResponse<List<Student>> response) {
 
+        iv_loading.clearAnimation();
+        iv_loading.setVisibility(View.GONE);
+
         if (response.getCode().equals("200")){
 
             userid = response.getData().get(0).get_id();
@@ -265,7 +338,6 @@ public class UserInfoActivity extends BaseSlideActivity implements IUserInfoView
             cellTexts[7] = response.getData().get(0).get_class();
             cellTexts[8] = response.getData().get(0).getMail();
 
-            iv_loading.setVisibility(View.GONE);
 
             initCell();
         }
@@ -283,7 +355,8 @@ public class UserInfoActivity extends BaseSlideActivity implements IUserInfoView
     public void onGetStudentInfoError(Throwable e) {
 
         Log.e("get info error", e.toString());
-
+        iv_loading.clearAnimation();
+        iv_loading.setVisibility(View.GONE);
         ToastView toastView = new ToastView(UserInfoActivity.this, "请检查您的网络连接");
         toastView.setGravity(Gravity.CENTER, 0, 0);
         toastView.show();
@@ -330,6 +403,24 @@ public class UserInfoActivity extends BaseSlideActivity implements IUserInfoView
     protected void onResume() {
         super.onResume();
 
+        lv_cell.scrollTo(0, scrollY);
         loadData();
+    }
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        scrollY = getScrollY();
+    }
+
+    public int getScrollY() {
+        View c = lv_cell.getChildAt(0);
+        if (c == null) {
+            return 0;
+        }
+        int firstVisiblePosition = lv_cell.getFirstVisiblePosition();
+        int top = c.getTop();
+        return -top + firstVisiblePosition * c.getHeight() ;
     }
 }
