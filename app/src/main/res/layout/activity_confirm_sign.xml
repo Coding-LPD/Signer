@@ -14,9 +14,9 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/tv_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="软件工程"
             android:textSize="18sp"
             android:textColor="#333"
             android:layout_margin="15dp"/>
@@ -27,7 +27,8 @@
             android:orientation="horizontal"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
-            android:layout_marginBottom="14dp">
+            android:layout_marginBottom="14dp"
+            android:gravity="center_vertical">
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -45,7 +46,6 @@
                     android:id="@+id/tv_week"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="周二"
                     android:textColor="#555"
                     android:textSize="13sp"
                     android:layout_marginLeft="10dp"/>
@@ -68,7 +68,6 @@
                     android:id="@+id/tv_session"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="第1 - 2节"
                     android:textColor="#555"
                     android:textSize="13sp"
                     android:layout_marginLeft="10dp"/>
@@ -83,7 +82,8 @@
             android:orientation="horizontal"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
-            android:layout_marginBottom="15dp">
+            android:layout_marginBottom="15dp"
+            android:gravity="center_vertical">
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -101,7 +101,6 @@
                     android:id="@+id/tv_location"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="南508"
                     android:textColor="#555"
                     android:textSize="13sp"
                     android:layout_marginLeft="10dp"/>
@@ -124,7 +123,6 @@
                     android:id="@+id/tv_teacher"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="庞雄文"
                     android:textColor="#555"
                     android:textSize="13sp"
                     android:layout_marginLeft="10dp"/>

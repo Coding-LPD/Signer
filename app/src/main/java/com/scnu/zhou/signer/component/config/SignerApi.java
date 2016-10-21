@@ -75,7 +75,6 @@ public interface SignerApi {
     /**
      * Scan and Sign
      */
-    @FormUrlEncoded
-    @PUT("/api/signs/scanning/{code}")    // 根据签到码获取课程和签到信息
+    @GET("/api/signs/scanning/{code}")    // 根据签到码获取课程和签到信息
     Observable<ResultResponse<ScanResult>> getScanResult(@Path("code") String code);
 }
