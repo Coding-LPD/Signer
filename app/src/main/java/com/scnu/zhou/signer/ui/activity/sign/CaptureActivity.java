@@ -72,7 +72,7 @@ public class CaptureActivity extends BaseSlideActivity implements Callback {
 		tv_right.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(CaptureActivity.this, ConfirmSignActivity.class);
+				Intent intent = new Intent(CaptureActivity.this, InputSignActivity.class);
 				startActivity(intent);
 				overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
 			}
