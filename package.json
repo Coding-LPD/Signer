@@ -62,7 +62,8 @@
       "PostCourseSearch",
       "Sign",
       "GetSign",
-      "PostSign"
+      "PostSign",
+      "PostSignScanning"
     ],
     "template": {
       "withGenerator": false

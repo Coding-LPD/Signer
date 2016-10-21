@@ -50,3 +50,27 @@
  *      msg:  "错误信息"
  *    }
  */
+
+/**
+ * @api {post} /signs/scanning/:code 扫描
+ * @apiVersion 1.0.0
+ * @apiName PostSignScanning
+ * @apiGroup Sign
+ * @apiDescription 根据签到码code，返回相关课程信息与最后10条学生的签到信息
+ * 
+ * @apiSuccessExample 成功
+ *    HTTP/1.1 200 OK
+ *    {
+ *      code: "200",
+ *      data: { course: {}, records: [] },
+ *      msg:  "操作成功"
+ *    }
+ * 
+ * @apiErrorExample 失败：
+ *    HTTP/1.1 200 OK
+ *    {
+ *      code: "XXXX",
+ *      data: {},         // 空对象
+ *      msg:  "错误信息"
+ *    }
+ */

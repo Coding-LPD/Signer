@@ -8,6 +8,7 @@ var errorCodes = require('../services/error-codes').errorCodes;
 var common = require('../services/common');
 var Course = require('../services/mongo').Course;
 var Sign = require('../services/mongo').Sign;
+var SignRecord = require('../services/mongo').SignRecord;
 
 router.get('/', function (req, res) {
   Sign.find(function (err, signs) {
@@ -18,6 +19,16 @@ router.get('/', function (req, res) {
     }
   });
 });
+
+router.get('/:id', function (req, res){
+  Sign.findById(req.params['id'], function (err, sign) {
+    if (err) {
+      handleErrors(err, res, {});
+    } else {
+      sendInfo(errorCodes.Success, res, sign);
+    }
+  });
+}); 
 
 router.post('/', function (req, res) {
   var courseId = req.body.courseId;
@@ -95,6 +106,35 @@ router.post('/search', function (req, res) {
     } else {
       handleErrors(err, res, []);
     }
+  });
+});
+
+router.post('/scanning/:code', function (req, res) {
+  Sign.find({code: req.params['code']}, function (err, signs) {
+    if (err) {
+      handleErrors(err, res, {});
+      return;
+    }
+    if (signs.length == 0) {
+      sendInfo(errorCodes.SignNotExist, res, {});
+      return;
+    }
+    var sign = signs[0];
+    
+    var promises = [];
+    promises.push(Course.findById(sign.get('courseId')));
+    promises.push(SignRecord.find({signId: sign._id}, null, { limit: 10 }));
+    Promise.all(promises).then(function (findedData) {
+      var course = findedData[0];
+      var signRecords = findedData[1];
+      if (!course) {
+        sendInfo(errorCodes.SignNotRelatedCourse, res, {});
+        return;
+      }
+      sendInfo(errorCodes.Success, res, { course, records: signRecords });            
+    }).catch(function (err) {
+      handleErrors(err, res, {});
+    })
   });
 });
 

@@ -37,7 +37,8 @@ define({
     "PostCourseSearch",
     "Sign",
     "GetSign",
-    "PostSign"
+    "PostSign",
+    "PostSignScanning"
   ],
   "template": {
     "withGenerator": false
@@ -46,7 +47,7 @@ define({
   "apidoc": "0.2.0",
   "generator": {
     "name": "apidoc",
-    "time": "2016-09-19T08:21:27.859Z",
+    "time": "2016-10-21T02:32:03.404Z",
     "url": "http://apidocjs.com",
     "version": "0.16.1"
   }

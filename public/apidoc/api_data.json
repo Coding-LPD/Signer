@@ -350,6 +350,35 @@
     "groupTitle": "签到"
   },
   {
+    "type": "post",
+    "url": "/signs/scanning/:code",
+    "title": "扫描",
+    "version": "1.0.0",
+    "name": "PostSignScanning",
+    "group": "Sign",
+    "description": "<p>根据签到码code，返回相关课程信息与最后10条学生的签到信息</p>",
+    "success": {
+      "examples": [
+        {
+          "title": "成功",
+          "content": "HTTP/1.1 200 OK\n{\n  code: \"200\",\n  data: { course: {}, records: [] },\n  msg:  \"操作成功\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "失败：",
+          "content": "HTTP/1.1 200 OK\n{\n  code: \"XXXX\",\n  data: {},         // 空对象\n  msg:  \"错误信息\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "docjs/sign.js",
+    "groupTitle": "签到"
+  },
+  {
     "type": "get",
     "url": "/smsCode/state?smsid=XXXX",
     "title": "查询状态",
