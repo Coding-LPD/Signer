@@ -1,13 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
-import { SignRecord } from '../../../shared';
+import { SignRecord, IPService } from '../../../shared';
 
 @Component({
   selector: 'detail',
   templateUrl: './detail.component.html',
   styleUrls: ['./detail.component.css']
 })
-export class DetailComponent {
+export class DetailComponent implements OnInit {
 
   radiosInactive = [false, true];
   isLargeQRCode = false;
@@ -43,6 +43,20 @@ export class DetailComponent {
       distance: 1000
     }
   ];
+
+  constructor(private _ipService: IPService) {}
+
+  ngOnInit() {
+    this._ipService.getIP()
+      .subscribe(body => {
+        if (body.ip.trim()) {
+          alert(body.ip);
+        } else {
+          alert('获取本机ip失败');
+          console.log(`body: ${JSON.stringify(body)}`);
+        }
+      });
+  }
 
   selectRadio(index: number) {
     this.radiosInactive.forEach((value: boolean, index: number) => {

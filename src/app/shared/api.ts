@@ -1,5 +1,8 @@
 export class API {
 
+  // ip service
+  static ipService = 'https://jsonip.com';
+
   // static domain = 'http://linkdust.xicp.net:50843/api';
   static domain = 'http://localhost:3000/api';
 

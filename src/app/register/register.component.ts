@@ -38,7 +38,6 @@ export class RegisterComponent {
   }
 
   register(user: User) {
-    console.log(this.extra.smsid);
     this._registerService.register(user.phone, user.password, user.role)
       .subscribe(body => {
         // 注册成功则提示成功，否则提示错误信息
