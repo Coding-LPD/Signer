@@ -1,4 +1,4 @@
-package com.scnu.zhou.signer.component.adapter;
+package com.scnu.zhou.signer.component.adapter.picker;
 
 import android.content.Context;
 import android.graphics.Color;

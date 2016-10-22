@@ -18,7 +18,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.scnu.zhou.signer.R;
-import com.scnu.zhou.signer.component.adapter.UserInfoCellAdapter;
+import com.scnu.zhou.signer.component.adapter.listview.UserInfoCellAdapter;
 import com.scnu.zhou.signer.component.bean.http.ResultResponse;
 import com.scnu.zhou.signer.component.bean.user.Student;
 import com.scnu.zhou.signer.component.bean.view.CellBean;

@@ -1,4 +1,4 @@
-package com.scnu.zhou.signer.component.adapter;
+package com.scnu.zhou.signer.component.adapter.listview;
 
 import android.app.Activity;
 import android.view.View;

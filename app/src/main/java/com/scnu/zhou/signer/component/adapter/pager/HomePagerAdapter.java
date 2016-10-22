@@ -1,4 +1,4 @@
-package com.scnu.zhou.signer.component.adapter;
+package com.scnu.zhou.signer.component.adapter.pager;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

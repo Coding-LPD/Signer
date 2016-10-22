@@ -6,7 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 
 import com.scnu.zhou.signer.R;
-import com.scnu.zhou.signer.component.adapter.HomePagerAdapter;
+import com.scnu.zhou.signer.component.adapter.pager.HomePagerAdapter;
 import com.scnu.zhou.signer.component.util.tabbar.TabBarManager;
 import com.scnu.zhou.signer.ui.activity.base.BaseFragmentActivity;
 import com.scnu.zhou.signer.ui.activity.sign.CaptureActivity;

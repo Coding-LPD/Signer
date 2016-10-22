@@ -10,7 +10,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 
 import com.scnu.zhou.signer.R;
-import com.scnu.zhou.signer.component.adapter.MenuPickerAdapter;
+import com.scnu.zhou.signer.component.adapter.picker.MenuPickerAdapter;
 
 import java.util.List;
 

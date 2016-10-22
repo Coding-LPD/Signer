@@ -62,6 +62,7 @@
     <string name="sign_student_tip">以下同学也参与了签到:</string>
     <string name="sign_before_course">课前签到</string>
     <string name="sign_after_course">课后签到</string>
-
     <string name="sign_input_title">请输入6位签到码</string>
+
+    <string name="listview_bottom_title">已经到达底部了哦</string>
 </resources>

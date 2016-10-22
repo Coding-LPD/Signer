@@ -1,4 +1,4 @@
-package com.scnu.zhou.signer.component.adapter;
+package com.scnu.zhou.signer.component.adapter.gridview;
 
 import android.content.Context;
 import android.view.View;
