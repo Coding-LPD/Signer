@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import com.scnu.zhou.signer.R;
 import com.scnu.zhou.signer.component.bean.http.ResultResponse;
-import com.scnu.zhou.signer.component.bean.user.User;
+import com.scnu.zhou.signer.component.bean.login.LoginResult;
 import com.scnu.zhou.signer.component.cache.UserCache;
 import com.scnu.zhou.signer.component.util.encrypt.RSAEncryptUtil;
 import com.scnu.zhou.signer.component.util.http.ResponseCodeUtil;
@@ -209,7 +209,7 @@ public class LoginActivity extends BaseActivity implements ILoginView, TextWatch
 
     // 登录成功
     @Override
-    public void onPostLoginSuccess(ResultResponse<User> response) {
+    public void onPostLoginSuccess(ResultResponse<LoginResult> response) {
 
         if (response.getCode().equals("200")){
 
@@ -222,6 +222,7 @@ public class LoginActivity extends BaseActivity implements ILoginView, TextWatch
             else {
                 UserCache.getInstance().login(this, et_user.getText(), et_password.getText());
             }
+            UserCache.getInstance().setId(this, response.getData().getId());
 
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(intent);

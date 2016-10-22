@@ -20,6 +20,12 @@ public class UserCache {
         return UserCacheHolder.instance;
     }
 
+    public String getId(Context context){
+
+        SharedPreferences sharedPreferences = context.getSharedPreferences("User", Context.MODE_PRIVATE);
+        return sharedPreferences.getString("_id", "");
+    }
+
     public String getPhone(Context context){
 
         SharedPreferences sharedPreferences = context.getSharedPreferences("User", Context.MODE_PRIVATE);
@@ -30,6 +36,13 @@ public class UserCache {
 
         SharedPreferences sharedPreferences = context.getSharedPreferences("User", Context.MODE_PRIVATE);
         return sharedPreferences.getString("password", "");
+    }
+
+    public void setId(Context context, String id){
+        SharedPreferences sharedPreferences = context.getSharedPreferences("User", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("_id", id);
+        editor.commit();
     }
 
     public void setName(Context context, String name){

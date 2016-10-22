@@ -8,6 +8,7 @@ import java.util.List;
 public class ScanResult {
 
     private Course course;
+    private String signId;
     private List<Signer> records;
 
     public Course getCourse() {
@@ -16,6 +17,14 @@ public class ScanResult {
 
     public void setCourse(Course course) {
         this.course = course;
+    }
+
+    public String getSignId() {
+        return signId;
+    }
+
+    public void setSignId(String signId) {
+        this.signId = signId;
     }
 
     public List<Signer> getRecords() {

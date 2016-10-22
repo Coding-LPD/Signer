@@ -310,16 +310,18 @@ public class UserInfoActivity extends BaseSlideActivity implements IUserInfoView
 
         if (response.getCode().equals("200")){
 
-            userid = response.getData().get(0).get_id();
+            Student student = response.getData().get(0);
 
-            tv_user_name.setText(response.getData().get(0).getName());
+            userid = student.get_id();
 
-            avatar = response.getData().get(0).getAvatar();
+            tv_user_name.setText(student.getName());
+
+            avatar = student.getAvatar();
             if (!avatar.equals("")){
                 ImageLoaderUtil.getInstance().displayHeaderImage(civ_user_header, avatar);
             }
             else{
-                if (response.getData().get(0).getGender().equals("女")){
+                if (student.getGender().equals("女")){
                     civ_user_header.setImageResource(R.drawable.default_header_female);
                 }
                 else{
@@ -328,16 +330,15 @@ public class UserInfoActivity extends BaseSlideActivity implements IUserInfoView
             }
 
             cellTexts = new String[9];
-            cellTexts[0] = response.getData().get(0).getNumber();
-            cellTexts[1] = response.getData().get(0).getName();
-            cellTexts[2] = response.getData().get(0).getGender();
-            cellTexts[3] = response.getData().get(0).getSchool();
-            cellTexts[4] = response.getData().get(0).getAcademy();
-            cellTexts[5] = response.getData().get(0).getMajor();
-            cellTexts[6] = response.getData().get(0).getGrade();
-            cellTexts[7] = response.getData().get(0).get_class();
-            cellTexts[8] = response.getData().get(0).getMail();
-
+            cellTexts[0] = student.getNumber();
+            cellTexts[1] = student.getName();
+            cellTexts[2] = student.getGender();
+            cellTexts[3] = student.getSchool();
+            cellTexts[4] = student.getAcademy();
+            cellTexts[5] = student.getMajor();
+            cellTexts[6] = student.getGrade();
+            cellTexts[7] = student.get_class();
+            cellTexts[8] = student.getMail();
 
             initCell();
         }

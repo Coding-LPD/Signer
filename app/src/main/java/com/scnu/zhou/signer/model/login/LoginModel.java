@@ -2,7 +2,7 @@ package com.scnu.zhou.signer.model.login;
 
 import com.scnu.zhou.signer.callback.login.LoginCallback;
 import com.scnu.zhou.signer.component.bean.http.ResultResponse;
-import com.scnu.zhou.signer.component.bean.user.User;
+import com.scnu.zhou.signer.component.bean.login.LoginResult;
 import com.scnu.zhou.signer.component.config.SignerApi;
 import com.scnu.zhou.signer.component.util.http.RetrofitServer;
 
@@ -53,7 +53,7 @@ public class LoginModel implements ILoginModel{
                 .login(phone, password)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<ResultResponse<User>>() {
+                .subscribe(new Observer<ResultResponse<LoginResult>>() {
                     @Override
                     public void onCompleted() {
 
@@ -66,7 +66,7 @@ public class LoginModel implements ILoginModel{
                     }
 
                     @Override
-                    public void onNext(ResultResponse<User> response) {
+                    public void onNext(ResultResponse<LoginResult> response) {
 
                         callback.onPostLoginSuccess(response);
                     }

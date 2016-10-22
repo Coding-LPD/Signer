@@ -162,6 +162,7 @@
     </LinearLayout>
 
     <Button
+        android:id="@+id/btn_sign_before"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:background="@drawable/btn_login_selector"
@@ -173,6 +174,7 @@
         style="?android:attr/borderlessButtonStyle"/>
 
     <Button
+        android:id="@+id/btn_sign_after"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:background="@drawable/btn_sign_after_selector"

@@ -2,7 +2,7 @@ package com.scnu.zhou.signer.presenter.login;
 
 import com.scnu.zhou.signer.callback.login.LoginCallback;
 import com.scnu.zhou.signer.component.bean.http.ResultResponse;
-import com.scnu.zhou.signer.component.bean.user.User;
+import com.scnu.zhou.signer.component.bean.login.LoginResult;
 import com.scnu.zhou.signer.model.login.ILoginModel;
 import com.scnu.zhou.signer.model.login.LoginModel;
 import com.scnu.zhou.signer.view.login.ILoginView;
@@ -43,7 +43,7 @@ public class LoginPresenter implements ILoginPresenter, LoginCallback {
     }
 
     @Override
-    public void onPostLoginSuccess(ResultResponse<User> response) {
+    public void onPostLoginSuccess(ResultResponse<LoginResult> response) {
 
         loginView.onPostLoginSuccess(response);
     }

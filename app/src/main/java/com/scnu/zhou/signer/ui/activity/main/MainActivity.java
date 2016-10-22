@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.widget.Toast;
 
 import com.scnu.zhou.signer.R;
 import com.scnu.zhou.signer.component.adapter.pager.HomePagerAdapter;
@@ -128,7 +129,7 @@ public class MainActivity extends BaseFragmentActivity{
         if (resultCode == RESULT_OK) {
             Bundle bundle = data.getExtras();
             String scanResult = bundle.getString("result");
-            //Toast.makeText(this, scanResult, Toast.LENGTH_LONG).show();
+            Toast.makeText(this, scanResult, Toast.LENGTH_LONG).show();
 
             Intent intent = new Intent(this, ConfirmSignActivity.class);
             intent.putExtra("code", scanResult);

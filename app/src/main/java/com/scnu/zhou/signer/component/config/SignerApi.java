@@ -1,9 +1,10 @@
 package com.scnu.zhou.signer.component.config;
 
 import com.scnu.zhou.signer.component.bean.http.ResultResponse;
+import com.scnu.zhou.signer.component.bean.login.LoginResult;
 import com.scnu.zhou.signer.component.bean.sign.ScanResult;
+import com.scnu.zhou.signer.component.bean.sign.SignRecord;
 import com.scnu.zhou.signer.component.bean.user.Student;
-import com.scnu.zhou.signer.component.bean.user.User;
 
 import java.util.List;
 import java.util.Map;
@@ -44,11 +45,11 @@ public interface SignerApi {
 
     @FormUrlEncoded
     @POST("/api/users")    // 用户注册
-    Observable<ResultResponse<User>> regist(@Field("phone") String phone, @Field("password") String password, @Field("role") String role);
+    Observable<ResultResponse<LoginResult>> regist(@Field("phone") String phone, @Field("password") String password, @Field("role") String role);
 
     @FormUrlEncoded
     @POST("/api/users/login")    // 用户登录
-    Observable<ResultResponse<User>> login(@Field("phone") String phone, @Field("password") String password);
+    Observable<ResultResponse<LoginResult>> login(@Field("phone") String phone, @Field("password") String password);
 
 
     /**
@@ -77,4 +78,10 @@ public interface SignerApi {
      */
     @GET("/api/signs/scanning/{code}")    // 根据签到码获取课程和签到信息
     Observable<ResultResponse<ScanResult>> getScanResult(@Path("code") String code);
+
+    @FormUrlEncoded
+    @POST("/api/signRecords")
+    Observable<ResultResponse<SignRecord>> sign(@FieldMap Map<String,String> strinfos, @FieldMap Map<String,Integer> numinfos,
+                                                @FieldMap Map<String,Double> doubleinfos);
+
 }

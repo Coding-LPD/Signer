@@ -2,7 +2,7 @@ package com.scnu.zhou.signer.presenter.regist;
 
 import com.scnu.zhou.signer.callback.regist.RegistCallback;
 import com.scnu.zhou.signer.component.bean.http.ResultResponse;
-import com.scnu.zhou.signer.component.bean.user.User;
+import com.scnu.zhou.signer.component.bean.login.LoginResult;
 import com.scnu.zhou.signer.model.regist.IRegistModel;
 import com.scnu.zhou.signer.model.regist.RegistModel;
 import com.scnu.zhou.signer.view.regist.IRegistView;
@@ -43,7 +43,7 @@ public class RegistPresenter implements IRegistPresenter, RegistCallback {
     }
 
     @Override
-    public void onPostRegistSuccess(ResultResponse<User> response) {
+    public void onPostRegistSuccess(ResultResponse<LoginResult> response) {
 
         registView.onPostRegistSuccess(response);
     }

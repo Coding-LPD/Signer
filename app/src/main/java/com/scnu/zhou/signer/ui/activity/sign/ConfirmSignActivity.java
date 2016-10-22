@@ -1,6 +1,11 @@
 package com.scnu.zhou.signer.ui.activity.sign;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.telephony.TelephonyManager;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.GridView;
@@ -11,7 +16,10 @@ import com.scnu.zhou.signer.R;
 import com.scnu.zhou.signer.component.adapter.gridview.SignerAdapter;
 import com.scnu.zhou.signer.component.bean.http.ResultResponse;
 import com.scnu.zhou.signer.component.bean.sign.ScanResult;
+import com.scnu.zhou.signer.component.bean.sign.SignRecord;
 import com.scnu.zhou.signer.component.bean.sign.Signer;
+import com.scnu.zhou.signer.component.cache.UserCache;
+import com.scnu.zhou.signer.component.util.gps.GPSManager;
 import com.scnu.zhou.signer.component.util.http.ResponseCodeUtil;
 import com.scnu.zhou.signer.presenter.sign.ISignPresenter;
 import com.scnu.zhou.signer.presenter.sign.SignPresenter;
@@ -20,7 +28,9 @@ import com.scnu.zhou.signer.ui.widget.toast.ToastView;
 import com.scnu.zhou.signer.view.sign.ISignView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -47,6 +57,10 @@ public class ConfirmSignActivity extends BaseSlideActivity implements ISignView{
 
     private String code;
     private ISignPresenter signPresenter;
+
+    private String signId;
+    private int type = 0;
+    private int battery = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +95,10 @@ public class ConfirmSignActivity extends BaseSlideActivity implements ISignView{
     }
 
 
+    /**
+     * 获取扫描结果成功
+     * @param response
+     */
     @Override
     public void onGetScanResultSuccess(ResultResponse<ScanResult> response) {
 
@@ -88,6 +106,8 @@ public class ConfirmSignActivity extends BaseSlideActivity implements ISignView{
         if (response.getCode().equals("200")) {
 
             ScanResult result = response.getData();
+
+            signId = result.getSignId();
 
             if (result != null) {
 
@@ -133,6 +153,10 @@ public class ConfirmSignActivity extends BaseSlideActivity implements ISignView{
     }
 
 
+    /**
+     * 获取扫描结果失败
+     * @param e
+     */
     @Override
     public void onGetScanResultError(Throwable e) {
 
@@ -143,9 +167,129 @@ public class ConfirmSignActivity extends BaseSlideActivity implements ISignView{
     }
 
 
+    /**
+     * 签到成功
+     * @param response
+     */
+    @Override
+    public void onPostSignSuccess(ResultResponse<SignRecord> response) {
+
+        dismissLoadingDialog();
+        ToastView toastView = new ToastView(ConfirmSignActivity.this, "签到成功");
+        toastView.setGravity(Gravity.CENTER, 0, 0);
+        toastView.show();
+    }
+
+
+    /**
+     * 签到失败
+     * @param e
+     */
+    @Override
+    public void onPostSignError(Throwable e) {
+
+        dismissLoadingDialog();
+        ToastView toastView = new ToastView(ConfirmSignActivity.this, "签到失败");
+        toastView.setGravity(Gravity.CENTER, 0, 0);
+        toastView.show();
+    }
+
+
     // 返回上一页面
     @OnClick(R.id.ll_return)
     public void back(){
         finish();
+    }
+
+
+
+    // 课前签到
+    @OnClick(R.id.btn_sign_before)
+    public void signBefore(){
+
+        type = 0;
+        showLoadingDialog("发送请求中");
+        getPhoneBattery();
+
+    }
+
+    // 课后签到
+    @OnClick(R.id.btn_sign_after)
+    public void signAfter(){
+
+        type = 1;
+        showLoadingDialog("发送请求中");
+        getPhoneBattery();
+    }
+
+
+    /**
+     * 签到第一步： 注册广播获取手机电量
+     */
+    public void getPhoneBattery(){
+        IntentFilter intentFilter=new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
+        //注册接收器以获取电量信息
+        registerReceiver(broadcastReceiver, intentFilter);
+    }
+
+
+    /**
+     * 检查手机电量
+     */
+    private BroadcastReceiver broadcastReceiver=new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            context.unregisterReceiver(this);
+            int rawlevel = intent.getIntExtra("level", -1);//获得当前电量
+            int scale = intent.getIntExtra("scale", -1);
+            //获得总电量
+            int level = -1;
+            if (rawlevel >= 0 && scale > 0) {
+                level = (rawlevel * 100) / scale;
+            }
+            battery = level;
+
+            getPhoneLocation();
+        }
+    };
+
+
+    /**
+     * 签到第二步： 获取手机经纬度信息
+     */
+    public void getPhoneLocation(){
+
+        GPSManager manager = new GPSManager(this);
+        manager.setonGetLocationListener(new GPSManager.onGetLocationListener() {
+            @Override
+            public void onGetLocation(double latitude, double longitude) {
+
+                sign(latitude, longitude);
+            }
+        });
+        manager.startManager();
+    }
+
+
+    /**
+     * 第三步： 执行签到动作
+     */
+    private void sign(double latitude, double longitude){
+
+        Map<String,String> strinfos = new HashMap<>();
+        Map<String,Integer> numinfos = new HashMap<>();
+        Map<String,Double> doubleinfos = new HashMap<>();
+
+        strinfos.put("signId", signId);
+        strinfos.put("phoneId", ((TelephonyManager)getSystemService(TELEPHONY_SERVICE)).getDeviceId());
+        strinfos.put("studentId", UserCache.getInstance().getId(this));
+
+        numinfos.put("type", type);
+        numinfos.put("battery", battery);
+
+        doubleinfos.put("latitude", latitude);
+        doubleinfos.put("longitude", longitude);
+
+        signPresenter.postSign(strinfos, numinfos, doubleinfos);
     }
 }
