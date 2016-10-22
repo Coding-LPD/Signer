@@ -15,16 +15,27 @@
   <tbody *ngIf="allDatas">  
     <tr *ngFor="let d of showDatas" [class.can-click]="operationOption.canClick || false" (click)="clickRow(d.data)">
       <td></td>
+
+      <!-- checkbox column -->
       <td class="checkbox" *ngIf="operationOption.hasCheck || false">
-        <input type="checkbox" [(ngModel)]="d.checked"
-            (click)="toggleSelectOne(d)" />
+        <input type="checkbox" [(ngModel)]="d.checked" (click)="toggleSelectOne(d)" />
       </td>
-      <td *ngFor="let c of cellOptions; " [ngStyle]="c.mainStyles">
-        <span *ngIf="!c.valueEnum">{{d.data[c.prop] || c.default || '暂无'}}</span>
-        <span *ngIf="c.valueEnum" [ngStyle]="c.valueEnum[d.data[c.prop]].style">
+
+      <!-- content column -->
+      <td *ngFor="let c of cellOptions; let i = index" [ngStyle]="c.mainStyles">
+        <!-- not enum content -->
+        <div *ngIf="!c.valueEnum" [title]="d.data[c.prop] || c.default || '暂无'"
+            [style.width]="headerOptions[i].width || '118px'">
+          {{d.data[c.prop] || c.default || '暂无'}}
+        </div>
+        <!-- enum content -->
+        <div *ngIf="c.valueEnum" [title]="c.valueEnum[d.data[c.prop]].value || '暂无'" 
+            [style.width]="headerOptions[i].width || ''" [ngStyle]="c.valueEnum[d.data[c.prop]].style">
           {{c.valueEnum[d.data[c.prop]].value || '暂无'}}
-        </span>
+        </div>
       </td>
+
+      <!-- edit and delete button -->
       <td>
         <button type="button" class="edit blue-green" *ngIf="operationOption.hasEdit || false" (click)="editData(d.data)"></button>
         <button type="button" class="delete red" *ngIf="operationOption.hasDelete || false" (click)="deleteData(d.data)"></button>
@@ -32,6 +43,7 @@
     </tr>
   </tbody>
 </table>
+<!-- pagination -->
 <div class="footer wrap">
   <div class="sum">
     {{showDatas ? showDatas.length : 0}} 

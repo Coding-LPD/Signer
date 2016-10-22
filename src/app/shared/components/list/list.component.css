@@ -35,6 +35,12 @@ td button {
   height: 20px;  
 }
 
+td div {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 table .checkbox {
   width: 30px;
 }
