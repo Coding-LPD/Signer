@@ -25,3 +25,7 @@
 /**
  * @apiDefine Sign 签到
  */
+
+/**
+ * @apiDefine SignRecord 签到记录
+ */

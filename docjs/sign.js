@@ -52,7 +52,7 @@
  */
 
 /**
- * @api {get} /signs/scanning/:code 扫描
+ * @api {get} /signs/scanning/:code 扫描签到二维码
  * @apiVersion 1.0.0
  * @apiName GetSignScanning
  * @apiGroup Sign

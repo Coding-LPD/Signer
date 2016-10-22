@@ -29,8 +29,8 @@
  * @apiGroup Course
  * 
  * @apiParam {String} name          课程名称
- * @apiParam {String} startTime     开始时间（格式：2016-06-11）
- * @apiParam {String} endTime       结束时间（格式：2016-06-11）
+ * @apiParam {String} time          上课时间（格式：星期一 1节-4节,星期二 3节-4节）
+ * @apiParam {String} location      上课地点
  * 
  * @apiSuccessExample 成功
  *    HTTP/1.1 200 OK
@@ -79,14 +79,12 @@
  * @apiGroup Course
  * @apiDescription 根据指定字段名和值查询课程。（必须要有查询条件）
  * 
- * @apiParam {String} _id             课程id（可选）
- * @apiParam {String} name            课程名称（可选）
- * @apiParam {String} teacherId       所属教师id（可选）
- * @apiParam {String} location        上课地点（可选）（excel导入）
- * @apiParam {String} academy         学院（可选）（excel导入）
- * @apiParam {String} time            上课时间（可选）（excel导入）
- * @apiParam {String} startTime       课程起始时间（创建时指定）
- * @apiParam {String} endTime         课程结束时间（创建时指定）
+ * @apiParam {String} _id             课程id
+ * @apiParam {String} name            课程名称
+ * @apiParam {String} teacherId       所属教师id
+ * @apiParam {String} location        上课地点
+ * @apiParam {String} academy         学院（excel导入）
+ * @apiParam {String} time            上课时间
  * @apiParam {Number} studentCount    学生数量
  * @apiParam {Number} signCount       签到次数
  * @apiParam {Number} state           课程状态（0：未开始，1：进行中，2：已结束）

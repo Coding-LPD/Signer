@@ -77,15 +77,15 @@
             "group": "Parameter",
             "type": "String",
             "optional": false,
-            "field": "startTime",
-            "description": "<p>开始时间（格式：2016-06-11）</p>"
+            "field": "time",
+            "description": "<p>上课时间（格式：星期一 1节-4节,星期二 3节-4节）</p>"
           },
           {
             "group": "Parameter",
             "type": "String",
             "optional": false,
-            "field": "endTime",
-            "description": "<p>结束时间（格式：2016-06-11）</p>"
+            "field": "location",
+            "description": "<p>上课地点</p>"
           }
         ]
       }
@@ -127,56 +127,42 @@
             "type": "String",
             "optional": false,
             "field": "_id",
-            "description": "<p>课程id（可选）</p>"
+            "description": "<p>课程id</p>"
           },
           {
             "group": "Parameter",
             "type": "String",
             "optional": false,
             "field": "name",
-            "description": "<p>课程名称（可选）</p>"
+            "description": "<p>课程名称</p>"
           },
           {
             "group": "Parameter",
             "type": "String",
             "optional": false,
             "field": "teacherId",
-            "description": "<p>所属教师id（可选）</p>"
+            "description": "<p>所属教师id</p>"
           },
           {
             "group": "Parameter",
             "type": "String",
             "optional": false,
             "field": "location",
-            "description": "<p>上课地点（可选）（excel导入）</p>"
+            "description": "<p>上课地点</p>"
           },
           {
             "group": "Parameter",
             "type": "String",
             "optional": false,
             "field": "academy",
-            "description": "<p>学院（可选）（excel导入）</p>"
+            "description": "<p>学院（excel导入）</p>"
           },
           {
             "group": "Parameter",
             "type": "String",
             "optional": false,
             "field": "time",
-            "description": "<p>上课时间（可选）（excel导入）</p>"
-          },
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "startTime",
-            "description": "<p>课程起始时间（创建时指定）</p>"
-          },
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "endTime",
-            "description": "<p>课程结束时间（创建时指定）</p>"
+            "description": "<p>上课时间</p>"
           },
           {
             "group": "Parameter",
@@ -281,6 +267,35 @@
     "groupTitle": "签到"
   },
   {
+    "type": "get",
+    "url": "/signs/scanning/:code",
+    "title": "扫描签到二维码",
+    "version": "1.0.0",
+    "name": "GetSignScanning",
+    "group": "Sign",
+    "description": "<p>根据签到码code，返回相关课程信息与最后10条学生的签到信息</p>",
+    "success": {
+      "examples": [
+        {
+          "title": "成功",
+          "content": "HTTP/1.1 200 OK\n{\n  code: \"200\",\n  data: { course: {}, records: [] },\n  msg:  \"操作成功\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "失败：",
+          "content": "HTTP/1.1 200 OK\n{\n  code: \"XXXX\",\n  data: {},         // 空对象\n  msg:  \"错误信息\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "docjs/sign.js",
+    "groupTitle": "签到"
+  },
+  {
     "type": "post",
     "url": "/signs",
     "title": "创建",
@@ -350,18 +365,101 @@
     "groupTitle": "签到"
   },
   {
-    "type": "post",
-    "url": "/signs/scanning/:code",
-    "title": "扫描",
+    "type": "get",
+    "url": "/signRecords",
+    "title": "获取所有",
     "version": "1.0.0",
-    "name": "PostSignScanning",
-    "group": "Sign",
-    "description": "<p>根据签到码code，返回相关课程信息与最后10条学生的签到信息</p>",
+    "name": "GetSignRecord",
+    "group": "SignRecord",
+    "description": "<p>仅供调试。</p>",
     "success": {
       "examples": [
         {
           "title": "成功",
-          "content": "HTTP/1.1 200 OK\n{\n  code: \"200\",\n  data: { course: {}, records: [] },\n  msg:  \"操作成功\"\n}",
+          "content": "HTTP/1.1 200 OK\n{\n  code: \"200\",\n  data: [],         // 查询到的所有签到记录\n  msg:  \"操作成功\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "失败：",
+          "content": "HTTP/1.1 200 OK\n{\n  code: \"XXXX\",\n  data: [],         // 空数组\n  msg:  \"错误信息\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "docjs/sign-record.js",
+    "groupTitle": "签到记录"
+  },
+  {
+    "type": "post",
+    "url": "/signRecords",
+    "title": "学生进行签到",
+    "version": "1.0.0",
+    "name": "PostSignRecord",
+    "group": "SignRecord",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "signId",
+            "description": "<p>所属签到id</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "phoneId",
+            "description": "<p>手机唯一标识</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "studentId",
+            "description": "<p>学生id</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "type",
+            "description": "<p>签到类型（0：课前，1：课后）</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "battery",
+            "description": "<p>手机电量</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "longitude",
+            "description": "<p>精度</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "latitude",
+            "description": "<p>纬度</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "examples": [
+        {
+          "title": "成功",
+          "content": "HTTP/1.1 200 OK\n{\n  code: \"200\",\n  data: {},         // 创建后的签到记录\n  msg:  \"操作成功\"\n}",
           "type": "json"
         }
       ]
@@ -375,8 +473,120 @@
         }
       ]
     },
-    "filename": "docjs/sign.js",
-    "groupTitle": "签到"
+    "filename": "docjs/sign-record.js",
+    "groupTitle": "签到记录"
+  },
+  {
+    "type": "post",
+    "url": "/signRecords/search",
+    "title": "查询",
+    "version": "1.0.0",
+    "name": "PostSignRecordSearch",
+    "group": "SignRecord",
+    "description": "<p>根据指定字段名和值查询签到记录。（必须要有查询条件）</p>",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "_id",
+            "description": "<p>签到记录id</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "signId",
+            "description": "<p>签到id</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "phoneId",
+            "description": "<p>手机唯一标识</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "studentId",
+            "description": "<p>学生id</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "studentName",
+            "description": "<p>学生姓名</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "studentAvatar",
+            "description": "<p>学生头像url</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "distance",
+            "description": "<p>签到距离</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "state",
+            "description": "<p>签到批准状态（0：未处理 1：已准许 2：已拒绝）</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "type",
+            "description": "<p>签到类型（0：课前，1：课后）</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "createdAt",
+            "description": "<p>签到时间</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "battery",
+            "description": "<p>手机电量</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "examples": [
+        {
+          "title": "成功：",
+          "content": "HTTP/1.1 200 OK\n{\n  code: \"200\",\n  data: [],           // 查询到的所有签到记录\n  msg:  \"操作成功\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "失败：",
+          "content": "HTTP/1.1 200 OK\n{\n  code: \"XXXX\",\n  data: [],           // 空数组\n  msg:  \"错误信息\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "docjs/sign-record.js",
+    "groupTitle": "签到记录"
   },
   {
     "type": "get",
