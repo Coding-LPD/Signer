@@ -12,7 +12,7 @@ export class BaseService {
   protected extractData(res: Response) {
     let body = res.json();
     if (!body.code || +body.code != 200) {
-      console.log(`code:${body.code}, msg:${body.data}`);
+      console.log(`code:${body.code}, msg:${body.msg}`);
     }
     return body || { };
   }

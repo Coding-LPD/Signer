@@ -1,6 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 
+import { LoginService } from '../login';
 import { User, PopUpComponent, SmsCodeService } from '../shared';
 import { RegisterService } from './register.service';
 
@@ -23,6 +24,7 @@ export class RegisterComponent {
   constructor(
     private _smsCodeService: SmsCodeService,
     private _registerService: RegisterService,
+    private _loginService: LoginService,
     private _router: Router) {}
 
   submit(user: User) {    
@@ -30,7 +32,7 @@ export class RegisterComponent {
       .subscribe(body => {
         if (+body.code == 200) {
           // 验证码验证成功才能进行注册
-          this.register(user);          
+          this.register(user);
         } else {
           this.popup.show(body.msg);
         }
@@ -44,6 +46,8 @@ export class RegisterComponent {
         var tip = body.data;
         if (+body.code == 200) {
           tip = '注册成功';
+          this._loginService.user = body.data.user;
+          this._loginService.isLoggedIn = true;
           setTimeout(() => this._router.navigate(['/home/calendar']), 1500);
         }
         this.popup.show(tip);

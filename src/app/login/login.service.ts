@@ -30,7 +30,7 @@ export class LoginService extends BaseService {
           var body = this.extractData(res);
           if (body.code && +body.code == 200) {
             this.isLoggedIn = true;
-            this.user = body.data;
+            this.user = body.data.user;
           }
           return body;
         })
@@ -44,7 +44,7 @@ export class LoginService extends BaseService {
         var body = this.extractData(res);
         if (body.code && +body.code == 200) {
           this.isLoggedIn = true;
-          this.user = body.data;
+          this.user = body.data.user;
         }
         return body;
       })
