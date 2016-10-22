@@ -30,4 +30,19 @@ router.post('/', function (req, res) {
   });  
 });
 
+router.post('/search', function (req, res) {
+  // 必须要有查询条件
+  if (common.isEmptyObject(req.body)) {
+    sendInfo(errorCodes.SearchEmpty, res);
+    return;
+  }
+  SignRecord.find(req.body, function (err, signRecors) {
+    if (!err) {
+      sendInfo(errorCodes.Success, res, signRecors);
+    } else {
+      handleErrors(err, res, []);
+    }
+  });
+});
+
 module.exports = router;

@@ -52,7 +52,7 @@ router.post('/', function (req, res) {
         if (resData.result.error != 161) {
           log.info('定位失败, 时间:' + resData.result.loc_time + ',错误码：' + resData.result.code);
           sendInfo(errorCodes.LocateError, res, {});
-        } else {          
+        } else {
           sendInfo(errorCodes.Success, res, resData.content);
         }        
     }); 
