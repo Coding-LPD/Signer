@@ -23,5 +23,8 @@ export class API {
   static courseSearch = '/courses/search';
   static sign = '/signs';
   static signSearch = '/signs/search';
+  static signRecord = '/signRecords';
+  static signRecordSearch = '/signRecords/search';
+  static position = '/positions';
 
 }

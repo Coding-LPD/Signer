@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute, Params } from '@angular/router';
 
-import { SignRecord, IPService } from '../../../shared';
+import { SignRecord, PositionService, SignRecordService, PopUpComponent } from '../../../shared';
 
 @Component({
   selector: 'detail',
@@ -8,6 +9,8 @@ import { SignRecord, IPService } from '../../../shared';
   styleUrls: ['./detail.component.css']
 })
 export class DetailComponent implements OnInit {
+
+  @ViewChild(PopUpComponent) popup: PopUpComponent;
 
   radiosInactive = [false, true];
   isLargeQRCode = false;
@@ -44,18 +47,40 @@ export class DetailComponent implements OnInit {
     }
   ];
 
-  constructor(private _ipService: IPService) {}
+  constructor(
+    private _route: ActivatedRoute,
+    private _positionService: PositionService,
+    private _signRecordService: SignRecordService) {}
 
-  ngOnInit() {
-    this._ipService.getIP()
+  ngOnInit() {    
+    // 定位
+    this._positionService.getIP()
       .subscribe(body => {
         if (body.ip.trim()) {
-          alert(body.ip);
+          this._positionService.locate(body.ip)
+            .subscribe(body => {
+              if (+body.code == 200) {
+                this.popup.show('定位成功');
+              } else {
+                this.popup.show('定位失败');
+              }
+            })
         } else {
-          alert('获取本机ip失败');
+          this.popup.show('获取本机ip失败');
           console.log(`body: ${JSON.stringify(body)}`);
         }
       });
+    // 获取签到详情
+    this._route.params.forEach((params: Params) => {
+      this._signRecordService.search({signId: params['id']})
+        .subscribe(body => {
+          if (+body.code == 200) {
+            this.records = body.data;
+          } else {
+            this.popup.show(body.msg);
+          }
+        });
+    });
   }
 
   selectRadio(index: number) {

@@ -22,7 +22,7 @@
   <div class="radio-group">
     <button type="button" [class.inactive]="radiosInactive[0]" (click)="selectRadio(0)">课前</button>
     <button type="button" [class.inactive]="radiosInactive[1]" (click)="selectRadio(1)">课后</button>
-  </div>
+  </div>  
   <ul class="sign-in-list">
     <li *ngFor="let r of records">
       <img class="avatar" [src]="r.studentAvatar" onerror="javascript:this.src='/public/images/default.png'" />
@@ -38,7 +38,8 @@
       </div>      
     </li>    
   </ul>
-  <div class="all-confirm-group">
+  <div class="no-sign-tip" *ngIf="records.length <= 0">暂无学生签到</div>
+  <div class="all-confirm-group" *ngIf="records.length > 0">
     <button type="button" class="blue">全部同意</button>
     <button type="button" class="red">全部拒绝</button>
   </div>
@@ -48,3 +49,5 @@
     <qr-code [data]="'123'" [size]="'350'" (click)="ToggleQRCodeSize()"></qr-code>
     <div class="qr-code-tip">点我缩小</div>
 </div>
+
+<pop-up></pop-up>

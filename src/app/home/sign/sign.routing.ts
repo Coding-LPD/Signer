@@ -6,6 +6,6 @@ import { DetailComponent } from './detail';
 
 export const signRoutes: Routes = [
   { path: 'sign',             component: SignComponent     },
-  { path: 'sign/detail',      component: DetailComponent   },
+  { path: 'sign/detail/:id',      component: DetailComponent   },
   ...createRoutes  
 ];
