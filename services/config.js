@@ -21,6 +21,9 @@ var config = {
   // accountSID: '2e13f0c4838b4b239dbb64514863262b',
   // authToken: '145300409ae049189f7e79720432e816',
 
+  // 百度服务端AK
+  applicationAK: 'fLHlHHLy4lrss2hY1GNsdSdb1y8FOwZ3',
+
   // bmob短信验证码
   applicationId: 'fd44f39002f28f11e68f97adbe98b989',
   restApiKey: '1a911ff117742d4eb1e0566248f383b4',
@@ -35,7 +38,7 @@ var config = {
   // connect-multiparty配置
   cmConfig: {
     uploadDir: path.resolve(__dirname, '../public/images')
-  }  
+  }
 }
 
 module.exports = config;

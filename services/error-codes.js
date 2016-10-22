@@ -28,6 +28,8 @@ var errorCodes = {
 
   SignNotExist:           '4000',
   SignNotRelatedCourse:   '4001',
+  IPEmpty:                '4002',
+  LocateError:            '4003',
   
   AuthenticationError:    '401',
   AuthenticationExpired:  '402',
@@ -62,6 +64,8 @@ var errorMsg = {
   3004: '无效的smsid',  
   4000: '签到失败，该签到不存在',
   4001: '签到失败，该签到没有对应某个课程',
+  4002: 'IP地址不能为空',
+  4003: '定位失败',
   401:  '认证信息有误',
   402:  '认证信息已失效',
   403:  '无权限访问该资源',

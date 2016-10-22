@@ -42,6 +42,13 @@ Common.generateRandomStr = function (suffixLength) {
   return result;
 }
 
+Common.getClientIp = function (req) {
+    return req.headers['x-forwarded-for'] ||
+      req.connection.remoteAddress ||
+      req.socket.remoteAddress ||
+      req.connection.socket.remoteAddress;
+};
+
 // Common.isImage = function (path) {
 //   var magic = new Magic(mmm.MAGIC_MIME_TYPE);
 //   magic.detectFile(path, function(err, result) {
