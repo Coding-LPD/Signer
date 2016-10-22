@@ -1236,7 +1236,7 @@ define({ "api": [
       "examples": [
         {
           "title": "成功",
-          "content": "HTTP/1.1 200 OK\n{\n  code: \"200\",\n  data: {},         // 注册成功的用户的信息\n  msg:  \"请求成功\"\n}",
+          "content": "HTTP/1.1 200 OK\n{\n  code: \"200\",\n  data: { user: {}, id: 'XXXX' },         // user注册成功的用户的信息,id为注册成功的教师或学生id\n  msg:  \"请求成功\"\n}",
           "type": "json"
         }
       ]
@@ -1285,7 +1285,7 @@ define({ "api": [
       "examples": [
         {
           "title": "成功：",
-          "content": "HTTP/1.1 200 OK\n{\n  code: \"200\",\n  data: {}          // 登录成功的用户的信息\n  msg:  \"请求成功\"\n}",
+          "content": "HTTP/1.1 200 OK\n{\n  code: \"200\",\n  data: { user: {}, id: 'XXXX' }          // user登录成功的用户的信息，id为登录成功的教师或学生id\n  msg:  \"请求成功\"\n}",
           "type": "json"
         }
       ]
@@ -1334,7 +1334,7 @@ define({ "api": [
       "examples": [
         {
           "title": "成功：",
-          "content": "HTTP/1.1 200 OK\n{\n  code: \"200\",\n  data: {},         // 登录成功的用户的信息\n  msg:  \"请求成功\"\n}",
+          "content": "HTTP/1.1 200 OK\n{\n  code: \"200\",\n  data: { user: {}, id: 'XXXX' }          // user登录成功的用户的信息，id为登录成功的教师或学生id\n  msg:  \"请求成功\"\n}",
           "type": "json"
         }
       ]

@@ -96,20 +96,28 @@ router.post('/', function (req, res) {
           handleErrors(err, res, {});
           return;
         }
+        var promise = [];
         // 用户成功注册
         if (savedUser.role === '0') {
           // 创建学生信息
           var student = new Student({phone});
-          student.save();
+          promise.push(student.save());
         } else {
           // 创建教师信息
           var teacher = new Teacher({phone});
-          teacher.save();
-        }                
-        // 返回认证token
-        var token = jwtService.createToken(savedUser._id, 'student');
-        res.cookie('access_token', token);
-        sendInfo(errorCodes.Success, res, savedUser);
+          promise.push(teacher.save());
+        }
+        Promise.all(promise).then(function (savedData) {
+          var id = savedData[0][0]._id;
+          if (!id) {
+            handleErrors(savedData[0], res, {});
+            return;
+          }
+          // 返回认证token
+          var token = jwtService.createToken(savedUser._id, 'student');
+          res.cookie('access_token', token);
+          sendInfo(errorCodes.Success, res, { user: {_id: savedUser._id, phone: savedUser.get('phone'), role: savedUser.get('role')}, id: id });
+        });
       });
     });
   });
@@ -200,11 +208,17 @@ router.post('/login', function (req, res) {
         sendInfo(errorCodes.AuthInfoError, res, {});
         return;
       }      
-      // 成功登录
-      // 返回带有token的cookie
-      var token = jwtService.createToken(user._id, 'student');
-      res.cookie('access_token', token, { httpOnly: true });
-      sendInfo(errorCodes.Success, res, { _id: user._id, phone: user.get('phone'), role: user.get('role') });
+      getId(user, function (err, id) {
+        if (err) {
+          handleErrors(err, res, {});
+          return;
+        }
+        // 成功登录
+        // 返回带有token的cookie
+        var token = jwtService.createToken(user._id, 'student');
+        res.cookie('access_token', token, { httpOnly: true });
+        sendInfo(errorCodes.Success, res, { user: {_id: user._id, phone: user.get('phone'), role: user.get('role')}, id: id });
+      });
     });
   });
 });
@@ -232,15 +246,41 @@ router.post('/loginWithSmsCode', function (req, res) {
       return;
     }
     verifySmsCode(phone, smsCode, res, function (err, data) {
-      // 验证成功，则说明用户登录成功 
+      // 验证成功，则说明用户登录成功
       if (!err) {
-        // 返回带有token的cookie
-        var token = jwtService.createToken(users[0]._id, 'student');
-        res.cookie('access_token', token, { httpOnly: true });
-        sendInfo(errorCodes.Success, res, users[0]);
+        var user = users[0];
+        getId(user, function (err, id) {
+          if (err) {
+            handleErrors(err, res, {});
+            return;
+          }
+          // 返回带有token的cookie
+          var token = jwtService.createToken(user._id, 'student');
+          res.cookie('access_token', token, { httpOnly: true });
+          sendInfo(errorCodes.Success, res, { user: {_id: user._id, phone: user.get('phone'), role: user.get('role')}, id: id });
+        });        
       }
     });
   }); 
 });
+
+function getId(user, callback) {
+  var phone = user.get('phone');
+  var role = user.get('role');
+  var promise = [];
+  if (+role == 0) {
+    promise.push(Student.find({ phone }));
+  } else {
+    promise.push(Teacher.find({ phone }));
+  }
+  Promise.all(promise).then(function (findedData) {
+    var id = findedData[0][0]._id;
+    if (id) {
+      callback(null, id);
+    } else {
+      callback(findedData[0]);
+    }
+  });
+}
 
 module.exports = router;
