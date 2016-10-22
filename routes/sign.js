@@ -127,6 +127,7 @@ router.get('/scanning/:code', function (req, res) {
     promises.push(Teacher.findById(sign.get('teacherId'), 'name'));
     promises.push(SignRecord.find({signId: sign._id}, 'studentName studentAvatar', { limit: 10, sort: { createdAt: -1 } }));
     Promise.all(promises).then(function (findedData) {
+      var signId = sign._id;
       var course = findedData[0].toObject();
       course.teacherName = findedData[1].get('name');
       // 格式化返回值的属性名
@@ -142,7 +143,7 @@ router.get('/scanning/:code', function (req, res) {
         sendInfo(errorCodes.SignNotRelatedCourse, res, {});
         return;
       }
-      sendInfo(errorCodes.Success, res, { course, records });            
+      sendInfo(errorCodes.Success, res, { course, records, signId });            
     }).catch(function (err) {
       handleErrors(err, res, {});
     })
