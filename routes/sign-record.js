@@ -23,10 +23,16 @@ router.post('/', function (req, res) {
       handleErrors(err, res, {});
       return;
     }
+
     signRecord.set('studentName', student.get('name'));
     signRecord.set('studentAvatar', student.get('avatar'));
-    signRecord.save();
-    sendInfo(errorCodes.Success, res, {});
+    signRecord.save(function () {
+      if (err) {
+        handleErrors(err, res, {});        
+      } else {
+        sendInfo(errorCodes.Success, res, signRecord);
+      }
+    });    
   });  
 });
 
