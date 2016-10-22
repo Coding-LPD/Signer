@@ -13,14 +13,14 @@ import com.scnu.zhou.signer.R;
 /**
  * Created by zhou on 16/9/6.
  */
-public class DiscoverFragment extends Fragment {
+public class ChatFragment extends Fragment {
 
     private Activity context;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_discover, container,
+        View rootView = inflater.inflate(R.layout.fragment_chat, container,
                 false);// 关联布局文件
         return rootView;
     }

@@ -20,8 +20,8 @@
     <string name="regist_confirm_hint">请确认登录密码</string>
     <string name="regist_finish">完成注册</string>
 
-    <string name="tab_home">首页</string>
-    <string name="tab_discover">发现</string>
+    <string name="tab_home">签到</string>
+    <string name="tab_discover">聊天室</string>
     <string name="tab_notice">通知</string>
     <string name="tab_mine">我的</string>
 

@@ -11,7 +11,7 @@ import com.scnu.zhou.signer.component.util.tabbar.TabBarManager;
 import com.scnu.zhou.signer.ui.activity.base.BaseFragmentActivity;
 import com.scnu.zhou.signer.ui.activity.sign.CaptureActivity;
 import com.scnu.zhou.signer.ui.activity.sign.ConfirmSignActivity;
-import com.scnu.zhou.signer.ui.fragment.DiscoverFragment;
+import com.scnu.zhou.signer.ui.fragment.ChatFragment;
 import com.scnu.zhou.signer.ui.fragment.HomeFragment;
 import com.scnu.zhou.signer.ui.fragment.MineFragment;
 import com.scnu.zhou.signer.ui.fragment.NoticeFragment;
@@ -55,12 +55,12 @@ public class MainActivity extends BaseFragmentActivity{
 
         fragments = new ArrayList<>();
         HomeFragment homeFragment = new HomeFragment();
-        DiscoverFragment discoverFragment = new DiscoverFragment();
+        ChatFragment chatFragment = new ChatFragment();
         NoticeFragment noticeFragment = new NoticeFragment();
         MineFragment mineFragment = new MineFragment();
 
         fragments.add(homeFragment);
-        fragments.add(discoverFragment);
+        fragments.add(chatFragment);
         fragments.add(noticeFragment);
         fragments.add(mineFragment);
 
