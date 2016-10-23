@@ -17,8 +17,8 @@ export class PositionService extends BaseService {
       .catch(this.handleError);
   }
 
-  locate(ip: string) {
-    return this._http.post(API.domain + API.position, { ip })
+  locate(ip: string, teacherId: string, signId: string) {
+    return this._http.post(API.domain + API.position, { ip, teacherId, signId })
       .map(this.extractData)
       .catch(this.handleError);
   }

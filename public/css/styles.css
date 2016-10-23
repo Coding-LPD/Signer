@@ -40,7 +40,7 @@ input[type=checkbox], input[type=radio] {
   width: auto;
 }
 
-select, input[type=date] {
+select, input[type=date], input[type=time], input[type=datetime-local] {
   text-indent: 0.5em;
 }
 

@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 
+import { LoginService } from '../../../login';
 import { SignRecord, PositionService, SignRecordService, PopUpComponent } from '../../../shared';
 
 @Component({
@@ -49,29 +50,13 @@ export class DetailComponent implements OnInit {
 
   constructor(
     private _route: ActivatedRoute,
+    private _loginService: LoginService,
     private _positionService: PositionService,
     private _signRecordService: SignRecordService) {}
 
-  ngOnInit() {    
-    // 定位
-    this._positionService.getIP()
-      .subscribe(body => {
-        if (body.ip.trim()) {
-          this._positionService.locate(body.ip)
-            .subscribe(body => {
-              if (+body.code == 200) {
-                this.popup.show('定位成功');
-              } else {
-                this.popup.show('定位失败');
-              }
-            })
-        } else {
-          this.popup.show('获取本机ip失败');
-          console.log(`body: ${JSON.stringify(body)}`);
-        }
-      });
-    // 获取签到详情
+  ngOnInit() {         
     this._route.params.forEach((params: Params) => {
+      // 获取签到详情
       this._signRecordService.search({signId: params['id']})
         .subscribe(body => {
           if (+body.code == 200) {
@@ -80,6 +65,27 @@ export class DetailComponent implements OnInit {
             this.popup.show(body.msg);
           }
         });
+
+      // 定位
+      this._loginService.getTeacherInfo().subscribe(body => {
+        var teacherId = body.data[0]._id;
+        this._positionService.getIP()
+          .subscribe(body => {
+            if (body.ip.trim()) {
+              this._positionService.locate(body.ip, teacherId, params['id'])
+                .subscribe(body => {
+                  if (+body.code == 200) {
+                    this.popup.show('定位成功');
+                  } else {
+                    this.popup.show('定位失败');
+                  }
+                })
+            } else {
+              this.popup.show('获取本机ip失败');
+              console.log(`body: ${JSON.stringify(body)}`);
+            }
+          });  
+      });            
     });
   }
 
