@@ -22,6 +22,8 @@ router.get('/', function (req, res) {
 });
 
 router.post('/', function (req, res) {
+  var signId = req.body.signId;
+  var teacherId = req.body.teacherId;
   var ip = req.body.ip;
   if (!ip) {
     sendInfo(errorCodes.IPEmpty, res, {});
@@ -53,7 +55,17 @@ router.post('/', function (req, res) {
           log.info('定位失败, 时间:' + resData.result.loc_time + ',错误码：' + resData.result.code);
           sendInfo(errorCodes.LocateError, res, {});
         } else {
-          sendInfo(errorCodes.Success, res, resData.content);
+          var pos = {
+            longitude: resData.content.location.lng,
+            latitude: resData.content.location.lat
+          };
+          Position.findOneAndUpdate({ signId: signId, teacherId: teacherId }, pos, { upsert: true })
+            .then(function (updatedData) {
+              sendInfo(errorCodes.Success, res, updatedData);
+            })
+            .catch(function (err) {
+              handleErrors(err, res, {});
+            });          
         }        
     }); 
   });
