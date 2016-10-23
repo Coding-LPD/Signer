@@ -108,7 +108,7 @@ router.post('/', function (req, res) {
           promise.push(teacher.save());
         }
         Promise.all(promise).then(function (savedData) {
-          var id = savedData[0][0]._id;
+          var id = savedData[0]._id;
           if (!id) {
             handleErrors(savedData[0], res, {});
             return;
@@ -116,7 +116,12 @@ router.post('/', function (req, res) {
           // 返回认证token
           var token = jwtService.createToken(savedUser._id, 'student');
           res.cookie('access_token', token);
-          sendInfo(errorCodes.Success, res, { user: {_id: savedUser._id, phone: savedUser.get('phone'), role: savedUser.get('role')}, id: id });
+          sendInfo(errorCodes.Success, res, 
+            { 
+              user: {_id: savedUser._id, phone: savedUser.get('phone'), role: savedUser.get('role')}, 
+              person: savedData[0] 
+            }
+          );
         });
       });
     });
@@ -208,7 +213,7 @@ router.post('/login', function (req, res) {
         sendInfo(errorCodes.AuthInfoError, res, {});
         return;
       }      
-      getId(user, function (err, id) {
+      getPersonInfo(user, function (err, person) {
         if (err) {
           handleErrors(err, res, {});
           return;
@@ -217,7 +222,12 @@ router.post('/login', function (req, res) {
         // 返回带有token的cookie
         var token = jwtService.createToken(user._id, 'student');
         res.cookie('access_token', token, { httpOnly: true });
-        sendInfo(errorCodes.Success, res, { user: {_id: user._id, phone: user.get('phone'), role: user.get('role')}, id: id });
+        sendInfo(errorCodes.Success, res, 
+          { 
+            user: {_id: user._id, phone: user.get('phone'), role: user.get('role')}, 
+            person: person
+          }
+        );
       });
     });
   });
@@ -249,7 +259,7 @@ router.post('/loginWithSmsCode', function (req, res) {
       // 验证成功，则说明用户登录成功
       if (!err) {
         var user = users[0];
-        getId(user, function (err, id) {
+        getPersonInfo(user, function (err, person) {
           if (err) {
             handleErrors(err, res, {});
             return;
@@ -257,14 +267,19 @@ router.post('/loginWithSmsCode', function (req, res) {
           // 返回带有token的cookie
           var token = jwtService.createToken(user._id, 'student');
           res.cookie('access_token', token, { httpOnly: true });
-          sendInfo(errorCodes.Success, res, { user: {_id: user._id, phone: user.get('phone'), role: user.get('role')}, id: id });
+          sendInfo(errorCodes.Success, res, 
+            { 
+              user: {_id: user._id, phone: user.get('phone'), role: user.get('role')}, 
+              person: person 
+            }
+          );
         });        
       }
     });
   }); 
 });
 
-function getId(user, callback) {
+function getPersonInfo(user, callback) {
   var phone = user.get('phone');
   var role = user.get('role');
   var promise = [];
@@ -276,7 +291,7 @@ function getId(user, callback) {
   Promise.all(promise).then(function (findedData) {
     var id = findedData[0][0]._id;
     if (id) {
-      callback(null, id);
+      callback(null, findedData[0][0]);
     } else {
       callback(findedData[0]);
     }

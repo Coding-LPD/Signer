@@ -13,7 +13,7 @@
  *    HTTP/1.1 200 OK
  *    {
  *      code: "200",
- *      data: { user: {}, id: 'XXXX' },         // user注册成功的用户的信息,id为注册成功的教师或学生id
+ *      data: { user: {}, person: {} },         // user注册成功的用户的信息,person为注册成功的教师或学生信息
  *      msg:  "请求成功"
  *    }
  * 
@@ -40,7 +40,7 @@
  *    HTTP/1.1 200 OK
  *    {
  *      code: "200",
- *      data: { user: {}, id: 'XXXX' }          // user登录成功的用户的信息，id为登录成功的教师或学生id
+ *      data: { user: {}, person: {} }          // user登录成功的用户的信息，person为登录成功的教师或学生信息
  *      msg:  "请求成功"
  *    } 
  * 
@@ -67,7 +67,7 @@
  *    HTTP/1.1 200 OK
  *    {
  *      code: "200",
- *      data: { user: {}, id: 'XXXX' }          // user登录成功的用户的信息，id为登录成功的教师或学生id
+ *      data: { user: {}, person: {} }          // user登录成功的用户的信息，person为登录成功的教师或学生信息
  *      msg:  "请求成功"
  *    } 
  * 
