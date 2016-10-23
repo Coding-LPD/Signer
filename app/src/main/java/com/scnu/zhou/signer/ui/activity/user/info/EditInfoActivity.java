@@ -2,6 +2,7 @@ package com.scnu.zhou.signer.ui.activity.user.info;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import com.scnu.zhou.signer.R;
 import com.scnu.zhou.signer.component.bean.http.ResultResponse;
 import com.scnu.zhou.signer.component.bean.user.Student;
+import com.scnu.zhou.signer.component.cache.UserCache;
 import com.scnu.zhou.signer.presenter.user.IUserPresenter;
 import com.scnu.zhou.signer.presenter.user.UserPresenter;
 import com.scnu.zhou.signer.ui.activity.base.BaseSlideActivity;
@@ -85,8 +87,18 @@ public class EditInfoActivity extends BaseSlideActivity implements IUserUpdateVi
     // 保存动作
     @OnClick(R.id.tv_right)
     public void saveInfo(){
-        showLoadingDialog("提交中");
-        userPresenter.updateStudentInfo(userid, getVariableName(title), et_info.getText());
+
+        if (!TextUtils.isEmpty(et_info.getText().toString())) {
+
+            showLoadingDialog("提交中");
+            userPresenter.updateStudentInfo(userid, getVariableName(title), et_info.getText());
+        }
+        else{
+
+            ToastView toastView = new ToastView(this, "信息不能为空哦");
+            toastView.setGravity(Gravity.CENTER, 0, 0);
+            toastView.show();
+        }
     }
 
 
@@ -114,6 +126,10 @@ public class EditInfoActivity extends BaseSlideActivity implements IUserUpdateVi
         dismissLoadingDialog();
 
         if (response.getCode().equals("200")){
+
+            if (getVariableName(title).equals("number")){   // 是学号就要保存
+                UserCache.getInstance().setNumber(this, et_info.getText().toString());
+            }
 
             ToastView toastView = new ToastView(context, "修改成功");
             toastView.setGravity(Gravity.CENTER, 0, 0);

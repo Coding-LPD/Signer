@@ -26,16 +26,21 @@ public class UserCache {
         return sharedPreferences.getString("_id", "");
     }
 
-    public String getPhone(Context context){
+    public String getName(Context context){
 
         SharedPreferences sharedPreferences = context.getSharedPreferences("User", Context.MODE_PRIVATE);
-        return sharedPreferences.getString("phone", "");
+        return sharedPreferences.getString("name", "");
     }
 
-    public String getPassword(Context context){
+    public String getAvatar(Context context){
 
         SharedPreferences sharedPreferences = context.getSharedPreferences("User", Context.MODE_PRIVATE);
-        return sharedPreferences.getString("password", "");
+        return sharedPreferences.getString("avatar", "");
+    }
+
+    public String getNumber(Context context){
+        SharedPreferences sharedPreferences = context.getSharedPreferences("User", Context.MODE_PRIVATE);
+        return sharedPreferences.getString("number", "");
     }
 
     public void setId(Context context, String id){
@@ -61,18 +66,13 @@ public class UserCache {
         editor.commit();
     }
 
-    public String getName(Context context){
+    public void setNumber(Context context, String number){
 
         SharedPreferences sharedPreferences = context.getSharedPreferences("User", Context.MODE_PRIVATE);
-        return sharedPreferences.getString("name", "");
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("number", number);
+        editor.commit();
     }
-
-    public String getAvatar(Context context){
-
-        SharedPreferences sharedPreferences = context.getSharedPreferences("User", Context.MODE_PRIVATE);
-        return sharedPreferences.getString("avatar", "");
-    }
-
 
     public void login(Context context, String phone, String password){
         SharedPreferences sharedPreferences = context.getSharedPreferences("User", Context.MODE_PRIVATE);
@@ -89,5 +89,17 @@ public class UserCache {
         editor.putString("name", "");
         editor.putString("password", "");
         editor.commit();
+    }
+
+    public String getPhone(Context context){
+
+        SharedPreferences sharedPreferences = context.getSharedPreferences("User", Context.MODE_PRIVATE);
+        return sharedPreferences.getString("phone", "");
+    }
+
+    public String getPassword(Context context){
+
+        SharedPreferences sharedPreferences = context.getSharedPreferences("User", Context.MODE_PRIVATE);
+        return sharedPreferences.getString("password", "");
     }
 }

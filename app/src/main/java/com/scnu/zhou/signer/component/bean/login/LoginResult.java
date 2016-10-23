@@ -1,5 +1,6 @@
 package com.scnu.zhou.signer.component.bean.login;
 
+import com.scnu.zhou.signer.component.bean.user.Student;
 import com.scnu.zhou.signer.component.bean.user.User;
 
 /**
@@ -7,16 +8,8 @@ import com.scnu.zhou.signer.component.bean.user.User;
  */
 public class LoginResult {
 
-    private String id;
     private User user;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
+    private Student person;
 
     public User getUser() {
         return user;
@@ -24,5 +17,13 @@ public class LoginResult {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Student getPerson() {
+        return person;
+    }
+
+    public void setPerson(Student person) {
+        this.person = person;
     }
 }

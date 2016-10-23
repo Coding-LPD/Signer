@@ -222,7 +222,8 @@ public class LoginActivity extends BaseActivity implements ILoginView, TextWatch
             else {
                 UserCache.getInstance().login(this, et_user.getText(), et_password.getText());
             }
-            UserCache.getInstance().setId(this, response.getData().getId());
+            UserCache.getInstance().setId(this, response.getData().getPerson().get_id());
+            UserCache.getInstance().setNumber(this, response.getData().getPerson().getNumber());
 
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(intent);

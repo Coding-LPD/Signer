@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.GridView;
@@ -19,11 +20,13 @@ import com.scnu.zhou.signer.component.bean.sign.ScanResult;
 import com.scnu.zhou.signer.component.bean.sign.SignRecord;
 import com.scnu.zhou.signer.component.bean.sign.Signer;
 import com.scnu.zhou.signer.component.cache.UserCache;
-import com.scnu.zhou.signer.component.util.location.BaiduLocationClient;
 import com.scnu.zhou.signer.component.util.http.ResponseCodeUtil;
+import com.scnu.zhou.signer.component.util.location.BaiduLocationClient;
 import com.scnu.zhou.signer.presenter.sign.ISignPresenter;
 import com.scnu.zhou.signer.presenter.sign.SignPresenter;
 import com.scnu.zhou.signer.ui.activity.base.BaseSlideActivity;
+import com.scnu.zhou.signer.ui.activity.user.info.UserInfoActivity;
+import com.scnu.zhou.signer.ui.widget.dialog.AlertDialog;
 import com.scnu.zhou.signer.ui.widget.toast.ToastView;
 import com.scnu.zhou.signer.view.sign.ISignView;
 
@@ -221,9 +224,14 @@ public class ConfirmSignActivity extends BaseSlideActivity implements ISignView{
     @OnClick(R.id.btn_sign_before)
     public void signBefore(){
 
-        type = 0;
-        showLoadingDialog("发送请求中");
-        getPhoneBattery();
+        if (!TextUtils.isEmpty(UserCache.getInstance().getNumber(this))) {   // 有学号信息
+            type = 0;
+            showLoadingDialog("发送请求中");
+            getPhoneBattery();
+        }
+        else{
+            showMessageDialog();
+        }
 
     }
 
@@ -231,9 +239,14 @@ public class ConfirmSignActivity extends BaseSlideActivity implements ISignView{
     @OnClick(R.id.btn_sign_after)
     public void signAfter(){
 
-        type = 1;
-        showLoadingDialog("发送请求中");
-        getPhoneBattery();
+        if (!TextUtils.isEmpty(UserCache.getInstance().getNumber(this))) {   // 有学号信息
+            type = 1;
+            showLoadingDialog("发送请求中");
+            getPhoneBattery();
+        }
+        else{
+            showMessageDialog();
+        }
     }
 
 
@@ -303,5 +316,32 @@ public class ConfirmSignActivity extends BaseSlideActivity implements ISignView{
         doubleinfos.put("longitude", longitude);
 
         signPresenter.postSign(strinfos, numinfos, doubleinfos);
+    }
+
+
+    /**
+     * 弹出提示对话框
+     */
+    public void showMessageDialog(){
+
+        final AlertDialog dialog = new AlertDialog(this);
+        dialog.setTitle("友情提示");
+        dialog.setMessage("请先完善您的学生信息\n再进行签到");
+        dialog.setNegativeButton("知道了", AlertDialog.BUTTON_LEFT, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        dialog.setPositiveButton("现在就去", AlertDialog.BUTTON_RIGHT, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(ConfirmSignActivity.this, UserInfoActivity.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+            }
+        });
+        //dialog.show();
     }
 }
