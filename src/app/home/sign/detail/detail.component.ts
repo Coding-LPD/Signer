@@ -89,7 +89,35 @@ export class DetailComponent implements OnInit {
     this.isLargeQRCode = !this.isLargeQRCode;
   }
 
-  refreshRecords(signId: string, type: number) {
+  agreeSign(record: SignRecord) {
+    if (!confirm('确定同意签到吗？')) {
+      return;
+    }
+    this._signRecordService.agree(record._id)
+      .subscribe(body => {
+        if (+body.code == 200) {
+          record.state = 1;
+        } else {
+          this.popup.show(body.msg);
+        }
+      });
+  }
+
+  refuseSign(record: SignRecord) {
+    if (!confirm('确定拒绝签到吗？')) {
+      return;
+    }
+    this._signRecordService.refuse(record._id)
+      .subscribe(body => {
+        if (+body.code == 200) {
+          record.state = 2;
+        } else {
+          this.popup.show(body.msg);
+        }
+      });
+  }
+
+  private refreshRecords(signId: string, type: number) {
     this._signRecordService.search({ signId, type })
       .subscribe(body => {
         if (+body.code == 200) {

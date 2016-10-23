@@ -26,14 +26,18 @@
     <button type="button" [class.inactive]="radiosInactive[0]" (click)="selectRadio(0)">课前</button>
     <button type="button" [class.inactive]="radiosInactive[1]" (click)="selectRadio(1)">课后</button>
   </div>  
+  <div class="all-confirm-group" *ngIf="records.length > 0">
+    <button type="button" class="blue">全部同意</button>
+    <button type="button" class="red">全部拒绝</button>
+  </div>
   <ul class="sign-in-list">
     <li *ngFor="let r of records">
       <img class="avatar" [src]="r.studentAvatar" onerror="javascript:this.src='/public/images/default.png'" />
       <div>{{r.studentName}}</div>
-      <div class="red-font">{{r.distance}}m</div>
+      <div [class]="r.distance <= 50 ? 'green-font' : 'red-font'">{{r.distance}}m</div>
       <div class="confirm-group wrap" *ngIf="r.state == 0">
-        <button type="button" class="confirm-btn"></button>
-        <button type="button" class="cancel-btn"></button>
+        <button type="button" class="confirm-btn" (click)="agreeSign(r)"></button>
+        <button type="button" class="cancel-btn" (click)="refuseSign(r)"></button>
       </div>
       <div class="confirm-state" *ngIf="r.state != 0">
         <span class="green-font" [hidden]="r.state != 1">已准许</span>
@@ -41,11 +45,7 @@
       </div>      
     </li>    
   </ul>
-  <div class="no-sign-tip" *ngIf="records.length <= 0">暂无学生签到</div>
-  <div class="all-confirm-group" *ngIf="records.length > 0">
-    <button type="button" class="blue">全部同意</button>
-    <button type="button" class="red">全部拒绝</button>
-  </div>
+  <div class="no-sign-tip" *ngIf="records.length <= 0">暂无学生签到</div>  
 </div>
 
 <div class="big-qr-code" *ngIf="isLargeQRCode">

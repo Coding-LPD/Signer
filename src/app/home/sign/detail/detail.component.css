@@ -85,6 +85,18 @@
   background-color: transparent;  
 }
 
+.all-confirm-group {
+  display: inline-block;
+  margin-left: 30px;
+}
+
+.all-confirm-group button {
+  display: inline-block;
+  width: auto;
+  margin-right: 20px;
+  padding: 10px 20px;  
+}
+
 .sign-in-list li {
   display: inline-block;
   margin: 30px 20px;
@@ -119,13 +131,6 @@
 .cancel-btn {
   float: right;
   background-image: url('/public/images/cancel.png');
-}
-
-.all-confirm-group button {
-  display: inline-block;
-  width: auto;
-  margin-right: 40px;
-  padding: 10px 20px;  
 }
 
 .confirm-state {

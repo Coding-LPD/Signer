@@ -24,7 +24,20 @@ export class API {
   static sign = '/signs';
   static signSearch = '/signs/search';
   static signRecord = '/signRecords';
+  static signRecordAssent = '/signRecords/{0}/assent';
+  static signRecordRefusal = '/signRecords/{0}/refusal';
   static signRecordSearch = '/signRecords/search';
   static position = '/positions';
+
+  static stringReplace(str: string, params: string[]) {
+      var i: number;
+      var reg: RegExp;
+      
+      for (i=0; i<params.length; i++) {        
+          reg = new RegExp('\\{' + i + '\\}', 'g');
+          str = str.replace(reg, params[i]);
+      }
+      return str;
+  }
 
 }
