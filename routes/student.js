@@ -90,8 +90,8 @@ router.get('/images/:id', function (req, res) {
 
 router.get('/:phone/relatedCourses', function (req, res) {
   var phone = req.params['phone'];
-  var limit = +req.query['limit'];
-  var page = +req.query['page'];
+  var limit = +req.query['limit'] || 10;
+  var page = +req.query['page'] || 0;
   var maxAvatarNum = 6;  // 每个课程最近签到的前6个学生头像
  
   Student.find({ phone }).then(function (students) {

@@ -156,21 +156,22 @@
  */
 
 /**
- * @api {get} /:phone/relatedCourses 相关课程的签到信息
+ * @api {get} /students/:phone/relatedCourses?limit=10&page=0 相关课程的签到信息
  * @apiVersion 1.0.0
  * @apiName GetStudentRelatedCourses
  * @apiGroup Student
- * @apiDescription 相关课程是指学生参与过该课程的签到，phone指学生手机号
+ * @apiDescription 相关课程是指学生参与过该课程的签到，phone指学生手机号，limit指每页大小（默认10），page指第几页（默认0）
  * 
  * @apiSuccessExample 成功
  *    HTTP/1.1 200 OK
  *    {
  *      code: "200",
- *      data: {
+ *      data:               // 对象数组
+ *      [{
  *        name: 'XXX',      // 课程名称
  *        number: 0,        // 签到完成人数
  *        avatars: []       // 最后完成签到的最多6位学生的头像
- *      }
+ *      }]
  *      msg:  "操作成功"
  *    }
  * 
