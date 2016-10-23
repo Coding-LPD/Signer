@@ -33,6 +33,20 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <service
+            android:name="com.baidu.location.f"
+            android:enabled="true"
+            android:process=":remote" >
+            <intent-filter>
+                <action android:name="com.baidu.location.service_v2.2" >
+                </action>
+            </intent-filter>
+        </service>
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="kEfWuM3sQSQi7tYpRbwHKoRi475IaFMo" />
+
         <activity android:name=".ui.activity.main.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -19,7 +19,7 @@ import com.scnu.zhou.signer.component.bean.sign.ScanResult;
 import com.scnu.zhou.signer.component.bean.sign.SignRecord;
 import com.scnu.zhou.signer.component.bean.sign.Signer;
 import com.scnu.zhou.signer.component.cache.UserCache;
-import com.scnu.zhou.signer.component.util.gps.GPSManager;
+import com.scnu.zhou.signer.component.util.location.BaiduLocationClient;
 import com.scnu.zhou.signer.component.util.http.ResponseCodeUtil;
 import com.scnu.zhou.signer.presenter.sign.ISignPresenter;
 import com.scnu.zhou.signer.presenter.sign.SignPresenter;
@@ -62,6 +62,8 @@ public class ConfirmSignActivity extends BaseSlideActivity implements ISignView{
     private int type = 0;
     private int battery = 0;
 
+    private BaiduLocationClient client;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,6 +73,8 @@ public class ConfirmSignActivity extends BaseSlideActivity implements ISignView{
         ButterKnife.bind(this);
         initView();
         initData();
+
+        client = new BaiduLocationClient(this);
     }
 
 
@@ -259,15 +263,13 @@ public class ConfirmSignActivity extends BaseSlideActivity implements ISignView{
      */
     public void getPhoneLocation(){
 
-        GPSManager manager = new GPSManager(this);
-        manager.setonGetLocationListener(new GPSManager.onGetLocationListener() {
+        client.setOnGetLocationListener(new BaiduLocationClient.OnGetLocationListener() {
             @Override
             public void onGetLocation(double latitude, double longitude) {
-
                 sign(latitude, longitude);
             }
         });
-        manager.startManager();
+        client.start();
     }
 
 
