@@ -32,11 +32,12 @@
     </LinearLayout>
     <!--navigation bar end-->
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Notice"
-        android:id="@+id/textView"
-        android:layout_centerInParent="true" />
+    <com.scnu.zhou.signer.ui.widget.listview.PullToRefreshListView
+        android:id="@+id/plv_notice"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="51dp"
+        android:divider="@null"
+        android:scrollbars="none"/>
+
 </RelativeLayout>
