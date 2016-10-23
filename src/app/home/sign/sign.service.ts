@@ -43,8 +43,8 @@ export class SignService extends BaseService {
       .catch(this.handleError);
   }
 
-  search(teacherId: string) {
-    return this._http.post(API.domain + API.signSearch, {teacherId}, this.options)
+  search(condition: Object) {
+    return this._http.post(API.domain + API.signSearch, condition, this.options)
       .map(this.extractData)
       .catch(this.handleError);
   }
