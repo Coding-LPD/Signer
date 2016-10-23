@@ -179,9 +179,19 @@ public class ConfirmSignActivity extends BaseSlideActivity implements ISignView{
     public void onPostSignSuccess(ResultResponse<SignRecord> response) {
 
         dismissLoadingDialog();
+
+        Intent intent = new Intent(this, SignSuccessActivity.class);
+        intent.putExtra("distance", response.getData().getDistance());
+        intent.putExtra("battery", response.getData().getBattery());
+        startActivity(intent);
+        overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+
+        finish();
+
+        /*
         ToastView toastView = new ToastView(ConfirmSignActivity.this, "签到成功");
         toastView.setGravity(Gravity.CENTER, 0, 0);
-        toastView.show();
+        toastView.show();*/
     }
 
 

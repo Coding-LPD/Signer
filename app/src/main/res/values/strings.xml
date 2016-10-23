@@ -64,5 +64,10 @@
     <string name="sign_after_course">课后签到</string>
     <string name="sign_input_title">请输入6位签到码</string>
 
+    <string name="sign_success_title">签到请求已发送</string>
+    <string name="sign_success_text">请耐心等待老师的回复</string>
+    <string name="sign_success_distance">签到距离：</string>
+    <string name="sign_success_battery">签到电量：</string>
+
     <string name="listview_bottom_title">已经到达底部了哦</string>
 </resources>

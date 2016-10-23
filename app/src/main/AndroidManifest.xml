@@ -79,6 +79,7 @@
 
         <activity android:name=".ui.activity.sign.ConfirmSignActivity"/>
         <activity android:name=".ui.activity.sign.InputSignActivity"/>
+        <activity android:name=".ui.activity.sign.SignSuccessActivity"/>
 
     </application>
 
