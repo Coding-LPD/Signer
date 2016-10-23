@@ -7,6 +7,7 @@ var sendInfo = require('../services/error-handler').sendInfo;
 var errorCodes = require('../services/error-codes').errorCodes;
 var common = require('../services/common');
 var Student = require('../services/mongo').Student;
+var Sign = require('../services/mongo').Sign;
 var SignRecord = require('../services/mongo').SignRecord;
 
 router.get('/', function (req, res) {
@@ -17,24 +18,29 @@ router.get('/', function (req, res) {
 
 router.post('/', function (req, res) {
   var signRecord = new SignRecord(req.body);
-  signRecord.set('state', 0);
-  signRecord.set('distance', 100);  //测试
-  Student.findById(signRecord.get('studentId'), function (err, student) {
-    if (err) {
-      handleErrors(err, res, {});
-      return;
-    }
+  var signId = req.body.signId;
 
-    signRecord.set('studentName', student.get('name'));
-    signRecord.set('studentAvatar', student.get('avatar'));
-    signRecord.set('createdAt', moment(new Date()).format('YYYY-MM-DD HH:mm:ss'));
-    signRecord.save(function () {
+  Sign.findById(signId, function (err, sign) {
+    signRecord.set('courseId', sign.get('courseId'));
+    signRecord.set('state', 0);
+    signRecord.set('distance', 100);  //测试
+    Student.findById(signRecord.get('studentId'), function (err, student) {
       if (err) {
-        handleErrors(err, res, {});        
-      } else {
-        sendInfo(errorCodes.Success, res, signRecord);
+        handleErrors(err, res, {});
+        return;
       }
-    });    
+
+      signRecord.set('studentName', student.get('name'));
+      signRecord.set('studentAvatar', student.get('avatar'));
+      signRecord.set('createdAt', moment(new Date()).format('YYYY-MM-DD HH:mm:ss'));
+      signRecord.save(function () {
+        if (err) {
+          handleErrors(err, res, {});        
+        } else {
+          sendInfo(errorCodes.Success, res, signRecord);
+        }
+      });    
+    });  
   });  
 });
 

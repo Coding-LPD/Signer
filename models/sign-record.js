@@ -5,6 +5,10 @@ var SignRecord = {
     type: String,
     required: true
   },
+  courseId: {
+    type: String,
+    required: true
+  },
   phoneId: {
     type: String,
     required: true
