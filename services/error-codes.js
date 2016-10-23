@@ -30,6 +30,7 @@ var errorCodes = {
   SignNotRelatedCourse:   '4001',
   IPEmpty:                '4002',
   LocateError:            '4003',
+  TeacherNotLocate:       '4004',
   
   AuthenticationError:    '401',
   AuthenticationExpired:  '402',
@@ -66,6 +67,7 @@ var errorMsg = {
   4001: '签到失败，该签到没有对应某个课程',
   4002: 'IP地址不能为空',
   4003: '定位失败',
+  4004: '教师尚未定位，无法进行签到',
   401:  '认证信息有误',
   402:  '认证信息已失效',
   403:  '无权限访问该资源',
