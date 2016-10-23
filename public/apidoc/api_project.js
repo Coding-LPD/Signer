@@ -27,6 +27,8 @@ define({
     "PutStudent",
     "PostStudentSearch",
     "PostStudentImage",
+    "GetStudentImage",
+    "GetStudentRelatedCourses",
     "Teacher",
     "GetTeacher",
     "PostTeacherSearch",
@@ -51,7 +53,7 @@ define({
   "apidoc": "0.2.0",
   "generator": {
     "name": "apidoc",
-    "time": "2016-10-23T05:29:52.756Z",
+    "time": "2016-10-23T09:27:37.364Z",
     "url": "http://apidocjs.com",
     "version": "0.16.1"
   }

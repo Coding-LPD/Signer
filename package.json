@@ -52,6 +52,8 @@
       "PutStudent",
       "PostStudentSearch",
       "PostStudentImage",
+      "GetStudentImage",
+      "GetStudentRelatedCourses",
       "Teacher",
       "GetTeacher",
       "PostTeacherSearch",

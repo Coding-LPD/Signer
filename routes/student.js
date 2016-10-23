@@ -10,7 +10,10 @@ var errorCodes = require('../services/error-codes').errorCodes;
 var common = require('../services/common');
 var config = require('../services/config');
 var multipartMiddleware = multipart(config.cmConfig);
+var log = require('../services/log');
 var Student = require('../services/mongo').Student;
+var Sign = require('../services/mongo').Sign;
+var SignRecord = require('../services/mongo').SignRecord;
 
 router.get('/', function (req, res) {
   Student.find(function (err, students) {
@@ -83,6 +86,81 @@ router.get('/images/:id', function (req, res) {
   } else {
     sendInfo(errorCodes.Success, res, config.userImagesUrlPrefix + id + '.png');
   }
+});
+
+router.get('/:phone/relatedCourses', function (req, res) {
+  var phone = req.params['phone'];
+  var limit = +req.query['limit'];
+  var page = +req.query['page'];
+  var maxAvatarNum = 6;  // 每个课程最近签到的前6个学生头像
+ 
+  Student.find({ phone }).then(function (students) {
+    if (students.length <= 0) {
+      return Promise.reject({ code: errorCodes.UserNotExist });
+    }
+
+    var student = students[0];
+    // 查询该学生的相关课程（有签到过的）最近的一次签到
+    return SignRecord.aggregate()
+      .match({ studentId: '' + student._id })
+      .sort('-createdAt')
+      .project('courseId')
+      .group({ _id: '$courseId' })
+      .skip(page * limit)
+      .limit(limit)      
+      .exec()
+    })
+    .then(function (courseIdObjects) {
+      return Promise.all(courseIdObjects.map(function (courseIdObject) {
+        return Sign.aggregate()
+          .match({ courseId: '' + courseIdObject._id })
+          .sort('-createdAt')
+          .project('_id courseName signIn')
+          .limit(1)
+          .exec();
+      }));
+    })
+    .then(function (results) {
+      // 提取出该学生的相关课程（有签到过的）最近的一次签到
+      var coursesLastestSign = results.map(function (r) {
+        return r[0];
+      });
+      // 查询这些签到最近的签到学生的头像
+      var promises = [];
+      coursesLastestSign.forEach(function (sign) {
+        promises.push(SignRecord.find({ signId: sign._id, state: { $gt: 0 } }, 'studentAvatar', { sort: '-createdAt', limit: maxAvatarNum }));
+      });
+      // 将相关课程与签到信息传递给下一个流程
+      promises.push(coursesLastestSign);
+      return Promise.all(promises);
+    })
+    .then(function (results) {
+      // 提取相关课程与签到信息
+      var coursesLastestSign = results.splice(-1, 1);
+      coursesLastestSign = coursesLastestSign[0].map(function (r) {
+        return r;
+      });
+      // 拼装返回值
+      var retDatas = results.map(function (r, index) {
+        // 提取签到的学生头像
+        var avatars = r.map(function (v) {
+          return v.studentAvatar;
+        });
+        return {
+          name: coursesLastestSign[index].courseName,
+          number: coursesLastestSign[index].signIn,
+          avatars: avatars
+        };
+      });
+      sendInfo(errorCodes.Success, res, retDatas);
+    })
+    .catch(function (err) {
+      if (err.code) {
+        sendInfo(err.code, res, []);
+      } else {
+        handleErrors(err, res, []);
+      }      
+    });
 });
 
 module.exports = router;

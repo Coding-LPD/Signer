@@ -795,6 +795,35 @@
     "groupTitle": "学生"
   },
   {
+    "type": "get",
+    "url": "/:phone/relatedCourses",
+    "title": "相关课程的签到信息",
+    "version": "1.0.0",
+    "name": "GetStudentRelatedCourses",
+    "group": "Student",
+    "description": "<p>相关课程是指学生参与过该课程的签到，phone指学生手机号</p>",
+    "success": {
+      "examples": [
+        {
+          "title": "成功",
+          "content": "HTTP/1.1 200 OK\n{\n  code: \"200\",\n  data: {\n    name: 'XXX',      // 课程名称\n    number: 0,        // 签到完成人数\n    avatars: []       // 最后完成签到的最多6位学生的头像\n  }\n  msg:  \"操作成功\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "失败：",
+          "content": "HTTP/1.1 200 OK\n{\n  code: \"XXXX\",\n  data: {},         \n  msg:  \"错误信息\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "docjs/students.js",
+    "groupTitle": "学生"
+  },
+  {
     "type": "post",
     "url": "/students/images",
     "title": "上传头像",

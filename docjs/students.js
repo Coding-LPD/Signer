@@ -154,3 +154,31 @@
  *      msg:  "错误信息"
  *    }
  */
+
+/**
+ * @api {get} /:phone/relatedCourses 相关课程的签到信息
+ * @apiVersion 1.0.0
+ * @apiName GetStudentRelatedCourses
+ * @apiGroup Student
+ * @apiDescription 相关课程是指学生参与过该课程的签到，phone指学生手机号
+ * 
+ * @apiSuccessExample 成功
+ *    HTTP/1.1 200 OK
+ *    {
+ *      code: "200",
+ *      data: {
+ *        name: 'XXX',      // 课程名称
+ *        number: 0,        // 签到完成人数
+ *        avatars: []       // 最后完成签到的最多6位学生的头像
+ *      }
+ *      msg:  "操作成功"
+ *    }
+ * 
+ * @apiErrorExample 失败：
+ *    HTTP/1.1 200 OK
+ *    {
+ *      code: "XXXX",
+ *      data: {},         
+ *      msg:  "错误信息"
+ *    }
+ */
