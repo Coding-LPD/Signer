@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import com.scnu.zhou.signer.R;
 import com.scnu.zhou.signer.component.adapter.listview.NoticeAdapter;
 import com.scnu.zhou.signer.component.bean.notice.NoticeBean;
 import com.scnu.zhou.signer.ui.widget.listview.PullToRefreshListView;
+import com.scnu.zhou.signer.ui.widget.toast.ToastView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,5 +77,23 @@ public class NoticeFragment extends Fragment {
 
         adapter = new NoticeAdapter(context, notices);
         plv_notice.setAdapter(adapter);
+        plv_notice.setOnPullToRefreshListener(new PullToRefreshListView.OnPullToRefreshListener() {
+            @Override
+            public void onRefresh() {
+
+            }
+
+            @Override
+            public void onLoadMore() {
+
+            }
+
+            @Override
+            public void onOutOfTime() {
+                ToastView toastView = new ToastView(context, "请检查您的网络连接");
+                toastView.setGravity(Gravity.CENTER, 0, 0);
+                toastView.show();
+            }
+        });
     }
 }

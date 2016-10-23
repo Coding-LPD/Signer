@@ -2,6 +2,7 @@ package com.scnu.zhou.signer.component.config;
 
 import com.scnu.zhou.signer.component.bean.http.ResultResponse;
 import com.scnu.zhou.signer.component.bean.login.LoginResult;
+import com.scnu.zhou.signer.component.bean.main.MainCourse;
 import com.scnu.zhou.signer.component.bean.sign.ScanResult;
 import com.scnu.zhou.signer.component.bean.sign.SignRecord;
 import com.scnu.zhou.signer.component.bean.user.Student;
@@ -19,6 +20,7 @@ import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 import rx.Observable;
 
 /**
@@ -80,8 +82,16 @@ public interface SignerApi {
     Observable<ResultResponse<ScanResult>> getScanResult(@Path("code") String code);
 
     @FormUrlEncoded
-    @POST("/api/signRecords")
+    @POST("/api/signRecords")    // 签到动作
     Observable<ResultResponse<SignRecord>> sign(@FieldMap Map<String,String> strinfos, @FieldMap Map<String,Integer> numinfos,
                                                 @FieldMap Map<String,Double> doubleinfos);
+
+
+    /**
+     * HomePage
+     */
+    @GET("/api/students/{phone}/relatedCourses")
+    Observable<ResultResponse<List<MainCourse>>> getRelatedCourses(@Path("phone") String phone, @Query("limit") int limit,
+                                                             @Query("page") int page);
 
 }

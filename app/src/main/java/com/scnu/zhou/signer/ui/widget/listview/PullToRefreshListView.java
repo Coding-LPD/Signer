@@ -63,8 +63,11 @@ public class PullToRefreshListView extends ListView implements AbsListView.OnScr
     private final int MAX_OVERSCROLL_Y = 100;
 
     private final int OUT_OF_TIME = 0x000;
-    private int refresh_time = 10;
-    private int loadmore_time = 10;
+    private final int END_IN_TIME = 0x004;
+
+    private final int END_TIME = 100;
+    private int refresh_time = END_TIME;
+    private int loadmore_time = END_TIME;
 
     public PullToRefreshListView(Context context) {
         super(context);
@@ -173,7 +176,7 @@ public class PullToRefreshListView extends ListView implements AbsListView.OnScr
                         }
 
                         HeadView.setPadding(0, paddingTop, 0, 0);
-                        return true;
+                        //return true;
                     }
                 }
                 break;
@@ -239,7 +242,7 @@ public class PullToRefreshListView extends ListView implements AbsListView.OnScr
         if (scrollState == SCROLL_STATE_IDLE
                 || scrollState == SCROLL_STATE_FLING) {
             // 判断当前是否已经到了底部
-            if (isScrollToBottom && !isLoadingMore && !isCompleted) {
+            if (isScrollToBottom && !isLoadingMore && !isCompleted && state != STATE_REFRESHING) {
                 isLoadingMore = true;
                 // 当前到底部
                 //Log.i("load", "加载更多数据");
@@ -274,11 +277,12 @@ public class PullToRefreshListView extends ListView implements AbsListView.OnScr
 
         this.firstVisibleItem = firstVisibleItem;
 
-        if (getLastVisiblePosition() == totalItemCount - 1){
-            isScrollToBottom = true;
-        }
-        else{
-            isScrollToBottom = false;
+        if (firstVisibleItem != 0) {
+            if (getLastVisiblePosition() == totalItemCount - 1) {
+                isScrollToBottom = true;
+            } else {
+                isScrollToBottom = false;
+            }
         }
     }
 
@@ -295,6 +299,45 @@ public class PullToRefreshListView extends ListView implements AbsListView.OnScr
      */
     public void onRefreshCompleted(){
 
+        hideHeaderView();
+
+        Message msg = new Message();
+        msg.what = END_IN_TIME;
+        RefreshHandler.sendMessage(msg);
+    }
+
+
+    /**
+     * 上拉加载加载完毕
+     */
+    public void onLoadMoreCompleted(){
+
+        hideFooterView();
+
+        Message msg = new Message();
+        msg.what = END_IN_TIME;
+        RefreshHandler.sendMessage(msg);
+    }
+
+
+    /**
+     * 数据全部加载完毕
+     */
+    public void onLoadMoreAllCompleted(){
+
+        isLoadingMore = false;
+        isCompleted = true;
+        iv_bloading.clearAnimation();
+        iv_bloading.setVisibility(GONE);
+        ll_bottom.setVisibility(VISIBLE);
+
+        Message msg = new Message();
+        msg.what = END_IN_TIME;
+        RefreshHandler.sendMessage(msg);
+    }
+
+
+    private void hideHeaderView(){
         //HeadView.setPadding(0, - headHeight, 0, 0);
 
         state = STATE_PULL_DOWN;
@@ -317,31 +360,13 @@ public class PullToRefreshListView extends ListView implements AbsListView.OnScr
             }
         });
         valueAnimator.setDuration(500).start();
-
     }
 
 
-    /**
-     * 上拉加载加载完毕
-     */
-    public void onLoadMoreCompleted(){
-
+    private void hideFooterView(){
         isLoadingMore = false;
         iv_bloading.clearAnimation();
         FootView.setPadding(0, - footHeight, 0, 0);
-    }
-
-
-    /**
-     * 数据全部加载完毕
-     */
-    public void onLoadMoreAllCompleted(){
-
-        isLoadingMore = false;
-        isCompleted = true;
-        iv_bloading.clearAnimation();
-        iv_bloading.setVisibility(GONE);
-        ll_bottom.setVisibility(VISIBLE);
     }
 
 
@@ -371,7 +396,11 @@ public class PullToRefreshListView extends ListView implements AbsListView.OnScr
                     listener.onOutOfTime();
                 }
 
-                onRefreshCompleted();
+                hideHeaderView();
+            }
+            else if (msg.what == END_IN_TIME){
+
+                refresh_time = END_TIME;
             }
             super.handleMessage(msg);
         }
@@ -384,14 +413,16 @@ public class PullToRefreshListView extends ListView implements AbsListView.OnScr
             @Override
             public void run() {
 
-                if (refresh_time > 0) {
-                    refresh_time--;
-                    RefreshHandler.postDelayed(this, 1000);
-                }
-                else{
-                    Message msg = new Message();
-                    msg.what = OUT_OF_TIME;
-                    RefreshHandler.sendMessage(msg);
+                if (refresh_time != END_TIME) {
+
+                    if (refresh_time > 0) {
+                        refresh_time--;
+                        RefreshHandler.postDelayed(this, 1000);
+                    } else {
+                        Message msg = new Message();
+                        msg.what = OUT_OF_TIME;
+                        RefreshHandler.sendMessage(msg);
+                    }
                 }
             }
         }, 1000);
@@ -411,7 +442,11 @@ public class PullToRefreshListView extends ListView implements AbsListView.OnScr
                     listener.onOutOfTime();
                 }
 
-                onLoadMoreCompleted();
+                hideFooterView();
+            }
+            else if (msg.what == END_IN_TIME){
+
+                loadmore_time = END_TIME;
             }
             super.handleMessage(msg);
         }
@@ -425,14 +460,15 @@ public class PullToRefreshListView extends ListView implements AbsListView.OnScr
             @Override
             public void run() {
 
-                if (loadmore_time > 0) {
-                    loadmore_time--;
-                    LoadMoreHandler.postDelayed(this, 1000);
-                }
-                else{
-                    Message msg = new Message();
-                    msg.what = OUT_OF_TIME;
-                    LoadMoreHandler.sendMessage(msg);
+                if (loadmore_time != END_TIME) {
+                    if (loadmore_time > 0) {
+                        loadmore_time--;
+                        LoadMoreHandler.postDelayed(this, 1000);
+                    } else {
+                        Message msg = new Message();
+                        msg.what = OUT_OF_TIME;
+                        LoadMoreHandler.sendMessage(msg);
+                    }
                 }
             }
         }, 1000);
