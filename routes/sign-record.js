@@ -1,3 +1,4 @@
+var moment = require('moment');
 var express = require('express');
 var router = express.Router();
 
@@ -26,6 +27,7 @@ router.post('/', function (req, res) {
 
     signRecord.set('studentName', student.get('name'));
     signRecord.set('studentAvatar', student.get('avatar'));
+    signRecord.set('createdAt', moment(new Date()).format('YYYY-MM-DD HH:mm:ss'));
     signRecord.save(function () {
       if (err) {
         handleErrors(err, res, {});        
