@@ -23,6 +23,7 @@ router.post('/', function (req, res) {
   var studentLng = +req.body.longitude;
   var studentLat = +req.body.latitude;
   var battery = +req.body.battery;
+  var type = +req.body.type;
 
   var promises = [];
   promises.push(Position.find({ signId: signId }));
@@ -39,7 +40,8 @@ router.post('/', function (req, res) {
     var student = results[2];
 
     var distance = common.getFlatternDistance(teacherPos.latitude, teacherPos.longitude, studentLat, studentLng);
-    signRecord.set('batter', battery)
+    signRecord.set('batter', battery);
+    signRecord.set('type', type);
     signRecord.set('courseId', sign.get('courseId'));
     signRecord.set('state', 0);
     signRecord.set('distance', Math.round(distance));
