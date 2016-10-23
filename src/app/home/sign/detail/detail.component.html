@@ -1,19 +1,22 @@
+<div *ngIf="sign">
+
 <div class="title">
-  <span>软件工程</span>
+  <span [style.background-color]="sign.color">{{sign.courseName}}</span>
 </div>
 <div class="info wrap" *ngIf="!isLargeQRCode">
   <ul class="status-list">
-    <li><label>开始时间</label><span>2016-09-01 10:00</span></li>
-    <li><label>结束时间</label><span>2016-09-01 11:50</span></li>
-    <li><label>签到状态</label><span class="green-font">进行中</span></li>
+    <li><label>开始时间</label><span>{{sign.startTime}}</span></li>
+    <li><label>结束时间</label><span>{{sign.endTime}}</span></li>
+    <li><label>签到状态</label><span [style.color]="signStates[sign.state].color">{{signStates[sign.state].text}}</span></li>
   </ul>
   <div class="qr-code" (click)="ToggleQRCodeSize()">
-    <qr-code [data]="'123'" [size]="'120'"></qr-code>
+    <qr-code [data]="sign.code" [size]="'120'"></qr-code>
     <div class="qr-code-tip">点我放大</div>
   </div>
   <div class="sign-in">
-    <circle-progress [nowValue]="15" [fontSize]="18" [fontColor]="'gray'"
-        [boxSize]="140" [radius]="70" [border]="12" [backgroundColor]="'#DDD'"        
+    <circle-progress [nowValue]="sign.signIn" [maxValue]="sign.studentCount" 
+        [fontSize]="18" [fontColor]="'gray'" [boxSize]="140" 
+        [radius]="70" [border]="12" [backgroundColor]="'#DDD'"        
         [lowColor]="'#97CC00'" [middleColor]="'#97CC00'" [interColor]="'#97CC00'" [highColor]="'#97CC00'">
     </circle-progress>
   </div>
@@ -46,8 +49,11 @@
 </div>
 
 <div class="big-qr-code" *ngIf="isLargeQRCode">
-    <qr-code [data]="'123'" [size]="'350'" (click)="ToggleQRCodeSize()"></qr-code>
+    <qr-code [data]="sign.code" [size]="'350'" (click)="ToggleQRCodeSize()"></qr-code>
+    <div class="qrcode">Code: <span class="qrcode-num">{{sign.code}}</span></div>
     <div class="qr-code-tip">点我缩小</div>
+</div>
+
 </div>
 
 <pop-up></pop-up>

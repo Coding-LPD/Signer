@@ -149,8 +149,17 @@
   cursor: pointer;
 }
 
+.qrcode {
+  margin: 20px 0;
+  text-align: center;
+  font-size: 3em;
+}
+
+.qrcode-num {
+  color: #7ED321;
+}
+
 .big-qr-code .qr-code-tip {
-  margin-top: 30px;
   font-size: 1.5em;  
 }
 
