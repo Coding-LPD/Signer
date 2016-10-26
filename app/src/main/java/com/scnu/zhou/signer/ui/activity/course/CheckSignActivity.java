@@ -10,6 +10,7 @@ import com.scnu.zhou.signer.ui.activity.base.BaseSlideActivity;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by zhou on 16/10/26.
@@ -43,5 +44,11 @@ public class CheckSignActivity extends BaseSlideActivity {
 
         title = getIntent().getStringExtra("title");
         tv_title.setText(title);
+    }
+
+    // 返回上一页面
+    @OnClick(R.id.ll_return)
+    public void back(){
+        finish();
     }
 }

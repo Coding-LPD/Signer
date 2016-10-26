@@ -70,4 +70,7 @@
     <string name="sign_success_battery">签到电量：</string>
 
     <string name="listview_bottom_title">已经到达底部了哦</string>
+
+    <string name="check_sign_done">已签到</string>
+    <string name="check_sign_never">未签到</string>
 </resources>
