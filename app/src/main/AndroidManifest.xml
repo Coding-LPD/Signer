@@ -81,6 +81,8 @@
         <activity android:name=".ui.activity.sign.InputSignActivity"/>
         <activity android:name=".ui.activity.sign.SignSuccessActivity"/>
 
+        <activity android:name=".ui.activity.course.CourseDetailActivity"/>
+
     </application>
 
 </manifest>

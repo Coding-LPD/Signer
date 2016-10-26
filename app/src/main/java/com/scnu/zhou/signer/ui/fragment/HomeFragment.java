@@ -1,6 +1,7 @@
 package com.scnu.zhou.signer.ui.fragment;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -9,6 +10,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 
 import com.scnu.zhou.signer.R;
 import com.scnu.zhou.signer.component.adapter.listview.MainCourseAdapter;
@@ -17,6 +19,7 @@ import com.scnu.zhou.signer.component.bean.main.MainCourse;
 import com.scnu.zhou.signer.component.cache.UserCache;
 import com.scnu.zhou.signer.presenter.home.HomePresenter;
 import com.scnu.zhou.signer.presenter.home.IHomePresenter;
+import com.scnu.zhou.signer.ui.activity.course.CourseDetailActivity;
 import com.scnu.zhou.signer.ui.widget.listview.PullToRefreshListView;
 import com.scnu.zhou.signer.ui.widget.toast.ToastView;
 import com.scnu.zhou.signer.view.home.IHomeView;
@@ -30,7 +33,8 @@ import butterknife.ButterKnife;
 /**
  * Created by zhou on 16/9/6.
  */
-public class HomeFragment extends Fragment implements IHomeView, PullToRefreshListView.OnPullToRefreshListener{
+public class HomeFragment extends Fragment implements IHomeView, PullToRefreshListView.OnPullToRefreshListener,
+        AdapterView.OnItemClickListener{
 
     private Activity context;
 
@@ -74,6 +78,7 @@ public class HomeFragment extends Fragment implements IHomeView, PullToRefreshLi
 
         mData = new ArrayList<>();
         plv_main.setOnPullToRefreshListener(this);
+        plv_main.setOnItemClickListener(this);
     }
 
     @Override
@@ -191,5 +196,22 @@ public class HomeFragment extends Fragment implements IHomeView, PullToRefreshLi
     public void onResume() {
         super.onResume();
         onRefresh();
+    }
+
+
+    /**
+     * 单击处理
+     * @param parent
+     * @param view
+     * @param position
+     * @param id
+     */
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+        Intent intent = new Intent(context, CourseDetailActivity.class);
+        intent.putExtra("title", mData.get(position - 1).getName());
+        startActivity(intent);
+        context.overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
     }
 }
