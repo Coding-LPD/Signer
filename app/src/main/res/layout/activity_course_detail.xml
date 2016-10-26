@@ -164,6 +164,7 @@
     </LinearLayout>
 
     <TextView
+        android:id="@+id/tv_check_sign"
         android:layout_width="match_parent"
         android:layout_height="47dp"
         android:background="@drawable/bg_card_corner"
