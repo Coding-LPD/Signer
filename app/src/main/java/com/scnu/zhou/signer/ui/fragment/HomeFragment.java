@@ -21,6 +21,7 @@ import com.scnu.zhou.signer.component.cache.UserCache;
 import com.scnu.zhou.signer.presenter.home.HomePresenter;
 import com.scnu.zhou.signer.presenter.home.IHomePresenter;
 import com.scnu.zhou.signer.ui.activity.course.CourseDetailActivity;
+import com.scnu.zhou.signer.ui.activity.course.SearchActivity;
 import com.scnu.zhou.signer.ui.widget.listview.PullToRefreshListView;
 import com.scnu.zhou.signer.ui.widget.toast.ToastView;
 import com.scnu.zhou.signer.view.home.IHomeView;
@@ -30,6 +31,7 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by zhou on 16/9/6.
@@ -228,6 +230,16 @@ public class HomeFragment extends Fragment implements IHomeView, PullToRefreshLi
 
         Intent intent = new Intent(context, CourseDetailActivity.class);
         intent.putExtra("title", mData.get(position - 1).getName());
+        startActivity(intent);
+        context.overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+    }
+
+
+    // 点击搜索
+    @OnClick(R.id.ll_searchbar)
+    public void search(){
+
+        Intent intent = new Intent(context, SearchActivity.class);
         startActivity(intent);
         context.overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
     }

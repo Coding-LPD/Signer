@@ -26,7 +26,7 @@
     <string name="tab_mine">我的</string>
 
     <string name="home_search_title">搜索与你相关的课程</string>
-
+    <string name="home_search_cancel">取消</string>
 
     <string name="mine_cell01_title">我的签到</string>
     <string name="mine_cell02_title">我的发言</string>
