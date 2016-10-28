@@ -57,4 +57,7 @@
         android:divider="@null"
         android:scrollbars="none"/>
 
+    <include layout="@layout/layout_none01"/>
+    <include layout="@layout/layout_none02"/>
+
 </RelativeLayout>

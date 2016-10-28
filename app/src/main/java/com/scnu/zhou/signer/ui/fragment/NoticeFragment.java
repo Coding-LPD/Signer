@@ -8,6 +8,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.scnu.zhou.signer.R;
 import com.scnu.zhou.signer.component.adapter.listview.NoticeAdapter;
@@ -16,6 +17,7 @@ import com.scnu.zhou.signer.ui.widget.listview.PullToRefreshListView;
 import com.scnu.zhou.signer.ui.widget.listview.PullToRefreshListView.OnPullToRefreshListener;
 import com.scnu.zhou.signer.ui.widget.segment.TwoStageSegment;
 import com.scnu.zhou.signer.ui.widget.toast.ToastView;
+import com.scnu.zhou.signer.view.notice.INoticeView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,12 +28,16 @@ import butterknife.ButterKnife;
 /**
  * Created by zhou on 16/9/6.
  */
-public class NoticeFragment extends Fragment implements OnPullToRefreshListener, TwoStageSegment.OnSelectListener{
+public class NoticeFragment extends Fragment implements INoticeView,
+        OnPullToRefreshListener, TwoStageSegment.OnSelectListener{
 
     private Activity context;
 
     @Bind(R.id.sg_sign) TwoStageSegment sg_sign;
     @Bind(R.id.plv_notice) PullToRefreshListView plv_notice;
+
+    @Bind(R.id.ll_no_notice) LinearLayout ll_no_notice;
+    @Bind(R.id.ll_no_network) LinearLayout ll_no_network;
 
     private NoticeAdapter adapter;
     private List<NoticeBean> notices;
@@ -54,6 +60,8 @@ public class NoticeFragment extends Fragment implements OnPullToRefreshListener,
         initView();
     }
 
+
+    @Override
     public void initView(){
 
         sg_sign.setOnSelectListener(this);
@@ -62,6 +70,35 @@ public class NoticeFragment extends Fragment implements OnPullToRefreshListener,
         plv_notice.setOnPullToRefreshListener(this);
 
         onSelectLeft();
+    }
+
+    @Override
+    public void initData() {
+
+    }
+
+    @Override
+    public void onGetNoticeSuccess() {
+
+
+        if (notices.size() == 0){
+            ll_no_notice.setVisibility(View.VISIBLE);
+        }
+        else{
+            ll_no_notice.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void onGetNoticeError(Throwable e) {
+
+
+        if (notices.size() == 0){
+            ll_no_network.setVisibility(View.VISIBLE);
+        }
+        else{
+            ll_no_network.setVisibility(View.GONE);
+        }
     }
 
 

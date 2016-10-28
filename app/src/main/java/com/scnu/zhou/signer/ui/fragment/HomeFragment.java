@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 
 import com.scnu.zhou.signer.R;
 import com.scnu.zhou.signer.component.adapter.listview.MainCourseAdapter;
@@ -39,6 +40,8 @@ public class HomeFragment extends Fragment implements IHomeView, PullToRefreshLi
     private Activity context;
 
     @Bind(R.id.plv_main) PullToRefreshListView plv_main;
+    @Bind(R.id.ll_no_course) LinearLayout ll_no_course;
+    @Bind(R.id.ll_no_network) LinearLayout ll_no_network;
 
     private MainCourseAdapter adapter;
     private List<MainCourse> mData;
@@ -130,6 +133,13 @@ public class HomeFragment extends Fragment implements IHomeView, PullToRefreshLi
         else{
             plv_main.onLoadMoreCompleted();
         }
+
+        if (mData.size() == 0){
+            ll_no_course.setVisibility(View.VISIBLE);
+        }
+        else{
+            ll_no_course.setVisibility(View.GONE);
+        }
     }
 
 
@@ -152,6 +162,13 @@ public class HomeFragment extends Fragment implements IHomeView, PullToRefreshLi
         }
         else{
             plv_main.onLoadMoreCompleted();
+        }
+
+        if (mData.size() == 0){
+            ll_no_network.setVisibility(View.VISIBLE);
+        }
+        else{
+            ll_no_network.setVisibility(View.GONE);
         }
     }
 
