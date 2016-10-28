@@ -13,6 +13,8 @@ import com.scnu.zhou.signer.R;
 import com.scnu.zhou.signer.component.adapter.listview.NoticeAdapter;
 import com.scnu.zhou.signer.component.bean.notice.NoticeBean;
 import com.scnu.zhou.signer.ui.widget.listview.PullToRefreshListView;
+import com.scnu.zhou.signer.ui.widget.listview.PullToRefreshListView.OnPullToRefreshListener;
+import com.scnu.zhou.signer.ui.widget.segment.TwoStageSegment;
 import com.scnu.zhou.signer.ui.widget.toast.ToastView;
 
 import java.util.ArrayList;
@@ -24,10 +26,11 @@ import butterknife.ButterKnife;
 /**
  * Created by zhou on 16/9/6.
  */
-public class NoticeFragment extends Fragment {
+public class NoticeFragment extends Fragment implements OnPullToRefreshListener, TwoStageSegment.OnSelectListener{
 
     private Activity context;
 
+    @Bind(R.id.sg_sign) TwoStageSegment sg_sign;
     @Bind(R.id.plv_notice) PullToRefreshListView plv_notice;
 
     private NoticeAdapter adapter;
@@ -53,7 +56,43 @@ public class NoticeFragment extends Fragment {
 
     public void initView(){
 
+        sg_sign.setOnSelectListener(this);
+
         notices = new ArrayList<>();
+        plv_notice.setOnPullToRefreshListener(this);
+
+        onSelectLeft();
+    }
+
+
+    /**
+     * implmentation for PullToRefreshListener
+     */
+    @Override
+    public void onRefresh() {
+
+    }
+
+    @Override
+    public void onLoadMore() {
+
+    }
+
+    @Override
+    public void onOutOfTime() {
+        ToastView toastView = new ToastView(context, "请检查您的网络连接");
+        toastView.setGravity(Gravity.CENTER, 0, 0);
+        toastView.show();
+    }
+
+
+    /**
+     * implmentation for TwoStageSegment
+     */
+    @Override
+    public void onSelectLeft() {
+
+        notices.clear();
 
         NoticeBean bean = new NoticeBean();
         bean.setCourseName("软件工程");
@@ -77,23 +116,13 @@ public class NoticeFragment extends Fragment {
 
         adapter = new NoticeAdapter(context, notices);
         plv_notice.setAdapter(adapter);
-        plv_notice.setOnPullToRefreshListener(new PullToRefreshListView.OnPullToRefreshListener() {
-            @Override
-            public void onRefresh() {
+    }
 
-            }
+    @Override
+    public void onSelectRight() {
 
-            @Override
-            public void onLoadMore() {
-
-            }
-
-            @Override
-            public void onOutOfTime() {
-                ToastView toastView = new ToastView(context, "请检查您的网络连接");
-                toastView.setGravity(Gravity.CENTER, 0, 0);
-                toastView.show();
-            }
-        });
+        notices.clear();
+        adapter = new NoticeAdapter(context, notices);
+        plv_notice.setAdapter(adapter);
     }
 }

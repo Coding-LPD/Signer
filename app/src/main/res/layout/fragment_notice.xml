@@ -16,6 +16,7 @@
             android:background="#fff">
 
             <com.scnu.zhou.signer.ui.widget.segment.TwoStageSegment
+                android:id="@+id/sg_sign"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
