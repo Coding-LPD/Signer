@@ -4,7 +4,8 @@ export class API {
   static ipService = 'https://jsonip.com';
 
   // static domain = 'http://linkdust.xicp.net:50843/api';
-  static domain = 'http://localhost:3000/api';
+	// static domain = 'http://localhost:3000/api';
+	static domain = 'http://120.25.65.207:3000/api';
 
   static publickey = '/publickey';
   static smsCode = '/smsCode';
