@@ -11,17 +11,22 @@ export class BaseService {
 
   protected extractData(res: Response) {
     let body = res.json();
-    if (!body.code || +body.code != 200) {
-      console.log(`code:${body.code}, msg:${body.msg}`);
+    if (!body.code) {
+      body = {
+        code: '600',
+        msg: '数据格式不对，解析失败'
+      };
     }
     return body || { };
   }
 
   protected handleError(error: any) {
     let errMsg = (error.message) ? error.message : 
-      error.status ? `${error.status} - ${error.statusText}` : `Server error`;
-    console.error(errMsg);
-    return Observable.throw(errMsg);
+      error.status ? `${error.status} - ${error.statusText}` : `http请求异常`;    
+    return Observable.of<any>({
+      code: '600',
+      msg: errMsg
+    });
   }
 
 }
