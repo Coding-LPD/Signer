@@ -39,15 +39,22 @@ export class PopUpComponent {
   private _defaultContent = '提示'
   content = this._defaultContent;
   showing = false;
+  timer: any;
 
   show(content?: string) {
-    this.content = content || this.content;
-    this.showing = true;
-    setTimeout(() => this.showing = false, this.getShowTime(this.content));
+    if (this.showing) {
+      this.hide();
+    }
+    setTimeout(() => {
+      this.content = content || this.content;
+      this.showing = true;
+      this.timer = setTimeout(() => this.showing = false, this.getShowTime(this.content));
+    }, 1);    
   }
 
   hide() {
     this.showing = false;
+    clearTimeout(this.timer);  // 保证弹出框的消失计时不会受上一个弹出框的影响
   }
 
   isShow() {
