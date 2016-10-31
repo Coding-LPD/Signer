@@ -67,8 +67,8 @@ router.post('/images', multipartMiddleware, function (req, res) {
 
   var extension = file.originalFilename.slice(file.originalFilename.lastIndexOf('.'));
   var fileName = common.generateRandomStr(3) + extension; 
-  var newPath = path.resolve(__dirname, '..' + config.userImagesPath);  
-  newPath += '\\' + fileName;
+  // 用path.resolve来解决windonws和linux路径不同的问题
+  var newPath = path.resolve(__dirname, '..' + config.userImagesPath + '/' + fileName);      
   fs.rename(file.path, newPath, function (err) {
     if (!err) {
       var url = config.userImagesUrlPrefix + fileName;
