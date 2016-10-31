@@ -20,7 +20,7 @@ import com.scnu.zhou.signer.component.bean.sign.ScanResult;
 import com.scnu.zhou.signer.component.bean.sign.SignRecord;
 import com.scnu.zhou.signer.component.bean.sign.Signer;
 import com.scnu.zhou.signer.component.cache.UserCache;
-import com.scnu.zhou.signer.component.util.http.ResponseCodeUtil;
+import com.scnu.zhou.signer.component.util.http.ResponseCode;
 import com.scnu.zhou.signer.component.util.location.BaiduLocationClient;
 import com.scnu.zhou.signer.presenter.sign.ISignPresenter;
 import com.scnu.zhou.signer.presenter.sign.SignPresenter;
@@ -149,7 +149,7 @@ public class ConfirmSignActivity extends BaseSlideActivity implements ISignView{
         else{
 
             ToastView toastView = new ToastView(ConfirmSignActivity.this,
-                    ResponseCodeUtil.getMessage(response.getCode()));
+                    ResponseCode.getInstance().getMessage(response.getCode()));
             toastView.setGravity(Gravity.CENTER, 0, 0);
             toastView.show();
 

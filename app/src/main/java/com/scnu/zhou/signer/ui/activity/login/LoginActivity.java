@@ -17,7 +17,7 @@ import com.scnu.zhou.signer.component.bean.http.ResultResponse;
 import com.scnu.zhou.signer.component.bean.login.LoginResult;
 import com.scnu.zhou.signer.component.cache.UserCache;
 import com.scnu.zhou.signer.component.util.encrypt.RSAEncryptUtil;
-import com.scnu.zhou.signer.component.util.http.ResponseCodeUtil;
+import com.scnu.zhou.signer.component.util.http.ResponseCode;
 import com.scnu.zhou.signer.component.util.image.ImageLoaderUtil;
 import com.scnu.zhou.signer.presenter.login.ILoginPresenter;
 import com.scnu.zhou.signer.presenter.login.LoginPresenter;
@@ -187,7 +187,7 @@ public class LoginActivity extends BaseActivity implements ILoginView, TextWatch
 
             dismissLoadingDialog();
             ToastView toastView = new ToastView(LoginActivity.this,
-                    ResponseCodeUtil.getMessage(response.getCode()));
+                    ResponseCode.getInstance().getMessage(response.getCode()));
             toastView.setGravity(Gravity.CENTER, 0, 0);
             toastView.show();
         }

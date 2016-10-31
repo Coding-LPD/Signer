@@ -17,7 +17,7 @@ import com.scnu.zhou.signer.component.bean.http.ResultResponse;
 import com.scnu.zhou.signer.component.bean.login.LoginResult;
 import com.scnu.zhou.signer.component.cache.UserCache;
 import com.scnu.zhou.signer.component.util.encrypt.RSAEncryptUtil;
-import com.scnu.zhou.signer.component.util.http.ResponseCodeUtil;
+import com.scnu.zhou.signer.component.util.http.ResponseCode;
 import com.scnu.zhou.signer.presenter.regist.IRegistPresenter;
 import com.scnu.zhou.signer.presenter.regist.RegistPresenter;
 import com.scnu.zhou.signer.ui.activity.base.BaseSlideActivity;
@@ -96,7 +96,7 @@ public class InputPasswordActivity extends BaseSlideActivity implements IRegistV
 
             dismissLoadingDialog();
             ToastView toastView = new ToastView(InputPasswordActivity.this,
-                    ResponseCodeUtil.getMessage(response.getCode()));
+                    ResponseCode.getInstance().getMessage(response.getCode()));
             toastView.setGravity(Gravity.CENTER, 0, 0);
             toastView.show();
         }
