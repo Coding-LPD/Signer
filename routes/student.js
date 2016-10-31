@@ -96,21 +96,21 @@ router.get('/:phone/relatedCourses', function (req, res) {
  
   // 查询该学生
   Student.find({ phone })
-  .then(function (students) {
-    if (students.length <= 0) {
-      return Promise.reject({ code: errorCodes.UserNotExist });
-    }
+    .then(function (students) {
+      if (students.length <= 0) {
+        return Promise.reject({ code: errorCodes.UserNotExist });
+      }
 
-    var student = students[0];
-    // 查询该学生的相关课程（有签到过的）
-    return SignRecord.aggregate()
-      .match({ studentId: '' + student._id })
-      .sort('-createdAt')
-      .project('courseId')
-      .group({ _id: '$courseId' })
-      .skip(page * limit)
-      .limit(limit)      
-      .exec()
+      var student = students[0];
+      // 查询该学生的相关课程（有签到过的）
+      return SignRecord.aggregate()
+        .match({ studentId: '' + student._id })
+        .sort('-createdAt')
+        .project('courseId')
+        .group({ _id: '$courseId' })
+        .skip(page * limit)
+        .limit(limit)      
+        .exec()
     })
     .then(function (courseIdObjects) {
       // 查询该学生的相关课程的最近的一次签到
