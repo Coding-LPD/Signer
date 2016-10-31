@@ -57,6 +57,35 @@
     "groupTitle": "课程"
   },
   {
+    "type": "get",
+    "url": "/courses/:id/latestSignRecords",
+    "title": "最近签到记录",
+    "version": "1.0.0",
+    "name": "GetCourseLatestSignRecord",
+    "group": "Course",
+    "description": "<p>查询指定id的课程的最近签到记录，返回课程信息和最多20个最近签到者头像</p>",
+    "success": {
+      "examples": [
+        {
+          "title": "成功：",
+          "content": "HTTP/1.1 200 OK\n{\n  code: \"200\",\n  data: \n  {\n    course: {}          // 该课程的信息\n    records:            // 最多20个最近签到记录\n    [{\n      _id: 'XXX',       // 签到记录id\n      name: '',         // 学生姓名\n      avatar: ''        // 学生头像url\n    }]         \n  },          \n  msg:  \"操作成功\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "失败：",
+          "content": "HTTP/1.1 200 OK\n{\n  code: \"XXXX\",\n  data: {},           // 空对象\n  msg:  \"错误信息\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "docjs/course.js",
+    "groupTitle": "课程"
+  },
+  {
     "type": "post",
     "url": "/courses",
     "title": "创建",
@@ -273,12 +302,12 @@
     "version": "1.0.0",
     "name": "GetSignScanning",
     "group": "Sign",
-    "description": "<p>根据签到码code，返回相关课程信息与最后10条学生的签到信息</p>",
+    "description": "<p>根据签到码code，返回相关课程信息与最多10条最近的学生签到记录</p>",
     "success": {
       "examples": [
         {
           "title": "成功",
-          "content": "HTTP/1.1 200 OK\n{\n  code: \"200\",\n  data: { course: {}, records: [] },\n  msg:  \"操作成功\"\n}",
+          "content": "HTTP/1.1 200 OK\n{\n  code: \"200\",\n  data: \n  { \n    course: {}, \n    records:            // 最多10条最近的学生签到记录\n    [{\n      _id: 'XXX',       // 签到记录id\n      name: '',         // 学生姓名\n      avatar: ''        // 学生头像url\n    }]  \n  },\n  msg:  \"操作成功\"\n}",
           "type": "json"
         }
       ]

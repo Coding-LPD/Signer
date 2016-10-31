@@ -35,6 +35,9 @@ var errorCodes = {
   NotInCourse:            '4006',
   SignNotStart:           '4007',
   SignHasEnd:             '4008',
+
+  CourseNotExist:         '5000',
+  NoRelatedSign:          '5001',
   
   AuthenticationError:    '401',
   AuthenticationExpired:  '402',
@@ -76,6 +79,8 @@ var errorMsg = {
   4006: '该学生不属于这门课程，无法进行签到',
   4007: '签到尚未开始',
   4008: '签到已结束',
+  5000: '课程不存在',
+  5001: '该课程暂无相关签到',
   401:  '认证信息有误',
   402:  '认证信息已失效',
   403:  '无权限访问该资源',

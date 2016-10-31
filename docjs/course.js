@@ -105,3 +105,36 @@
  *      msg:  "错误信息"
  *    }
  */
+
+/**
+ * @api {get} /courses/:id/latestSignRecords 最近签到记录
+ * @apiVersion 1.0.0
+ * @apiName GetCourseLatestSignRecord
+ * @apiGroup Course
+ * @apiDescription 查询指定id的课程的最近签到记录，返回课程信息和最多20个最近签到者头像
+ * 
+ * @apiSuccessExample 成功：
+ *    HTTP/1.1 200 OK
+ *    {
+ *      code: "200",
+ *      data: 
+ *      {
+ *        course: {}          // 该课程的信息
+ *        records:            // 最多20个最近签到记录
+ *        [{
+ *          _id: 'XXX',       // 签到记录id
+ *          name: '',         // 学生姓名
+ *          avatar: ''        // 学生头像url
+ *        }]         
+ *      },          
+ *      msg:  "操作成功"
+ *    } 
+ * 
+ * @apiErrorExample 失败：
+ *    HTTP/1.1 200 OK
+ *    {
+ *      code: "XXXX",
+ *      data: {},           // 空对象
+ *      msg:  "错误信息"
+ *    }
+ */

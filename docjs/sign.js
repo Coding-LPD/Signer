@@ -56,13 +56,22 @@
  * @apiVersion 1.0.0
  * @apiName GetSignScanning
  * @apiGroup Sign
- * @apiDescription 根据签到码code，返回相关课程信息与最后10条学生的签到信息
+ * @apiDescription 根据签到码code，返回相关课程信息与最多10条最近的学生签到记录
  * 
  * @apiSuccessExample 成功
  *    HTTP/1.1 200 OK
  *    {
  *      code: "200",
- *      data: { course: {}, records: [] },
+ *      data: 
+ *      { 
+ *        course: {}, 
+ *        records:            // 最多10条最近的学生签到记录
+ *        [{
+ *          _id: 'XXX',       // 签到记录id
+ *          name: '',         // 学生姓名
+ *          avatar: ''        // 学生头像url
+ *        }]  
+ *      },
  *      msg:  "操作成功"
  *    }
  * 

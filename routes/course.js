@@ -7,6 +7,8 @@ var sendInfo = require('../services/error-handler').sendInfo;
 var errorCodes = require('../services/error-codes').errorCodes;
 var common = require('../services/common');
 var Course = require('../services/mongo').Course;
+var Sign = require('../services/mongo').Sign;
+var SignRecord = require('../services/mongo').SignRecord;
 
 router.get('/', function (req, res) {
   Course.find(function (err, courses) {
@@ -52,6 +54,58 @@ router.post('/search', function (req, res) {
       handleErrors(err, res, []);
     }
   });
+});
+
+router.get('/:id/latestSignRecords', function (req, res) {
+  var maxAvatarNum = 20;
+  var course;
+
+  Course.findById(req.params['id'])
+    .then(function (finedCourse) {
+      // 课程不存在
+      if (!finedCourse) {
+        return Promise.reject(errorCodes.CourseNotExist);
+      }
+
+      course = finedCourse;
+      // 查找该课程最近一次签到
+      return Sign.findOne({ courseId: course._id }, null, { sort: '-createdAt' })
+    })
+    .then(function (sign) {
+      // 该课程还没有进行过签到
+      if (!sign) {
+        return Promise.reject(errorCodes.NoRelatedSign);
+      }
+
+      // 查找该签到最近的几十条签到记录
+      return SignRecord.aggregate()
+        .match({ signId: '' + sign._id })
+        .sort('-createdAt')
+        .project('studentAvatar studentName')
+        .limit(maxAvatarNum)
+        .exec()
+    })
+    .then(function (records) {
+      records = records.map(function (record) {
+        return {
+          _id: record._id,
+          name: record.studentName,
+          avatar: record.studentAvatar
+        };
+      });
+      var retData = {
+        course: course,
+        records: records
+      };
+      sendInfo(errorCodes.Success, res, retData);
+    })
+    .catch(function (err) {
+      if (err.code) {
+        sendInfo(err.code, res, []);
+      } else {
+        handleErrors(err, res, []);
+      }
+    });  
 });
 
 module.exports = router;
