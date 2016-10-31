@@ -111,6 +111,7 @@ router.post('/search', function (req, res) {
 });
 
 router.get('/scanning/:code', function (req, res) {
+  var maxRecordNum = 10;
   Sign.find({code: req.params['code']}, function (err, signs) {
     if (err) {
       handleErrors(err, res, {});
@@ -125,7 +126,7 @@ router.get('/scanning/:code', function (req, res) {
     var promises = [];
     promises.push(Course.findById(sign.get('courseId'), 'name time location'));
     promises.push(Teacher.findById(sign.get('teacherId'), 'name'));
-    promises.push(SignRecord.find({signId: sign._id}, 'studentName studentAvatar', { limit: 10, sort: { createdAt: -1 } }));
+    promises.push(SignRecord.find({signId: sign._id}, 'studentName studentAvatar', { limit: maxRecordNum, sort: { createdAt: -1 } }));
     Promise.all(promises).then(function (findedData) {
       var signId = sign._id;
       var course = findedData[0].toObject();
