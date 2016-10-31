@@ -68,7 +68,7 @@ define({ "api": [
       "examples": [
         {
           "title": "成功：",
-          "content": "HTTP/1.1 200 OK\n{\n  code: \"200\",\n  data: \n  {\n    course: {}          // 该课程的信息\n    records:            // 最多20个最近签到记录\n    [{\n      _id: 'XXX',       // 签到记录id\n      name: '',         // 学生姓名\n      avatar: ''        // 学生头像url\n    }]         \n  },          \n  msg:  \"操作成功\"\n}",
+          "content": "HTTP/1.1 200 OK\n{\n  code: \"200\",\n  data: \n  {\n    signNum: XXX        // 签到次数\n    course: \n    {\n      name: '',\n      time: '',\n      location: '',\n      teacherName: ''\n    }          \n    records:            // 最多20个最近签到记录\n    [{\n      _id: 'XXX',       // 签到记录id\n      name: '',         // 学生姓名\n      avatar: ''        // 学生头像url\n    }]         \n  },          \n  msg:  \"操作成功\"\n}",
           "type": "json"
         }
       ]
@@ -307,7 +307,7 @@ define({ "api": [
       "examples": [
         {
           "title": "成功",
-          "content": "HTTP/1.1 200 OK\n{\n  code: \"200\",\n  data: \n  { \n    course: {}, \n    records:            // 最多10条最近的学生签到记录\n    [{\n      _id: 'XXX',       // 签到记录id\n      name: '',         // 学生姓名\n      avatar: ''        // 学生头像url\n    }]  \n  },\n  msg:  \"操作成功\"\n}",
+          "content": "HTTP/1.1 200 OK\n{\n  code: \"200\",\n  data: \n  { \n    signId: ''          // 签到id\n    course: \n    {\n      name: '',\n      time: '',\n      location: '',\n      teacherName: ''\n    },         \n    records:            // 最多10条最近的学生签到记录\n    [{\n      _id: '',          // 签到记录id\n      name: '',         // 学生姓名\n      avatar: ''        // 学生头像url\n    }]  \n  },\n  msg:  \"操作成功\"\n}",
           "type": "json"
         }
       ]

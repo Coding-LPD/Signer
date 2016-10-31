@@ -7,6 +7,7 @@ var sendInfo = require('../services/error-handler').sendInfo;
 var errorCodes = require('../services/error-codes').errorCodes;
 var common = require('../services/common');
 var Course = require('../services/mongo').Course;
+var Teacher = require('../services/mongo').Teacher;
 var Sign = require('../services/mongo').Sign;
 var SignRecord = require('../services/mongo').SignRecord;
 
@@ -58,23 +59,38 @@ router.post('/search', function (req, res) {
 
 router.get('/:id/latestSignRecords', function (req, res) {
   var maxAvatarNum = 20;
-  var course;
+  var course, teacher, signNum, promises;
 
-  Course.findById(req.params['id'])
+  Course.findById(req.params['id'], 'name time location teacherId')
     .then(function (finedCourse) {
       // 课程不存在
       if (!finedCourse) {
-        return Promise.reject(errorCodes.CourseNotExist);
+        return Promise.reject({ code: errorCodes.CourseNotExist });
       }
 
       course = finedCourse;
+      promises = [];
+      // 查询相关教师
+      promises.push(Teacher.findById(course.get('teacherId')));
+      // 查询签到次数
+      promises.push(Sign.count({ courseId: course._id }));      
       // 查找该课程最近一次签到
-      return Sign.findOne({ courseId: course._id }, null, { sort: '-createdAt' })
+      promises.push(Sign.findOne({ courseId: course._id }, null, { sort: '-createdAt' }));
+            
+      return Promise.all(promises);
     })
-    .then(function (sign) {
+    .then(function (results) {
+      teacher = results[0];
+      signNum = results[1];
+      var sign =  results[2];
+
+      // 该课程没有相关教师
+      if (!teacher) {
+        return Promise.reject({ code: errorCodes.NoRelatedTeacher });
+      }      
       // 该课程还没有进行过签到
       if (!sign) {
-        return Promise.reject(errorCodes.NoRelatedSign);
+        return Promise.reject({ code: errorCodes.NoRelatedSign });
       }
 
       // 查找该签到最近的几十条签到记录
@@ -86,6 +102,7 @@ router.get('/:id/latestSignRecords', function (req, res) {
         .exec()
     })
     .then(function (records) {
+      // 修改返回的记录
       records = records.map(function (record) {
         return {
           _id: record._id,
@@ -93,7 +110,13 @@ router.get('/:id/latestSignRecords', function (req, res) {
           avatar: record.studentAvatar
         };
       });
+      // 修改返回的课程数据
+      course = course.toObject();
+      course.teacherName = teacher.get('name');
+      delete course.teacherId;
+      // 返回数据
       var retData = {
+        signNum: signNum,
         course: course,
         records: records
       };

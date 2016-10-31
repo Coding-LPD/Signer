@@ -119,7 +119,14 @@
  *      code: "200",
  *      data: 
  *      {
- *        course: {}          // 该课程的信息
+ *        signNum: XXX        // 签到次数
+ *        course: 
+ *        {
+ *          name: '',
+ *          time: '',
+ *          location: '',
+ *          teacherName: ''
+ *        }          
  *        records:            // 最多20个最近签到记录
  *        [{
  *          _id: 'XXX',       // 签到记录id

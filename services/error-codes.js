@@ -38,6 +38,7 @@ var errorCodes = {
 
   CourseNotExist:         '5000',
   NoRelatedSign:          '5001',
+  NoRelatedTeacher:       '5002',
   
   AuthenticationError:    '401',
   AuthenticationExpired:  '402',
@@ -81,6 +82,7 @@ var errorMsg = {
   4008: '签到已结束',
   5000: '课程不存在',
   5001: '该课程暂无相关签到',
+  5002: '该课程暂无相关教师',
   401:  '认证信息有误',
   402:  '认证信息已失效',
   403:  '无权限访问该资源',

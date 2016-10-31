@@ -64,10 +64,17 @@
  *      code: "200",
  *      data: 
  *      { 
- *        course: {}, 
+ *        signId: ''          // 签到id
+ *        course: 
+ *        {
+ *          name: '',
+ *          time: '',
+ *          location: '',
+ *          teacherName: ''
+ *        },         
  *        records:            // 最多10条最近的学生签到记录
  *        [{
- *          _id: 'XXX',       // 签到记录id
+ *          _id: '',          // 签到记录id
  *          name: '',         // 学生姓名
  *          avatar: ''        // 学生头像url
  *        }]  
