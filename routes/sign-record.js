@@ -27,9 +27,11 @@ router.post('/', function (req, res) {
   var type = +req.body.type;
   var student, sign, promises = [];
 
+  // 查询相应学生和签到信息
   promises.push(Student.findById(studentId));
   promises.push(Sign.findById(signId));
-  Promise.all(promises).then(function (results) {
+  Promise.all(promises)
+  .then(function (results) {
     student = results[0];
     sign = results[1];
     var teacherId = sign.get('teacherId');
@@ -79,13 +81,13 @@ router.post('/', function (req, res) {
     signRecord.set('studentName', student.get('name'));
     signRecord.set('studentAvatar', student.get('avatar'));
     signRecord.set('createdAt', moment(new Date()).format('YYYY-MM-DD HH:mm:ss'));
+
     return signRecord.save();
   })
   .then(function (savedData) {
     sendInfo(errorCodes.Success, res, savedData);
   })
   .catch(function (err) {
-    console.log(err.code);
     if (err.code) {
       sendInfo(err.code, res, {});
     } else {
@@ -94,10 +96,19 @@ router.post('/', function (req, res) {
   });
 });
 
-router.post('/:id/assent', function (req, res) {  
-  SignRecord.findByIdAndUpdate(req.params['id'], { state: 1 }, { new: true }, function (err, newRecord) {
-    if (!err) {
-      sendInfo(errorCodes.Success, res, newRecord);
+router.post('/:id/assent', function (req, res) {    
+  // 签到状态改为批准
+  SignRecord.findByIdAndUpdate(req.params['id'], { state: 1 }, { new: true })
+  .then(function (savedRecord) {    
+    // 签到完成人数加1
+    return Sign.findByIdAndUpdate(savedRecord.get('signId'), { $inc: { signIn: 1 } }, { new: true })
+  })
+  .then(function (updatedSign) {
+    sendInfo(errorCodes.Success, res, { signIn: updatedSign.get('signIn') });
+  })
+  .catch(function (err) {
+    if (err.code) {
+      sendInfo(err.code, res, {});
     } else {
       handleErrors(err, res, {});
     }
@@ -105,9 +116,18 @@ router.post('/:id/assent', function (req, res) {
 });
 
 router.post('/:id/refusal', function (req, res) {
-  SignRecord.findByIdAndUpdate(req.params['id'], { state: 2 }, { new: true }, function (err, newRecord) {
-    if (!err) {
-      sendInfo(errorCodes.Success, res, newRecord);
+  // 签到状态改为拒绝
+  SignRecord.findByIdAndUpdate(req.params['id'], { state: 2 }, { new: true })
+  .then(function (savedRecord) {    
+    // 签到完成人数加1
+    return Sign.findByIdAndUpdate(savedRecord.get('signId'), { $inc: { signIn: 1 } }, { new: true })
+  })
+  .then(function (updatedSign) {
+    sendInfo(errorCodes.Success, res, { signIn: updatedSign.get('signIn') });
+  })
+  .catch(function (err) {
+    if (err.code) {
+      sendInfo(err.code, res, {});
     } else {
       handleErrors(err, res, {});
     }
