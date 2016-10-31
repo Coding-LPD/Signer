@@ -94,13 +94,15 @@ router.get('/:phone/relatedCourses', function (req, res) {
   var page = +req.query['page'] || 0;
   var maxAvatarNum = 6;  // 每个课程最近签到的前6个学生头像
  
-  Student.find({ phone }).then(function (students) {
+  // 查询该学生
+  Student.find({ phone })
+  .then(function (students) {
     if (students.length <= 0) {
       return Promise.reject({ code: errorCodes.UserNotExist });
     }
 
     var student = students[0];
-    // 查询该学生的相关课程（有签到过的）最近的一次签到
+    // 查询该学生的相关课程（有签到过的）
     return SignRecord.aggregate()
       .match({ studentId: '' + student._id })
       .sort('-createdAt')
@@ -111,11 +113,12 @@ router.get('/:phone/relatedCourses', function (req, res) {
       .exec()
     })
     .then(function (courseIdObjects) {
+      // 查询该学生的相关课程的最近的一次签到
       return Promise.all(courseIdObjects.map(function (courseIdObject) {
         return Sign.aggregate()
           .match({ courseId: '' + courseIdObject._id })
           .sort('-createdAt')
-          .project('_id courseName signIn')
+          .project('_id courseName signIn courseId')
           .limit(1)
           .exec();
       }));
@@ -149,6 +152,7 @@ router.get('/:phone/relatedCourses', function (req, res) {
         return {
           name: coursesLastestSign[index].courseName,
           number: coursesLastestSign[index].signIn,
+          courseId: coursesLastestSign[index].courseId,
           avatars: avatars
         };
       });

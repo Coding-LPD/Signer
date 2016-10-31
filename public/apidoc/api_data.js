@@ -806,7 +806,7 @@ define({ "api": [
       "examples": [
         {
           "title": "成功",
-          "content": "HTTP/1.1 200 OK\n{\n  code: \"200\",\n  data:               // 对象数组\n  [{\n    name: 'XXX',      // 课程名称\n    number: 0,        // 签到完成人数\n    avatars: []       // 最后完成签到的最多6位学生的头像\n  }]\n  msg:  \"操作成功\"\n}",
+          "content": "HTTP/1.1 200 OK\n{\n  code: \"200\",\n  data:               // 对象数组\n  [{\n    name: 'XXX',      // 课程名称\n    number: 0,        // 签到完成人数\n    courseId: 'XXX'   // 签到所属课程id\n    avatars: []       // 最后完成签到的最多6位学生的头像\n  }]\n  msg:  \"操作成功\"\n}",
           "type": "json"
         }
       ]
