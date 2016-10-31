@@ -7,6 +7,7 @@ var sendInfo = require('../services/error-handler').sendInfo;
 var errorCodes = require('../services/error-codes').errorCodes;
 var common = require('../services/common');
 var Student = require('../services/mongo').Student;
+var SignStudent = require('../services/mongo').SignStudent;
 var Sign = require('../services/mongo').Sign;
 var SignRecord = require('../services/mongo').SignRecord;
 var Position = require('../services/mongo').Position;
@@ -18,28 +19,58 @@ router.get('/', function (req, res) {
 });
 
 router.post('/', function (req, res) {
-  var signRecord = new SignRecord(req.body);
+  var studentId = req.body.studentId;  
   var signId = req.body.signId;
   var studentLng = +req.body.longitude;
   var studentLat = +req.body.latitude;
   var battery = +req.body.battery;
   var type = +req.body.type;
+  var student, sign, promises = [];
 
-  var promises = [];
-  promises.push(Position.find({ signId: signId }));
+  promises.push(Student.findById(studentId));
   promises.push(Sign.findById(signId));
-  promises.push(Student.findById(signRecord.get('studentId')));
-
   Promise.all(promises).then(function (results) {
-    if (results[0].length <= 0) {
-      return Promise.reject({ code: errorCodes.TeacherNotLocate });
+    student = results[0];
+    sign = results[1];
+    var teacherId = sign.get('teacherId');
+    var courseId = sign.get('courseId');
+    var number = student.get('number');
+
+    // 学生没有设置学号
+    if (!number) {
+      return Promise.reject({ code: errorCodes.StudentNumberEmpty });
     }
 
-    var teacherPos = results[0][0];
-    var sign = results[1];
-    var student = results[2];
+    return SignStudent.find({ teacherId: teacherId, courseId: courseId, number: number });
+  })
+  .then(function (signStudents) {
+    // 学生不属于该课程
+    if (signStudents.length <= 0) {
+      return Promise.reject({ code: errorCodes.NotInCourse });
+    }
 
+    // 不在签到时间范围内
+    var now = moment();
+    var startTime = moment(sign.get('startTime'));
+    var endTime = moment(sign.get('endTime'));        
+    if (now.isBefore(startTime)) {
+      return Promise.reject({ code: errorCodes.SignNotStart });
+    } else if (now.isAfter(endTime)) {
+      return Promise.reject({ code: errorCodes.SignHasEnd });
+    }
+
+    return Position.find({ signId: signId });
+  })
+  .then(function (teacherPositions) {
+    // 教师没有定位成功    
+    if (teacherPositions.length <= 0) {
+      return Promise.reject({ code: errorCodes.TeacherNotLocate });   
+    }     
+
+    // 计算距离，保存该签到信息
+    var teacherPos = teacherPositions[0];    
     var distance = common.getFlatternDistance(teacherPos.latitude, teacherPos.longitude, studentLat, studentLng);
+    var signRecord = new SignRecord(req.body);
     signRecord.set('batter', battery);
     signRecord.set('type', type);
     signRecord.set('courseId', sign.get('courseId'));
@@ -54,6 +85,7 @@ router.post('/', function (req, res) {
     sendInfo(errorCodes.Success, res, savedData);
   })
   .catch(function (err) {
+    console.log(err.code);
     if (err.code) {
       sendInfo(err.code, res, {});
     } else {
