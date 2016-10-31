@@ -62,6 +62,26 @@ router.post('/', function (req, res) {
   });
 });
 
+router.post('/:id/assent', function (req, res) {  
+  SignRecord.findByIdAndUpdate(req.params['id'], { state: 1 }, { new: true }, function (err, newRecord) {
+    if (!err) {
+      sendInfo(errorCodes.Success, res, newRecord);
+    } else {
+      handleErrors(err, res, {});
+    }
+  });
+});
+
+router.post('/:id/refusal', function (req, res) {
+  SignRecord.findByIdAndUpdate(req.params['id'], { state: 2 }, { new: true }, function (err, newRecord) {
+    if (!err) {
+      sendInfo(errorCodes.Success, res, newRecord);
+    } else {
+      handleErrors(err, res, {});
+    }
+  });
+});
+
 router.post('/search', function (req, res) {
   // 必须要有查询条件
   if (common.isEmptyObject(req.body)) {
