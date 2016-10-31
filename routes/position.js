@@ -7,7 +7,7 @@ var handleErrors = require('../services/error-handler').handleErrors;
 var sendInfo = require('../services/error-handler').sendInfo; 
 var errorCodes = require('../services/error-codes').errorCodes;
 var common = require('../services/common');
-var config = require('../services/config');
+var config = require('../config');
 var log = require('../services/log');
 var Position = require('../services/mongo').Position;
 
@@ -24,9 +24,9 @@ router.get('/', function (req, res) {
 router.post('/', function (req, res) {
   var signId = req.body.signId;
   var teacherId = req.body.teacherId;
-  var ip = req.body.ip;
+  var ip = req.body.ip;  
   if (!ip) {
-    sendInfo(errorCodes.IPEmpty, res, {});
+    sendInfo(errorCodes.IPEmpty, res, common.getClientIp(req));
     return;
   }
 

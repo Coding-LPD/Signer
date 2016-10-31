@@ -1,5 +1,5 @@
 var nJwt = require('njwt');
-var config = require('../services/config');
+var config = require('../config');
 var log = require('./log');
 var sendInfo = require('../services/error-handler').sendInfo;
 var errorCodes = require('./error-codes').errorCodes;
