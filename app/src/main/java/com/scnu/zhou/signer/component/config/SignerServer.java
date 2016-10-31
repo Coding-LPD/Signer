@@ -6,6 +6,6 @@ package com.scnu.zhou.signer.component.config;
 public class SignerServer {
 
     // 服务器ip
-    public static String Server = "http://linkdust.xicp.net:50843";
+    public static String Server = "http://120.25.65.207:3000";
 
 }
