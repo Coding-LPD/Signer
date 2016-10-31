@@ -1,6 +1,6 @@
 package com.scnu.zhou.signer.model.sign;
 
-import com.scnu.zhou.signer.callback.sign.SignCallback;
+import com.scnu.zhou.signer.callback.sign.SignCallBack;
 import com.scnu.zhou.signer.component.bean.http.ResultResponse;
 import com.scnu.zhou.signer.component.bean.sign.ScanResult;
 import com.scnu.zhou.signer.component.bean.sign.SignRecord;
@@ -20,7 +20,7 @@ public class SignModel implements ISignModel{
 
 
     @Override
-    public void getScanResult(String code, final SignCallback callback) {
+    public void getScanResult(String code, final SignCallBack callback) {
 
         RetrofitServer.getRetrofit()
                 .create(SignerApi.class)
@@ -50,7 +50,7 @@ public class SignModel implements ISignModel{
 
     @Override
     public void postSign(Map<String,String> strinfos, Map<String,Integer> numinfos,
-                         Map<String,Double> doubleinfos, final SignCallback callback) {
+                         Map<String,Double> doubleinfos, final SignCallBack callback) {
 
         RetrofitServer.getRetrofit()
                 .create(SignerApi.class)

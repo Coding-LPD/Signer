@@ -9,6 +9,7 @@ public class MainCourse {
 
     private String name;
     private int number;
+    private String courseId;
     private List<String> avatars;
 
     public String getName() {
@@ -25,6 +26,14 @@ public class MainCourse {
 
     public void setNumber(int number) {
         this.number = number;
+    }
+
+    public String getCourseId() {
+        return courseId;
+    }
+
+    public void setCourseId(String courseId) {
+        this.courseId = courseId;
     }
 
     public List<String> getAvatars() {

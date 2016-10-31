@@ -90,8 +90,10 @@ public interface SignerApi {
     /**
      * HomePage
      */
-    @GET("/api/students/{phone}/relatedCourses")
+    @GET("/api/students/{phone}/relatedCourses")     // 获取最近签到相关课程信息
     Observable<ResultResponse<List<MainCourse>>> getRelatedCourses(@Path("phone") String phone, @Query("limit") int limit,
                                                              @Query("page") int page);
 
+    @GET("/api/courses/{id}/latestSignRecords")     // 获取相关课程信息详情
+    Observable<ResultResponse<ScanResult>> getCourseDetail(@Path("id") String courseId);
 }

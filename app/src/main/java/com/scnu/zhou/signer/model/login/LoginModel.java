@@ -1,6 +1,6 @@
 package com.scnu.zhou.signer.model.login;
 
-import com.scnu.zhou.signer.callback.login.LoginCallback;
+import com.scnu.zhou.signer.callback.login.LoginCallBack;
 import com.scnu.zhou.signer.component.bean.http.ResultResponse;
 import com.scnu.zhou.signer.component.bean.login.LoginResult;
 import com.scnu.zhou.signer.component.config.SignerApi;
@@ -16,7 +16,7 @@ import rx.schedulers.Schedulers;
 public class LoginModel implements ILoginModel{
 
     @Override
-    public void getPublicKey(final LoginCallback callback) {
+    public void getPublicKey(final LoginCallBack callback) {
 
         RetrofitServer.getRetrofit()
                 .create(SignerApi.class)
@@ -46,7 +46,7 @@ public class LoginModel implements ILoginModel{
     }
 
     @Override
-    public void postLogin(String phone, String password, final LoginCallback callback) {
+    public void postLogin(String phone, String password, final LoginCallBack callback) {
 
         RetrofitServer.getRetrofit()
                 .create(SignerApi.class)

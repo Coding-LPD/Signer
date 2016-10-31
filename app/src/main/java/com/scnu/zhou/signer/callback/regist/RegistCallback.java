@@ -6,7 +6,7 @@ import com.scnu.zhou.signer.component.bean.login.LoginResult;
 /**
  * Created by zhou on 16/10/20.
  */
-public interface RegistCallback {
+public interface RegistCallBack {
 
     void onGetPublicKeySuccess(ResultResponse<String> response);
     void onGetPublicKeyError(Throwable e);

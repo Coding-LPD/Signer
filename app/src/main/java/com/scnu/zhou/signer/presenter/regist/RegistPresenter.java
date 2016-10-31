@@ -1,6 +1,6 @@
 package com.scnu.zhou.signer.presenter.regist;
 
-import com.scnu.zhou.signer.callback.regist.RegistCallback;
+import com.scnu.zhou.signer.callback.regist.RegistCallBack;
 import com.scnu.zhou.signer.component.bean.http.ResultResponse;
 import com.scnu.zhou.signer.component.bean.login.LoginResult;
 import com.scnu.zhou.signer.model.regist.IRegistModel;
@@ -10,7 +10,7 @@ import com.scnu.zhou.signer.view.regist.IRegistView;
 /**
  * Created by zhou on 16/10/20.
  */
-public class RegistPresenter implements IRegistPresenter, RegistCallback {
+public class RegistPresenter implements IRegistPresenter, RegistCallBack {
 
     private IRegistModel registModel;
     private IRegistView registView;

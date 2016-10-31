@@ -7,7 +7,7 @@ import com.scnu.zhou.signer.component.bean.sign.SignRecord;
 /**
  * Created by zhou on 16/10/21.
  */
-public interface SignCallback {
+public interface SignCallBack {
 
     void onGetScanResultSuccess(ResultResponse<ScanResult> response);
     void onGetScanResultError(Throwable e);

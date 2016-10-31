@@ -1,6 +1,6 @@
 package com.scnu.zhou.signer.presenter.login;
 
-import com.scnu.zhou.signer.callback.login.LoginCallback;
+import com.scnu.zhou.signer.callback.login.LoginCallBack;
 import com.scnu.zhou.signer.component.bean.http.ResultResponse;
 import com.scnu.zhou.signer.component.bean.login.LoginResult;
 import com.scnu.zhou.signer.model.login.ILoginModel;
@@ -10,7 +10,7 @@ import com.scnu.zhou.signer.view.login.ILoginView;
 /**
  * Created by zhou on 16/10/20.
  */
-public class LoginPresenter implements ILoginPresenter, LoginCallback {
+public class LoginPresenter implements ILoginPresenter, LoginCallBack {
 
     private ILoginModel loginModel;
     private ILoginView loginView;

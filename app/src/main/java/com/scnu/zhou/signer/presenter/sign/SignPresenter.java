@@ -1,6 +1,6 @@
 package com.scnu.zhou.signer.presenter.sign;
 
-import com.scnu.zhou.signer.callback.sign.SignCallback;
+import com.scnu.zhou.signer.callback.sign.SignCallBack;
 import com.scnu.zhou.signer.component.bean.http.ResultResponse;
 import com.scnu.zhou.signer.component.bean.sign.ScanResult;
 import com.scnu.zhou.signer.component.bean.sign.SignRecord;
@@ -13,7 +13,7 @@ import java.util.Map;
 /**
  * Created by zhou on 16/10/21.
  */
-public class SignPresenter implements ISignPresenter, SignCallback {
+public class SignPresenter implements ISignPresenter, SignCallBack {
 
     private ISignModel signModel;
     private ISignView signView;
