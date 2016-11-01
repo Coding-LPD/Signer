@@ -10,6 +10,7 @@ import com.scnu.zhou.signer.component.cache.UserCache;
 import com.scnu.zhou.signer.ui.activity.base.BaseActivity;
 import com.scnu.zhou.signer.ui.activity.login.LoginActivity;
 import com.scnu.zhou.signer.component.util.image.ImageLoaderUtil;
+import com.scnu.zhou.signer.ui.server.NoticeService;
 
 /**
  * Created by zhou on 16/9/2.
@@ -23,12 +24,22 @@ public class SplashActivity extends BaseActivity {
         setContentView(R.layout.activity_splash);
 
         ImageLoaderUtil.getInstance().initImageLoader(this);
+        startService();
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 turnToPage();
             }
         }, 2000);
+    }
+
+    /**
+     * 启动Service
+     */
+    private void startService(){
+
+        Intent intent = new Intent(this, NoticeService.class);
+        startService(intent);
     }
 
     /**

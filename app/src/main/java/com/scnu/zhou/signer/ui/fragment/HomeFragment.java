@@ -214,6 +214,7 @@ public class HomeFragment extends Fragment implements IHomeView, PullToRefreshLi
     @Override
     public void onResume() {
         super.onResume();
+
         onRefresh();
     }
 
