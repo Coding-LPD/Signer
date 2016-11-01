@@ -43,8 +43,7 @@ export class DetailComponent implements OnInit {
       this._signService.search({ _id: signId })
         .subscribe(body => {          
           if (+body.code == 200) {
-            this.sign = body.data[0];
-            console.log(this.sign);            
+            this.sign = body.data[0];         
           } else {
             this.popup.show(body.msg);
           }
@@ -97,6 +96,7 @@ export class DetailComponent implements OnInit {
       .subscribe(body => {
         if (+body.code == 200) {
           record.state = 1;
+          this.sign.signIn = body.data.signIn;
         } else {
           this.popup.show(body.msg);
         }
@@ -111,6 +111,7 @@ export class DetailComponent implements OnInit {
       .subscribe(body => {
         if (+body.code == 200) {
           record.state = 2;
+          this.sign.signIn = body.data.signIn;
         } else {
           this.popup.show(body.msg);
         }
@@ -121,7 +122,7 @@ export class DetailComponent implements OnInit {
     this._signRecordService.search({ signId, type })
       .subscribe(body => {
         if (+body.code == 200) {
-          this.records = body.data;
+          this.records = body.data;          
         } else {
           this.popup.show(body.msg);
         }
