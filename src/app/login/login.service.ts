@@ -26,23 +26,23 @@ export class LoginService extends BaseService {
       password: this._jsEncryptService.encrypt(password)
     };
     return this._http.post(API.domain + API.loginWithPassword, data, { withCredentials: true })
-        .map(res => {
-          var body = this.extractData(res);
-          if (body.code && +body.code == 200) {
-            this.isLoggedIn = true;
-            this.user = body.data.user;
-          }
-          return body;
-        })
-        .catch(this.handleError)
+      .map(this.extractData)
+      .map(body => {
+        if (+body.code == 200) {
+          this.isLoggedIn = true;
+          this.user = body.data.user;
+        }
+        return body;
+      })
+      .catch(this.handleError)
   }
 
   loginWithSmsCode(phone: string, smsCode: string) {
     var data = { phone, smsCode };
     return this._http.post(API.domain + API.loginWithSmsCode, data, { withCredentials: true})
-      .map(res => {
-        var body = this.extractData(res);
-        if (body.code && +body.code == 200) {
+      .map(this.extractData)
+      .map(body => {
+        if (+body.code == 200) {
           this.isLoggedIn = true;
           this.user = body.data.user;
         }
@@ -58,17 +58,15 @@ export class LoginService extends BaseService {
         data: [this.teacher]
       });
     }
-    return new Observable<any>((observer: Subscriber<any>) => {
-      this._http.post(API.domain + API.teacherSearch, { phone: this.user.phone }, this.options)
-        .map(this.extractData)
-        .catch(this.handleError)
-        .subscribe(body => {
-          if (+body.code == 200) {
-            this.teacher = body.data[0];
-          }
-          observer.next(body);
-        });
-    });
+    return this._http.post(API.domain + API.teacherSearch, { phone: this.user.phone }, this.options)      
+      .map(this.extractData)
+      .map(body => {
+        if (+body.code == 200 && body.data.length > 0) {
+          this.teacher = body.data[0];
+        }
+        return body;
+      })
+      .catch(this.handleError)
   }
 
   getCourses(refresh: boolean = false): Observable<any> {
@@ -78,24 +76,27 @@ export class LoginService extends BaseService {
         data: this.courses
       });
     } 
-    return new Observable<any>((observer: Subscriber<any>) => {
-      this.getTeacherInfo().subscribe(body => {
-        if (+body.code == 200) {
-          var teacherId = body.data[0]._id;
-          this._http.post(API.domain + API.courseSearch, { teacherId })
-            .map(this.extractData)
-            .catch(this.handleError)
-            .subscribe(body => {
-              if (+body.code == 200) {
-                this.courses = body.data;
-              } 
-              observer.next(body);
-            });
+    return this.getTeacherInfo()
+      .map(body => {        
+        if (+body.code == 200 && body.data.length > 0) {          
+          return body.data[0]._id;
         } else {
-          observer.next(body);
+          return null;
         }
       })
-    });     
+      .flatMap(teacherId => {        
+        if (teacherId) {
+          return this._http.post(API.domain + API.courseSearch, { teacherId })
+            .map(this.extractData)
+            .catch(this.handleError);
+        } else {
+          return Observable.of<any>({
+            code: '600',
+            msg: '获取教师信息失败'            
+          });
+        }
+      })
+      .catch(this.handleError);
   }
 
   logout() {
