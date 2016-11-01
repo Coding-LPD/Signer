@@ -13,7 +13,9 @@ export class PositionService extends BaseService {
 
   getIP() {
     return this._http.get(API.ipService)
-      .map(this.extractData)
+      .map(res => {
+        return res.json();
+      })
       .catch(this.handleError);
   }
 
