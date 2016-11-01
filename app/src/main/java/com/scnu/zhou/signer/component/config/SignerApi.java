@@ -2,6 +2,7 @@ package com.scnu.zhou.signer.component.config;
 
 import com.scnu.zhou.signer.component.bean.http.ResultResponse;
 import com.scnu.zhou.signer.component.bean.login.LoginResult;
+import com.scnu.zhou.signer.component.bean.main.CourseDetail;
 import com.scnu.zhou.signer.component.bean.main.MainCourse;
 import com.scnu.zhou.signer.component.bean.sign.ScanResult;
 import com.scnu.zhou.signer.component.bean.sign.SignRecord;
@@ -95,5 +96,5 @@ public interface SignerApi {
                                                              @Query("page") int page);
 
     @GET("/api/courses/{id}/latestSignRecords")     // 获取相关课程信息详情
-    Observable<ResultResponse<ScanResult>> getCourseDetail(@Path("id") String courseId);
+    Observable<ResultResponse<CourseDetail>> getCourseDetail(@Path("id") String courseId);
 }

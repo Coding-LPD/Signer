@@ -11,7 +11,7 @@ import android.widget.TextView;
 import com.scnu.zhou.signer.R;
 import com.scnu.zhou.signer.component.adapter.gridview.SignerAdapter;
 import com.scnu.zhou.signer.component.bean.http.ResultResponse;
-import com.scnu.zhou.signer.component.bean.sign.ScanResult;
+import com.scnu.zhou.signer.component.bean.main.CourseDetail;
 import com.scnu.zhou.signer.component.bean.sign.Signer;
 import com.scnu.zhou.signer.component.util.http.ResponseCode;
 import com.scnu.zhou.signer.presenter.home.CoursePresenter;
@@ -41,6 +41,8 @@ public class CourseDetailActivity extends BaseSlideActivity implements ICourseVi
     @Bind(R.id.tv_teacher) TextView tv_teacher;
 
     @Bind(R.id.gv_signer) GridView gv_signer;
+
+    @Bind(R.id.tv_check_sign) TextView tv_check_sign;
 
     private List<Signer> signers;
     private SignerAdapter adapter;
@@ -90,12 +92,12 @@ public class CourseDetailActivity extends BaseSlideActivity implements ICourseVi
      * @param response
      */
     @Override
-    public void onGetCourseDetailSuccess(ResultResponse<ScanResult> response) {
+    public void onGetCourseDetailSuccess(ResultResponse<CourseDetail> response) {
 
         dismissLoadingDialog();
         if (response.getCode().equals("200")) {
 
-            ScanResult result = response.getData();
+            CourseDetail result = response.getData();
 
             if (result != null) {
 
@@ -127,6 +129,8 @@ public class CourseDetailActivity extends BaseSlideActivity implements ICourseVi
                 signers = result.getRecords();
                 adapter = new SignerAdapter(this, signers);
                 gv_signer.setAdapter(adapter);
+
+                tv_check_sign.setText("共有" + result.getSignNum() + "次签到");
             }
         }
         else{

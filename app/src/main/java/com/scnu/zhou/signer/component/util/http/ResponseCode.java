@@ -45,6 +45,15 @@ public class ResponseCode {
         codes.put("403", "无权限访问该资源");
         codes.put("500", "内部服务器错误");
         codes.put("200", "操作成功");
+
+        codes.put("4004", "教师尚未定位，无法进行签到");
+        codes.put("4005", "尚未设置学号，无法进行签到");
+        codes.put("4006", "该学生不属于这门课程，无法进行签到");
+        codes.put("4007", "签到尚未开始");
+        codes.put("4008", "签到已结束");
+        codes.put("000", "课程不存在");
+        codes.put("5001", "该课程暂无相关签到");
+        codes.put("5002", "该课程暂无相关教师");
     }
 
     private static class ResponseCodeHolder{

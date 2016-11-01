@@ -2,7 +2,7 @@ package com.scnu.zhou.signer.presenter.home;
 
 import com.scnu.zhou.signer.callback.home.CourseCallBack;
 import com.scnu.zhou.signer.component.bean.http.ResultResponse;
-import com.scnu.zhou.signer.component.bean.sign.ScanResult;
+import com.scnu.zhou.signer.component.bean.main.CourseDetail;
 import com.scnu.zhou.signer.model.home.CourseModel;
 import com.scnu.zhou.signer.model.home.ICourseModel;
 import com.scnu.zhou.signer.view.home.ICourseView;
@@ -28,7 +28,7 @@ public class CoursePresenter implements ICoursePresenter, CourseCallBack {
     }
 
     @Override
-    public void onGetCourseDetailSuccess(ResultResponse<ScanResult> response) {
+    public void onGetCourseDetailSuccess(ResultResponse<CourseDetail> response) {
 
         courseView.onGetCourseDetailSuccess(response);
     }
