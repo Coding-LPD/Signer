@@ -6,6 +6,8 @@ var handleErrors = require('../services/error-handler').handleErrors;
 var sendInfo = require('../services/error-handler').sendInfo; 
 var errorCodes = require('../services/error-codes').errorCodes;
 var common = require('../services/common');
+var signSocket = require('../sockets/sign');
+
 var Student = require('../services/mongo').Student;
 var SignStudent = require('../services/mongo').SignStudent;
 var Sign = require('../services/mongo').Sign;
@@ -85,7 +87,10 @@ router.post('/', function (req, res) {
       return signRecord.save();
     })
     .then(function (savedData) {
+      // 响应http
       sendInfo(errorCodes.Success, res, savedData);
+      // 推送数据给浏览器
+      signSocket.send(signSocket.events.sign, savedData);
     })
     .catch(function (err) {
       if (err.code) {
@@ -104,7 +109,10 @@ router.post('/:id/assent', function (req, res) {
       return Sign.findByIdAndUpdate(savedRecord.get('signId'), { $inc: { signIn: 1 } }, { new: true })
     })
     .then(function (updatedSign) {
+      // 响应http
       sendInfo(errorCodes.Success, res, { signIn: updatedSign.get('signIn') });
+      // 推送数据给手机客户端
+      signSocket.send(signSocket.events.notice, '');
     })
     .catch(function (err) {
       if (err.code) {
@@ -123,7 +131,10 @@ router.post('/:id/refusal', function (req, res) {
       return Sign.findByIdAndUpdate(savedRecord.get('signId'), { $inc: { signIn: 1 } }, { new: true })
     })
     .then(function (updatedSign) {
+      // 响应http
       sendInfo(errorCodes.Success, res, { signIn: updatedSign.get('signIn') });
+      // 推送数据给手机客户端
+      signSocket.send(signSocket.events.notice, '');
     })
     .catch(function (err) {
       if (err.code) {
