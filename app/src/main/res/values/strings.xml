@@ -77,4 +77,5 @@
     <string name="null_course">暂时还木有记录...</string>
     <string name="null_network">好像梦见断网了...</string>
     <string name="null_notice">还没有签到通知...</string>
+    <string name="null_chat">还没有加入聊天室...</string>
 </resources>

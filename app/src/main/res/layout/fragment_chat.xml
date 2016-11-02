@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/colorActivityBackground">
 
     <!--navigation bar-->
     <LinearLayout
@@ -33,11 +34,15 @@
     </LinearLayout>
     <!--navigation bar end-->
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="敬请期待"
-        android:id="@+id/textView"
-        android:layout_centerInParent="true" />
+    <com.scnu.zhou.signer.ui.widget.listview.PullToRefreshListView
+        android:id="@+id/plv_chat"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="51dp"
+        android:divider="@null"
+        android:scrollbars="none"/>
+
+    <include layout="@layout/layout_no_network"/>
+    <include layout="@layout/layout_no_notice"/>
+
 </RelativeLayout>
