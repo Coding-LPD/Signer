@@ -8,13 +8,18 @@
     </select>
   </div>
   <div class="form-group wrap">
-    <label for="start-time" class="left">开始时间</label>
-    <input type="datetime-local" id="start-time" class="right" name="startTime" 
-        [(date)]="sign.startTime" />
+    <label for="sign-date" class="left">签到日期</label>
+    <input type="date" id="sign-date" class="right" name="signDate" 
+        [ngModel]="extra.signDate" (ngModelChange)="selectTime($event, 0)" />
   </div>
   <div class="form-group wrap">
-    <label for="end-time" class="left">结束时间</label>
-    <input type="datetime-local" id="end-time" class="right" name="endTime" 
-        [(date)]="sign.endTime"/>
+    <label class="left">签到时间</label>
+    <div class="right wrap">
+      <input type="time" class="time" name="startTime" 
+        [(ngModel)]="extra.startTime" (ngModelChange)="selectTime($event, 1)" />
+      <div class="seperator">—</div>
+      <input type="time" class="time" name="endTime" 
+        [(ngModel)]="extra.endTime" (ngModelChange)="selectTime($event, 2)" />
+    </div>    
   </div>
 </form>

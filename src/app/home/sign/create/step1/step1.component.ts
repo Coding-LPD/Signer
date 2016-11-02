@@ -13,6 +13,7 @@ export class Step1Component implements OnInit {
   
   sign: Sign;
   extra = {
+    signDate: '',
     startTime: '',
     endTime: ''
   }
@@ -38,6 +39,22 @@ export class Step1Component implements OnInit {
   selectCourse(course: Course) {
     this._signService.selectCourse(course);        
     this.selectedCourse = course;
+  }
+
+  selectTime(value: string, type: number) {
+    switch (type) {
+      case 0: 
+        this.extra.signDate = value;
+        break;
+      case 1:
+        this.extra.startTime = value;
+        break;
+      case 2:
+        this.extra.endTime = value;
+        break;
+    }
+    this.sign.startTime = `${this.extra.signDate} ${this.extra.startTime}`;
+    this.sign.endTime = `${this.extra.signDate} ${this.extra.endTime}`;
   }
 
 }
