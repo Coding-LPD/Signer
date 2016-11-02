@@ -82,31 +82,52 @@
 
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/ll_notice"
+        <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center">
+            android:layout_weight="1">
 
-            <ImageView
-                android:id="@+id/iv_notice"
-                android:layout_width="26dp"
-                android:layout_height="26dp"
-                android:src="@drawable/icon_notice_selector"
-                android:layout_marginTop="2dp"
-                android:layout_marginBottom="2dp"/>
+            <LinearLayout
+                android:id="@+id/ll_notice"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/iv_notice"
+                    android:layout_width="26dp"
+                    android:layout_height="26dp"
+                    android:src="@drawable/icon_notice_selector"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="2dp"/>
+
+                <TextView
+                    android:id="@+id/tv_notice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tab_notice"
+                    android:textSize="12sp"
+                    android:textColor="#bbb"/>
+
+            </LinearLayout>
 
             <TextView
-                android:id="@+id/tv_notice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/tab_notice"
+                android:id="@+id/tv_tab_warning"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@drawable/bg_point_warning"
+                android:text="0"
                 android:textSize="12sp"
-                android:textColor="#bbb"/>
+                android:textColor="#fff"
+                android:gravity="center"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="2dp"
+                android:visibility="gone"/>
 
-        </LinearLayout>
+        </RelativeLayout>
 
         <LinearLayout
             android:id="@+id/ll_mine"

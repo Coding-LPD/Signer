@@ -2,12 +2,16 @@ package com.scnu.zhou.signer.ui.activity.main;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.scnu.zhou.signer.R;
 import com.scnu.zhou.signer.component.adapter.pager.HomePagerAdapter;
+import com.scnu.zhou.signer.component.cache.NoticeCache;
 import com.scnu.zhou.signer.component.util.tabbar.TabBarManager;
 import com.scnu.zhou.signer.ui.activity.base.BaseFragmentActivity;
 import com.scnu.zhou.signer.ui.activity.sign.CaptureActivity;
@@ -28,12 +32,38 @@ import butterknife.OnPageChange;
 public class MainActivity extends BaseFragmentActivity{
 
     @Bind(R.id.vp_main) ViewPager vp_main;
+    @Bind(R.id.tv_tab_warning) TextView tv_tab_warning;
 
     private List<Fragment> fragments;
     private HomePagerAdapter adapter;
 
     private TabBarManager manager;
     private static MainActivity instance;
+
+    private Handler handler;
+    private class NoticeRunnable implements Runnable{
+
+        @Override
+        public void run() {
+
+            int num = NoticeCache.getInstance().getNoticenNumber(MainActivity.this);
+            if (num != 0){
+                tv_tab_warning.setVisibility(View.VISIBLE);
+
+                if (num < 99) {
+                    tv_tab_warning.setText(num + "");
+                }
+                else{
+                    tv_tab_warning.setText("99");
+                }
+            }
+            else{
+                tv_tab_warning.setVisibility(View.GONE);
+            }
+
+            handler.postDelayed(this, 500);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +76,9 @@ public class MainActivity extends BaseFragmentActivity{
         manager = new TabBarManager(this);
         manager.setSelect(0);
         initViewPager();
+
+        handler = new Handler();
+        handler.postDelayed(new NoticeRunnable(), 500);
     }
 
     public static MainActivity getInstance(){

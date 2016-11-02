@@ -109,12 +109,16 @@ public class HomeFragment extends Fragment implements IHomeView, PullToRefreshLi
 
             if (state == STATE_REFRESH) {
                 mData = response.getData();
+                plv_main.onRefreshCompleted();
             }
             else {
                 mData.addAll(response.getData());
 
                 if (response.getData().size() < limit){
                     plv_main.onLoadMoreAllCompleted();
+                }
+                else{
+                    plv_main.onLoadMoreCompleted();
                 }
             }
 
@@ -127,13 +131,6 @@ public class HomeFragment extends Fragment implements IHomeView, PullToRefreshLi
             ToastView toastView = new ToastView(context, msg);
             toastView.setGravity(Gravity.CENTER, 0, 0);
             toastView.show();
-        }
-
-        if (state == STATE_REFRESH) {
-            plv_main.onRefreshCompleted();
-        }
-        else{
-            plv_main.onLoadMoreCompleted();
         }
 
         if (mData.size() == 0){

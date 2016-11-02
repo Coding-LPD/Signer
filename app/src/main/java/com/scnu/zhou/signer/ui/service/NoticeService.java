@@ -1,4 +1,4 @@
-package com.scnu.zhou.signer.ui.server;
+package com.scnu.zhou.signer.ui.service;
 
 import android.app.Service;
 import android.content.Intent;
@@ -9,7 +9,9 @@ import android.util.Log;
 import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.IO;
 import com.github.nkzawa.socketio.client.Socket;
+import com.scnu.zhou.signer.component.cache.NoticeCache;
 import com.scnu.zhou.signer.component.config.SignerServer;
+import com.scnu.zhou.signer.component.config.SocketEvent;
 
 /**
  * Created by zhou on 16/11/1.
@@ -70,14 +72,19 @@ public class NoticeService extends Service {
                 public void call(Object... args) {
 
                     Log.e(TAG, "EVENT_DISCONNECT");
+
                 }
 
-            }).on("notice", new Emitter.Listener() {
+            }).on(SocketEvent.NOTICE_ENVENT, new Emitter.Listener() {
 
                 @Override
                 public void call(Object... args) {
 
-                    Log.e(TAG, "reveice");
+                    // 监听未读通知
+                    Log.e(TAG, "notice");
+
+                    int number = NoticeCache.getInstance().getNoticenNumber(NoticeService.this) + 1;
+                    NoticeCache.getInstance().setNoticenNumber(NoticeService.this, number);
                 }
             });
 

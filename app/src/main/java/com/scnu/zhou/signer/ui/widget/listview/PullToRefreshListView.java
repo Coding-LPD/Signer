@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -245,7 +246,7 @@ public class PullToRefreshListView extends ListView implements AbsListView.OnScr
             if (isScrollToBottom && !isLoadingMore && !isCompleted && state != STATE_REFRESHING) {
                 isLoadingMore = true;
                 // 当前到底部
-                //Log.i("load", "加载更多数据");
+                Log.e("load", "加载更多数据");
                 FootView.setPadding(0, 0, 0, 0);
                 iv_bloading.setVisibility(VISIBLE);
                 iv_bloading.startAnimation(loadingAnimation);
@@ -316,7 +317,7 @@ public class PullToRefreshListView extends ListView implements AbsListView.OnScr
 
         Message msg = new Message();
         msg.what = END_IN_TIME;
-        RefreshHandler.sendMessage(msg);
+        LoadMoreHandler.sendMessage(msg);
     }
 
 
@@ -331,9 +332,12 @@ public class PullToRefreshListView extends ListView implements AbsListView.OnScr
         iv_bloading.setVisibility(GONE);
         ll_bottom.setVisibility(VISIBLE);
 
+        Log.e("state", "complete");
+        FootView.setPadding(0, 0, 0, 0);
+
         Message msg = new Message();
         msg.what = END_IN_TIME;
-        RefreshHandler.sendMessage(msg);
+        LoadMoreHandler.sendMessage(msg);
     }
 
 
@@ -444,7 +448,7 @@ public class PullToRefreshListView extends ListView implements AbsListView.OnScr
 
                 hideFooterView();
             }
-            else if (msg.what == END_IN_TIME){
+            else if (msg.what == END_IN_TIME){   // 规定时间内加载完成
 
                 loadmore_time = END_TIME;
             }

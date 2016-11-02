@@ -86,7 +86,7 @@
         <activity android:name=".ui.activity.course.CheckSignActivity"/>
         <activity android:name=".ui.activity.course.SearchActivity"/>
 
-        <service android:name=".ui.server.NoticeService"/>
+        <service android:name=".ui.service.NoticeService"/>
 
     </application>
 

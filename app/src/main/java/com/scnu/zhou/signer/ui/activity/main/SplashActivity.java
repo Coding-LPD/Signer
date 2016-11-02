@@ -10,7 +10,7 @@ import com.scnu.zhou.signer.component.cache.UserCache;
 import com.scnu.zhou.signer.ui.activity.base.BaseActivity;
 import com.scnu.zhou.signer.ui.activity.login.LoginActivity;
 import com.scnu.zhou.signer.component.util.image.ImageLoaderUtil;
-import com.scnu.zhou.signer.ui.server.NoticeService;
+import com.scnu.zhou.signer.ui.service.NoticeService;
 
 /**
  * Created by zhou on 16/9/2.
