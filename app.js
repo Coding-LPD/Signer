@@ -39,6 +39,7 @@ app.use(function(req, res, next) {
     next();
 });
 
+// http routes
 app.use('/api', routes);
 app.use('/api/publickey', publickey);
 app.use('/api/users', users);
