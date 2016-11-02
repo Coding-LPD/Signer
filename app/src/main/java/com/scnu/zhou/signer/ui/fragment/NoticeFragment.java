@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +13,12 @@ import android.widget.LinearLayout;
 
 import com.scnu.zhou.signer.R;
 import com.scnu.zhou.signer.component.adapter.listview.NoticeAdapter;
+import com.scnu.zhou.signer.component.bean.http.ResultResponse;
 import com.scnu.zhou.signer.component.bean.notice.NoticeBean;
+import com.scnu.zhou.signer.component.cache.NoticeCache;
+import com.scnu.zhou.signer.component.cache.UserCache;
+import com.scnu.zhou.signer.presenter.notice.INoticePresenter;
+import com.scnu.zhou.signer.presenter.notice.NoticePresenter;
 import com.scnu.zhou.signer.ui.widget.listview.PullToRefreshListView;
 import com.scnu.zhou.signer.ui.widget.listview.PullToRefreshListView.OnPullToRefreshListener;
 import com.scnu.zhou.signer.ui.widget.segment.TwoStageSegment;
@@ -42,6 +48,20 @@ public class NoticeFragment extends Fragment implements INoticeView,
     private NoticeAdapter adapter;
     private List<NoticeBean> notices;
 
+    private INoticePresenter presenter;
+
+    private int limit = 10;
+    private int page = 0;
+
+    private final int STATE_REFRESH = 0x001;
+    private final int STATE_LOADMORE = 0x002;
+    private int state = STATE_REFRESH;
+
+    private final int STATE_BEFORE = 0;
+    private final int STATE_AFTER = 1;
+    private int segment = STATE_BEFORE;
+
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -57,6 +77,7 @@ public class NoticeFragment extends Fragment implements INoticeView,
 
         context = getActivity();
 
+        initData();
         initView();
     }
 
@@ -65,21 +86,54 @@ public class NoticeFragment extends Fragment implements INoticeView,
     public void initView(){
 
         sg_sign.setOnSelectListener(this);
-
-        notices = new ArrayList<>();
         plv_notice.setOnPullToRefreshListener(this);
 
-        onSelectLeft();
+        //onSelectLeft();
     }
 
     @Override
     public void initData() {
 
+        presenter = new NoticePresenter(this);
+        notices = new ArrayList<>();
     }
 
     @Override
-    public void onGetNoticeSuccess() {
+    public void onGetNoticeSuccess(ResultResponse<List<NoticeBean>> response) {
 
+
+        if (response.getCode().equals("200")){
+
+            //dismissLoadingDialog();
+
+            page++;
+
+            if (state == STATE_REFRESH) {
+                NoticeCache.getInstance().setNoticenNumber(context, 0);
+                notices = response.getData();
+                plv_notice.onRefreshCompleted();
+            }
+            else {
+                notices.addAll(response.getData());
+
+                if (response.getData().size() < limit){
+                    plv_notice.onLoadMoreAllCompleted();
+                }
+                else{
+                    plv_notice.onLoadMoreCompleted();
+                }
+            }
+
+            adapter = new NoticeAdapter(context, notices);
+            plv_notice.setAdapter(adapter);
+        }
+        else{
+            //dismissLoadingDialog();
+            String msg = response.getMsg();
+            ToastView toastView = new ToastView(context, msg);
+            toastView.setGravity(Gravity.CENTER, 0, 0);
+            toastView.show();
+        }
 
         if (notices.size() == 0){
             ll_no_notice.setVisibility(View.VISIBLE);
@@ -92,6 +146,20 @@ public class NoticeFragment extends Fragment implements INoticeView,
     @Override
     public void onGetNoticeError(Throwable e) {
 
+
+        Log.e("error", e.toString());
+
+        //dismissLoadingDialog();
+        ToastView toastView = new ToastView(context, "请检查您的网络连接");
+        toastView.setGravity(Gravity.CENTER, 0, 0);
+        toastView.show();
+
+        if (state == STATE_REFRESH) {
+            plv_notice.onRefreshCompleted();
+        }
+        else{
+            plv_notice.onLoadMoreCompleted();
+        }
 
         if (notices.size() == 0){
             ll_no_network.setVisibility(View.VISIBLE);
@@ -108,11 +176,20 @@ public class NoticeFragment extends Fragment implements INoticeView,
     @Override
     public void onRefresh() {
 
+        Log.e("state", "refresh");
+        state = STATE_REFRESH;
+        page = 0;
+        notices.clear();
+
+        presenter.getNotices(UserCache.getInstance().getPhone(context), segment, limit, page);
     }
 
     @Override
     public void onLoadMore() {
 
+        Log.e("state", "load");
+        state = STATE_LOADMORE;
+        presenter.getNotices(UserCache.getInstance().getPhone(context), segment, limit, page);
     }
 
     @Override
@@ -129,37 +206,29 @@ public class NoticeFragment extends Fragment implements INoticeView,
     @Override
     public void onSelectLeft() {
 
+        state = STATE_REFRESH;
+        segment = STATE_BEFORE;
+        page = 0;
         notices.clear();
-
-        NoticeBean bean = new NoticeBean();
-        bean.setCourseName("软件工程");
-        bean.setSignState(1);
-        bean.setSignAt("2016-10-23");
-        bean.setSignDistance(14);
-        bean.setSignNumber(34);
-        bean.setConfirmAt("12分钟前");
-
-        notices.add(bean);
-        notices.add(bean);
-
-        NoticeBean bean2 = new NoticeBean();
-        bean2.setCourseName("C++课程ssssssss");
-        bean2.setSignState(0);
-        bean2.setSignAt("2016-10-23");
-        bean2.setSignDistance(102);
-        bean2.setSignNumber(14);
-        bean2.setConfirmAt("19分钟前");
-        notices.add(bean2);
-
-        adapter = new NoticeAdapter(context, notices);
-        plv_notice.setAdapter(adapter);
+        presenter.getNotices(UserCache.getInstance().getPhone(context), segment, limit, page);
     }
 
     @Override
     public void onSelectRight() {
 
+        state = STATE_REFRESH;
+        segment = STATE_AFTER;
+        page = 0;
         notices.clear();
-        adapter = new NoticeAdapter(context, notices);
-        plv_notice.setAdapter(adapter);
+        presenter.getNotices(UserCache.getInstance().getPhone(context), segment, limit, page);
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        segment = STATE_BEFORE;
+        onRefresh();
     }
 }

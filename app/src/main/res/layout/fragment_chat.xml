@@ -43,6 +43,6 @@
         android:scrollbars="none"/>
 
     <include layout="@layout/layout_no_network"/>
-    <include layout="@layout/layout_no_notice"/>
+    <include layout="@layout/layout_no_chat"/>
 
 </RelativeLayout>

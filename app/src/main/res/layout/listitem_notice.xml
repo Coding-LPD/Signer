@@ -21,7 +21,8 @@
             android:text="软件工程"
             android:textColor="@color/colorTitleText"
             android:textSize="16sp"
-            android:maxLength="6"/>
+            android:maxLength="6"
+            android:gravity="center"/>
 
         <TextView
             android:id="@+id/tv_sign_distance"
@@ -30,7 +31,8 @@
             android:text="14 m"
             android:textColor="@color/colorTheme"
             android:textSize="14sp"
-            android:layout_marginTop="13dp"/>
+            android:layout_marginTop="13dp"
+            android:gravity="center"/>
 
     </LinearLayout>
 

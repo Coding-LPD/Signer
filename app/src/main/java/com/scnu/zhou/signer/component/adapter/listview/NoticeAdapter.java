@@ -72,7 +72,7 @@ public class NoticeAdapter extends BaseAdapter {
             viewHolder.tv_sign_state.setText("拒绝了");
             viewHolder.tv_sign_state.setTextColor(Color.parseColor("#F83908"));
         }
-        viewHolder.tv_sign_at.setText(mData.get(position).getSignAt());
+        viewHolder.tv_sign_at.setText(mData.get(position).getSignAt().split(" ")[0]);
         viewHolder.tv_sign_distance.setText(mData.get(position).getSignDistance() + " m");
         if (mData.get(position).getSignDistance() > 100){
             viewHolder.tv_sign_distance.setTextColor(Color.parseColor("#F83908"));
