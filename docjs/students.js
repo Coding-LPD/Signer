@@ -180,7 +180,39 @@
  *    HTTP/1.1 200 OK
  *    {
  *      code: "XXXX",
- *      data: {},         
+ *      data: [],         
+ *      msg:  "错误信息"
+ *    }
+ */
+
+/**
+ * @api {get} /students/:phone/notice?type=0&page=0&limit=10 相关通知
+ * @apiVersion 1.0.0
+ * @apiName GetStudentNotice
+ * @apiGroup Student
+ * @apiDescription 获取学生相关通知信息，phone指学生手机号，type默认为0，表示课前的通知，limit指每页大小（默认10），page指第几页（默认0）
+ * 
+ * @apiSuccessExample 成功
+ *    HTTP/1.1 200 OK
+ *    {
+ *      code: "200",
+ *      data:                                 // 对象数组
+ *      [{
+ *        courseName: 'XXX',                  // 课程名称
+ *        signState: 0,                       // 批准状态
+ *        signDistance: 0,                    // 签到距离
+ *        signNumber: 0,                      // 签到完成人数
+ *        signAt: '2016-09-01 11:00:00'       // 签到时间
+ *        confirmAt: '2016-09-01 11:00:20'    // 教师确认签到时间
+ *      }]
+ *      msg:  "操作成功"
+ *    }
+ * 
+ * @apiErrorExample 失败：
+ *    HTTP/1.1 200 OK
+ *    {
+ *      code: "XXXX",
+ *      data: [],         
  *      msg:  "错误信息"
  *    }
  */

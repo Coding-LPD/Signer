@@ -101,50 +101,12 @@ router.post('/', function (req, res) {
     });
 });
 
-router.post('/:id/assent', function (req, res) {    
-  var now = moment().format('YYYY-MM-DD HH:mm:ss');
-  // 签到状态改为批准
-  SignRecord.findByIdAndUpdate(req.params['id'], { state: 1, confirmAt: now }, { new: true })
-    .then(function (savedRecord) {    
-      // 签到完成人数加1
-      return Sign.findByIdAndUpdate(savedRecord.get('signId'), { $inc: { signIn: 1 } }, { new: true })
-    })
-    .then(function (updatedSign) {
-      // 响应http
-      sendInfo(errorCodes.Success, res, { signIn: updatedSign.get('signIn') });
-      // 推送数据给手机客户端
-      signSocket.send(signSocket.events.notice, '');
-    })
-    .catch(function (err) {
-      if (err.code) {
-        sendInfo(err.code, res, {});
-      } else {
-        handleErrors(err, res, {});
-      }
-    });
+router.post('/:id/assent', function (req, res) {   
+  confirm(req, res, 1);
 });
 
 router.post('/:id/refusal', function (req, res) {
-  var now = moment().format('YYYY-MM-DD HH:mm:ss');
-  // 签到状态改为拒绝
-  SignRecord.findByIdAndUpdate(req.params['id'], { state: 2, confirmAt: now }, { new: true })
-    .then(function (savedRecord) {    
-      // 签到完成人数加1
-      return Sign.findByIdAndUpdate(savedRecord.get('signId'), { $inc: { signIn: 1 } }, { new: true })
-    })
-    .then(function (updatedSign) {
-      // 响应http
-      sendInfo(errorCodes.Success, res, { signIn: updatedSign.get('signIn') });
-      // 推送数据给手机客户端
-      signSocket.send(signSocket.events.notice, '');
-    })
-    .catch(function (err) {
-      if (err.code) {
-        sendInfo(err.code, res, {});
-      } else {
-        handleErrors(err, res, {});
-      }
-    });
+  confirm(req, res, 2);
 });
 
 router.post('/search', function (req, res) {
@@ -161,5 +123,31 @@ router.post('/search', function (req, res) {
     }
   });
 });
+
+function confirm(req, res, state) {
+  var type;
+  var now = moment().format('YYYY-MM-DD HH:mm:ss');
+  // 修改签到状态
+  SignRecord.findByIdAndUpdate(req.params['id'], { state: state, confirmAt: now }, { new: true })
+    .then(function (savedRecord) {    
+      var signIn = type == 0 ? { beforeSignIn: 1 } : { afterSignIn: 1 };
+      // 签到完成人数加1
+      return Sign.findByIdAndUpdate(savedRecord.get('signId'), { $inc: signIn }, { new: true })
+    })
+    .then(function (updatedSign) {
+      var signIn = Sign.getSignInName(type);
+      // 响应http
+      sendInfo(errorCodes.Success, res, { signIn: updatedSign.get(signIn) });
+      // 推送数据给手机客户端
+      signSocket.send(signSocket.events.notice, '');
+    })
+    .catch(function (err) {
+      if (err.code) {
+        sendInfo(err.code, res, {});
+      } else {
+        handleErrors(err, res, {});
+      }
+    });
+}
 
 module.exports = router;

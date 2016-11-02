@@ -26,7 +26,11 @@ var Sign = {
     },
     required: true
   },
-  signIn: {
+  beforeSignIn: {
+    type: Number,
+    default: 0
+  },
+  afterSignIn: {
     type: Number,
     default: 0
   },
@@ -65,9 +69,22 @@ statics = {
       code += common.getRandomNum(10);
     }
     return code;
+  },
+
+  getSignInName: function (type) {
+    type = type || 0;
+    return type == 0 ? 'beforeSignIn' : 'afterSignIn';
   }
+}
+
+methods = {
+
+  getSignIn: function() {    
+    return this.type == 0 ? this.get('beforeSignIn') : this.get('afterSignIn');
+  }  
 }
 
 
  exports.model = Sign;
  exports.statics = statics;
+ exports.methods = methods;

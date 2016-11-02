@@ -55,6 +55,7 @@
       "PostStudentImage",
       "GetStudentImage",
       "GetStudentRelatedCourses",
+      "GetStudentNotice",
       "Teacher",
       "GetTeacher",
       "PostTeacherSearch",

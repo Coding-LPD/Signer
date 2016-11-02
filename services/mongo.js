@@ -31,6 +31,7 @@ var SignRecordSchema = mongoose.Schema(signRecord);
 var PositionSchema = mongoose.Schema(position);
 
 SignSchema.statics = sign.statics;
+SignSchema.methods = sign.methods;
 
 var User = mongoose.model('user', UserSchema);
 var Student = mongoose.model('student', StudentSchema);

@@ -118,7 +118,7 @@ router.get('/:phone/relatedCourses', function (req, res) {
         return Sign.aggregate()
           .match({ courseId: '' + courseIdObject._id })
           .sort('-createdAt')
-          .project('_id courseName signIn courseId')
+          .project('_id courseName beforeSignIn afterSignIn courseId')
           .limit(1)
           .exec();
       }));
@@ -151,7 +151,7 @@ router.get('/:phone/relatedCourses', function (req, res) {
         });
         return {
           name: coursesLastestSign[index].courseName,
-          number: coursesLastestSign[index].signIn,
+          number: coursesLastestSign[index].beforeSignIn + coursesLastestSign[index].afterSignIn,
           courseId: coursesLastestSign[index].courseId,
           avatars: avatars
         };

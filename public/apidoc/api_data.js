@@ -825,6 +825,35 @@ define({ "api": [
   },
   {
     "type": "get",
+    "url": "/students/:phone/notice?type=0&page=0&limit=10",
+    "title": "相关通知",
+    "version": "1.0.0",
+    "name": "GetStudentNotice",
+    "group": "Student",
+    "description": "<p>获取学生相关通知信息，phone指学生手机号，type默认为0，表示课前的通知，limit指每页大小（默认10），page指第几页（默认0）</p>",
+    "success": {
+      "examples": [
+        {
+          "title": "成功",
+          "content": "HTTP/1.1 200 OK\n{\n  code: \"200\",\n  data:                                 // 对象数组\n  [{\n    courseName: 'XXX',                  // 课程名称\n    signState: 0,                       // 批准状态\n    signDistance: 0,                    // 签到距离\n    signNumber: 0,                      // 签到完成人数\n    signAt: '2016-09-01 11:00:00'       // 签到时间\n    confirmAt: '2016-09-01 11:00:20'    // 教师确认签到时间\n  }]\n  msg:  \"操作成功\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "失败：",
+          "content": "HTTP/1.1 200 OK\n{\n  code: \"XXXX\",\n  data: [],         \n  msg:  \"错误信息\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "docjs/students.js",
+    "groupTitle": "学生"
+  },
+  {
+    "type": "get",
     "url": "/students/:phone/relatedCourses?limit=10&page=0",
     "title": "相关课程的签到信息",
     "version": "1.0.0",
@@ -844,7 +873,7 @@ define({ "api": [
       "examples": [
         {
           "title": "失败：",
-          "content": "HTTP/1.1 200 OK\n{\n  code: \"XXXX\",\n  data: {},         \n  msg:  \"错误信息\"\n}",
+          "content": "HTTP/1.1 200 OK\n{\n  code: \"XXXX\",\n  data: [],         \n  msg:  \"错误信息\"\n}",
           "type": "json"
         }
       ]
