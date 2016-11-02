@@ -82,7 +82,7 @@ router.post('/', function (req, res) {
       signRecord.set('distance', Math.round(distance));
       signRecord.set('studentName', student.get('name'));
       signRecord.set('studentAvatar', student.get('avatar'));
-      signRecord.set('createdAt', moment(new Date()).format('YYYY-MM-DD HH:mm:ss'));
+      signRecord.set('createdAt', moment().format('YYYY-MM-DD HH:mm:ss'));
 
       return signRecord.save();
     })
@@ -102,8 +102,9 @@ router.post('/', function (req, res) {
 });
 
 router.post('/:id/assent', function (req, res) {    
+  var now = moment().format('YYYY-MM-DD HH:mm:ss');
   // 签到状态改为批准
-  SignRecord.findByIdAndUpdate(req.params['id'], { state: 1 }, { new: true })
+  SignRecord.findByIdAndUpdate(req.params['id'], { state: 1, confirmAt: now }, { new: true })
     .then(function (savedRecord) {    
       // 签到完成人数加1
       return Sign.findByIdAndUpdate(savedRecord.get('signId'), { $inc: { signIn: 1 } }, { new: true })
@@ -124,8 +125,9 @@ router.post('/:id/assent', function (req, res) {
 });
 
 router.post('/:id/refusal', function (req, res) {
+  var now = moment().format('YYYY-MM-DD HH:mm:ss');
   // 签到状态改为拒绝
-  SignRecord.findByIdAndUpdate(req.params['id'], { state: 2 }, { new: true })
+  SignRecord.findByIdAndUpdate(req.params['id'], { state: 2, confirmAt: now }, { new: true })
     .then(function (savedRecord) {    
       // 签到完成人数加1
       return Sign.findByIdAndUpdate(savedRecord.get('signId'), { $inc: { signIn: 1 } }, { new: true })

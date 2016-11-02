@@ -43,6 +43,10 @@ var SignRecord = {
   createdAt: {
     type: String
   },
+  confirmAt: {
+    type: String,
+    default: ''
+  },
   battery: {
     type: Number
   }
