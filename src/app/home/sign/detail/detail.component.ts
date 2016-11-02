@@ -130,8 +130,12 @@ export class DetailComponent implements OnInit {
   private refreshRecords(signId: string, type: number) {
     this._signRecordService.search({ signId, type })
       .subscribe(body => {
+        this.signIn = 0;
         if (+body.code == 200) {
           this.records = body.data;          
+          this.records.forEach((value: SignRecord) => {
+              this.signIn += value.state > 0 ? 1 : 0; 
+          });
         } else {
           this.popup.show(body.msg);
         }
