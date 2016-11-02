@@ -167,4 +167,62 @@ router.get('/:phone/relatedCourses', function (req, res) {
     });
 });
 
+
+router.get('/:phone/notice', function (req, res) {
+  var student, recordGroups;
+  var type = +req.query['type'] || 0;
+  var page = +req.query['page'] || 0;
+  var limit = +req.query['limit'] || 10;  
+
+  // 查询该学生
+  Student.find({ phone: req.params['phone'] })
+    .then(function (students) {
+      if (students.length <= 0) {
+        return Promise.reject({ code: errorCodes.UserNotExist })
+      }
+
+      student = students[0];
+      // 查询该学生相关的已完成的签到，并根据签到id进行分组
+      return SignRecord.aggregate()
+        .match({ studentId: '' + student._id, type: type })
+        .sort('-confirmAt')
+        .project('state distance createdAt confirmAt signId')
+        .group({ _id: '$signId', records: { $push: '$$ROOT' } })
+        .skip(page * limit)
+        .limit(limit)
+        .exec();
+    })
+    .then(function (results) {
+      recordGroups = results;
+
+      // 查找签到记录对应的签到信息
+      return Promise.all(results.map(function (result) {
+        return Sign.findById({ _id: result._id }, 'courseName beforeSignIn afterSignIn');
+      }));
+    }) 
+    .then(function (signs) {      
+      var retData = [];
+      recordGroups.forEach(function (group, index) {
+        group.records.forEach(function (record) {
+          retData.push({
+            courseName: signs[index].get('courseName'),
+            signState: record.state,
+            signDistance: record.distance,
+            signNumber: signs[index].getSignIn(),
+            signAt: record.createdAt,
+            confirmAt: record.confirmAt
+          });
+        });
+      });
+      sendInfo(errorCodes.Success, res, retData);
+    })
+    .catch(function (err) {
+      if (err.code) {
+        sendInfo(err.code, res, []);
+      } else {
+        handleErrors(err, res, []);
+      }
+    });
+});
+
 module.exports = router;
