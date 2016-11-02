@@ -5,7 +5,7 @@ import { SignService } from '../sign.service';
 import { LoginService } from '../../../login';
 import { 
   Sign, SignRecord, 
-  PositionService, SignRecordService, 
+  PositionService, SignRecordService, SocketService, 
   PopUpComponent 
 } from '../../../shared';
 
@@ -22,6 +22,7 @@ export class DetailComponent implements OnInit {
   isLargeQRCode = false;
   sign: Sign;
   records: SignRecord[] = [];
+  signIn = 0;
   signStates = [ 
     { text: '未开始', color: '#797979' }, 
     { text: '进行中', color: '#97CC00' },
@@ -30,12 +31,13 @@ export class DetailComponent implements OnInit {
 
   constructor(
     private _route: ActivatedRoute,
+    private _socketService: SocketService,
     private _loginService: LoginService,
     private _signService: SignService,
     private _positionService: PositionService,
     private _signRecordService: SignRecordService) {}
 
-  ngOnInit() {         
+  ngOnInit() {          
     this._route.params.forEach((params: Params) => {
       var signId = params['id'];
 
@@ -74,6 +76,12 @@ export class DetailComponent implements OnInit {
           });  
       });            
     });
+
+    this._socketService.get('sign')
+      .subscribe(data => {
+        console.log('new sign data: ' + data);
+        this.records.push(data);
+      })        
   }
 
   selectRadio(index: number) {
@@ -81,7 +89,8 @@ export class DetailComponent implements OnInit {
       this.radiosInactive[index] = true;
     })
     this.radiosInactive[index] = false;
-    this.refreshRecords(this.sign._id, index);
+    this.signIn = index == 0 ? this.sign.beforeSignIn : this.sign.afterSignIn;
+    this.refreshRecords(this.sign._id, index);    
   }
 
   ToggleQRCodeSize() {
@@ -96,7 +105,7 @@ export class DetailComponent implements OnInit {
       .subscribe(body => {
         if (+body.code == 200) {
           record.state = 1;
-          this.sign.signIn = body.data.signIn;
+          this.signIn = body.data.signIn;
         } else {
           this.popup.show(body.msg);
         }
@@ -111,7 +120,7 @@ export class DetailComponent implements OnInit {
       .subscribe(body => {
         if (+body.code == 200) {
           record.state = 2;
-          this.sign.signIn = body.data.signIn;
+          this.signIn = body.data.signIn;
         } else {
           this.popup.show(body.msg);
         }
