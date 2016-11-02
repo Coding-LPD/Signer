@@ -12,3 +12,4 @@ import 'rxjs';
 // You can import js, ts, css, sass, ...
 import 'angular2-qrcode';
 import 'moment';
+import 'socket.io-client';

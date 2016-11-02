@@ -9,6 +9,7 @@ import { API } from './api';
 import { MyDateDirective } from './my-date';
 import { PositionService } from './position.service';
 import { SignRecordService } from './sign-record.service';
+import { SocketService } from './socket.service';
 import { FilterDatePipe, DistinctPipe, FilterPipe } from './pipes';
 import {   
   SmsCodeComponent, PopUpComponent, PaginationComponent, ListComponent,
@@ -50,7 +51,10 @@ export class SharedModule {
   static forRoot(): ModuleWithProviders {
     return {
       ngModule: SharedModule,
-      providers: [JsEncryptService, SmsCodeService, UserService, PositionService, SignRecordService]
+      providers: [
+        JsEncryptService, SmsCodeService, UserService, 
+        PositionService, SignRecordService, SocketService
+      ]
     };
   }
 
