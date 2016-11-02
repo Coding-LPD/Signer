@@ -65,6 +65,7 @@
       "DeleteCourse",
       "PostCourseSearch",
       "GetCourseLatestSignRecord",
+      "GetCourseStudentSignRecord",
       "Sign",
       "GetSign",
       "PostSign",

@@ -131,4 +131,36 @@ router.get('/:id/latestSignRecords', function (req, res) {
     });  
 });
 
+router.get('/:id/students/:studentId/signRecords', function (req, res) {
+  var signs;
+
+  Sign.find({ courseId: req.params['id'] })
+    .then(function (findedSigns) {
+      signs = findedSigns;
+      return Promise.all(findedSigns.map(function (sign) {
+        return SignRecord.find({ signId: sign._id, studentId: req.params['studentId'] });          
+      }));
+    })
+    .then(function (results) {
+      var retData = [];
+      results.forEach(function (records, index) {
+        records.forEach(function (record) {
+          retData.push({
+            signId: signs[index]._id,
+            time: moment(signs[index].startTime).format('YYYY-MM-DD'),
+            tag: record.get('state') > 0
+          });
+        });
+      });
+      sendInfo(errorCodes.Success, res, retData);
+    })
+    .catch(function (err) {
+      if (err.code) {
+        sendInfo(err.code, res, []);
+      } else {
+        handleErrors(err, res, []);
+      }
+    });  
+});
+
 module.exports = router;

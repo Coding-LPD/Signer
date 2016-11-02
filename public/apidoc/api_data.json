@@ -86,6 +86,35 @@
     "groupTitle": "课程"
   },
   {
+    "type": "get",
+    "url": "/courses/:id/students/:studentId/signRecords",
+    "title": "指定学生的签到情况",
+    "version": "1.0.0",
+    "name": "GetCourseStudentSignRecord",
+    "group": "Course",
+    "description": "<p>查询指定studentId的学生在指定id的课程中，所有的签到情况</p>",
+    "success": {
+      "examples": [
+        {
+          "title": "成功：",
+          "content": "HTTP/1.1 200 OK\n{\n  code: \"200\",\n  data: \n  [{\n    signId: '',       // 签到id\n    time: '',         // 签到日期（2016-09-10）\n    tag: ''           // 签到完成情况（true完成，false没完成）\n  }]          \n  msg:  \"操作成功\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "失败：",
+          "content": "HTTP/1.1 200 OK\n{\n  code: \"XXXX\",\n  data: [],           // 空数组\n  msg:  \"错误信息\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "docjs/course.js",
+    "groupTitle": "课程"
+  },
+  {
     "type": "post",
     "url": "/courses",
     "title": "创建",

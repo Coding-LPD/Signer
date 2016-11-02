@@ -145,3 +145,32 @@
  *      msg:  "错误信息"
  *    }
  */
+
+/**
+ * @api {get} /courses/:id/students/:studentId/signRecords 指定学生的签到情况
+ * @apiVersion 1.0.0
+ * @apiName GetCourseStudentSignRecord
+ * @apiGroup Course
+ * @apiDescription 查询指定studentId的学生在指定id的课程中，所有的签到情况
+ * 
+ * @apiSuccessExample 成功：
+ *    HTTP/1.1 200 OK
+ *    {
+ *      code: "200",
+ *      data: 
+ *      [{
+ *        signId: '',       // 签到id
+ *        time: '',         // 签到日期（2016-09-10）
+ *        tag: ''           // 签到完成情况（true完成，false没完成）
+ *      }]          
+ *      msg:  "操作成功"
+ *    } 
+ * 
+ * @apiErrorExample 失败：
+ *    HTTP/1.1 200 OK
+ *    {
+ *      code: "XXXX",
+ *      data: [],           // 空数组
+ *      msg:  "错误信息"
+ *    }
+ */
