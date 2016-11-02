@@ -78,7 +78,7 @@ public class NoticeAdapter extends BaseAdapter {
             viewHolder.tv_sign_distance.setTextColor(Color.parseColor("#F83908"));
         }
         viewHolder.tv_sign_number.setText("已有" + mData.get(position).getSignNumber() + "人参与签到");
-        viewHolder.tv_created_at.setText(mData.get(position).getCreatedAt());
+        viewHolder.tv_created_at.setText(mData.get(position).getConfirmAt());
 
         return convertView;
     }

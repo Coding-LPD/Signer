@@ -10,7 +10,7 @@ public class NoticeBean {
     private int signDistance;
     private int signNumber;
     private String signAt;
-    private String createdAt;
+    private String confirmAt;
 
     public String getCourseName() {
         return courseName;
@@ -52,11 +52,11 @@ public class NoticeBean {
         this.signAt = signAt;
     }
 
-    public String getCreatedAt() {
-        return createdAt;
+    public String getConfirmAt() {
+        return confirmAt;
     }
 
-    public void setCreatedAt(String createdAt) {
-        this.createdAt = createdAt;
+    public void setConfirmAt(String createdAt) {
+        this.confirmAt = createdAt;
     }
 }

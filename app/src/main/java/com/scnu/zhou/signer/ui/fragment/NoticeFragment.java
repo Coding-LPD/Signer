@@ -137,7 +137,7 @@ public class NoticeFragment extends Fragment implements INoticeView,
         bean.setSignAt("2016-10-23");
         bean.setSignDistance(14);
         bean.setSignNumber(34);
-        bean.setCreatedAt("12分钟前");
+        bean.setConfirmAt("12分钟前");
 
         notices.add(bean);
         notices.add(bean);
@@ -148,7 +148,7 @@ public class NoticeFragment extends Fragment implements INoticeView,
         bean2.setSignAt("2016-10-23");
         bean2.setSignDistance(102);
         bean2.setSignNumber(14);
-        bean2.setCreatedAt("19分钟前");
+        bean2.setConfirmAt("19分钟前");
         notices.add(bean2);
 
         adapter = new NoticeAdapter(context, notices);

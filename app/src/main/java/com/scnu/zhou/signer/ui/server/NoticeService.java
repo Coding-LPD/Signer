@@ -72,12 +72,12 @@ public class NoticeService extends Service {
                     Log.e(TAG, "EVENT_DISCONNECT");
                 }
 
-            }).on("list", new Emitter.Listener() {
+            }).on("notice", new Emitter.Listener() {
 
                 @Override
                 public void call(Object... args) {
 
-                    Log.e("reveice", args[0].toString());
+                    Log.e(TAG, "reveice");
                 }
             });
 
