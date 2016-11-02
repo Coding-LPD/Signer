@@ -129,15 +129,15 @@ function confirm(req, res, state) {
   var now = moment().format('YYYY-MM-DD HH:mm:ss');
   // 修改签到状态
   SignRecord.findByIdAndUpdate(req.params['id'], { state: state, confirmAt: now }, { new: true })
-    .then(function (savedRecord) {    
+    .then(function (savedRecord) {
+      type = savedRecord.get('type');
       var signIn = type == 0 ? { beforeSignIn: 1 } : { afterSignIn: 1 };
       // 签到完成人数加1
       return Sign.findByIdAndUpdate(savedRecord.get('signId'), { $inc: signIn }, { new: true })
     })
     .then(function (updatedSign) {
-      var signIn = Sign.getSignInName(type);
       // 响应http
-      sendInfo(errorCodes.Success, res, { signIn: updatedSign.get(signIn) });
+      sendInfo(errorCodes.Success, res, { signIn: updatedSign.getSignIn(type) });
       // 推送数据给手机客户端
       signSocket.send(signSocket.events.notice, '');
     })

@@ -79,8 +79,8 @@ statics = {
 
 methods = {
 
-  getSignIn: function() {    
-    return this.type == 0 ? this.get('beforeSignIn') : this.get('afterSignIn');
+  getSignIn: function(type) {    
+    return type == 0 ? this.get('beforeSignIn') : this.get('afterSignIn');
   }  
 }
 
