@@ -37,8 +37,8 @@
 
       <!-- edit and delete button -->
       <td>
-        <button type="button" class="edit blue-green" *ngIf="operationOption.hasEdit || false" (click)="editData(d.data)"></button>
-        <button type="button" class="delete red" *ngIf="operationOption.hasDelete || false" (click)="deleteData(d.data)"></button>
+        <button type="button" class="edit blue-green" *ngIf="operationOption.hasEdit || false" (click)="editData(d.data, $event)"></button>
+        <button type="button" class="delete red" *ngIf="operationOption.hasDelete || false" (click)="deleteData(d.data, $event)"></button>
       </td>
     </tr>
   </tbody>

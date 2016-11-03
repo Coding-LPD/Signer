@@ -116,11 +116,13 @@ export class ListComponent implements OnChanges {
     }
   }
 
-  editData(data: any) {
+  editData(data: any, $event: any) {
+    $event.stopPropagation();
     this.onEdit.emit(data);
   }
 
-  deleteData(data: any) {
+  deleteData(data: any, $event: any) {
+    $event.stopPropagation();
     this.onDelete.emit(data);
   } 
 
