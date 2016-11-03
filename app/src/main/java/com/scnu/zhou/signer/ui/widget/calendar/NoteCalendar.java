@@ -290,7 +290,7 @@ public class NoteCalendar extends LinearLayout {
 
             TextView item = new TextView(context);
             LayoutParams layoutParams = new LayoutParams(
-                    140, 140);
+                    120, 120);
             item.setLayoutParams(layoutParams);
             if (year == getCurrentYear() && month == getCurrentMonth() && days.get(position) == getCurrentDay()){
                 item.setTextColor(cur_day_color);
