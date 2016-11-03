@@ -1,120 +1,127 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal" android:layout_width="match_parent"
+    android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="#fff">
 
     <LinearLayout
-        android:layout_width="110dp"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center_horizontal"
-        android:paddingTop="18dp"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:paddingBottom="16dp">
-
-        <TextView
-            android:id="@+id/tv_course_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="软件工程"
-            android:textColor="@color/colorTitleText"
-            android:textSize="16sp"
-            android:maxLength="6"
-            android:gravity="center"/>
-
-        <TextView
-            android:id="@+id/tv_sign_distance"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="14 m"
-            android:textColor="@color/colorTheme"
-            android:textSize="14sp"
-            android:layout_marginTop="13dp"
-            android:gravity="center"/>
-
-    </LinearLayout>
-
-    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingTop="18dp"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="20dp"
-            android:orientation="horizontal"
-            android:gravity="bottom">
+            android:layout_width="110dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:paddingTop="18dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingBottom="16dp">
 
             <TextView
-                android:id="@+id/tv_sign_state"
+                android:id="@+id/tv_course_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="同意了"
+                android:text="软件工程"
+                android:textColor="@color/colorTitleText"
+                android:textSize="16sp"
+                android:maxLength="6"
+                android:gravity="center"/>
+
+            <TextView
+                android:id="@+id/tv_sign_distance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="14 m"
                 android:textColor="@color/colorTheme"
-                android:textSize="16sp"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="你在"
-                android:textColor="#666"
                 android:textSize="14sp"
-                android:layout_marginLeft="5dp"/>
-
-            <TextView
-                android:id="@+id/tv_sign_at"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="2016-10-23"
-                android:textColor="#666"
-                android:textSize="14sp"
-                android:layout_marginLeft="2dp"
-                android:layout_marginRight="2dp"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="的签到请求。"
-                android:textColor="#666"
-                android:textSize="14sp"/>
+                android:layout_marginTop="13dp"
+                android:gravity="center"/>
 
         </LinearLayout>
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="13dp">
+            android:layout_height="match_parent"
+            android:paddingTop="18dp"
+            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/tv_sign_number"
+            <LinearLayout
                 android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:orientation="horizontal"
+                android:gravity="bottom">
+
+                <TextView
+                    android:id="@+id/tv_sign_state"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="同意了"
+                    android:textColor="@color/colorTheme"
+                    android:textSize="16sp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="你在"
+                    android:textColor="#666"
+                    android:textSize="14sp"
+                    android:layout_marginLeft="5dp"/>
+
+                <TextView
+                    android:id="@+id/tv_sign_at"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="2016-10-23"
+                    android:textColor="#666"
+                    android:textSize="14sp"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="的签到请求。"
+                    android:textColor="#666"
+                    android:textSize="14sp"/>
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="已有43人参与签到"
-                android:textColor="#666"
-                android:textSize="14sp"/>
+                android:layout_marginTop="13dp">
 
-            <TextView
-                android:id="@+id/tv_created_at"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="43分钟前"
-                android:textColor="#666"
-                android:textSize="12sp"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="16dp"
-                android:layout_marginTop="2dp"/>
+                <TextView
+                    android:id="@+id/tv_sign_number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="已有43人参与签到"
+                    android:textColor="#666"
+                    android:textSize="14sp"/>
 
-        </RelativeLayout>
+                <TextView
+                    android:id="@+id/tv_created_at"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="43分钟前"
+                    android:textColor="#666"
+                    android:textSize="12sp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="2dp"/>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#eee"
-            android:layout_marginTop="18dp"/>
+            </RelativeLayout>
+
+        </LinearLayout>
 
     </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#eeeeee"
+        android:layout_marginLeft="100dp"/>
 
 </LinearLayout>
