@@ -156,11 +156,11 @@
  */
 
 /**
- * @api {get} /students/:phone/relatedCourses?limit=10&page=0 相关课程的签到信息
+ * @api {get} /students/:phone/relatedCourses?limit=10&page=0&keyword=XX 相关课程的签到信息
  * @apiVersion 1.0.0
  * @apiName GetStudentRelatedCourses
  * @apiGroup Student
- * @apiDescription 相关课程是指学生参与过该课程的签到，phone指学生手机号，limit指每页大小（默认10），page指第几页（默认0）
+ * @apiDescription 相关课程是指学生参与过该课程的签到，phone指学生手机号，limit指每页大小（默认10），page指第几页（默认0），keyword表示课程名字的搜索关键字（默认空字符串）
  * 
  * @apiSuccessExample 成功
  *    HTTP/1.1 200 OK

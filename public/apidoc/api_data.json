@@ -883,12 +883,12 @@
   },
   {
     "type": "get",
-    "url": "/students/:phone/relatedCourses?limit=10&page=0",
+    "url": "/students/:phone/relatedCourses?limit=10&page=0&keyword=XX",
     "title": "相关课程的签到信息",
     "version": "1.0.0",
     "name": "GetStudentRelatedCourses",
     "group": "Student",
-    "description": "<p>相关课程是指学生参与过该课程的签到，phone指学生手机号，limit指每页大小（默认10），page指第几页（默认0）</p>",
+    "description": "<p>相关课程是指学生参与过该课程的签到，phone指学生手机号，limit指每页大小（默认10），page指第几页（默认0），keyword表示课程名字的搜索关键字（默认空字符串）</p>",
     "success": {
       "examples": [
         {

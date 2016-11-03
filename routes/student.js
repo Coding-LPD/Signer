@@ -1,5 +1,6 @@
 var fs = require('fs');
 var path = require('path');
+var iconv = require('iconv-lite');
 var multipart = require('connect-multiparty');
 var express = require('express');
 var router = express.Router();
@@ -92,6 +93,8 @@ router.get('/:phone/relatedCourses', function (req, res) {
   var phone = req.params['phone'];
   var limit = +req.query['limit'] || 10;
   var page = +req.query['page'] || 0;
+  var keyword = req.query['keyword'] || '';
+  keyword = iconv.decode(keyword, 'utf8');  // 解码
   var maxAvatarNum = 6;  // 每个课程最近签到的前6个学生头像
  
   // 查询该学生
@@ -116,7 +119,7 @@ router.get('/:phone/relatedCourses', function (req, res) {
       // 查询该学生的相关课程的最近的一次签到
       return Promise.all(courseIdObjects.map(function (courseIdObject) {
         return Sign.aggregate()
-          .match({ courseId: '' + courseIdObject._id })
+          .match({ courseId: '' + courseIdObject._id, courseName: { $regex: keyword } })
           .sort('-createdAt')
           .project('_id courseName beforeSignIn afterSignIn courseId')
           .limit(1)
@@ -131,7 +134,10 @@ router.get('/:phone/relatedCourses', function (req, res) {
       // 查询这些签到最近的签到学生的头像
       var promises = [];
       coursesLastestSign.forEach(function (sign) {
-        promises.push(SignRecord.find({ signId: sign._id, state: { $gt: 0 } }, 'studentAvatar', { sort: '-createdAt', limit: maxAvatarNum }));
+        // 某些指定id的课程，如果有关键词搜索，则可能会得不到相应签到信息，导致sign为undefined
+        if (sign) {
+          promises.push(SignRecord.find({ signId: sign._id, state: { $gt: 0 } }, 'studentAvatar', { sort: '-createdAt', limit: maxAvatarNum }));
+        }          
       });
       // 将相关课程与签到信息传递给下一个流程
       promises.push(coursesLastestSign);
