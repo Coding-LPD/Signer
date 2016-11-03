@@ -68,6 +68,9 @@ export class SignComponent implements OnInit {
   }
 
   removeSign(sign: Sign) {
+    if (!confirm('确定删除该签到？')) {
+      return;
+    }
     this._signService.remove(sign._id)
       .subscribe(body => {
         if (+body.code == 200) {
