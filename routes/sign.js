@@ -81,10 +81,16 @@ router.post('/', function (req, res) {
       newSign.set('createdAt', createdAt);
       newSign.set('state', state);
       newSign.set('code', code);
-      return newSign.save();
+      
+      var promises = [];
+      // 保存签到信息
+      promises.push(newSign.save());
+      // 修改课程签到次数
+      promises.push(Course.findByIdAndUpdate(course._id, { $inc: { signCount: 1 } }));
+      return Promise.all(promises);
     })
-    .then(function (sign) {
-      sendInfo(errorCodes.Success, res, sign);
+    .then(function (results) {
+      sendInfo(errorCodes.Success, res, results[0]);
     }) 
     .catch(function (err) {
       if (err.code) {
@@ -96,13 +102,26 @@ router.post('/', function (req, res) {
 });
 
 router.delete('/:id', function (req, res) {
-  Sign.findByIdAndRemove(req.params['id'], function (err, deletedSign) {
-    if (!err) {
-      sendInfo(errorCodes.Success, res, deletedSign);
-    } else {
-      handleErrors(err, res, {});
-    }
-  });
+  var sign;
+
+  // 删除签到
+  Sign.findByIdAndRemove(req.params['id'])
+    .then(function (deletedSign) {
+      sign = deletedSign;
+
+      // 课程签到次数减1
+      return Course.findByIdAndUpdate(sign.get('courseId'), { $inc: { signCount: -1 } });
+    })
+    .then(function (course) {
+      sendInfo(errorCodes.Success, res, sign);
+    })
+    .catch(function (err) {
+      if (err.code) {
+        sendInfo(err.code, res, {});
+      } else {
+        handleErrors(err, res, {});
+      }      
+    });
 });
 
 router.post('/search', function (req, res) {
