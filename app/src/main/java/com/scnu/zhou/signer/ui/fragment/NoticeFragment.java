@@ -2,6 +2,7 @@ package com.scnu.zhou.signer.ui.fragment;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -228,7 +229,12 @@ public class NoticeFragment extends Fragment implements INoticeView,
     public void onResume() {
         super.onResume();
 
-        segment = STATE_BEFORE;
-        onRefresh();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                segment = STATE_BEFORE;
+                onRefresh();
+            }
+        }, 300);
     }
 }

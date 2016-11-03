@@ -104,10 +104,11 @@
         android:layout_height="wrap_content"
         app:text="@string/mine_cell02_title"
         app:icon="@mipmap/icon_table_speak"
-        app:isdivider="true">
+        app:isdivider="false">
 
     </com.scnu.zhou.signer.ui.widget.cell.IconTitleCell>
 
+    <!--
     <com.scnu.zhou.signer.ui.widget.cell.IconTitleCell
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -115,7 +116,7 @@
         app:icon="@mipmap/icon_table_circle"
         app:isdivider="false">
 
-    </com.scnu.zhou.signer.ui.widget.cell.IconTitleCell>
+    </com.scnu.zhou.signer.ui.widget.cell.IconTitleCell>-->
 
     <com.scnu.zhou.signer.ui.widget.cell.IconTitleCell
         android:id="@+id/tc_settings"
