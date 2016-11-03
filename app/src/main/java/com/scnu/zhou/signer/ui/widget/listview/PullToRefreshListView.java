@@ -344,26 +344,28 @@ public class PullToRefreshListView extends ListView implements AbsListView.OnScr
     private void hideHeaderView(){
         //HeadView.setPadding(0, - headHeight, 0, 0);
 
-        state = STATE_PULL_DOWN;
+        if (state == STATE_REFRESHING) {
+            state = STATE_PULL_DOWN;
 
-        // HeadView回收动画
-        ValueAnimator valueAnimator = ValueAnimator.ofInt(0, - headHeight);
-        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
+            // HeadView回收动画
+            ValueAnimator valueAnimator = ValueAnimator.ofInt(0, -headHeight);
+            valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                @Override
+                public void onAnimationUpdate(ValueAnimator animation) {
 
-                int currentValue = (int) animation.getAnimatedValue();
-                HeadView.setPadding(0, currentValue, 0, 0);
+                    int currentValue = (int) animation.getAnimatedValue();
+                    HeadView.setPadding(0, currentValue, 0, 0);
 
-                if (currentValue == - headHeight){
-                    iv_loading.clearAnimation();
-                    iv_arrow.setVisibility(VISIBLE);
-                    iv_loading.setVisibility(GONE);
-                    tv_tip.setText("下拉刷新");
+                    if (currentValue == -headHeight) {
+                        iv_loading.clearAnimation();
+                        iv_arrow.setVisibility(VISIBLE);
+                        iv_loading.setVisibility(GONE);
+                        tv_tip.setText("下拉刷新");
+                    }
                 }
-            }
-        });
-        valueAnimator.setDuration(500).start();
+            });
+            valueAnimator.setDuration(500).start();
+        }
     }
 
 
