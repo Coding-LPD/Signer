@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 
-import { BaseService } from '../../base.service';
-import { API } from '../../api';
+import { BaseService, API } from '../../services';
 
 @Injectable()
 export class SmsCodeService extends BaseService {

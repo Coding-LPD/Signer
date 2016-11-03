@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 import { SmsCodeService } from './sms-code.service';
-import { UserService } from '../../user.service';
+import { UserService } from '../../services';
 
 @Component({
   selector: 'sms-code',
