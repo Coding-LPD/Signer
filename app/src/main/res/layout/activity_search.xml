@@ -69,11 +69,28 @@
 
     </LinearLayout>
 
-    <ListView
-        android:id="@+id/lv_search_history"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    </ListView>
+        <com.scnu.zhou.signer.ui.widget.listview.PullToRefreshListView
+            android:id="@+id/plv_search_result"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@null"
+            android:scrollbars="none"/>
+
+        <ListView
+            android:id="@+id/lv_search_history"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
+
+        </ListView>
+
+        <include layout="@layout/layout_no_result"/>
+        <include layout="@layout/layout_no_network"/>
+
+    </RelativeLayout>
 
 </LinearLayout>

@@ -3,6 +3,7 @@ package com.scnu.zhou.signer.ui.activity.course;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -10,12 +11,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.scnu.zhou.signer.R;
+import com.scnu.zhou.signer.component.adapter.listview.MainCourseAdapter;
 import com.scnu.zhou.signer.component.adapter.listview.SearchHistoryAdapter;
+import com.scnu.zhou.signer.component.bean.http.ResultResponse;
+import com.scnu.zhou.signer.component.bean.main.MainCourse;
+import com.scnu.zhou.signer.component.cache.UserCache;
+import com.scnu.zhou.signer.presenter.home.HomePresenter;
+import com.scnu.zhou.signer.presenter.home.IHomePresenter;
 import com.scnu.zhou.signer.ui.activity.base.BaseSlideActivity;
+import com.scnu.zhou.signer.ui.widget.listview.PullToRefreshListView;
+import com.scnu.zhou.signer.ui.widget.toast.ToastView;
+import com.scnu.zhou.signer.view.home.IHomeView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,19 +34,37 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnTextChanged;
 
 /**
  * Created by zhou on 16/10/28.
  */
-public class SearchActivity extends BaseSlideActivity implements View.OnKeyListener{
+public class SearchActivity extends BaseSlideActivity implements IHomeView, View.OnKeyListener,
+        PullToRefreshListView.OnPullToRefreshListener {
 
     @Bind(R.id.et_search) EditText et_search;
     @Bind(R.id.lv_search_history) ListView lv_search_history;
+    @Bind(R.id.plv_search_result) PullToRefreshListView plv_search_result;
 
-    private SearchHistoryAdapter adapter;
-    private List<String> mData;
+    @Bind(R.id.ll_no_result) LinearLayout ll_no_result;
+    @Bind(R.id.ll_no_network) LinearLayout ll_no_network;
+
+    private SearchHistoryAdapter historyAdapter;
+    private List<String> historys;
+
+    private MainCourseAdapter resultAdapter;
+    private List<MainCourse> results;
 
     private TextView footerView;
+
+    private IHomePresenter presenter;
+
+    private int limit = 10;   // 每页加载数目
+    private int page = 0;
+
+    private final int STATE_REFRESH = 0x001;
+    private final int STATE_LOADMORE = 0x002;
+    private int state = STATE_REFRESH;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,30 +75,119 @@ public class SearchActivity extends BaseSlideActivity implements View.OnKeyListe
         ButterKnife.bind(this);
 
         initView();
+        initData();
     }
 
+
+    /**
+     * implementation for IHomeView
+     */
+    @Override
     public void initView(){
 
         et_search.setOnKeyListener(this);
+        plv_search_result.setOnPullToRefreshListener(this);
+        //addFooterView();
+    }
 
-        mData = new ArrayList<>();
+    @Override
+    public void initData() {
 
-        mData.add("软件工程");
-        mData.add("计算机科学导论");
-        mData.add("数据结构");
+        presenter = new HomePresenter(this);
 
-        adapter = new SearchHistoryAdapter(this, mData);
-        lv_search_history.setAdapter(adapter);
+        historys = new ArrayList<>();
+        historyAdapter = new SearchHistoryAdapter(this, historys);
+        results = new ArrayList<>();
+        resultAdapter = new MainCourseAdapter(this, results);
+    }
 
-        addFooterView();
+    @Override
+    public void onGetRelatedCoursesSuccess(ResultResponse<List<MainCourse>> response) {
 
+        if (response.getCode().equals("200")){
+
+            dismissLoadingDialog();
+
+            page++;
+
+            if (state == STATE_REFRESH) {
+                results = response.getData();
+                plv_search_result.onRefreshCompleted();
+            }
+            else {
+                results.addAll(response.getData());
+
+                if (response.getData().size() < limit){
+                    plv_search_result.onLoadMoreAllCompleted();
+                }
+                else{
+                    plv_search_result.onLoadMoreCompleted();
+                }
+            }
+
+            resultAdapter = new MainCourseAdapter(this, results);
+            plv_search_result.setAdapter(resultAdapter);
+        }
+        else{
+            dismissLoadingDialog();
+            String msg = response.getMsg();
+            ToastView toastView = new ToastView(this, msg);
+            toastView.setGravity(Gravity.CENTER, 0, 0);
+            toastView.show();
+        }
+
+
+        if (results.size() == 0){
+            ll_no_result.setVisibility(View.VISIBLE);
+        }
+        else{
+            ll_no_result.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void onGetRelatedCoursesError(Throwable e) {
+
+        Log.e("error", e.toString());
+
+        dismissLoadingDialog();
+        ToastView toastView = new ToastView(this, "请检查您的网络连接");
+        toastView.setGravity(Gravity.CENTER, 0, 0);
+        toastView.show();
+
+        if (state == STATE_REFRESH) {
+            plv_search_result.onRefreshCompleted();
+        }
+        else{
+            plv_search_result.onLoadMoreCompleted();
+        }
+
+
+        if (results.size() == 0){
+            ll_no_network.setVisibility(View.VISIBLE);
+        }
+        else {
+            ll_no_network.setVisibility(View.GONE);
+        }
     }
 
 
-    // 添加ListView底部View
+    // 搜索词监听
+    @OnTextChanged(R.id.et_search)
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        if (TextUtils.isEmpty(et_search.getText().toString())){
+
+            showHistoryList();
+            hideResultList();
+        }
+    }
+
+
+    // 添加历史记录ListView底部View
     public void addFooterView(){
 
-        if (mData.size() != 0) {
+        if (historys.size() != 0) {
             footerView = new TextView(this);
             ViewGroup.LayoutParams parms = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                     190);
@@ -111,8 +229,86 @@ public class SearchActivity extends BaseSlideActivity implements View.OnKeyListe
             // 执行搜索动作
             Log.e("action", "search >>>>");
             dismissKeyBoard();
+
+            showLoadingDialog("搜索中");
+
+            hideHistoryList();
+            showResultList();
         }
         return false;
     }
 
+
+    /**
+     * 下拉刷新
+     */
+    @Override
+    public void onRefresh() {
+
+        Log.e("state", "refresh");
+        state = STATE_REFRESH;
+        page = 0;
+        results.clear();
+        presenter.searchRelatedCourses(UserCache.getInstance().getPhone(this), limit, page,
+                et_search.getText().toString());
+    }
+
+
+    /**
+     * 上拉加载更多
+     */
+    @Override
+    public void onLoadMore() {
+
+        Log.e("state", "load");
+        state = STATE_LOADMORE;
+        presenter.searchRelatedCourses(UserCache.getInstance().getPhone(this), limit, page,
+                et_search.getText().toString());
+    }
+
+
+    /**
+     * 刷新超时处理
+     */
+    @Override
+    public void onOutOfTime() {
+
+        ToastView toastView = new ToastView(this, "请检查您的网络连接");
+        toastView.setGravity(Gravity.CENTER, 0, 0);
+        toastView.show();
+    }
+
+
+    // 显示历史搜索
+    public void showHistoryList(){
+
+        lv_search_history.setVisibility(View.VISIBLE);
+
+    }
+
+    // 隐藏历史搜索
+    public void hideHistoryList(){
+
+        historys.clear();
+        historyAdapter.notifyDataSetChanged();
+        lv_search_history.setVisibility(View.GONE);
+    }
+
+    // 显示搜索结果
+    public void showResultList(){
+
+        plv_search_result.setVisibility(View.VISIBLE);
+        presenter.searchRelatedCourses(UserCache.getInstance().getPhone(this), 10, 0,
+                et_search.getText().toString());
+    }
+
+    // 隐藏搜索结果
+    public void hideResultList(){
+
+        results.clear();
+        resultAdapter.notifyDataSetChanged();
+        plv_search_result.setVisibility(View.GONE);
+        ll_no_result.setVisibility(View.GONE);
+        ll_no_network.setVisibility(View.GONE);
+    }
 }

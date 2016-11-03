@@ -26,7 +26,13 @@ public class HomePresenter implements  IHomePresenter, HomeCallBack {
     @Override
     public void getRelatedCourses(String phone, int limit, int page) {
 
-        homeModel.getRelatedCourses(phone, limit, page, this);
+        homeModel.getRelatedCourses(phone, limit, page, "", this);
+    }
+
+    @Override
+    public void searchRelatedCourses(String phone, int limit, int page, String keyword) {
+
+        homeModel.getRelatedCourses(phone, limit, page, keyword, this);
     }
 
     @Override

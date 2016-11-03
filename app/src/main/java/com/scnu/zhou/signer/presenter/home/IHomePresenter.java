@@ -6,4 +6,6 @@ package com.scnu.zhou.signer.presenter.home;
 public interface IHomePresenter {
 
     void getRelatedCourses(String phone, int limit, int page);
+
+    void searchRelatedCourses(String phone, int limit, int page, String keyword);
 }

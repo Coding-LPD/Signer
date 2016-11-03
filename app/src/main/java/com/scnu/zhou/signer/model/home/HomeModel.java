@@ -18,11 +18,11 @@ import rx.schedulers.Schedulers;
 public class HomeModel implements IHomeModel{
 
     @Override
-    public void getRelatedCourses(String phone, int limit, int page, final HomeCallBack callBack) {
+    public void getRelatedCourses(String phone, int limit, int page, String keyword, final HomeCallBack callBack) {
 
         RetrofitServer.getRetrofit()
                 .create(SignerApi.class)
-                .getRelatedCourses(phone, limit, page)
+                .getRelatedCourses(phone, limit, page, keyword)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<ResultResponse<List<MainCourse>>>() {
