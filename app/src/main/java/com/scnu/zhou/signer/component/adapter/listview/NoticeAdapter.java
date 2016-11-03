@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.scnu.zhou.signer.R;
 import com.scnu.zhou.signer.component.bean.notice.NoticeBean;
+import com.scnu.zhou.signer.component.util.time.TimeUtil;
 
 import java.util.List;
 
@@ -78,7 +79,9 @@ public class NoticeAdapter extends BaseAdapter {
             viewHolder.tv_sign_distance.setTextColor(Color.parseColor("#F83908"));
         }
         viewHolder.tv_sign_number.setText("已有" + mData.get(position).getSignNumber() + "人参与签到");
-        viewHolder.tv_created_at.setText(mData.get(position).getConfirmAt());
+        viewHolder.tv_created_at.setText(
+                TimeUtil.setDaysForNow(TimeUtil.stringToLong(mData.get(position).getConfirmAt(),
+                        "yyyy-MM-dd HH:mm:ss")));
 
         return convertView;
     }
