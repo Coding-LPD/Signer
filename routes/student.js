@@ -1,6 +1,5 @@
 var fs = require('fs');
 var path = require('path');
-var iconv = require('iconv-lite');
 var multipart = require('connect-multiparty');
 var express = require('express');
 var router = express.Router();
@@ -94,7 +93,6 @@ router.get('/:phone/relatedCourses', function (req, res) {
   var limit = +req.query['limit'] || 10;
   var page = +req.query['page'] || 0;
   var keyword = req.query['keyword'] || '';
-  keyword = iconv.decode(keyword, 'utf8');  // 解码
   var maxAvatarNum = 6;  // 每个课程最近签到的前6个学生头像
  
   // 查询该学生
