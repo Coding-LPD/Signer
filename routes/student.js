@@ -184,7 +184,7 @@ router.get('/:phone/notice', function (req, res) {
       student = students[0];
       // 查询该学生相关的已完成的签到，并根据签到id进行分组
       return SignRecord.aggregate()
-        .match({ studentId: '' + student._id, type: type })
+        .match({ studentId: '' + student._id, type: type, state: { $gt: 0 } })
         .sort('-confirmAt')
         .project('state distance createdAt confirmAt signId')
         .group({ _id: '$signId', records: { $push: '$$ROOT' } })
