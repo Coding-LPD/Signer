@@ -226,11 +226,13 @@ public class HomeFragment extends Fragment implements IHomeView, PullToRefreshLi
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-        Intent intent = new Intent(context, CourseDetailActivity.class);
-        intent.putExtra("title", mData.get(position - 1).getName());
-        intent.putExtra("courseId", mData.get(position - 1).getCourseId());
-        startActivity(intent);
-        context.overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+        if (!plv_main.isRefreshing() && position > 0) {
+            Intent intent = new Intent(context, CourseDetailActivity.class);
+            intent.putExtra("title", mData.get(position - 1).getName());
+            intent.putExtra("courseId", mData.get(position - 1).getCourseId());
+            startActivity(intent);
+            context.overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+        }
     }
 
 

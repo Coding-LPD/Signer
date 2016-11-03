@@ -4,6 +4,7 @@ import com.scnu.zhou.signer.component.bean.http.ResultResponse;
 import com.scnu.zhou.signer.component.bean.login.LoginResult;
 import com.scnu.zhou.signer.component.bean.main.CourseDetail;
 import com.scnu.zhou.signer.component.bean.main.MainCourse;
+import com.scnu.zhou.signer.component.bean.main.SignBean;
 import com.scnu.zhou.signer.component.bean.notice.NoticeBean;
 import com.scnu.zhou.signer.component.bean.sign.ScanResult;
 import com.scnu.zhou.signer.component.bean.sign.SignRecord;
@@ -106,4 +107,11 @@ public interface SignerApi {
     @GET("/api/students/{phone}/notice")     // 获取最近通知
     Observable<ResultResponse<List<NoticeBean>>> getNotices(@Path("phone") String phone, @Query("type") int type,
                                                             @Query("limit") int limit, @Query("page") int page);
+
+
+    /**
+     * Check Sign
+     */
+    @GET("/api/courses/{id}/students/{studentId}/signRecords")
+    Observable<ResultResponse<List<SignBean>>> getSignDetail(@Path("id") String courseId, @Path("studentId") String studentId);
 }

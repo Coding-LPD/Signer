@@ -312,14 +312,14 @@ public class NoteCalendar extends LinearLayout {
 
             String key = df.format(cal.getTime());
             if (note01 != null){
-                Log.e("note01", "not null");
                 if (note01.get(key) != null){
-                    Log.e("note01", "have key");
+                    item.setTextColor(Color.parseColor("#FFFFFF"));
                     item.setBackgroundResource(R.drawable.calendar_note01);
                 }
             }
             if (note02 != null){
                 if (note02.get(key) != null){
+                    item.setTextColor(Color.parseColor("#FFFFFF"));
                     item.setBackgroundResource(R.drawable.calendar_note02);
                 }
             }

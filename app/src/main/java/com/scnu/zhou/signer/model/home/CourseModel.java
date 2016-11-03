@@ -3,8 +3,11 @@ package com.scnu.zhou.signer.model.home;
 import com.scnu.zhou.signer.callback.home.CourseCallBack;
 import com.scnu.zhou.signer.component.bean.http.ResultResponse;
 import com.scnu.zhou.signer.component.bean.main.CourseDetail;
+import com.scnu.zhou.signer.component.bean.main.SignBean;
 import com.scnu.zhou.signer.component.config.SignerApi;
 import com.scnu.zhou.signer.component.util.http.RetrofitServer;
+
+import java.util.List;
 
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
@@ -41,6 +44,36 @@ public class CourseModel implements ICourseModel {
                         //Log.e("data", response.getData());
 
                         callBack.onGetCourseDetailSuccess(response);
+                    }
+                });
+    }
+
+    @Override
+    public void getSignDetail(String courseId, String studentId, final CourseCallBack callBack) {
+
+        RetrofitServer.getRetrofit()
+                .create(SignerApi.class)
+                .getSignDetail(courseId, studentId)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<ResultResponse<List<SignBean>>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                        callBack.onGetSignDetailError(e);
+                    }
+
+                    @Override
+                    public void onNext(ResultResponse<List<SignBean>> response) {
+
+                        //Log.e("data", response.getData());
+
+                        callBack.onGetSignDetailSuccess(response);
                     }
                 });
     }

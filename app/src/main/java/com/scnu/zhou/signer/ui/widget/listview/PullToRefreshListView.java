@@ -477,4 +477,15 @@ public class PullToRefreshListView extends ListView implements AbsListView.OnScr
             }
         }, 1000);
     }
+
+
+    public boolean isRefreshing(){
+
+        if (state == STATE_REFRESHING || isLoadingMore){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
 }

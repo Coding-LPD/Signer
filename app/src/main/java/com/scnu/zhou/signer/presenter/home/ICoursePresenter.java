@@ -6,4 +6,6 @@ package com.scnu.zhou.signer.presenter.home;
 public interface ICoursePresenter {
 
     void getCourseDetail(String courseId);
+
+    void getSignDetail(String courseId, String studentId);
 }

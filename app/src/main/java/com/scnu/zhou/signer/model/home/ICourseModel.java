@@ -8,4 +8,6 @@ import com.scnu.zhou.signer.callback.home.CourseCallBack;
 public interface ICourseModel {
 
     void getCourseDetail(String courseId, CourseCallBack callBack);
+
+    void getSignDetail(String courseId, String studentId, CourseCallBack callBack);
 }

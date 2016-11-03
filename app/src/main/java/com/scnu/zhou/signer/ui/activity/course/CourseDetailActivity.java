@@ -170,6 +170,7 @@ public class CourseDetailActivity extends BaseSlideActivity implements ICourseVi
 
         Intent intent = new Intent(this, CheckSignActivity.class);
         intent.putExtra("title", title);
+        intent.putExtra("courseId", courseId);
         startActivity(intent);
         overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
     }
