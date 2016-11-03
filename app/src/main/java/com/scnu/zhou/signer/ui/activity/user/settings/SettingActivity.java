@@ -112,7 +112,7 @@ public class SettingActivity extends BaseSlideActivity{
 
         @Override
         public void execute() {
-            ClearCache.getInstance().clear();
+            ClearCache.getInstance().clear(SettingActivity.this);
             this.dismiss();
         }
     }

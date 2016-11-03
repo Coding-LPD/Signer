@@ -1,6 +1,7 @@
 package com.scnu.zhou.signer.ui.activity.course;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -10,6 +11,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -21,6 +23,8 @@ import com.scnu.zhou.signer.component.adapter.listview.SearchHistoryAdapter;
 import com.scnu.zhou.signer.component.bean.http.ResultResponse;
 import com.scnu.zhou.signer.component.bean.main.MainCourse;
 import com.scnu.zhou.signer.component.cache.UserCache;
+import com.scnu.zhou.signer.component.database.DataBaseHelper;
+import com.scnu.zhou.signer.component.database.SearchOperateTable;
 import com.scnu.zhou.signer.presenter.home.HomePresenter;
 import com.scnu.zhou.signer.presenter.home.IHomePresenter;
 import com.scnu.zhou.signer.ui.activity.base.BaseSlideActivity;
@@ -34,6 +38,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnItemClick;
 import butterknife.OnTextChanged;
 
 /**
@@ -66,6 +71,10 @@ public class SearchActivity extends BaseSlideActivity implements IHomeView, View
     private final int STATE_LOADMORE = 0x002;
     private int state = STATE_REFRESH;
 
+
+    private DataBaseHelper helper = null;
+    private SearchOperateTable table = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,7 +96,6 @@ public class SearchActivity extends BaseSlideActivity implements IHomeView, View
 
         et_search.setOnKeyListener(this);
         plv_search_result.setOnPullToRefreshListener(this);
-        //addFooterView();
     }
 
     @Override
@@ -99,6 +107,10 @@ public class SearchActivity extends BaseSlideActivity implements IHomeView, View
         historyAdapter = new SearchHistoryAdapter(this, historys);
         results = new ArrayList<>();
         resultAdapter = new MainCourseAdapter(this, results);
+
+        helper = new DataBaseHelper(this);
+
+        showHistoryList();
     }
 
     @Override
@@ -187,15 +199,27 @@ public class SearchActivity extends BaseSlideActivity implements IHomeView, View
     // 添加历史记录ListView底部View
     public void addFooterView(){
 
-        if (historys.size() != 0) {
+        if (historys.size() != 0 && lv_search_history.getFooterViewsCount() == 0) {
             footerView = new TextView(this);
             ViewGroup.LayoutParams parms = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                    190);
+                    150);
             footerView.setLayoutParams(parms);
             footerView.setText("清空历史记录");
             footerView.setTextColor(Color.parseColor("#999999"));
             footerView.setTextSize(15);
             footerView.setGravity(Gravity.CENTER);
+            footerView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    for (String key: historys) {
+                        table = new SearchOperateTable(helper.getWritableDatabase());
+                        table.remove(key);
+                    }
+                    lv_search_history.removeFooterView(footerView);
+                    showHistoryList();
+                }
+            });
 
             lv_search_history.addFooterView(footerView);
         }
@@ -229,8 +253,8 @@ public class SearchActivity extends BaseSlideActivity implements IHomeView, View
             // 执行搜索动作
             Log.e("action", "search >>>>");
             dismissKeyBoard();
-
             showLoadingDialog("搜索中");
+            insertKey();
 
             hideHistoryList();
             showResultList();
@@ -284,6 +308,14 @@ public class SearchActivity extends BaseSlideActivity implements IHomeView, View
 
         lv_search_history.setVisibility(View.VISIBLE);
 
+        // 获得最近搜索
+        helper.onUpgrade(helper.getWritableDatabase(), 1, 1);
+        historys = (new SearchOperateTable(helper.getReadableDatabase()))
+                .find();
+        historyAdapter = new SearchHistoryAdapter(this, historys);
+        lv_search_history.setAdapter(historyAdapter);
+
+        addFooterView();
     }
 
     // 隐藏历史搜索
@@ -310,5 +342,55 @@ public class SearchActivity extends BaseSlideActivity implements IHomeView, View
         plv_search_result.setVisibility(View.GONE);
         ll_no_result.setVisibility(View.GONE);
         ll_no_network.setVisibility(View.GONE);
+    }
+
+
+    // 在数据库中保存搜索词
+    public void insertKey(){
+
+        table = new SearchOperateTable(helper.getWritableDatabase());
+        String key = et_search.getText().toString();
+
+        if (table.find(key)) { // 如果存在则先删除再插入
+            table = new SearchOperateTable(helper.getWritableDatabase());
+            table.remove(key);
+        }
+
+        if (!TextUtils.isEmpty(key)) {
+            table = new SearchOperateTable(helper.getWritableDatabase());
+            table.insert(key);
+        }
+    }
+
+
+    /**
+     * 单击事件监听
+     */
+    @OnItemClick(R.id.lv_search_history)
+    public void onHistoryItemClick(AdapterView<?> parent, View view,
+                            int position, long id){
+
+        Log.e("action", "search >>>>");
+        dismissKeyBoard();
+        showLoadingDialog("搜索中");
+        et_search.setText(historys.get(position));
+        insertKey();
+
+        hideHistoryList();
+        showResultList();
+    }
+
+
+    @OnItemClick(R.id.plv_search_result)
+    public void onResultItemClick(AdapterView<?> parent, View view,
+                            int position, long id){
+
+        if (!plv_search_result.isRefreshing() && position > 0) {
+            Intent intent = new Intent(this, CourseDetailActivity.class);
+            intent.putExtra("title", results.get(position - 1).getName());
+            intent.putExtra("courseId", results.get(position - 1).getCourseId());
+            startActivity(intent);
+            overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+        }
     }
 }
