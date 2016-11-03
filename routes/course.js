@@ -134,9 +134,11 @@ router.get('/:id/latestSignRecords', function (req, res) {
 router.get('/:id/students/:studentId/signRecords', function (req, res) {
   var signs;
 
+  // 查询签到信息
   Sign.find({ courseId: req.params['id'] })
     .then(function (findedSigns) {
       signs = findedSigns;
+      // 查询签到中该学生对应的签到记录
       return Promise.all(findedSigns.map(function (sign) {
         return SignRecord.find({ signId: sign._id, studentId: req.params['studentId'] });          
       }));
@@ -144,6 +146,15 @@ router.get('/:id/students/:studentId/signRecords', function (req, res) {
     .then(function (results) {
       var retData = [];
       results.forEach(function (records, index) {
+        // 对应签到没有相应的学生签到记录，false
+        if (records.length <= 0) {
+          retData.push({
+            signId: signs[index]._id,
+            time: moment(signs[index].startTime).format('YYYY-MM-DD'),
+            tag: false
+          });
+        }
+        // 有签到记录，若教师没批准，则表示未签到false，若批注了，则表示已签到true
         records.forEach(function (record) {
           retData.push({
             signId: signs[index]._id,
