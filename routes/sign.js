@@ -35,54 +35,64 @@ router.post('/', function (req, res) {
   var courseId = req.body.courseId;
   var startTime = new Date(req.body.startTime);
   var endTime = new Date(req.body.endTime);
+  var course;
 
-  // 时间格式不对，返回错误信息 
-  if (isNaN(startTime.valueOf())) {
-    sendInfo(errorCodes.CourseStartTimeInvalid, res, {});
-    return;
-  }
-  if (isNaN(endTime.valueOf())) {
-    sendInfo(errorCodes.CourseEndTimeInvalid, res, {});
-    return;
-  }
-  // 起始时间晚于结束时间
-  if (moment(endTime).isBefore(startTime)) {
-    sendInfo(errorCodes.CourseTimeRangeError, res, {});
-    return;
-  }
-
-  Course.find({_id: courseId}, function (err, courses) {
-    if (err) {
-      handleErrors(err, res, {});
-      return;      
-    }
-    var course = courses[0];
-    var state = 0, now = moment(new Date());
-    if (now.isBefore(startTime)) {
-      state = 0;
-    } else if (now.isAfter(endTime)) {
-      state = 2;
-    } else {
-      state = 1;
-    }
-    var createdAt = now.format('YYYY-MM-DD HH:mm');
-    var code = Sign.generateSignCode();
-    
-    var newSign = new Sign(req.body);    
-    newSign.set('courseName', course.get('name'));
-    newSign.set('teacherId', course.get('teacherId'));
-    newSign.set('createdAt', createdAt);
-    newSign.set('state', state);
-    newSign.set('code', code);
-
-    newSign.save(function (err, savedSign) {
-      if (!err) {
-        sendInfo(errorCodes.Success, res, savedSign);
-      } else {
-        handleErrors(err, res, {});
+  Promise.resolve()
+    .then(function () {
+      // 时间格式不对，返回错误信息 
+      if (isNaN(startTime.valueOf()) || isNaN(endTime.valueOf())) {
+        return Promise.reject({ code: errorCodes.TimeInvalid });
       }
+
+      // 起始时间晚于结束时间
+      if (moment(endTime).isBefore(startTime)) {
+        return Promise.reject({ code: errorCodes.TimeRangeError });        
+      }
+
+      // 查询课程
+      return Course.findById(courseId);
+    })    
+    .then(function (findedCourse) {
+      // 课程不存在
+      if (!findedCourse) {
+        return Promise.reject({ code: errorCodes.CourseNotExist });
+      }
+      course = findedCourse;
+
+      // 生成签到码
+      return generateDistinctSignCode();
+    })
+    .then(function (code) { 
+      // 判断签到状态
+      var state = 0, now = moment(new Date());
+      if (now.isBefore(startTime)) {
+        state = 0;
+      } else if (now.isAfter(endTime)) {
+        state = 2;
+      } else {
+        state = 1;
+      }
+      var createdAt = now.format('YYYY-MM-DD HH:mm');  
+
+      // 创建签到信息
+      var newSign = new Sign(req.body);    
+      newSign.set('courseName', course.get('name'));
+      newSign.set('teacherId', course.get('teacherId'));
+      newSign.set('createdAt', createdAt);
+      newSign.set('state', state);
+      newSign.set('code', code);
+      return newSign.save();
+    })
+    .then(function (sign) {
+      sendInfo(errorCodes.Success, res, sign);
+    }) 
+    .catch(function (err) {
+      if (err.code) {
+        sendInfo(err.code, res, []);
+      } else {
+        handleErrors(err, res, []);
+      }      
     });
-  });
 });
 
 router.delete('/:id', function (req, res) {
@@ -150,5 +160,21 @@ router.get('/scanning/:code', function (req, res) {
     })
   });
 });
+
+// 检查数据库中是否已有相同签到码，有则重新生成并检查
+function generateDistinctSignCode() {
+  var code = Sign.generateSignCode();
+  
+  return Sign.find({ code: code })
+    .then(function (signs) {
+      if (signs.length > 0) {
+        return generateDistinctSignCode().then(function (code) {
+          return code;
+        });
+      } else {
+        return code;
+      }
+    })
+}
 
 module.exports = router;
