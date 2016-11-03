@@ -3,6 +3,7 @@ export class Sign {
   constructor(
     public _id?: string,
     public courseId?: string,
+    public courseName?: string,
     public teacherId?: string,
     public startTime?: string,
     public endTime?: string,

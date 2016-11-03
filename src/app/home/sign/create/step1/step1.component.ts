@@ -18,7 +18,7 @@ export class Step1Component implements OnInit {
     endTime: ''
   }
   courses: Course[];
-  selectedCourse: any = '';
+  selectedCourseId: any = '';
 
   constructor(
     private _signService: SignService,
@@ -26,19 +26,23 @@ export class Step1Component implements OnInit {
 
   ngOnInit() {
     this.sign = this._signService.sign;
+    this.setTime(this.sign.startTime, this.sign.endTime);
     this._loginService.getCourses().subscribe(body => {
       if (+body.code == 200) {
         this.courses = body.data;
-        this.selectedCourse = this._signService.course ? this._signService.course : '';
+        this.selectedCourseId = this._signService.sign.courseId ? this._signService.sign.courseId : '';
       } else {
         alert(body.msg);
       }
     })
   }
 
-  selectCourse(course: Course) {
-    this._signService.selectCourse(course);        
-    this.selectedCourse = course;
+  selectCourse(courseId: string) {
+    var selected = this.courses.filter((c: Course) => {
+      return c._id == courseId;
+    })[0];
+    this._signService.selectCourse(selected);   
+    this.selectedCourseId = courseId;
   }
 
   selectTime(value: string, type: number) {
@@ -55,6 +59,13 @@ export class Step1Component implements OnInit {
     }
     this.sign.startTime = `${this.extra.signDate} ${this.extra.startTime}`;
     this.sign.endTime = `${this.extra.signDate} ${this.extra.endTime}`;
+  }
+
+  setTime(startTime: string, endTime: string) {
+    if (!startTime || !endTime) return;
+    this.extra.signDate = startTime.split(' ')[0] || '';
+    this.extra.startTime = startTime.split(' ')[1] || '';
+    this.extra.endTime = endTime.split(' ')[1] || '';
   }
 
 }

@@ -2,15 +2,15 @@
   <div class="form-group wrap">
     <label for="student-table" class="left">关联学生表</label>
     <select id="student-table" class="right" name="studentTable" 
-        [ngModel]="selectedCourse" (ngModelChange)="selectCourse($event)">
+        [ngModel]="selectedCourseId" (ngModelChange)="selectCourse($event)">
       <option value=''>请选择学生表</option>
-      <option *ngFor="let c of courses" [ngValue]="c">{{c.name}}</option>
+      <option *ngFor="let c of courses" [value]="c._id">{{c.name}}</option>
     </select>
   </div>
   <div class="form-group wrap">
     <div class="content right">
       <button type="button">导入Excel</button>
-      已有学生&nbsp;<span class="student-num">{{selectedCourse ? selectedCourse.studentCount : 0}}</span>&nbsp;人
+      已有学生&nbsp;<span class="student-num">{{sign.studentCount || 0}}</span>&nbsp;人
     </div>
   </div>
   <div class="form-group wrap">

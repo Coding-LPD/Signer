@@ -11,15 +11,11 @@ import { Sign, Course } from '../../../../shared';
 export class Step3Component implements OnInit {
 
   sign: Sign;
-  course: Course;
-  relatedCourse: Course;
 
   constructor(private _signService: SignService) {}
 
   ngOnInit() {
     this.sign = this._signService.sign;
-    this.course = this._signService.course;
-    this.relatedCourse = this._signService.relatedCourse;
   }
 
 }

@@ -15,7 +15,7 @@ export class Step2Component implements OnInit {
   selectedColor = this.colors[0];
   sign: Sign;
   courses: Course[];
-  selectedCourse: any = '';
+  selectedCourseId: any = '';
 
   constructor(
     private _loginService: LoginService,
@@ -23,11 +23,11 @@ export class Step2Component implements OnInit {
 
   ngOnInit() {
     this.sign = this._signService.sign;
-    this.sign.color = this.selectedColor;    
+    this.sign.color = this.selectedColor;        
     this._loginService.getCourses().subscribe(body => {
       if (+body.code == 200) {
         this.courses = body.data;
-        this.selectedCourse = this._signService.relatedCourse ? this._signService.relatedCourse : '';
+        this.selectedCourseId = this._signService.sign.relatedId ? this._signService.sign.relatedId : '';        
       } else {
         alert(body.msg);
       }
@@ -39,9 +39,12 @@ export class Step2Component implements OnInit {
     this.sign.color = color;
   }
 
-  selectCourse(course: Course) {
-    this._signService.selectRelatedCourse(course);
-    this.selectedCourse = course;    
+  selectCourse(courseId: string) {
+    var selected = this.courses.filter((c: Course) => {
+      return c._id == courseId;
+    })[0];
+    this._signService.selectRelatedCourse(selected);
+    this.selectedCourseId = courseId;    
   }
 
 }

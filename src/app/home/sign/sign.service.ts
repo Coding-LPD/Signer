@@ -8,27 +8,22 @@ export class SignService extends BaseService {
 
   // 签到数据
   sign = new Sign();
-  // 签到所属课程
-  course: Course;
-  // 关联的学生表
-  relatedCourse: Course;
 
   constructor(private _http: Http) {
     super();
   }
 
   selectCourse(course: Course) {
-    this.course = course;
-    this.sign.courseId = course._id;
-    if (!this.relatedCourse) {
+    this.sign.courseId = course._id || '';
+    this.sign.courseName = course.name || '';
+    if (!this.sign.relatedId) {
       this.selectRelatedCourse(course);
     }
   }
 
   selectRelatedCourse(course: Course) {
-    this.relatedCourse = course;
-    this.sign.relatedId = course._id;
-    this.sign.studentCount = course.studentCount;
+    this.sign.relatedId = course._id || '';
+    this.sign.studentCount = course.studentCount || 0;
   }
 
   create(sign: Sign) {
