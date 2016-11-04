@@ -23,6 +23,20 @@ router.get('/', function (req, res) {
   });
 });
 
+router.delete('/:id', function (req, res) {  
+  SignStudent.findByIdAndRemove(req.params['id'])
+    .then(function (deletedStudent) {
+      sendInfo(errorCodes.Success, res, deletedStudent);
+    })
+    .catch(function (err) {
+      if (err.code) {
+        sendInfo(err.code, res, {});
+      } else {
+        handleErrors(err, res, {});
+      }      
+    });
+});
+
 router.post('/search', function (req, res) {
   // 必须要有查询条件
   if (common.isEmptyObject(req.body)) {
@@ -46,39 +60,43 @@ router.post('/import', multipartMiddleware, function (req, res) {
   var workbook = xlsx.readFile(file.path);
   var worksheet = workbook.Sheets[workbook.SheetNames[0]];  
   var courseExtra = readHeader(worksheet);
-  var signStudents = readBody(worksheet); 
-  Course.find({_id: courseId}, function (err, courses) {
-    if (err) {
-      handleErrors(err, res, []);
-      return;
-    }
-    var course = courses[0];
-    course.set('academy', courseExtra.get('academy'));         
-    course.set('studentCount', course.get('studentCount') + signStudents.length);
-    promises.push(course.save());
+  var signStudents = readBody(worksheet);
+  Course.findById(courseId)
+    .then(function (course) {
+      // 课程不存在
+      if (!course) {
+        return Promise.reject({ code: errorCodes.CourseNotExist });
+      }
 
-    for (var i=0; i<signStudents.length; i++) {
-      signStudents[i].set('teacherId', course.get('teacherId'));
-      signStudents[i].set('courseId', courseId);
-      signStudents[i].set('phone', '');     
-      signStudents[i].set('createdAt', moment(new Date()).format('YYYY-MM-DD'));  
-      promises.push(signStudents[i].save());
-    }
+      // 删除上传的文件
+      promises.push(fs.unlink(file.path));
+      
+      // 修改课程信息
+      course.set('academy', courseExtra.get('academy'));         
+      course.set('studentCount', course.get('studentCount') + signStudents.length);
+      promises.push(course.save());
 
-    Promise.all(promises).then(function (savedData) {
-      sendInfo(errorCodes.Success, res, savedData.slice(1));
-    }, function(err) {
-      handleErrors(err, res, []);
+      // 保存每一个导入的学生
+      for (var i=0; i<signStudents.length; i++) {
+        signStudents[i].set('teacherId', course.get('teacherId'));
+        signStudents[i].set('courseId', courseId);
+        signStudents[i].set('phone', '');     
+        signStudents[i].set('createdAt', moment(new Date()).format('YYYY-MM-DD'));  
+        promises.push(signStudents[i].save());
+      }
+
+      return Promise.all(promises);
     })
-  })  
-
-  // 删除文件
-  fs.unlink(file.path, function (err) {
-    if (err) {
-      handleErrors(err, res, []);
-      return;
-    }
-  })  
+    .then(function (results) {
+      sendInfo(errorCodes.Success, res, results.slice(2));
+    })
+    .catch(function (err) {
+      if (err.code) {
+        sendInfo(err.code, res, []);
+      } else {
+        handleErrors(err, res, []);
+      }      
+    }); 
 });
 
 function readHeader(worksheet) { 
