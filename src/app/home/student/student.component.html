@@ -22,5 +22,5 @@
 </div>
 <list [headerOptions]="headerOptions" [cellOptions]="cellOptions" 
     [operationOption]="operationOption" [datas]="students"
-    (onSelect)="receiveCheckedStudents($event)">
+    (onSelect)="receiveCheckedStudents($event)" (onDelete)="removeStudent($event)">
 </list>

@@ -53,6 +53,21 @@ export class StudentComponent implements OnInit {
     });
   }
 
+  selectCourse(courseId: string) {
+    if (!courseId) {
+      return;
+    }
+    this._studentService.search({courseId})
+      .subscribe(body => {
+        if (+body.code == 200) {         
+          this.students = body.data;
+        } else {
+          alert(body.msg);
+        }
+      });
+    this.uploadOptions.data.courseId = courseId;
+  }
+
   importStudent(fileInput: any) {
     if (!this.uploadOptions.data.courseId) {
       alert('请先选择课程');
@@ -79,19 +94,20 @@ export class StudentComponent implements OnInit {
     console.log(students);
   }
 
-  selectCourse(courseId: string) {
-    if (!courseId) {
+  removeStudent(student: SignStudent) {
+    if (!confirm('确定删除该学生？')) {
       return;
     }
-    this._studentService.search({courseId})
+    this._studentService.remove(student._id)
       .subscribe(body => {
-        if (+body.code == 200) {         
-          this.students = body.data;
+        if (+body.code == 200) {
+          var index = this.students.indexOf(student);
+          this.students.splice(index, 1);
+          this.students = this.students.slice(0);          
         } else {
           alert(body.msg);
         }
-      });
-    this.uploadOptions.data.courseId = courseId;
+      })
   }
 
 }

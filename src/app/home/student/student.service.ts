@@ -20,6 +20,12 @@ export class StudentService extends BaseService {
     return API.domain + API.signStudentImport;
   }
 
+  remove(id: string) {
+    return this._http.delete(API.domain + API.signStudent + `/${id}`, this.options)
+      .map(this.extractData)
+      .catch(this.handleError);
+  }
+
   search(conditions: any) {
     return this._http.post(API.domain + API.signStudentSearch, conditions, { withCredentials: true })
       .map(this.extractData)
