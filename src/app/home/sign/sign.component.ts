@@ -26,7 +26,7 @@ export class SignComponent implements OnInit {
   ];
   cellOptions: CellOption[] = [
     { prop: 'courseName' }, { prop: 'startTime' }, { prop: 'endTime' },
-    { prop: 'signIn', mainStyles: { color: '#97CC00' } }, { prop: 'studentCount' }, 
+    { prop: 'beforeSignIn', mainStyles: { color: '#97CC00' } }, { prop: 'studentCount' }, 
     { 
       prop: 'state',
       valueEnum: {
