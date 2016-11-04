@@ -6,4 +6,6 @@ package com.scnu.zhou.signer.component.util.sqlite;
 public class TableHelper {
 
     public static final String TABLE_SEARCH = "searchkey";
+
+    public static final String TABLE_COURSE = "course";
 }

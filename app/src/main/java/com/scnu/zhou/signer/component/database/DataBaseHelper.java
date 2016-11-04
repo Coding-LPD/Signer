@@ -13,7 +13,7 @@ import com.scnu.zhou.signer.component.util.sqlite.SQLHelper;
 public class DataBaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASENAME = "signer.db";
-    private static final int DATABASEVERSION = 1;
+    private static final int DATABASEVERSION = 2;
 
     public DataBaseHelper(Context context) {
         // TODO Auto-generated constructor stub
@@ -26,15 +26,28 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         // TODO Auto-generated method stub
 
         Log.i("SearchDataBase", "create Database------------->");
-        db.execSQL(SQLHelper.CREATE_SEARCHTABLE);
-
+        //db.execSQL(SQLHelper.CREATE_SEARCHTABLE);
+        Log.i("CourseDataBase", "create Database------------->");
+        db.execSQL(SQLHelper.CREATE_COURSETABLE);
+        Log.e("create", SQLHelper.CREATE_COURSETABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // TODO Auto-generated method stub
 
-        Log.i("SearchDataBase", "create Database------------->");
-        db.execSQL(SQLHelper.CREATE_SEARCHTABLE);
+        Log.i("SearchDataBase", "upgrade Database------------->");
+        //db.execSQL(SQLHelper.CREATE_SEARCHTABLE);
+        Log.i("CourseDataBase", "upgrade Database------------->");
+        db.execSQL(SQLHelper.CREATE_COURSETABLE);
+    }
+
+    @Override
+    public void onOpen(SQLiteDatabase db) {
+        super.onOpen(db);
+        Log.i("SearchDataBase", "upgrade Database------------->");
+        //db.execSQL(SQLHelper.CREATE_SEARCHTABLE);
+        Log.i("CourseDataBase", "upgrade Database------------->");
+        db.execSQL(SQLHelper.CREATE_COURSETABLE);
     }
 }

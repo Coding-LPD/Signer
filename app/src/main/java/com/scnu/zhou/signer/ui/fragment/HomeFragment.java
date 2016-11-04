@@ -19,6 +19,8 @@ import com.scnu.zhou.signer.component.adapter.listview.MainCourseAdapter;
 import com.scnu.zhou.signer.component.bean.http.ResultResponse;
 import com.scnu.zhou.signer.component.bean.main.MainCourse;
 import com.scnu.zhou.signer.component.cache.UserCache;
+import com.scnu.zhou.signer.component.database.CourseOperateTable;
+import com.scnu.zhou.signer.component.database.DataBaseHelper;
 import com.scnu.zhou.signer.presenter.home.HomePresenter;
 import com.scnu.zhou.signer.presenter.home.IHomePresenter;
 import com.scnu.zhou.signer.ui.activity.course.CourseDetailActivity;
@@ -58,6 +60,10 @@ public class HomeFragment extends Fragment implements IHomeView, PullToRefreshLi
     private final int STATE_LOADMORE = 0x002;
     private int state = STATE_REFRESH;
 
+
+    private DataBaseHelper helper = null;
+    private CourseOperateTable table = null;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -92,6 +98,13 @@ public class HomeFragment extends Fragment implements IHomeView, PullToRefreshLi
 
         presenter = new HomePresenter(this);
         //presenter.getRelatedCourses(UserCache.getInstance().getPhone(context), limit, page);
+        helper = new DataBaseHelper(context);
+
+        //helper.onUpgrade(helper.getWritableDatabase(), 1, 1);
+        mData = (new CourseOperateTable(helper.getReadableDatabase()))
+                .find();
+        adapter = new MainCourseAdapter(context, mData);
+        plv_main.setAdapter(adapter);
     }
 
 
@@ -111,6 +124,10 @@ public class HomeFragment extends Fragment implements IHomeView, PullToRefreshLi
             if (state == STATE_REFRESH) {
                 mData = response.getData();
                 plv_main.onRefreshCompleted();
+
+                helper.onUpgrade(helper.getWritableDatabase(), 1, 2);
+                table = new CourseOperateTable(helper.getWritableDatabase());
+                table.reset(response.getData());
             }
             else {
                 mData.addAll(response.getData());
@@ -121,6 +138,10 @@ public class HomeFragment extends Fragment implements IHomeView, PullToRefreshLi
                 else{
                     plv_main.onLoadMoreCompleted();
                 }
+
+                helper.onUpgrade(helper.getWritableDatabase(), 1, 2);
+                table = new CourseOperateTable(helper.getWritableDatabase());
+                table.insertList(response.getData());
             }
 
             adapter = new MainCourseAdapter(context, mData);
@@ -249,5 +270,13 @@ public class HomeFragment extends Fragment implements IHomeView, PullToRefreshLi
         Intent intent = new Intent(context, SearchActivity.class);
         startActivity(intent);
         context.overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+    }
+
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        helper.close();
     }
 }
