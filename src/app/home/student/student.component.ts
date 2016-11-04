@@ -68,7 +68,7 @@ export class StudentComponent implements OnInit {
     if (data.response) {      
       var res = JSON.parse(data.response);
       if (+res.code == 200) {
-        this.students = res.data;              
+        this.students = this.students.concat(res.data);              
       } else {
         alert(res.data);
       }
