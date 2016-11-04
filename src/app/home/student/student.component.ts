@@ -55,6 +55,7 @@ export class StudentComponent implements OnInit {
 
   selectCourse(courseId: string) {
     if (!courseId) {
+      this.students = [];
       return;
     }
     this._studentService.search({courseId})
