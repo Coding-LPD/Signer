@@ -38,11 +38,11 @@ public class UserPermission {
     public boolean isLocatePermitted(Context context){
 
         PackageManager pm = context.getPackageManager();
-        boolean permission1 = (PackageManager.PERMISSION_GRANTED ==
-                pm.checkPermission("android.permission.ACCESS_COARSE_LOCATION", "com.scnu.zhou.signer"));
-        boolean permission2 = (PackageManager.PERMISSION_GRANTED ==
+        //boolean permission1 = (PackageManager.PERMISSION_GRANTED ==
+                //pm.checkPermission("android.permission.ACCESS_COARSE_LOCATION", "com.scnu.zhou.signer"));
+        boolean permission = (PackageManager.PERMISSION_GRANTED ==
                 pm.checkPermission("android.permission.ACCESS_FINE_LOCATION", "com.scnu.zhou.signer"));
-        if (permission1 && permission2) {
+        if (permission) {
             return true;
         }else {
             return false;
