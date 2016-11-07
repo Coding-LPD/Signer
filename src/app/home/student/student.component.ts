@@ -86,7 +86,7 @@ export class StudentComponent implements OnInit {
       if (+res.code == 200) {
         this.students = this.students.concat(res.data);              
       } else {
-        alert(res.data);
+        alert(res.msg);
       }
     }
   }
