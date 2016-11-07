@@ -1,4 +1,5 @@
 var errorCodes = require('../services/error-codes').errorCodes;
+var config = require('../config');
 
 var Student = {
   phone: { 
@@ -43,7 +44,7 @@ var Student = {
   },
   avatar: {
     type: String,
-    default: ''
+    default: config.userImagesUrlPrefix + '1.png'
   }
 };
 

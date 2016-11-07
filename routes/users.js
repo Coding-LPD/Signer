@@ -4,6 +4,7 @@ var fs = require('fs');
 var path = require('path');
 var NodeRSA = require('node-rsa');
 var router = express.Router();
+
 var log = require('../services/log');
 var jwtService = require('../services/jwt-service');
 var handleErrors = require('../services/error-handler').handleErrors;
@@ -45,7 +46,6 @@ router.post('/', function (req, res) {
   var phone = req.body.phone;
   var password = req.body.password;
   var role = req.body.role;
-  console.log(req.body);
 
   // 检查手机号码是否有效
   if (!common.validatePhone(phone)) {
@@ -100,11 +100,11 @@ router.post('/', function (req, res) {
         // 用户成功注册
         if (savedUser.role === '0') {
           // 创建学生信息
-          var student = new Student({phone});
+          var student = new Student({ phone: phone });
           promise.push(student.save());
         } else {
           // 创建教师信息
-          var teacher = new Teacher({phone});
+          var teacher = new Teacher({ phone: phone });
           promise.push(teacher.save());
         }
         Promise.all(promise).then(function (savedData) {
