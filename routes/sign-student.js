@@ -39,7 +39,7 @@ router.delete('/:id', function (req, res) {
       course = updatedCourse;
 
       // 课程相关的签到的学生数量都要同步
-      return Sign.update({ courseId: updatedCourse._id }, { studentCount: course.get('studentCount') }, { multi: true });
+      return Sign.update({ $or: [ { courseId: updatedCourse._id }, { relatedId: updatedCourse._id } ] }, { studentCount: course.get('studentCount') }, { multi: true });
     })
     .then(function (updatedSigns) {            
       sendInfo(errorCodes.Success, res, student);
@@ -94,7 +94,8 @@ router.post('/import', multipartMiddleware, function (req, res) {
       promises.push(course.save());
 
       // 修改课程相关签到的学生数量
-      promises.push(Sign.update({ courseId: course._id }, { studentCount: studentCount }, { multi: true }));
+      promises.push(Sign.update({ $or: [ { courseId: course._id }, { relatedId: course._id } ] }, { studentCount: studentCount }, { multi: true }));
+      // 修改使用该课程的学生表的签到的学生数量
 
       // 保存每一个导入的学生
       for (var i=0; i<signStudents.length; i++) {
