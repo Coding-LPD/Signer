@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.view.Gravity;
@@ -20,6 +21,7 @@ import com.scnu.zhou.signer.component.bean.sign.ScanResult;
 import com.scnu.zhou.signer.component.bean.sign.SignRecord;
 import com.scnu.zhou.signer.component.bean.sign.Signer;
 import com.scnu.zhou.signer.component.cache.UserCache;
+import com.scnu.zhou.signer.component.util.UserPermission;
 import com.scnu.zhou.signer.component.util.http.ResponseCode;
 import com.scnu.zhou.signer.component.util.location.BaiduLocationClient;
 import com.scnu.zhou.signer.presenter.sign.ISignPresenter;
@@ -229,6 +231,9 @@ public class ConfirmSignActivity extends BaseSlideActivity implements ISignView{
             showLoadingDialog("发送请求中");
             getPhoneBattery();
         }
+        else if (UserPermission.getInstance().isLocatePermitted(this)){
+            showPermissionDialog();
+        }
         else{
             showMessageDialog();
         }
@@ -243,6 +248,9 @@ public class ConfirmSignActivity extends BaseSlideActivity implements ISignView{
             type = 1;
             showLoadingDialog("发送请求中");
             getPhoneBattery();
+        }
+        else if (UserPermission.getInstance().isLocatePermitted(this)){
+            showPermissionDialog();
         }
         else{
             showMessageDialog();
@@ -340,6 +348,31 @@ public class ConfirmSignActivity extends BaseSlideActivity implements ISignView{
                 Intent intent = new Intent(ConfirmSignActivity.this, UserInfoActivity.class);
                 startActivity(intent);
                 overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+            }
+        });
+        //dialog.show();
+    }
+
+    /**
+     * 弹出提示对话框
+     */
+    public void showPermissionDialog(){
+
+        final AlertDialog dialog = new AlertDialog(this);
+        dialog.setTitle("友情提示");
+        dialog.setMessage("请先到应用权限管理允许\n" +
+                "应用进行GPS定位");
+        dialog.setNegativeButton("知道了", AlertDialog.BUTTON_LEFT, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        dialog.setPositiveButton("现在就去", AlertDialog.BUTTON_RIGHT, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                startActivity(new Intent(Settings.ACTION_SETTINGS));
             }
         });
         //dialog.show();

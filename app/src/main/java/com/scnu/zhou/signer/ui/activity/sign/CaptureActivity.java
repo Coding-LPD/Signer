@@ -9,6 +9,7 @@ import android.media.MediaPlayer.OnCompletionListener;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Vibrator;
+import android.provider.Settings;
 import android.view.Gravity;
 import android.view.SurfaceHolder;
 import android.view.SurfaceHolder.Callback;
@@ -20,12 +21,14 @@ import android.widget.TextView;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
 import com.scnu.zhou.signer.R;
-import com.scnu.zhou.signer.ui.activity.base.BaseSlideActivity;
-import com.scnu.zhou.signer.ui.widget.toast.ToastView;
+import com.scnu.zhou.signer.component.util.UserPermission;
 import com.scnu.zhou.signer.component.zxing.camera.CameraManager;
 import com.scnu.zhou.signer.component.zxing.decoding.CaptureActivityHandler;
 import com.scnu.zhou.signer.component.zxing.decoding.InactivityTimer;
 import com.scnu.zhou.signer.component.zxing.view.ViewfinderView;
+import com.scnu.zhou.signer.ui.activity.base.BaseSlideActivity;
+import com.scnu.zhou.signer.ui.widget.dialog.AlertDialog;
+import com.scnu.zhou.signer.ui.widget.toast.ToastView;
 
 import java.io.IOException;
 import java.util.Vector;
@@ -60,6 +63,7 @@ public class CaptureActivity extends BaseSlideActivity implements Callback {
 		viewfinderView = (ViewfinderView) findViewById(R.id.viewfinder_view);
 		hasSurface = false;
 		inactivityTimer = new InactivityTimer(this);
+
 	}
 
 	public void initView() {
@@ -87,7 +91,37 @@ public class CaptureActivity extends BaseSlideActivity implements Callback {
 				finish();
 			}
 		});
+
+		if (!UserPermission.getInstance().isCameraPermitted(this)){
+
+			showMessageDialog();
+		}
 	}
+
+
+	/**
+	 * 弹出提示对话框
+	 */
+	public void showMessageDialog(){
+
+		final AlertDialog dialog = new AlertDialog(this);
+		dialog.setTitle("友情提示");
+		dialog.setMessage("请先到应用权限管理允许\n应用访问您的相机");
+		dialog.setNegativeButton("知道了", AlertDialog.BUTTON_LEFT, new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				dialog.dismiss();
+			}
+		});
+		dialog.setPositiveButton("现在就去", AlertDialog.BUTTON_RIGHT, new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				startActivity(new Intent(Settings.ACTION_SETTINGS));
+			}
+		});
+		//dialog.show();
+	}
+
 
 	@Override
 	protected void onResume() {
