@@ -12,6 +12,7 @@ var errorCodes = require('../services/error-codes').errorCodes;
 var common = require('../services/common');
 var Course = require('../services/mongo').Course;
 var SignStudent = require('../services/mongo').SignStudent;
+var Sign = require('../services/mongo').Sign;
 
 router.get('/', function (req, res) {
   SignStudent.find(function (err, students) {
@@ -23,11 +24,26 @@ router.get('/', function (req, res) {
   });
 });
 
-router.delete('/:id', function (req, res) {  
+router.delete('/:id', function (req, res) {
+  var student,  course;
+  var promises = [];
+
   SignStudent.findByIdAndRemove(req.params['id'])
-    .then(function (deletedStudent) {
-      sendInfo(errorCodes.Success, res, deletedStudent);
+    .then(function (deletedStudent) {      
+      student = deletedStudent;
+
+      // 课程的学生数量减1
+      return Course.findByIdAndUpdate(student.get('courseId'), { $inc: { studentCount: -1 } }, { new: true });      
     })
+    .then(function (updatedCourse) {
+      course = updatedCourse;
+
+      // 课程相关的签到的学生数量都要同步
+      return Sign.update({ courseId: updatedCourse._id }, { studentCount: course.get('studentCount') }, { multi: true });
+    })
+    .then(function (updatedSigns) {            
+      sendInfo(errorCodes.Success, res, student);
+    }) 
     .catch(function (err) {
       if (err.code) {
         sendInfo(err.code, res, {});
@@ -72,9 +88,13 @@ router.post('/import', multipartMiddleware, function (req, res) {
       promises.push(fs.unlink(file.path));
       
       // 修改课程信息
+      var studentCount = course.get('studentCount') + signStudents.length;
       course.set('academy', courseExtra.get('academy'));         
-      course.set('studentCount', course.get('studentCount') + signStudents.length);
+      course.set('studentCount', studentCount);
       promises.push(course.save());
+
+      // 修改课程相关签到的学生数量
+      promises.push(Sign.update({ courseId: course._id }, { studentCount: studentCount }, { multi: true }));
 
       // 保存每一个导入的学生
       for (var i=0; i<signStudents.length; i++) {
@@ -88,7 +108,7 @@ router.post('/import', multipartMiddleware, function (req, res) {
       return Promise.all(promises);
     })
     .then(function (results) {
-      sendInfo(errorCodes.Success, res, results.slice(2));
+      sendInfo(errorCodes.Success, res, results.slice(3));
     })
     .catch(function (err) {
       if (err.code) {

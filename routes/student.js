@@ -212,7 +212,7 @@ router.get('/:phone/notice', function (req, res) {
             courseName: signs[index].get('courseName'),
             signState: record.state,
             signDistance: record.distance,
-            signNumber: signs[index].getSignIn(),
+            signNumber: signs[index].getSignIn(type),
             signAt: record.createdAt,
             confirmAt: record.confirmAt
           });
