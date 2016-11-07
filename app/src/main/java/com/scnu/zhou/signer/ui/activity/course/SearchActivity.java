@@ -17,14 +17,15 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.scnu.zhou.signer.R;
 import com.scnu.zhou.signer.component.adapter.listview.MainCourseAdapter;
 import com.scnu.zhou.signer.component.adapter.listview.SearchHistoryAdapter;
 import com.scnu.zhou.signer.component.bean.http.ResultResponse;
 import com.scnu.zhou.signer.component.bean.main.MainCourse;
+import com.scnu.zhou.signer.component.cache.ACache;
 import com.scnu.zhou.signer.component.cache.UserCache;
-import com.scnu.zhou.signer.component.database.DataBaseHelper;
-import com.scnu.zhou.signer.component.database.SearchOperateTable;
 import com.scnu.zhou.signer.presenter.home.HomePresenter;
 import com.scnu.zhou.signer.presenter.home.IHomePresenter;
 import com.scnu.zhou.signer.ui.activity.base.BaseSlideActivity;
@@ -71,10 +72,6 @@ public class SearchActivity extends BaseSlideActivity implements IHomeView, View
     private final int STATE_LOADMORE = 0x002;
     private int state = STATE_REFRESH;
 
-
-    private DataBaseHelper helper = null;
-    private SearchOperateTable table = null;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,8 +104,6 @@ public class SearchActivity extends BaseSlideActivity implements IHomeView, View
         historyAdapter = new SearchHistoryAdapter(this, historys);
         results = new ArrayList<>();
         resultAdapter = new MainCourseAdapter(this, results);
-
-        helper = new DataBaseHelper(this);
 
         showHistoryList();
     }
@@ -212,10 +207,8 @@ public class SearchActivity extends BaseSlideActivity implements IHomeView, View
                 @Override
                 public void onClick(View v) {
 
-                    for (String key: historys) {
-                        table = new SearchOperateTable(helper.getWritableDatabase());
-                        table.remove(key);
-                    }
+                    ACache.get(SearchActivity.this).put("history", "");
+                    historys.clear();
                     lv_search_history.removeFooterView(footerView);
                     showHistoryList();
                 }
@@ -309,9 +302,9 @@ public class SearchActivity extends BaseSlideActivity implements IHomeView, View
         lv_search_history.setVisibility(View.VISIBLE);
 
         // 获得最近搜索
-        helper.onUpgrade(helper.getWritableDatabase(), 1, 1);
-        historys = (new SearchOperateTable(helper.getReadableDatabase()))
-                .find();
+        String array = ACache.get(this).getAsString("history");
+        if (!TextUtils.isEmpty(array) && !array.equals("null")) historys = new Gson().fromJson(array,
+                new TypeToken<List<String>>(){}.getType());
         historyAdapter = new SearchHistoryAdapter(this, historys);
         lv_search_history.setAdapter(historyAdapter);
 
@@ -348,18 +341,28 @@ public class SearchActivity extends BaseSlideActivity implements IHomeView, View
     // 在数据库中保存搜索词
     public void insertKey(){
 
-        table = new SearchOperateTable(helper.getWritableDatabase());
+        int pos = 0;
         String key = et_search.getText().toString();
+        for (int i=0; i<historys.size(); i++){
 
-        if (table.find(key)) { // 如果存在则先删除再插入
-            table = new SearchOperateTable(helper.getWritableDatabase());
-            table.remove(key);
+            if (key.equals(historys.get(i))){
+                pos = i;
+                break;
+            }
         }
 
-        if (!TextUtils.isEmpty(key)) {
-            table = new SearchOperateTable(helper.getWritableDatabase());
-            table.insert(key);
+        if (pos < historys.size()){
+            historys.remove(pos);
         }
+
+        for (int i=historys.size(); i>0; i--){
+            historys.add(i, historys.get(i-1));
+        }
+        historys.add(0, key);
+
+        String value = new Gson().toJson(historys);
+        Log.e("insert", value);
+        ACache.get(this).put("history", value);
     }
 
 

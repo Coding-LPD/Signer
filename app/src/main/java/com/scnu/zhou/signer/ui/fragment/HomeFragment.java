@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -14,13 +15,14 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.scnu.zhou.signer.R;
 import com.scnu.zhou.signer.component.adapter.listview.MainCourseAdapter;
 import com.scnu.zhou.signer.component.bean.http.ResultResponse;
 import com.scnu.zhou.signer.component.bean.main.MainCourse;
+import com.scnu.zhou.signer.component.cache.ACache;
 import com.scnu.zhou.signer.component.cache.UserCache;
-import com.scnu.zhou.signer.component.database.CourseOperateTable;
-import com.scnu.zhou.signer.component.database.DataBaseHelper;
 import com.scnu.zhou.signer.presenter.home.HomePresenter;
 import com.scnu.zhou.signer.presenter.home.IHomePresenter;
 import com.scnu.zhou.signer.ui.activity.course.CourseDetailActivity;
@@ -60,10 +62,6 @@ public class HomeFragment extends Fragment implements IHomeView, PullToRefreshLi
     private final int STATE_LOADMORE = 0x002;
     private int state = STATE_REFRESH;
 
-
-    private DataBaseHelper helper = null;
-    private CourseOperateTable table = null;
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -94,15 +92,15 @@ public class HomeFragment extends Fragment implements IHomeView, PullToRefreshLi
     }
 
     @Override
-    public void initData() {
+    public void initData(){
 
         presenter = new HomePresenter(this);
-        //presenter.getRelatedCourses(UserCache.getInstance().getPhone(context), limit, page);
-        helper = new DataBaseHelper(context);
 
-        //helper.onUpgrade(helper.getWritableDatabase(), 1, 1);
-        mData = (new CourseOperateTable(helper.getReadableDatabase()))
-                .find();
+        String array = ACache.get(context).getAsString("course");
+        Log.e("get-array", array);
+        if (!TextUtils.isEmpty(array) && !array.equals("null")) mData = new Gson().fromJson(array,
+                new TypeToken<List<MainCourse>>(){}.getType());
+
         adapter = new MainCourseAdapter(context, mData);
         plv_main.setAdapter(adapter);
     }
@@ -124,10 +122,6 @@ public class HomeFragment extends Fragment implements IHomeView, PullToRefreshLi
             if (state == STATE_REFRESH) {
                 mData = response.getData();
                 plv_main.onRefreshCompleted();
-
-                helper.onUpgrade(helper.getWritableDatabase(), 1, 2);
-                table = new CourseOperateTable(helper.getWritableDatabase());
-                table.reset(response.getData());
             }
             else {
                 mData.addAll(response.getData());
@@ -138,10 +132,6 @@ public class HomeFragment extends Fragment implements IHomeView, PullToRefreshLi
                 else{
                     plv_main.onLoadMoreCompleted();
                 }
-
-                helper.onUpgrade(helper.getWritableDatabase(), 1, 2);
-                table = new CourseOperateTable(helper.getWritableDatabase());
-                table.insertList(response.getData());
             }
 
             adapter = new MainCourseAdapter(context, mData);
@@ -161,6 +151,10 @@ public class HomeFragment extends Fragment implements IHomeView, PullToRefreshLi
         else{
             ll_no_course.setVisibility(View.GONE);
         }
+
+        String value = new Gson().toJson(mData);
+        Log.e("put-array", value);
+        ACache.get(context).put("course", value);
     }
 
 
@@ -203,7 +197,6 @@ public class HomeFragment extends Fragment implements IHomeView, PullToRefreshLi
         Log.e("state", "refresh");
         state = STATE_REFRESH;
         page = 0;
-        mData.clear();
         presenter.getRelatedCourses(UserCache.getInstance().getPhone(context), limit, page);
     }
 
@@ -270,13 +263,5 @@ public class HomeFragment extends Fragment implements IHomeView, PullToRefreshLi
         Intent intent = new Intent(context, SearchActivity.class);
         startActivity(intent);
         context.overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
-    }
-
-
-    @Override
-    public void onPause() {
-        super.onPause();
-
-        helper.close();
     }
 }

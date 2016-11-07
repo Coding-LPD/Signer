@@ -3,8 +3,6 @@ package com.scnu.zhou.signer.component.cache;
 import android.content.Context;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.scnu.zhou.signer.component.database.DataBaseHelper;
-import com.scnu.zhou.signer.component.database.SearchOperateTable;
 
 /**
  * Created by zhou on 2016/9/12.
@@ -25,7 +23,7 @@ public class ClearCache {
 
     public void clear(Context context) {
         clearImageCache();
-        clearDataBaseCache(context);
+        clearDataCache(context);
     }
 
     public void clearImageCache() {
@@ -36,12 +34,9 @@ public class ClearCache {
     }
 
 
-    public static void clearDataBaseCache(Context context) {
+    public static void clearDataCache(Context context) {
 
-        // 清除数据库缓存
-        DataBaseHelper helper = new DataBaseHelper(context);
-
-        SearchOperateTable searchTable = new SearchOperateTable(helper.getWritableDatabase());
-        searchTable.clear();
+        // 清除数据缓存
+        ACache.get(context).clear();
     }
 }

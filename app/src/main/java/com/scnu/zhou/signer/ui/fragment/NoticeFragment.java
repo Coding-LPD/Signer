@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -12,10 +13,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.scnu.zhou.signer.R;
 import com.scnu.zhou.signer.component.adapter.listview.NoticeAdapter;
 import com.scnu.zhou.signer.component.bean.http.ResultResponse;
 import com.scnu.zhou.signer.component.bean.notice.NoticeBean;
+import com.scnu.zhou.signer.component.cache.ACache;
 import com.scnu.zhou.signer.component.cache.NoticeCache;
 import com.scnu.zhou.signer.component.cache.UserCache;
 import com.scnu.zhou.signer.presenter.notice.INoticePresenter;
@@ -142,6 +146,15 @@ public class NoticeFragment extends Fragment implements INoticeView,
         else{
             ll_no_notice.setVisibility(View.GONE);
         }
+
+        String value = new Gson().toJson(notices);
+        Log.e("notice", value);
+        if (segment == STATE_BEFORE){
+            ACache.get(context).put("notice_before", value);
+        }
+        else{
+            ACache.get(context).put("notice_after", value);
+        }
     }
 
     @Override
@@ -162,6 +175,7 @@ public class NoticeFragment extends Fragment implements INoticeView,
             plv_notice.onLoadMoreCompleted();
         }
 
+        Log.e(">>", "no newtwork" + notices.size());
         if (notices.size() == 0){
             ll_no_network.setVisibility(View.VISIBLE);
         }
@@ -180,7 +194,6 @@ public class NoticeFragment extends Fragment implements INoticeView,
         Log.e("state", "refresh");
         state = STATE_REFRESH;
         page = 0;
-        notices.clear();
 
         presenter.getNotices(UserCache.getInstance().getPhone(context), segment, limit, page);
     }
@@ -207,20 +220,32 @@ public class NoticeFragment extends Fragment implements INoticeView,
     @Override
     public void onSelectLeft() {
 
+        String array = ACache.get(context).getAsString("notice_before");
+        //Log.e("get-array", array);
+        if (!TextUtils.isEmpty(array) && !array.equals("null")) notices = new Gson().fromJson(array,
+                new TypeToken<List<NoticeBean>>(){}.getType());
+        adapter = new NoticeAdapter(context, notices);
+        plv_notice.setAdapter(adapter);
+
         state = STATE_REFRESH;
         segment = STATE_BEFORE;
         page = 0;
-        notices.clear();
         presenter.getNotices(UserCache.getInstance().getPhone(context), segment, limit, page);
     }
 
     @Override
     public void onSelectRight() {
 
+        String array = ACache.get(context).getAsString("notice_after");
+        //Log.e("get-array", array);
+        if (!TextUtils.isEmpty(array) && !array.equals("null")) notices = new Gson().fromJson(array,
+                new TypeToken<List<NoticeBean>>(){}.getType());
+        adapter = new NoticeAdapter(context, notices);
+        plv_notice.setAdapter(adapter);
+
         state = STATE_REFRESH;
         segment = STATE_AFTER;
         page = 0;
-        notices.clear();
         presenter.getNotices(UserCache.getInstance().getPhone(context), segment, limit, page);
     }
 
@@ -233,7 +258,7 @@ public class NoticeFragment extends Fragment implements INoticeView,
             @Override
             public void run() {
                 segment = STATE_BEFORE;
-                onRefresh();
+                onSelectLeft();
             }
         }, 300);
     }
