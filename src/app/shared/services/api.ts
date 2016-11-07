@@ -26,7 +26,9 @@ export class API {
   static signSearch = '/signs/search';
   static signRecord = '/signRecords';
   static signRecordAssent = '/signRecords/{0}/assent';
-  static signRecordRefusal = '/signRecords/{0}/refusal';
+  static signRecordAssentAll = '/signRecords/assent/all'  
+  static signRecordRefusal = '/signRecords/{0}/refusal';  
+  static signRecordRefusalAll = '/signRecords/refusal/all'
   static signRecordSearch = '/signRecords/search';
   static position = '/positions';
 

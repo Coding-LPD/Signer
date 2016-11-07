@@ -26,9 +26,9 @@
     <button type="button" [class.inactive]="radiosInactive[0]" (click)="selectRadio(0)">课前</button>
     <button type="button" [class.inactive]="radiosInactive[1]" (click)="selectRadio(1)">课后</button>
   </div>  
-  <div class="all-confirm-group" *ngIf="records.length > 0">
-    <button type="button" class="blue" (click)="assentAll()">全部同意</button>
-    <button type="button" class="red" (click)="refuseAll()">全部拒绝</button>
+  <div class="all-confirm-group" *ngIf="records.length - signIn > 0">
+    <button type="button" class="blue" (click)="confirmAll(0)">全部同意</button>
+    <button type="button" class="red" (click)="confirmAll(1)">全部拒绝</button>
   </div>
   <ul class="sign-in-list">
     <li *ngFor="let r of records">
@@ -36,8 +36,8 @@
       <div>{{r.studentName}}</div>
       <div [class]="r.distance <= 100 ? 'green-font' : 'red-font'">{{r.distance}}m</div>
       <div class="confirm-group wrap" *ngIf="r.state == 0">
-        <button type="button" class="confirm-btn" (click)="assent(r)"></button>
-        <button type="button" class="cancel-btn" (click)="refuse(r)"></button>
+        <button type="button" class="confirm-btn" (click)="confirm(r, 0)"></button>
+        <button type="button" class="cancel-btn" (click)="confirm(r, 1)"></button>
       </div>
       <div class="confirm-state" *ngIf="r.state != 0">
         <span class="green-font" [hidden]="r.state != 1">已准许</span>

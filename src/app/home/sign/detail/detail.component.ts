@@ -97,14 +97,17 @@ export class DetailComponent implements OnInit {
     this.isLargeQRCode = !this.isLargeQRCode;
   }
 
-  agreeSign(record: SignRecord) {
-    if (!confirm('确定同意签到吗？')) {
+  confirm(record: SignRecord, type: number = 0) {
+    // 要求用户再次确认
+    var tip = type == 0 ? '确定同意签到吗？' : '确定拒绝签到吗？';
+    if (!confirm(tip)) {
       return;
     }
-    this._signRecordService.agree(record._id)
+    var state = type == 0 ? 1 : 2;
+    this._signRecordService.confirm(record._id, type)
       .subscribe(body => {
         if (+body.code == 200) {
-          record.state = 1;
+          record.state = state;
           this.signIn = body.data.signIn;
         } else {
           this.popup.show(body.msg);
@@ -112,19 +115,41 @@ export class DetailComponent implements OnInit {
       });
   }
 
-  refuseSign(record: SignRecord) {
-    if (!confirm('确定拒绝签到吗？')) {
+  confirmAll(type: number = 0) {
+    // 要求用户再次确认
+    var tip = type == 0 ? '确定同意所有签到吗？' : '确定拒绝所有签到吗？';    
+    if (!confirm(tip)) {
       return;
     }
-    this._signRecordService.refuse(record._id)
+    // 获取所有未批准的签到记录的id
+    var indexs = this.getNotSignInRecordIndexs();
+    var ids = indexs.map((value: number) => {
+      return this.records[value]._id;
+    });    
+    var state = type == 0 ? 1 : 2;
+    this._signRecordService.confirmAll(ids, type)
       .subscribe(body => {
         if (+body.code == 200) {
-          record.state = 2;
+          // 修改所有未批准的签到记录的状态
+          indexs.forEach((value: number) => {
+            this.records[value].state = state;
+          });
+          // 修改完成签到人数
           this.signIn = body.data.signIn;
         } else {
           this.popup.show(body.msg);
         }
       });
+  }
+
+  getNotSignInRecordIndexs() {
+    var results: number[] = [];   
+    this.records.forEach((record: SignRecord, index: number) => {
+      if (record.state == 0) {
+        results.push(index);
+      }
+    });
+    return results;
   }
 
   private refreshRecords(signId: string, type: number) {
@@ -133,13 +158,14 @@ export class DetailComponent implements OnInit {
         this.signIn = 0;
         if (+body.code == 200) {
           this.records = body.data;          
-          this.records.forEach((value: SignRecord) => {
-              this.signIn += value.state > 0 ? 1 : 0; 
-          });
+          // this.records.forEach((value: SignRecord) => {
+          //     this.signIn += value.state > 0 ? 1 : 0; 
+          // });
+          this.signIn = this.records.length - this.getNotSignInRecordIndexs().length;          
         } else {
           this.popup.show(body.msg);
         }
       });
-  }
+  }  
 
 }

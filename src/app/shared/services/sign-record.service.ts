@@ -11,16 +11,22 @@ export class SignRecordService extends BaseService {
     super();
   }
 
-  agree(id: string) {
-    var url = API.domain + API.stringReplace(API.signRecordAssent, [id]);
+  confirm(id: string, type: number = 0) {
+    var url = API.domain;
+    if (type == 0) {
+      url += API.stringReplace(API.signRecordAssent, [id]);
+    } else {
+      url += API.stringReplace(API.signRecordRefusal, [id]);
+    }
     return this._http.post(url, null)
       .map(this.extractData)
       .catch(this.handleError);
-  }
+  } 
 
-  refuse(id: string) {
-    var url = API.domain + API.stringReplace(API.signRecordRefusal, [id]);
-    return this._http.post(url, null)
+  confirmAll(recordIds: string[], type: number = 0) {
+    var url = API.domain;
+    url += type == 0 ? API.signRecordAssentAll : API.signRecordRefusalAll;
+    return this._http.post(url, { recordIds })
       .map(this.extractData)
       .catch(this.handleError);
   }
