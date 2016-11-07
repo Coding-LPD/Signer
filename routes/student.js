@@ -11,6 +11,7 @@ var common = require('../services/common');
 var config = require('../config');
 var multipartMiddleware = multipart(config.cmConfig);
 var log = require('../services/log');
+
 var Student = require('../services/mongo').Student;
 var Sign = require('../services/mongo').Sign;
 var SignRecord = require('../services/mongo').SignRecord;
@@ -25,18 +26,36 @@ router.get('/', function (req, res) {
   });
 });
 
-router.put('/:id', function (req, res) {  
-  delete req.body._id;
-  // 禁止修改学生手机号码
+router.put('/:id', function (req, res) {
+  var student;
+
+  // 禁止修改学生手机号码和id
+  delete req.body._id;  
   delete req.body.phone;
-  Student.findByIdAndUpdate(req.params['id'], req.body, { new: true }, function (err, newStudent) {
-    if (!err) {
-      console.log(newStudent);
-      sendInfo(errorCodes.Success, res, newStudent);
-    } else {
-      handleErrors(err, res, {});
-    }
-  });
+
+  Student.findByIdAndUpdate(req.params['id'], req.body, { new: true })
+    .then(function (savedStudent) {
+      student = savedStudent;
+      // 修改学生的签到记录相应姓名和头像
+      var obj = {};
+      if (req.body.name) {
+        obj.studentName = req.body.name;
+      }
+      if (req.body.avatar) {
+        obj.studentAvatar = req.body.avatar;
+      }
+      return SignRecord.update({ studentId: savedStudent._id }, obj, { multi: true });
+    }) 
+    .then(function (savedRecords) {
+      sendInfo(errorCodes.Success, res, student);
+    })
+    .catch(function (err) {
+      if (err.code) {
+        sendInfo(err.code, res, {});
+      } else {
+        handleErrors(err, res, {});
+      }
+    });
 });
 
 router.post('/search', function (req, res) {
