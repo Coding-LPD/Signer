@@ -19,6 +19,7 @@ import com.scnu.zhou.signer.ui.fragment.ChatFragment;
 import com.scnu.zhou.signer.ui.fragment.HomeFragment;
 import com.scnu.zhou.signer.ui.fragment.MineFragment;
 import com.scnu.zhou.signer.ui.fragment.NoticeFragment;
+import com.scnu.zhou.signer.ui.service.NoticeService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,6 +70,8 @@ public class MainActivity extends BaseFragmentActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        startService();
+
         ButterKnife.bind(this);
         instance = this;
 
@@ -100,6 +103,16 @@ public class MainActivity extends BaseFragmentActivity{
         adapter = new HomePagerAdapter(getSupportFragmentManager(), fragments);
         vp_main.setAdapter(adapter);
         //vp_main.setOnPageChangeListener(this);
+    }
+
+
+    /**
+     * 启动Service
+     */
+    private void startService(){
+
+        Intent intent = new Intent(this, NoticeService.class);
+        startService(intent);
     }
 
 

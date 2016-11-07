@@ -24,7 +24,7 @@ public class SplashActivity extends BaseActivity {
         setContentView(R.layout.activity_splash);
 
         ImageLoaderUtil.getInstance().initImageLoader(this);
-        startService();
+        //startService();
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {

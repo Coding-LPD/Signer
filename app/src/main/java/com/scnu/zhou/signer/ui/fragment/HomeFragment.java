@@ -97,7 +97,7 @@ public class HomeFragment extends Fragment implements IHomeView, PullToRefreshLi
         presenter = new HomePresenter(this);
 
         String array = ACache.get(context).getAsString("course");
-        Log.e("get-array", array);
+        //Log.e("get-array", array);
         if (!TextUtils.isEmpty(array) && !array.equals("null")) mData = new Gson().fromJson(array,
                 new TypeToken<List<MainCourse>>(){}.getType());
 

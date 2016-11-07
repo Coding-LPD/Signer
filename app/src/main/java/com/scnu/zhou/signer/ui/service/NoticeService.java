@@ -10,6 +10,7 @@ import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.IO;
 import com.github.nkzawa.socketio.client.Socket;
 import com.scnu.zhou.signer.component.cache.NoticeCache;
+import com.scnu.zhou.signer.component.cache.UserCache;
 import com.scnu.zhou.signer.component.config.SignerServer;
 import com.scnu.zhou.signer.component.config.SocketEvent;
 
@@ -30,10 +31,15 @@ public class NoticeService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-
-        startSocketClient();
     }
 
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+
+        startSocketClient();
+
+        return super.onStartCommand(intent, flags, startId);
+    }
 
     private void startSocketClient(){
 
@@ -50,6 +56,10 @@ public class NoticeService extends Service {
                 public void call(Object... args) {
 
                     Log.e(TAG,"EVENT_CONNECT");
+
+                    // 传回StudentId
+                    socket.emit("student-in", UserCache.getInstance().getId(NoticeService.this));
+
                 }
 
             }).on(Socket.EVENT_CONNECT_TIMEOUT,new Emitter.Listener(){
