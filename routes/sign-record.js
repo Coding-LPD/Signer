@@ -109,6 +109,14 @@ router.post('/:id/refusal', function (req, res) {
   confirm(req, res, 2);
 });
 
+router.post('/assent/all', function (req, res) {
+  confirmAll(req, res, 1);
+});
+
+router.post('/refusal/all', function (req, res) {
+  confirmAll(req, res, 2);
+});
+
 router.post('/search', function (req, res) {
   // 必须要有查询条件
   if (common.isEmptyObject(req.body)) {
@@ -125,21 +133,25 @@ router.post('/search', function (req, res) {
 });
 
 function confirm(req, res, state) {
-  var type;
+  var type, record;
   var now = moment().format('YYYY-MM-DD HH:mm:ss');
+
   // 修改签到状态
   SignRecord.findByIdAndUpdate(req.params['id'], { state: state, confirmAt: now }, { new: true })
     .then(function (savedRecord) {
-      type = savedRecord.get('type');
+      record = savedRecord;
+      type = savedRecord.get('type');      
       var signIn = type == 0 ? { beforeSignIn: 1 } : { afterSignIn: 1 };
+
       // 签到完成人数加1
       return Sign.findByIdAndUpdate(savedRecord.get('signId'), { $inc: signIn }, { new: true })
     })
     .then(function (updatedSign) {
       // 响应http
       sendInfo(errorCodes.Success, res, { signIn: updatedSign.getSignIn(type) });
+      
       // 推送数据给手机客户端
-      signSocket.send(signSocket.events.notice, '');
+      signSocket.noticeStudent(record.get('studentId'), '');
     })
     .catch(function (err) {
       if (err.code) {
@@ -148,6 +160,42 @@ function confirm(req, res, state) {
         handleErrors(err, res, {});
       }
     });
+}
+
+function confirmAll(req, res, state) {
+  var ids = req.body.recordIds;
+  var type, count, records;
+  var now = moment().format('YYYY-MM-DD HH:mm:ss');
+
+  // 修改签到状态
+  Promise.all(ids.map(function (id) {
+    return SignRecord.findByIdAndUpdate(id, { state: state, confirmAt: now }, { new: true });
+  }))
+  .then(function (savedRecords) {
+    records = savedRecords;
+    type = savedRecords[0].get('type');
+    count = savedRecords.length;    
+    var signIn = type == 0 ? { beforeSignIn: count } : { afterSignIn: count };
+
+    // 签到完成人数加n
+    return Sign.findByIdAndUpdate(savedRecords[0].get('signId'), { $inc: signIn }, { new: true }) 
+  })
+  .then(function (savedSign) {
+    // 响应http
+    sendInfo(errorCodes.Success, res, { signIn: savedSign.getSignIn(type) });
+    
+    // 推送数据给手机客户端
+    records.forEach(function (record) {
+      signSocket.noticeStudent(record.get('studentId'), '');
+    });
+  })
+  .catch(function (err) {
+    if (err.code) {
+      sendInfo(err.code, res, {});
+    } else {
+      handleErrors(err, res, {});
+    }
+  });
 }
 
 module.exports = router;
