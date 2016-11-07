@@ -21,7 +21,7 @@ import com.scnu.zhou.signer.component.bean.sign.ScanResult;
 import com.scnu.zhou.signer.component.bean.sign.SignRecord;
 import com.scnu.zhou.signer.component.bean.sign.Signer;
 import com.scnu.zhou.signer.component.cache.UserCache;
-import com.scnu.zhou.signer.component.util.UserPermission;
+import com.scnu.zhou.signer.component.util.permission.UserPermission;
 import com.scnu.zhou.signer.component.util.http.ResponseCode;
 import com.scnu.zhou.signer.component.util.location.BaiduLocationClient;
 import com.scnu.zhou.signer.presenter.sign.ISignPresenter;

@@ -1,4 +1,4 @@
-package com.scnu.zhou.signer.component.util;
+package com.scnu.zhou.signer.component.util.permission;
 
 import android.content.Context;
 import android.content.pm.PackageManager;

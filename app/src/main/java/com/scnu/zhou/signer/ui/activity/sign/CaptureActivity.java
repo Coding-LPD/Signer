@@ -21,7 +21,7 @@ import android.widget.TextView;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
 import com.scnu.zhou.signer.R;
-import com.scnu.zhou.signer.component.util.UserPermission;
+import com.scnu.zhou.signer.component.util.permission.UserPermission;
 import com.scnu.zhou.signer.component.zxing.camera.CameraManager;
 import com.scnu.zhou.signer.component.zxing.decoding.CaptureActivityHandler;
 import com.scnu.zhou.signer.component.zxing.decoding.InactivityTimer;
