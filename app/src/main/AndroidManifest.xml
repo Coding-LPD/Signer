@@ -92,6 +92,8 @@
 
         <service android:name=".ui.service.NoticeService"/>
 
+        <activity android:name=".ui.activity.chat.ChatActivity"/>
+
     </application>
 
 </manifest>

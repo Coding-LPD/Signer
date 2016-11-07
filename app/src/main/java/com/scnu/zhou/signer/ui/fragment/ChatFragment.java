@@ -1,6 +1,7 @@
 package com.scnu.zhou.signer.ui.fragment;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -8,11 +9,13 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
 
 import com.scnu.zhou.signer.R;
 import com.scnu.zhou.signer.component.adapter.listview.ChatAdapter;
 import com.scnu.zhou.signer.component.bean.chat.ChatBean;
+import com.scnu.zhou.signer.ui.activity.chat.ChatActivity;
 import com.scnu.zhou.signer.ui.widget.listview.PullToRefreshListView;
 import com.scnu.zhou.signer.ui.widget.toast.ToastView;
 
@@ -25,7 +28,8 @@ import butterknife.ButterKnife;
 /**
  * Created by zhou on 16/9/6.
  */
-public class ChatFragment extends Fragment implements PullToRefreshListView.OnPullToRefreshListener{
+public class ChatFragment extends Fragment implements PullToRefreshListView.OnPullToRefreshListener,
+        AdapterView.OnItemClickListener{
 
     private Activity context;
 
@@ -60,6 +64,7 @@ public class ChatFragment extends Fragment implements PullToRefreshListView.OnPu
     public void initView(){
 
         plv_chat.setOnPullToRefreshListener(this);
+        plv_chat.setOnItemClickListener(this);
     }
 
 
@@ -96,5 +101,23 @@ public class ChatFragment extends Fragment implements PullToRefreshListView.OnPu
         ToastView toastView = new ToastView(context, "请检查您的网络连接");
         toastView.setGravity(Gravity.CENTER, 0, 0);
         toastView.show();
+    }
+
+
+
+    /**
+     * 单击处理
+     * @param parent
+     * @param view
+     * @param position
+     * @param id
+     */
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+        Intent intent = new Intent(context, ChatActivity.class);
+        startActivity(intent);
+        context.overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+
     }
 }
