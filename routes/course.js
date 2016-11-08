@@ -10,6 +10,8 @@ var Course = require('../services/mongo').Course;
 var Teacher = require('../services/mongo').Teacher;
 var Sign = require('../services/mongo').Sign;
 var SignRecord = require('../services/mongo').SignRecord;
+var SignStudent = require('../services/mongo').SignStudent;
+var Position = require('../services/mongo').Position;
 
 router.get('/', function (req, res) {
   Course.find(function (err, courses) {
@@ -33,13 +35,46 @@ router.post('/', function (req, res) {
 });
 
 router.delete('/:id', function (req, res) {
-  Course.findByIdAndRemove(req.params['id'], function (err, deletedCourse) {
-    if (!err) {
-      sendInfo(errorCodes.Success, res, deletedCourse);
-    } else {
-      handleErrors(err, res, {});
-    }
-  })
+  var courseId = req.params['id'];
+  var promises = [];
+  var course;  
+
+  // 删除该课程
+  Course.findByIdAndRemove(courseId)
+    .then(function (deletedCourse) {
+      course = deletedCourse;
+
+      // 查询课程相关签到
+      promises.push(Sign.find({ courseId: courseId }));
+      // 删除课程导入的学生、签到记录，更新使用该课程导入的学生的签到的信息      
+      promises.push(SignStudent.remove({ courseId: courseId }));
+      promises.push(SignRecord.remove({ courseId: courseId }));
+      promises.push(Sign.update({ relatedId: courseId }, { relatedId: '', studentCount: 0 }, { multi: true }));
+      
+      return Promise.all(promises);
+    })
+    .then(function (results) {
+      var signs = results[0];
+      promises = [];
+      
+      // 删除相关签到和其定位信息
+      promises.push(Sign.remove({ courseId: courseId }));
+      promises = promises.concat(signs.map(function (sign) {
+        return Position.remove({ signId: sign._id });
+      }));
+
+      return Promise.all(promises);
+    })
+    .then(function () {
+      sendInfo(errorCodes.Success, res, course);
+    })
+    .catch(function (err) {
+      if (err.code) {
+        sendInfo(err.code, res, {});
+      } else {
+        handleErrors(err, res, {});
+      }
+    });
 });
 
 router.post('/search', function (req, res) {
