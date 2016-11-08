@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.GridView;
@@ -289,7 +290,7 @@ public class NoteCalendar extends LinearLayout {
         public View getView(int position, View convertView, ViewGroup parent) {
 
             TextView item = new TextView(context);
-            LayoutParams layoutParams = new LayoutParams(
+            AbsListView.LayoutParams layoutParams = new AbsListView.LayoutParams(
                     120, 120);
             item.setLayoutParams(layoutParams);
             if (year == getCurrentYear() && month == getCurrentMonth() && days.get(position) == getCurrentDay()){

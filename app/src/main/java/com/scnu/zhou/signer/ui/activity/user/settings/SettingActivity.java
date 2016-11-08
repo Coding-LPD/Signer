@@ -126,6 +126,8 @@ public class SettingActivity extends BaseSlideActivity{
         @Override
         public void execute() {
 
+            this.dismiss();
+
             Intent intent = new Intent(SettingActivity.this, LoginActivity.class);
             startActivity(intent);
             overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);

@@ -177,6 +177,7 @@ public class LoginActivity extends BaseActivity implements ILoginView, TextWatch
             publicKey = response.getData();
             String key = RSAEncryptUtil.encryptData(et_password.getText().toString(), publicKey);
 
+            Log.e("key", key);
             if (isCache){
                 loginPresenter.login(user_phone, key);
             }else {
