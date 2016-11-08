@@ -10,6 +10,7 @@ var Teacher = require('../services/mongo').Teacher;
 var Course = require('../services/mongo').Course;
 var Sign = require('../services/mongo').Sign;
 var SignRecord = require('../services/mongo').SignRecord;
+var Position = require('../services/mongo').Position;
 
 router.get('/', function (req, res) {
   Sign.find(function (err, signs) {
@@ -102,6 +103,8 @@ router.post('/', function (req, res) {
 });
 
 router.delete('/:id', function (req, res) {
+  var signId = req.params['id'];
+  var promises = [];
   var sign;
 
   // 删除签到
@@ -109,10 +112,14 @@ router.delete('/:id', function (req, res) {
     .then(function (deletedSign) {
       sign = deletedSign;
 
-      // 课程签到次数减1
-      return Course.findByIdAndUpdate(sign.get('courseId'), { $inc: { signCount: -1 } });
+      // 删除签到相关记录和定位信息，并将课程签到次数减1
+      promises.push(SignRecord.remove({ signId: signId }));
+      promises.push(Position.remove({ signId: signId }));
+      promises.push(Course.findByIdAndUpdate(sign.get('courseId'), { $inc: { signCount: -1 } }));
+
+      return Promise.all(promises);
     })
-    .then(function (course) {
+    .then(function () {
       sendInfo(errorCodes.Success, res, sign);
     })
     .catch(function (err) {
