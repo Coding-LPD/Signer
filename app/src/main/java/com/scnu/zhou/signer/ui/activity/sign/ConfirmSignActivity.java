@@ -185,18 +185,28 @@ public class ConfirmSignActivity extends BaseSlideActivity implements ISignView{
 
         dismissLoadingDialog();
 
-        Intent intent = new Intent(this, SignSuccessActivity.class);
-        intent.putExtra("distance", response.getData().getDistance());
-        intent.putExtra("battery", response.getData().getBattery());
-        startActivity(intent);
-        overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+        if (response.getCode().equals("200")){
 
-        finish();
+            Intent intent = new Intent(this, SignSuccessActivity.class);
+            intent.putExtra("distance", response.getData().getDistance());
+            intent.putExtra("battery", response.getData().getBattery());
+            startActivity(intent);
+            overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
 
-        /*
-        ToastView toastView = new ToastView(ConfirmSignActivity.this, "签到成功");
-        toastView.setGravity(Gravity.CENTER, 0, 0);
-        toastView.show();*/
+            finish();
+        }
+        else if (response.getCode().equals("4005")){
+            showNoNumberDialog();
+        }
+        else if (response.getCode().equals("4006")){
+            showNoAdmittedDialog();
+        }
+        else{
+            String msg = response.getMsg();
+            ToastView toastView = new ToastView(ConfirmSignActivity.this, msg);
+            toastView.setGravity(Gravity.CENTER, 0, 0);
+            toastView.show();
+        }
     }
 
 
@@ -235,7 +245,7 @@ public class ConfirmSignActivity extends BaseSlideActivity implements ISignView{
             showPermissionDialog();
         }
         else{
-            showMessageDialog();
+            showNoNumberDialog();
         }
 
     }
@@ -253,7 +263,7 @@ public class ConfirmSignActivity extends BaseSlideActivity implements ISignView{
             showPermissionDialog();
         }
         else{
-            showMessageDialog();
+            showNoNumberDialog();
         }
     }
 
@@ -328,9 +338,9 @@ public class ConfirmSignActivity extends BaseSlideActivity implements ISignView{
 
 
     /**
-     * 弹出提示对话框
+     * 没有学号
      */
-    public void showMessageDialog(){
+    public void showNoNumberDialog(){
 
         final AlertDialog dialog = new AlertDialog(this);
         dialog.setTitle("友情提示");
@@ -353,8 +363,27 @@ public class ConfirmSignActivity extends BaseSlideActivity implements ISignView{
         //dialog.show();
     }
 
+
     /**
-     * 弹出提示对话框
+     * 不属于该课程学生
+     */
+    public void showNoAdmittedDialog(){
+
+        final AlertDialog dialog = new AlertDialog(this);
+        dialog.setTitle("签到失败");
+        dialog.setMessage("很抱歉，您不是该课程的学生");
+        dialog.setButton("知道了", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        //dialog.show();
+    }
+
+
+    /**
+     * 无定位权限
      */
     public void showPermissionDialog(){
 

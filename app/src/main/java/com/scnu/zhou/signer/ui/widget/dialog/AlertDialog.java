@@ -54,6 +54,28 @@ public class AlertDialog {
 	}
 
 	/**
+	 * 设置单个按钮
+	 *
+	 * @param text
+	 * @param listener
+	 */
+	public void setButton(String text,
+								  final View.OnClickListener listener) {
+
+		Button button = new Button(context);
+		LayoutParams params = new LayoutParams(
+				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, 1.0f);
+		button.setLayoutParams(params);
+		button.setBackgroundResource(R.drawable.btn_dialog_one_selector);
+		button.setText(text);
+		button.setTextColor(Color.parseColor("#97CC00"));
+		button.setTextSize(15);
+		button.setOnClickListener(listener);
+		buttonLayout.addView(button);
+	}
+
+
+	/**
 	 * 设置按钮
 	 * 
 	 * @param text
