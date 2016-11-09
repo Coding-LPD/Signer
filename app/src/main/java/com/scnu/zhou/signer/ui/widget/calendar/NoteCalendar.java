@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.scnu.zhou.signer.R;
+import com.scnu.zhou.signer.component.util.DensityUtil;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -291,7 +292,7 @@ public class NoteCalendar extends LinearLayout {
 
             TextView item = new TextView(context);
             AbsListView.LayoutParams layoutParams = new AbsListView.LayoutParams(
-                    120, 120);
+                    DensityUtil.px2dip(context, 150), DensityUtil.px2dip(context, 150));
             item.setLayoutParams(layoutParams);
             if (year == getCurrentYear() && month == getCurrentMonth() && days.get(position) == getCurrentDay()){
                 item.setTextColor(cur_day_color);
