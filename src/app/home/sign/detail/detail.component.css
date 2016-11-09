@@ -39,6 +39,26 @@
   width: 7em;
 }
 
+.map-container {
+  float: left;
+  margin-top: 20px;
+  margin-left: 20px;
+}
+
+baidu-map {
+  display: inline-block;  
+  width: 300px;
+  height: 145px;   
+  vertical-align: bottom; 
+}
+
+.map-container button {
+  display: inline-block;
+  width: auto;
+  padding: 10px;
+  vertical-align: bottom;
+}
+
 .qr-code {
   float: left;
   margin-top: 20px;

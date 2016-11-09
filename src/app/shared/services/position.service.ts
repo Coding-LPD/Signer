@@ -25,4 +25,10 @@ export class PositionService extends BaseService {
       .catch(this.handleError);
   }
 
+  update(id: string, data: any) {
+    return this._http.put(`${API.domain}${API.position}/${id}`, data)
+      .map(this.extractData)
+      .catch(this.handleError);
+  }
+
 }

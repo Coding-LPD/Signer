@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
+import { Observable } from 'rxjs/Observable';
 
 import { SignService } from '../sign.service';
 import { LoginService } from '../../../login';
@@ -22,12 +23,21 @@ export class DetailComponent implements OnInit {
   isLargeQRCode = false;
   sign: Sign;
   records: SignRecord[] = [];
+  positionId: string;
   signIn = 0;
   signStates = [ 
     { text: '未开始', color: '#797979' }, 
     { text: '进行中', color: '#97CC00' },
     { text: '已结束', color: '#FF6C60' } 
   ];  
+  // 指定地图中心显示的位置
+  map = {
+    lat: 0,
+    lng: 0,
+    zoom: 18
+  }
+  // 用户选择的位置，不一定显示在地图中心
+  changedPosition: any;
 
   constructor(
     private _route: ActivatedRoute,
@@ -44,8 +54,8 @@ export class DetailComponent implements OnInit {
       // 获取签到详情             
       this._signService.search({ _id: signId })
         .subscribe(body => {          
-          if (+body.code == 200) {
-            this.sign = body.data[0];         
+          if (+body.code == 200) {            
+            this.sign = body.data[0];  
           } else {
             this.popup.show(body.msg);
           }
@@ -64,7 +74,9 @@ export class DetailComponent implements OnInit {
               this._positionService.locate(body.ip, teacherId, signId)
                 .subscribe(body => {
                   if (+body.code == 200) {
-                    this.popup.show('定位成功');
+                    this.positionId = body.data._id;                    
+                    this.map.lat = body.data.latitude;
+                    this.map.lng = body.data.longitude;
                   } else {
                     this.popup.show('定位失败');
                   }
@@ -74,14 +86,16 @@ export class DetailComponent implements OnInit {
               console.log(`body: ${JSON.stringify(body)}`);
             }
           });  
-      });            
+      });        
     });
 
     this._socketService.get('sign')
-      .subscribe(data => {
-        console.log('new sign data: ' + data);
-        this.records.push(data);
-      })        
+      .subscribe(data => {      
+        var index = !this.radiosInactive[0] ? 0 : 1;
+        if (data.type == index) {
+          this.records.push(data);
+        }         
+      })
   }
 
   selectRadio(index: number) {
@@ -152,15 +166,45 @@ export class DetailComponent implements OnInit {
     return results;
   }
 
+  // 用户选择位置
+  changePosition(point: any) {
+    this.changedPosition = {
+      latitude: point.lat,
+      longitude: point.lng
+    };
+  }
+
+  // 根据用户的选择，更新用户的位置
+  updatePosition() {
+    if (!this.changedPosition) {
+      this.popup.show('请选择位置后再更新定位');
+      return;
+    }
+
+    this._loginService.getTeacherInfo()
+      .flatMap(body => {
+        if (+body.code == 200) {
+          return this._positionService.update(this.positionId, this.changedPosition);
+        } else {
+          return Observable.of(body);
+        }
+      })
+      .subscribe(body => {
+        if (+body.code == 200) {
+          this.positionId = body.data._id;
+          this.popup.show('定位更新成功');
+        } else {
+          this.popup.show(body.msg);
+        }
+      })
+  }
+
   private refreshRecords(signId: string, type: number) {
     this._signRecordService.search({ signId, type })
       .subscribe(body => {
         this.signIn = 0;
         if (+body.code == 200) {
-          this.records = body.data;          
-          // this.records.forEach((value: SignRecord) => {
-          //     this.signIn += value.state > 0 ? 1 : 0; 
-          // });
+          this.records = body.data;
           this.signIn = this.records.length - this.getNotSignInRecordIndexs().length;          
         } else {
           this.popup.show(body.msg);

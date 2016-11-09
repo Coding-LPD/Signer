@@ -13,6 +13,10 @@
     <qr-code [data]="sign.code" [size]="'120'"></qr-code>
     <div class="qr-code-tip">点我放大</div>
   </div>
+  <div class="map-container">
+    <baidu-map [lng]="map.lng" [lat]="map.lat" (mapClick)="changePosition($event)"></baidu-map>
+    <button type="button" (click)="updatePosition()">使用该定位</button>
+  </div>  
   <div class="sign-in">
     <circle-progress [nowValue]="signIn" [maxValue]="sign.studentCount" 
         [fontSize]="18" [fontColor]="'gray'" [boxSize]="140" 
