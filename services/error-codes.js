@@ -37,6 +37,8 @@ var errorCodes = {
   NotInCourse:            '4006',
   SignNotStart:           '4007',
   SignHasEnd:             '4008',
+  StudentHasSign:         '4009',
+  PhoneHasSign:           '4010',  
 
   CourseNotExist:         '5000',
   NoRelatedSign:          '5001',
@@ -84,6 +86,8 @@ var errorMsg = {
   4006: '该学生不属于这门课程，无法进行签到',
   4007: '签到尚未开始',
   4008: '签到已结束',
+  4009: '该学生已经参与过本次签到',
+  4010: '该手机已经参与过本次签到',
   5000: '课程不存在',
   5001: '该课程暂无相关签到',
   5002: '该课程暂无相关教师',

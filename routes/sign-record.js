@@ -27,6 +27,7 @@ router.post('/', function (req, res) {
   var studentLat = +req.body.latitude;
   var battery = +req.body.battery;
   var type = +req.body.type;
+  var phoneId = req.body.phoneId;
   var student, sign, promises = [];
 
   // 查询相应学生和签到信息
@@ -62,6 +63,21 @@ router.post('/', function (req, res) {
       } else if (now.isAfter(endTime)) {
         return Promise.reject({ code: errorCodes.SignHasEnd });
       }
+
+    //   promises = [];
+    //   promises.push(SignRecord.findOne({ signId: signId, studentId: studentId, type: type}));
+    //   promises.push(SignRecord.findOne({ signId: signId, phoneId: phoneId, type: type }));
+    //   return Promise.all(promises);
+    // })
+    // .then(function (results) {
+    //   // 一个学生只有一次机会参与某次签到（课前一次，课后一次）
+    //   if (results[0]) {
+    //     return Promise.reject({ code: errorCodes.StudentHasSign });
+    //   }
+    //   // 一部手机只有一次机会参与某次签到（课前一次，课后一次）
+    //   if (results[1]) {
+    //     return Promise.reject({ code: errorCodes.PhoneHasSign });
+    //   }
 
       return Position.find({ signId: signId });
     })
