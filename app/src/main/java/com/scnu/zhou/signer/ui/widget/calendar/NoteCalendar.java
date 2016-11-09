@@ -16,7 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.scnu.zhou.signer.R;
-import com.scnu.zhou.signer.component.util.DensityUtil;
+import com.scnu.zhou.signer.component.util.density.DensityUtil;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -45,6 +45,8 @@ public class NoteCalendar extends LinearLayout {
 
     private Map<String, Boolean> note01;    //"2016-10-26", ture
     private Map<String, Boolean> note02;
+
+    private OnItemClickListener listener;
 
     public NoteCalendar(Context context) {
         super(context);
@@ -133,7 +135,7 @@ public class NoteCalendar extends LinearLayout {
     /**
      * 获得当前年份
      */
-    private int getCurrentYear(){
+    public int getCurrentYear(){
         Calendar calendar = Calendar.getInstance();
         return calendar.get(Calendar.YEAR);
     }
@@ -142,7 +144,7 @@ public class NoteCalendar extends LinearLayout {
     /**
      * 获得当前月份
      */
-    private int getCurrentMonth(){
+    public int getCurrentMonth(){
         Calendar calendar = Calendar.getInstance();
         return calendar.get(Calendar.MONTH);
     }
@@ -172,7 +174,7 @@ public class NoteCalendar extends LinearLayout {
     /**
      * 获得当前日子
      */
-    private int getCurrentDay(){
+    public int getCurrentDay(){
         Calendar calendar = Calendar.getInstance();
         return calendar.get(Calendar.DAY_OF_MONTH);
     }
@@ -288,7 +290,7 @@ public class NoteCalendar extends LinearLayout {
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(final int position, View convertView, ViewGroup parent) {
 
             TextView item = new TextView(context);
             AbsListView.LayoutParams layoutParams = new AbsListView.LayoutParams(
@@ -326,6 +328,15 @@ public class NoteCalendar extends LinearLayout {
                 }
             }
 
+            if (listener != null){
+                item.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        listener.onClick(year, month + 1, days.get(position));
+                    }
+                });
+            }
+
             return item;
         }
     }
@@ -341,5 +352,17 @@ public class NoteCalendar extends LinearLayout {
 
         this.note02 = note;
         adapter.notifyDataSetChanged();
+    }
+
+
+    public void setOnItemClickListener(OnItemClickListener listener){
+
+        this.listener = listener;
+    }
+
+
+    public interface OnItemClickListener{
+
+        void onClick(int year, int month, int day);
     }
 }

@@ -15,4 +15,7 @@
     <color name="colorCellPressed">#cccccc</color>
 
     <color name="colorActivityBackground">#f6f6f6</color>
+
+    <color name="colorOrange">#FE8D41</color>
+
 </resources>

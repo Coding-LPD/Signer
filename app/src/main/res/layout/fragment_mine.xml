@@ -90,6 +90,7 @@
     </RelativeLayout>
 
     <com.scnu.zhou.signer.ui.widget.cell.IconTitleCell
+        android:id="@+id/tc_mysign"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:text="@string/mine_cell01_title"

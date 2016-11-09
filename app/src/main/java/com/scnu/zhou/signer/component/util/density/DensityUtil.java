@@ -1,4 +1,4 @@
-package com.scnu.zhou.signer.component.util;
+package com.scnu.zhou.signer.component.util.density;
 
 import android.content.Context;
 

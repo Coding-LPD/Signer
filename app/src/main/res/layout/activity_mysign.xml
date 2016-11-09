@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorActivityBackground">
+
+    <include layout="@layout/actionbar_main"/>
+
+    <com.scnu.zhou.signer.ui.widget.calendar.NoteCalendar
+        android:id="@+id/nc_calendar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cur_day_color="#97CC00"
+        android:layout_marginTop="10dp">
+
+    </com.scnu.zhou.signer.ui.widget.calendar.NoteCalendar>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="#fff"
+        android:layout_marginTop="15dp"
+        android:padding="18dp">
+
+        <TextView
+            android:id="@+id/tv_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorOrange"
+            android:textSize="16sp"
+            android:text="11月6日" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#666"
+            android:textSize="14sp"
+            android:text="8:30 软件工程"
+            android:layout_marginTop="10dp"/>
+
+    </LinearLayout>
+
+</LinearLayout>
