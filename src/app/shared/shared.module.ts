@@ -11,7 +11,7 @@ import {
 } from './services';
 import {   
   SmsCodeComponent, PopUpComponent, PaginationComponent, ListComponent,
-  SmsCodeService, CircleProgressComponent
+  SmsCodeService, CircleProgressComponent, BaiduMapComponent
 } from './components';
 
 @NgModule({
@@ -28,7 +28,8 @@ import {
     FilterDatePipe,
     DistinctPipe,
     FilterPipe,
-    CircleProgressComponent
+    CircleProgressComponent,
+    BaiduMapComponent
   ],
   exports: [
     CommonModule,
@@ -41,7 +42,8 @@ import {
     FilterDatePipe,
     DistinctPipe,
     FilterPipe,
-    CircleProgressComponent
+    CircleProgressComponent,
+    BaiduMapComponent
   ]
 })
 export class SharedModule { 
