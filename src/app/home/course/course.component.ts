@@ -62,6 +62,9 @@ export class CourseComponent implements OnInit {
   }
 
   removeCourse(course: Course) {
+    if (!confirm('确定删除该课程吗？')) {
+      return;
+    }
     this._courseService.deleteCourse(course._id) 
       .subscribe(body => {
         if (+body.code == 200) {
