@@ -1,4 +1,4 @@
-var https = require('https');
+var rp = require('request-promise');
 var qs = require('querystring');
 var express = require('express');
 var router = express.Router();
@@ -26,51 +26,63 @@ router.post('/', function (req, res) {
   var teacherId = req.body.teacherId;
   var ip = req.body.ip;  
   if (!ip) {
-    sendInfo(errorCodes.IPEmpty, res, common.getClientIp(req));
-    return;
+    ip = common.getClientIp(req);
   }
 
-  var params = {
-    qcip: ip,
-    qterm: 'pc',
-    ak: config.applicationAK,
-    coord: 'bd09ll'
-  };
-  var opt = {
-    method: 'GET',
-    hostname: 'api.map.baidu.com',
-    path: '/highacciploc/v1?' + qs.stringify(params)
-  };
+  Position.findOne({ signId: signId, teacherId: teacherId })
+    .then(function (position) {      
+      if (position) {
+        // 定位过了则不再重新定位
+        return Promise.reject({ code: errorCodes.Success, data: position });        
+      } else {
+        // 调用百度高精度IP定位api
+        var options = {
+          method: 'GET',
+          uri: 'https://api.map.baidu.com/highacciploc/v1?',          
+          qs: {            
+            qcip: ip,
+            qterm: 'pc',
+            ak: config.applicationAK,
+            coord: 'bd09ll'
+          },
+          json: true
+        };
+        return rp(options);
+      }
+    })
+    .then(function (data) {
+      // 定位失败
+      if (data.result.error != 161) {
+        return Promise.reject({ code: errorCodes.LocateError });
+      }
 
-  var locReq = https.request(opt, function (locRes) {
-    var responseString = '';
+      // 保存第一次定位信息
+      var pos = {
+        longitude: data.content.location.lng,
+        latitude: data.content.location.lat
+      };      
+      return Position.findOneAndUpdate({ signId: signId, teacherId: teacherId }, pos, { upsert: true, new: true })
+    })
+    .then(function (position) {
+      sendInfo(errorCodes.Success, res, position);
+    })
+    .catch(function (err) {
+      if (err.code) {
+        sendInfo(err.code, res, err.data || {});
+      } else {
+        handleErrors(err, res, {});
+      }
+    });  
+});
 
-  	locRes.on('data', function(data) {
-    	responseString += data;
-  	});
-
-    locRes.on('end', function () { 
-        var resData = JSON.parse(responseString);
-        if (resData.result.error != 161) {
-          log.info('定位失败, 时间:' + resData.result.loc_time + ',错误码：' + resData.result.code);
-          sendInfo(errorCodes.LocateError, res, {});
-        } else {
-          var pos = {
-            longitude: resData.content.location.lng,
-            latitude: resData.content.location.lat
-          };
-          Position.findOneAndUpdate({ signId: signId, teacherId: teacherId }, pos, { upsert: true })
-            .then(function (updatedData) {
-              sendInfo(errorCodes.Success, res, updatedData);
-            })
-            .catch(function (err) {
-              handleErrors(err, res, {});
-            });          
-        }        
-    }); 
+router.put('/:id', function (req, res) {
+  Position.findByIdAndUpdate(req.params['id'], req.body, { new: true }, function (err, savedPosition) {
+    if (err) {
+      handleErrors(errorCodes.OtherError, res, {});
+    } else {
+      sendInfo(errorCodes.Success, res, savedPosition);
+    }
   });
-
-  locReq.end();
 });
 
 module.exports = router;

@@ -20,6 +20,8 @@
     "njwt": "^0.3.1",
     "node-rsa": "^0.4.1",
     "node-uuid": "^1.4.7",
+    "request": "^2.78.0",
+    "request-promise": "^4.1.1",
     "serve-favicon": "~2.3.0",
     "socket.io": "^1.5.1",
     "xlsx": "^0.8.0"
