@@ -6,6 +6,7 @@ import { AuthGuardService } from '../login';
 import { signRoutes } from './sign';
 import { StudentComponent } from './student';
 import { courseRoutes } from './course';
+import { statisticsRoutes } from './statistics';
 
 const routes: Routes = [
   { 
@@ -13,13 +14,14 @@ const routes: Routes = [
     component: HomeComponent,
     canActivate: [AuthGuardService],
     children: [
-      { path: 'calendar',         component: CalendarComponent },
-      { path: 'student',          component: StudentComponent  },      
-      { path: 'statisticalData',  component: CalendarComponent },
-      { path: 'chatRoom',         component: CalendarComponent },
-      { path: 'about',            component: CalendarComponent },
+      { path: '',           redirectTo: 'calendar',       pathMatch: 'full'   },
+      { path: 'calendar',   component: CalendarComponent                      },
+      { path: 'student',    component: StudentComponent                       },
+      { path: 'chatRoom',   component: CalendarComponent                      },
+      { path: 'about',      component: CalendarComponent                      },
       ...signRoutes,
-      ...courseRoutes
+      ...courseRoutes,
+      ...statisticsRoutes
     ]
   }
 ];

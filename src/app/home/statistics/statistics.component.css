@@ -1,0 +1,85 @@
+:host {
+  display: block;
+  margin-left: -15px;
+  margin-right: -15px;
+  margin-top: -15px;
+}
+
+.tab-list {  
+  background-color: #7087A3;
+}
+
+.tab-list li {
+  position: relative;
+  float: left;  
+  width: 8em;
+  text-align: center;
+  cursor: pointer;
+}
+.tab-list li:last-child {
+  float: right;  
+}
+
+.tab-list li.active {
+  background-color: #F1F2F7;
+}
+
+.tab-list li a {
+  display: block;
+  padding: 20px 0;
+  color: white;
+}
+
+.tab-list li.active a {
+  color: #787878
+}
+
+.tab-list li:hover a {
+  color: #2A3542;
+}
+
+.select-value {
+  padding: 20px 0;
+  color: white;
+  text-align: left;
+  cursor: pointer;
+}
+
+.select-value:hover {
+  color: #2A3542;
+}
+
+.select-value .caret {
+  margin-left: 2px;
+  border-top-color: white;
+}
+
+.select-list {  
+  position: absolute;
+  top: 100%;  right: 0;
+  width: 13em;
+  margin-right: 15px;
+  padding: 10px 0;  
+  background-color: white;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+.select-list li {
+  float: none;
+  width: auto;
+  padding: 10px 20px;
+  text-align: left;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;  
+  color: black;
+  cursor: pointer;
+}
+.select-list li:last-child {
+  float: none;
+}
+.select-list li:hover {
+  color: white;
+  background-color: #7087A3;
+}

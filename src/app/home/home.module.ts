@@ -10,6 +10,7 @@ import { homeRouting, homeRoutingProviders } from './home.routing';
 import { StudentModule } from './student';
 import { CourseModule } from './course';
 import { TeacherModule } from './teacher';
+import { StatisticsModule } from './statistics';
 
 @NgModule({
   imports: [
@@ -19,7 +20,8 @@ import { TeacherModule } from './teacher';
     StudentModule,
     CourseModule,
     TeacherModule,
-    homeRouting  
+    StatisticsModule,
+    homeRouting    
   ],
   declarations: [
     HomeComponent,
