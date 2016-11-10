@@ -2,7 +2,7 @@ body {
   background-color: #F1F2F7;
 }
 
-body, input, button {
+body, input, button, select {
   font-size: 13px;
   font-family: "Microsoft YaHei" !important;
 }
@@ -21,7 +21,7 @@ input, select {
   width: 99%;
   padding-top: 10px;
   padding-bottom: 10px;
-  padding-left: 10px;
+  text-indent: 1em;
   border: 1px solid #DDDDDD;
   border-radius: 5px;  
   -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
@@ -35,6 +35,13 @@ input:focus {
   outline: 0;
   -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, .6);
           box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, .6);
+}
+input[type=checkbox], input[type=radio] {
+  width: auto;
+}
+
+select, input[type=date], input[type=time], input[type=datetime-local] {
+  text-indent: 0.5em;
 }
 
 button {
@@ -102,10 +109,6 @@ a:hover {
   width: 84%;
 }
 
-.form-group input.right {
-  width: 83%;
-}
-
 .caret {
   display: inline-block;
   border-top: 4px solid black;
@@ -113,3 +116,10 @@ a:hover {
   border-right: 4px solid transparent;
   border-bottom: 4px solid transparent;
 }
+
+.green        { color: white; background-color: #97CC00; }
+.blue         { color: white; background-color: #58C9F3; }
+.red          { color: white; background-color: #FF6C60; }
+.orange       { color: white; background-color: #F5A623; }
+.purple       { color: white; background-color: #9013FE; }
+.blue-green   { color: white; background-color: #40CBCE; }
