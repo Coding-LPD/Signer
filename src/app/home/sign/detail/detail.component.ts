@@ -70,8 +70,8 @@ export class DetailComponent implements OnInit {
         var teacherId = body.data[0]._id;
         this._positionService.getIP()
           .subscribe(body => {
-            if (body.ip.trim()) {
-              this._positionService.locate(body.ip, teacherId, signId)
+            if (+body.code == 200) {
+              this._positionService.locate(body.data, teacherId, signId)
                 .subscribe(body => {
                   if (+body.code == 200) {
                     this.positionId = body.data._id;                    
