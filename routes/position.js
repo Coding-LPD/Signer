@@ -85,4 +85,8 @@ router.put('/:id', function (req, res) {
   });
 });
 
+router.get('/ip', function (req, res) {
+  sendInfo(errorCodes.Success, res, common.getClientIp(req));
+});
+
 module.exports = router;
