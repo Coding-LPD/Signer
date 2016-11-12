@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LoadingButton" customModule="华师小签" customModuleProvider="target">
+            <connections>
+                <outlet property="button" destination="Wd9-dy-aTr" id="gVX-w2-sWj"/>
+                <outlet property="spinner" destination="Npe-tv-nMM" id="UdY-pb-VIi"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="I8k-Ug-ACo">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="40"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wd9-dy-aTr">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="40"/>
+                    <color key="backgroundColor" red="0.59215686274509804" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <state key="normal" title="Button"/>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                            <integer key="value" value="4"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                    <connections>
+                        <action selector="clickButtonAction:" destination="-1" eventType="touchUpInside" id="0Uq-8d-7y8"/>
+                    </connections>
+                </button>
+                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="Npe-tv-nMM">
+                    <rect key="frame" x="150" y="10" width="20" height="20"/>
+                </activityIndicatorView>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="Npe-tv-nMM" firstAttribute="centerX" secondItem="I8k-Ug-ACo" secondAttribute="centerX" id="dfu-yA-Wm3"/>
+                <constraint firstItem="Npe-tv-nMM" firstAttribute="centerY" secondItem="I8k-Ug-ACo" secondAttribute="centerY" id="ek9-Tu-Y4M"/>
+                <constraint firstAttribute="bottom" secondItem="Wd9-dy-aTr" secondAttribute="bottom" id="hnA-2R-b2C"/>
+                <constraint firstAttribute="trailing" secondItem="Wd9-dy-aTr" secondAttribute="trailing" id="xhW-Gu-2so"/>
+                <constraint firstItem="Wd9-dy-aTr" firstAttribute="leading" secondItem="I8k-Ug-ACo" secondAttribute="leading" id="zLm-LR-37E"/>
+                <constraint firstItem="Wd9-dy-aTr" firstAttribute="top" secondItem="I8k-Ug-ACo" secondAttribute="top" id="zrG-0J-j0q"/>
+            </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="-24" y="15"/>
+        </view>
+    </objects>
+</document>

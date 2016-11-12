@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CountdownUnderlineTextField" customModule="华师小签" customModuleProvider="target">
+            <connections>
+                <outlet property="countdownButton" destination="c4k-DJ-jni" id="HaV-mC-8c0"/>
+                <outlet property="leftTextLabel" destination="E0s-VE-G0R" id="Fmc-gq-72V"/>
+                <outlet property="textField" destination="uZQ-6h-4lJ" id="fy5-OE-ETr"/>
+                <outlet property="underLine" destination="069-t7-IRD" id="RR6-ZM-BvF"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="pJw-XK-szQ">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="30"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请输入" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="uZQ-6h-4lJ">
+                    <rect key="frame" x="54" y="6" width="201" height="19"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <textInputTraits key="textInputTraits"/>
+                </textField>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="069-t7-IRD">
+                    <rect key="frame" x="0.0" y="29" width="320" height="1"/>
+                    <color key="backgroundColor" red="0.8666666666666667" green="0.8666666666666667" blue="0.8666666666666667" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="1" id="Fn4-UV-2it"/>
+                    </constraints>
+                </view>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E0s-VE-G0R">
+                    <rect key="frame" x="8" y="6" width="38" height="18"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="c4k-DJ-jni">
+                    <rect key="frame" x="255" y="0.0" width="65" height="30"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="65" id="Sgz-aO-A74"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <state key="normal" title="Button">
+                        <color key="titleColor" red="0.59215686274509804" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </state>
+                    <connections>
+                        <action selector="clickButtonAction" destination="-1" eventType="touchUpInside" id="xDb-r0-cud"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="c4k-DJ-jni" secondAttribute="trailing" id="3Fe-74-W27"/>
+                <constraint firstItem="E0s-VE-G0R" firstAttribute="leading" secondItem="pJw-XK-szQ" secondAttribute="leading" constant="8" id="8hq-hx-Jp9"/>
+                <constraint firstItem="uZQ-6h-4lJ" firstAttribute="leading" secondItem="E0s-VE-G0R" secondAttribute="trailing" constant="8" symbolic="YES" id="A7N-6l-SfK"/>
+                <constraint firstItem="uZQ-6h-4lJ" firstAttribute="centerY" secondItem="pJw-XK-szQ" secondAttribute="centerY" id="IfL-8P-h1o"/>
+                <constraint firstItem="c4k-DJ-jni" firstAttribute="centerY" secondItem="pJw-XK-szQ" secondAttribute="centerY" id="UNH-d5-mUC"/>
+                <constraint firstAttribute="bottom" secondItem="069-t7-IRD" secondAttribute="bottom" id="jS3-hH-oB6"/>
+                <constraint firstItem="c4k-DJ-jni" firstAttribute="leading" secondItem="uZQ-6h-4lJ" secondAttribute="trailing" id="m1m-17-wwH"/>
+                <constraint firstItem="069-t7-IRD" firstAttribute="leading" secondItem="pJw-XK-szQ" secondAttribute="leading" id="msR-Xh-tqD"/>
+                <constraint firstAttribute="trailing" secondItem="069-t7-IRD" secondAttribute="trailing" id="vVJ-yk-eed"/>
+                <constraint firstItem="E0s-VE-G0R" firstAttribute="centerY" secondItem="pJw-XK-szQ" secondAttribute="centerY" id="xsf-TV-lYm"/>
+            </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="335" y="290"/>
+        </view>
+    </objects>
+</document>

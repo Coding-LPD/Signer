@@ -1,0 +1,6 @@
+framework module Pods_Signer {
+  umbrella header "Pods-Signer-umbrella.h"
+
+  export *
+  module * { export * }
+}

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="UnderlineTextField" customModule="华师小签" customModuleProvider="target">
+            <connections>
+                <outlet property="leftTextLabel" destination="MlU-jI-ZI5" id="n9r-Do-wrb"/>
+                <outlet property="textField" destination="js8-mM-IEE" id="CmF-0H-DuU"/>
+                <outlet property="underLine" destination="goC-dL-hQI" id="gE2-pJ-Amz"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="30"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MlU-jI-ZI5">
+                    <rect key="frame" x="8" y="6" width="38" height="18"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请输入" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="js8-mM-IEE">
+                    <rect key="frame" x="54" y="6" width="266" height="19"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <textInputTraits key="textInputTraits" spellCheckingType="no"/>
+                </textField>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="goC-dL-hQI">
+                    <rect key="frame" x="0.0" y="29" width="320" height="1"/>
+                    <color key="backgroundColor" red="0.8666666666666667" green="0.8666666666666667" blue="0.8666666666666667" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="1" id="wLX-gz-DWZ"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="MlU-jI-ZI5" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="6KJ-Z3-IIx"/>
+                <constraint firstAttribute="trailing" secondItem="goC-dL-hQI" secondAttribute="trailing" id="8zH-Fo-4ns"/>
+                <constraint firstAttribute="bottom" secondItem="goC-dL-hQI" secondAttribute="bottom" id="URh-QC-z6C"/>
+                <constraint firstItem="js8-mM-IEE" firstAttribute="leading" secondItem="MlU-jI-ZI5" secondAttribute="trailing" constant="8" symbolic="YES" id="bkv-1k-20S"/>
+                <constraint firstAttribute="trailing" secondItem="js8-mM-IEE" secondAttribute="trailing" id="dyu-6T-iVO"/>
+                <constraint firstItem="js8-mM-IEE" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="i49-OD-knD"/>
+                <constraint firstItem="goC-dL-hQI" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="ru2-X8-u7K"/>
+                <constraint firstItem="MlU-jI-ZI5" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="wCZ-KP-XEL"/>
+            </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="548" y="212"/>
+        </view>
+    </objects>
+</document>
