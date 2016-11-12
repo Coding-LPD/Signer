@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { ChartsModule } from 'ng2-charts/ng2-charts';
 
 import { StatisticsComponent } from './statistics.component';
 import { LatestComponent } from './latest';
@@ -7,7 +8,8 @@ import { SharedModule } from '../../shared';
 
 @NgModule({
   imports: [
-    SharedModule
+    SharedModule,
+    ChartsModule
   ],
   declarations: [
     StatisticsComponent,

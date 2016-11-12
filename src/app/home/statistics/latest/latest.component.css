@@ -1,0 +1,31 @@
+.chart-list {
+  margin-bottom: 25px;
+}
+
+.chart-list li {
+  display: inline-block;
+  width: 47%;
+  margin-top: 25px;
+  margin-left: 1.5%;
+  margin-right: 1%;
+  background-color: white;
+  border-radius: 5px;
+}
+
+.title {
+  padding: 15px 25px;
+  border-bottom: 1px solid #EFF2F7;
+  color: #787878;  
+}
+
+.chart-container {  
+  width: 100%;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.battery-chart-container {
+  width: 90%;
+}

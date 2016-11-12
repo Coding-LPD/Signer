@@ -1,1 +1,44 @@
-<div>This is latest</div>
+<ul class="chart-list">
+  <li>
+    <div class="title">课前签到情况比例图</div>
+    <div class="chart-container">
+      <canvas baseChart
+                [data]="beforeSignInChartData"
+                [labels]="signInChartLabels"
+                [chartType]="'doughnut'"
+                [options]="commonChartOptions"></canvas>
+    </div>
+  </li>
+  <li>
+    <div class="title">课后签到情况比例图</div>
+    <div class="chart-container">
+      <canvas baseChart
+                [data]="afterSignInChartData"
+                [labels]="signInChartLabels"
+                [chartType]="'doughnut'"
+                [options]="commonChartOptions"></canvas>
+    </div>
+  </li>
+  <li>
+    <div class="title">电量使用图</div>
+    <div class="chart-container battery-chart-container">
+      <canvas baseChart
+                [datasets]="batteryChartData"
+                [labels]="batteryChartLabels"
+                [legend]="'true'"
+                [chartType]="'bar'"
+                [options]="batteryChartOptions"></canvas>
+    </div>  
+  </li>
+  <li>
+    <div class="title">电量使用图</div>
+    <div class="chart-container battery-chart-container">
+      <canvas baseChart
+                [datasets]="batteryChartData"
+                [labels]="batteryChartLabels"
+                [legend]="'true'"
+                [chartType]="'bar'"
+                [options]="batteryChartOptions"></canvas>
+    </div>  
+  </li>
+</ul>
