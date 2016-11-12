@@ -17,7 +17,9 @@
   cursor: pointer;
 }
 .tab-list li:last-child {
-  float: right;  
+  width: auto;
+  float: right;
+  margin-right: 15px;  
 }
 
 .tab-list li.active {
@@ -41,7 +43,7 @@
 .select-value {
   padding: 20px 0;
   color: white;
-  text-align: left;
+  text-align: right;
   cursor: pointer;
 }
 
@@ -50,15 +52,14 @@
 }
 
 .select-value .caret {
-  margin-left: 2px;
+  margin-left: 10px;
   border-top-color: white;
 }
 
 .select-list {  
   position: absolute;
   top: 100%;  right: 0;
-  width: 13em;
-  margin-right: 15px;
+  width: auto;
   padding: 10px 0;  
   background-color: white;
   border-bottom-left-radius: 5px;
@@ -78,6 +79,7 @@
 }
 .select-list li:last-child {
   float: none;
+  margin: 0;
 }
 .select-list li:hover {
   color: white;
