@@ -8,11 +8,11 @@
   <option value="星期日">星期日</option>
 </select>
 <div class="class-index">
-  <select [ngModel]="startIndex" (ngModelChange)="selectStartIndex($event)">
+  <select [ngModel]="startIndex" (ngModelChange)="selectIndex($event, 0)">
     <option *ngFor="let o of options; let i = index" [value]="i+1">第{{i+1}}节</option>
   </select>
   <div class="seperator">—</div>
-  <select [ngModel]="endIndex" (ngModelChange)="selectEndIndex($event)">
+  <select [ngModel]="endIndex" (ngModelChange)="selectIndex($event, 1)">
     <option *ngFor="let o of options; let i = index" [value]="i+1">第{{i+1}}节</option>
   </select>
 </div>

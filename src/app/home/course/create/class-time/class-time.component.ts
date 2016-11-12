@@ -30,8 +30,7 @@ export class ClassTimeComponent {
 
     this.day = times[0];
     this.startIndex = Number(indexs[0].slice(0, -1));
-    this.endIndex = Number(indexs[1].slice(0, -1));        
-    this.checkIndex();
+    this.endIndex = Number(indexs[1].slice(0, -1));
   }
 
   @Output() timeChange = new EventEmitter<string>();
@@ -41,29 +40,15 @@ export class ClassTimeComponent {
     this.timeChange.emit(this.getTimeString());
   }
 
-  selectStartIndex(startIndex: string) {
-    this.startIndex = Number(startIndex);
+  selectIndex(value: string, type: number) {
+    if (type == 0) {
+      this.startIndex = Number(value);
+      this.endIndex = this.startIndex > this.endIndex ? this.startIndex + 1 : this.endIndex;
+    } else {
+      this.endIndex = Number(value);
+      this.startIndex = this.startIndex > this.endIndex ? this.endIndex - 1 : this.startIndex;
+    }
     this.checkIndex();
-    // var si = Number(startIndex);
-    // if (si > this.endIndex) {
-    //   this.startIndex = this.endIndex;
-    //   this.endIndex = si;
-    // } else {
-    //   this.startIndex = si;
-    // }
-    this.timeChange.emit(this.getTimeString());
-  }
-
-  selectEndIndex(endIndex: string) {
-    this.endIndex = Number(endIndex);
-    this.checkIndex();
-    // var ei = Number(endIndex);
-    // if (ei < this.startIndex) {
-    //   this.endIndex = this.startIndex;
-    //   this.startIndex = ei;
-    // } else {
-    //   this.endIndex = ei;
-    // }
     this.timeChange.emit(this.getTimeString());
   }
 
@@ -71,18 +56,18 @@ export class ClassTimeComponent {
     return `${this.day} ${this.startIndex}节-${this.endIndex}节`;
   }
 
-  // 保证节数不会超过限定范围，并且起始节数不大于结束节数
+  // 保证节数不会超过限定范围
   private checkIndex() {
-    if (this.startIndex < this.minIndex || this.startIndex > this.maxIndex) {
+    if (this.startIndex < this.minIndex) {
       this.startIndex = this.minIndex;
+    } else if (this.startIndex > this.maxIndex) {
+      this.startIndex = this.maxIndex;
     }
-    if (this.endIndex < this.minIndex || this.endIndex > this.maxIndex) {
+
+    if (this.endIndex < this.minIndex) {
       this.endIndex = this.minIndex;
-    }
-    if (this.endIndex < this.startIndex) {
-      var t = this.startIndex;
-      this.startIndex = this.endIndex;
-      this.endIndex = t;
+    } else if (this.endIndex > this.maxIndex) {
+      this.endIndex = this.maxIndex;
     }
   }
 }
