@@ -1,1 +1,12 @@
-<div>This is all</div>
+<ul class="chart-list">
+  <li *ngIf="showChart">
+    <div class="title">参与签到比例图</div>
+    <div class="chart-container">
+      <canvas baseChart
+                [datasets]="signInRatioData"
+                [labels]="signInRatioLabels"
+                [chartType]="'line'"
+                [options]="signInRatioOptions"></canvas>
+    </div>
+  </li>
+</ul>
