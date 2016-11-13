@@ -8,6 +8,8 @@
 
 import UIKit
 import RxSwift
+import Alamofire
+import SwiftyJSON
 import Toast_Swift
 
 class SignUpStep1ViewController: UIViewController, LoadingButtonDelegate
@@ -47,18 +49,29 @@ class SignUpStep1ViewController: UIViewController, LoadingButtonDelegate
     // 发送验证码到指定手机
     func didClickButton()
     {
-        guard let phoneNumber = phoneNumberTextField.text else {
-            return
-        }
+        performSegue(withIdentifier: "Step2", sender: nil)
         
-        nextStepButton.startWaiting()
-        
-        SignUpService.requestVerifyCode(parameter: ["phone": phoneNumber], successHandler: { [weak self] (json) -> () in
-            DispatchQueue.main.async {
-                self?.nextStepButton.stopWaiting()
-                self?.performSegue(withIdentifier: "Step2", sender: nil)
-            }
-            }, failureHandler: nil)
+//        guard let phoneNumber = phoneNumberTextField.text else {
+//            return
+//        }
+//
+//        nextStepButton.startWaiting()
+//        
+//        Alamofire.request(SignUpRouter.requestVerifyCode(phoneNumber)).responseJSON { (response) in
+//            switch response.result {
+//            case .success(let value):
+//                let json = JSON(value)
+//                print("发送验证码: \(json)")
+//                DispatchQueue.main.async {
+//                    self.nextStepButton.stopWaiting()
+//                    if json["code"] == "200" {
+//                        self.performSegue(withIdentifier: "Step2", sender: nil)
+//                    }
+//                }
+//            case .failure(let error):
+//                fatalError("发送验证码失败: \(error.localizedDescription)")
+//            }
+//        }
     }
     
     

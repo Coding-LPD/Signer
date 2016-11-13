@@ -356,7 +356,6 @@
         <!--设置-->
         <scene sceneID="CLL-yz-yRO">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="CCw-lL-9Af" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController automaticallyAdjustsScrollViewInsets="NO" hidesBottomBarWhenPushed="YES" id="hLa-rN-3eD" customClass="SettingViewController" customModule="华师小签" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="cJx-oc-THL"/>
@@ -430,6 +429,7 @@
                         <outlet property="tableView" destination="tsJ-7b-V7q" id="aiM-EW-U8f"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="CCw-lL-9Af" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2397.5999999999999" y="572.56371814092961"/>
         </scene>
@@ -792,7 +792,7 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="填写登录密码" id="aIh-rf-GXk">
-                        <barButtonItem key="leftBarButtonItem" image="Back" id="bku-eF-hgU">
+                        <barButtonItem key="leftBarButtonItem" image="dismiss" id="bku-eF-hgU">
                             <color key="tintColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <connections>
                                 <action selector="backAction:" destination="bHb-ED-gPv" id="rD5-Id-CyO"/>
@@ -874,6 +874,7 @@
         <image name="Back" width="13" height="22"/>
         <image name="default_avatar_1" width="200" height="200"/>
         <image name="disclosureIndicator" width="8" height="13"/>
+        <image name="dismiss" width="21" height="22"/>
         <image name="sign" width="21" height="22"/>
         <image name="tab_chatRoom" width="24" height="24"/>
         <image name="tab_homePage" width="23" height="20"/>

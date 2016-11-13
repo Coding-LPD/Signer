@@ -58,7 +58,7 @@ class LogInViewController: UIViewController, LoadingButtonDelegate
                 switch response.result {
                 case .success(let value):
                     let json = JSON(value)
-                    print("登录成功: \(json)")
+                    print("登录: \(json)")
                     DispatchQueue.main.async {
                         self.logInButton.stopWaiting()
                         if json["code"] == "200" {
@@ -69,7 +69,7 @@ class LogInViewController: UIViewController, LoadingButtonDelegate
                             }
                     }
                 case .failure(let error):
-                    print("登录失败: \(error.localizedDescription)")
+                    fatalError("登录失败: \(error.localizedDescription)")
             }
         }
     }

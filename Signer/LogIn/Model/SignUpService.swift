@@ -14,10 +14,10 @@ enum SignUpRouter: URLRequestConvertible
     static let baseURLString = "http://120.25.65.207:3000/api"
     static let publicKey = "-----BEGIN PUBLIC KEY-----\nMFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAIeiKZeAhYhsNgMrCNEonJA+YdbWsAC9\nDGz0WsU/zKSPVqggI9G+P//Ip4W9U9zZNiwL22E+ZK5Py/fCxzbvk6sCAwEAAQ==\n-----END PUBLIC KEY-----"
 
-    case requestVerifyCode(String)              // 发送验证码到指定手机号码
-    case validatePhoneAndCode(String, String)   // 验证手机号码和验证码的一致性
-    case signUpStudent(String, String)          // 注册学生
-    case logInStudent(phone: String, encryptedPassword: String)           // 学生登录
+    case requestVerifyCode(String)                                  // 发送验证码到指定手机号码
+    case validatePhoneAndCode(String, String)                       // 验证手机号码和验证码的一致性
+    case signUpStudent(String, String)                              // 注册学生
+    case logInStudent(phone: String, encryptedPassword: String)     // 学生登录
     
     func asURLRequest() throws -> URLRequest {
         let result: (path: String, parameters: Parameters) = {

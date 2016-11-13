@@ -35,6 +35,13 @@ class Student: NSObject, NSCoding
     /** 邮箱*/
     var mail: String?
     
+    static var sharedStudent: Student {
+        let userDefaults = UserDefaults.standard
+        let decodeStudent = userDefaults.object(forKey: "Student") as? Data
+        let student = NSKeyedUnarchiver.unarchiveObject(with: decodeStudent!) as! Student
+        print("---------取学生---------")
+        return student
+    }
     
     class func currentStudent() -> Student
     {

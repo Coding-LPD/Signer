@@ -47,25 +47,31 @@ class SignUpStep2ViewController: UIViewController, CountdownUnderlineTextFieldDe
     
     func didClickButton()
     {
-        guard let verifyCode = verifyCodeTextField.text, let phoneNumber = phoneNumber else {
-            return
-        }
+        performSegue(withIdentifier: "Step3", sender: nil)
         
-        nextStepButton.startWaiting()
-        
-        SignUpService.validateCode(parameter: ["phone": phoneNumber, "smsCode": verifyCode],
-                                   successHandler: { [weak self] (json) -> () in
-                                        print("发送验证码成功\n\(json)")
-                                        DispatchQueue.main.async {
-                                            self?.nextStepButton.stopWaiting()
-                                            if(json["code"] == "200") {
-                                                self?.performSegue(withIdentifier: "Step3", sender: nil)
-                                            } else {
-                                                self?.view.makeToast("验证码错误", duration: 1.0, position: .center)
-                                            }
-                                        }
-                                   },
-                                   failureHandler: nil)
+//        guard let verifyCode = verifyCodeTextField.text, let phoneNumber = phoneNumber else {
+//            return
+//        }
+//    
+//        nextStepButton.startWaiting()
+//        
+//        Alamofire.request(SignUpRouter.validatePhoneAndCode(phoneNumber, verifyCode)).responseJSON { (response) in
+//            switch response.result {
+//            case .success(let value):
+//                let json = JSON(value)
+//                print("验证手机号和验证码: \(json)")
+//                DispatchQueue.main.async {
+//                    self.nextStepButton.stopWaiting()
+//                    if(json["code"] == "200") {
+//                        self.performSegue(withIdentifier: "Step3", sender: nil)
+//                    } else {
+//                        self.view.makeToast("验证码错误", duration: 1.0, position: .center)
+//                    }
+//                }
+//            case .failure(let error):
+//                fatalError("验证手机号和验证码失败: \(error.localizedDescription)")
+//            }
+//        }
     }
 
     
@@ -81,9 +87,20 @@ class SignUpStep2ViewController: UIViewController, CountdownUnderlineTextFieldDe
             return
         }
         
-        SignUpService.requestVerifyCode(parameter: ["phone": phoneNumber], successHandler: { [weak self] (json) -> () in
-            self?.view.makeToast("发送验证码成功", duration: 1.0, position: .center)
-            }, failureHandler: nil)
+        Alamofire.request(SignUpRouter.requestVerifyCode(phoneNumber)).responseJSON { (response) in
+            switch response.result {
+            case .success(let value):
+                let json = JSON(value)
+                print("发送验证码: \(json)")
+                DispatchQueue.main.async {
+                    if json["code"] == "200" {
+                        self.view.makeToast("发送验证码成功", duration: 1.0, position: .center)
+                    }
+                }
+            case .failure(let error):
+                fatalError("发送验证码失败: \(error.localizedDescription)")
+            }
+        }
     }
     
     @IBAction func backAction(_ sender: UIBarButtonItem)

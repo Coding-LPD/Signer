@@ -24,8 +24,6 @@ class MineInfoViewController: UIViewController
         tableView.separatorStyle = .none
         tableView.backgroundColor = UIColor(netHex: 0xf5f5f5)
     }
-
-
 }
 
 extension MineInfoViewController: UITableViewDataSource, UITableViewDelegate
