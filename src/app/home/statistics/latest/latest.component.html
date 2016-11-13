@@ -3,42 +3,54 @@
     <div class="title">课前签到情况比例图</div>
     <div class="chart-container">
       <canvas baseChart
-                [data]="beforeSignInChartData"
-                [labels]="signInChartLabels"
+                [data]="beforeSignInData"
+                [labels]="signInLabels"
                 [chartType]="'doughnut'"
-                [options]="commonChartOptions"></canvas>
+                [options]="commonOptions"></canvas>
     </div>
   </li>
   <li>
     <div class="title">课后签到情况比例图</div>
     <div class="chart-container">
       <canvas baseChart
-                [data]="afterSignInChartData"
-                [labels]="signInChartLabels"
+                [data]="afterSignInData"
+                [labels]="signInLabels"
                 [chartType]="'doughnut'"
-                [options]="commonChartOptions"></canvas>
+                [options]="commonOptions"></canvas>
     </div>
   </li>
-  <li>
+  <li *ngIf="showChart">
     <div class="title">电量使用图</div>
     <div class="chart-container battery-chart-container">
       <canvas baseChart
-                [datasets]="batteryChartData"
-                [labels]="batteryChartLabels"
+                [datasets]="batteryData"
+                [labels]="batteryLabels"
                 [legend]="'true'"
                 [chartType]="'bar'"
-                [options]="batteryChartOptions"></canvas>
+                [options]="batteryOptions"></canvas>
     </div>  
   </li>
-  <li>
-    <div class="title">电量使用图</div>
-    <div class="chart-container battery-chart-container">
+</ul>
+
+<ul class="chart-list battery-board">
+  <li *ngIf="showChart">
+    <div class="title">电量消耗前十</div>
+    <div class="chart-container">
       <canvas baseChart
-                [datasets]="batteryChartData"
-                [labels]="batteryChartLabels"
-                [legend]="'true'"
+                [datasets]="top10BatteryData"
+                [labels]="top10BatteryLabels"
                 [chartType]="'bar'"
-                [options]="batteryChartOptions"></canvas>
-    </div>  
+                [options]="commonOptions"></canvas>
+    </div>
+  </li>
+  <li *ngIf="showChart">
+    <div class="title">电量消耗后十</div>
+    <div class="chart-container">
+      <canvas baseChart
+                [datasets]="last10BatteryData"
+                [labels]="last10BatteryLabels"
+                [chartType]="'bar'"
+                [options]="commonOptions"></canvas>
+    </div>
   </li>
 </ul>
