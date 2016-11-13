@@ -22,7 +22,8 @@
 		AD3E73951D87E056005DE560 /* MineLeftImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD3E73941D87E056005DE560 /* MineLeftImageCell.swift */; };
 		AD3E73971D87E942005DE560 /* MineInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD3E73961D87E942005DE560 /* MineInfoViewController.swift */; };
 		AD3E73991D87F0D9005DE560 /* MineInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD3E73981D87F0D9005DE560 /* MineInfoCell.swift */; };
-		AD45D9C21DD059E40031FF9E /* SignUpService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD45D9C11DD059E40031FF9E /* SignUpService.swift */; };
+		AD45D9C21DD059E40031FF9E /* SignUpRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD45D9C11DD059E40031FF9E /* SignUpRouter.swift */; };
+		AD4C04491DD82D3A0097571A /* ModifyInformationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD4C04481DD82D3A0097571A /* ModifyInformationViewController.swift */; };
 		AD582A801DD40F2900DA3C91 /* Student.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD582A7F1DD40F2900DA3C91 /* Student.swift */; };
 		AD582A821DD41F8500DA3C91 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD582A811DD41F8500DA3C91 /* SettingViewController.swift */; };
 		AD582A881DD4248C00DA3C91 /* SettingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD582A871DD4248C00DA3C91 /* SettingCell.swift */; };
@@ -30,6 +31,7 @@
 		AD63C2BE1DD1CF0A00BA1276 /* RSA.m in Sources */ = {isa = PBXBuildFile; fileRef = AD63C2BD1DD1CF0A00BA1276 /* RSA.m */; };
 		AD771B771DD1712A0082BCB3 /* LoadingButton.xib in Resources */ = {isa = PBXBuildFile; fileRef = AD771B761DD1712A0082BCB3 /* LoadingButton.xib */; };
 		AD771B791DD171410082BCB3 /* LoadingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD771B781DD171410082BCB3 /* LoadingButton.swift */; };
+		ADABF3AF1DD8498600226D86 /* StudentRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADABF3AE1DD8498600226D86 /* StudentRouter.swift */; };
 		ADEF11DB1D869D99001F9C19 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADEF11DA1D869D99001F9C19 /* AppDelegate.swift */; };
 		ADEF11E21D869D99001F9C19 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ADEF11E01D869D99001F9C19 /* Main.storyboard */; };
 		ADEF11E41D869D99001F9C19 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ADEF11E31D869D99001F9C19 /* Assets.xcassets */; };
@@ -61,7 +63,8 @@
 		AD3E73941D87E056005DE560 /* MineLeftImageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MineLeftImageCell.swift; sourceTree = "<group>"; };
 		AD3E73961D87E942005DE560 /* MineInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MineInfoViewController.swift; sourceTree = "<group>"; };
 		AD3E73981D87F0D9005DE560 /* MineInfoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MineInfoCell.swift; sourceTree = "<group>"; };
-		AD45D9C11DD059E40031FF9E /* SignUpService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpService.swift; sourceTree = "<group>"; };
+		AD45D9C11DD059E40031FF9E /* SignUpRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpRouter.swift; sourceTree = "<group>"; };
+		AD4C04481DD82D3A0097571A /* ModifyInformationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModifyInformationViewController.swift; sourceTree = "<group>"; };
 		AD582A7F1DD40F2900DA3C91 /* Student.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Student.swift; sourceTree = "<group>"; };
 		AD582A811DD41F8500DA3C91 /* SettingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		AD582A871DD4248C00DA3C91 /* SettingCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingCell.swift; sourceTree = "<group>"; };
@@ -71,6 +74,7 @@
 		AD63C2C21DD1D30700BA1276 /* 华师小签.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "华师小签.entitlements"; sourceTree = "<group>"; };
 		AD771B761DD1712A0082BCB3 /* LoadingButton.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoadingButton.xib; sourceTree = "<group>"; };
 		AD771B781DD171410082BCB3 /* LoadingButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingButton.swift; sourceTree = "<group>"; };
+		ADABF3AE1DD8498600226D86 /* StudentRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudentRouter.swift; sourceTree = "<group>"; };
 		ADEF11D71D869D99001F9C19 /* 华师小签.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "华师小签.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADEF11DA1D869D99001F9C19 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		ADEF11E11D869D99001F9C19 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -149,6 +153,7 @@
 				074734A71D86C4F60005D58C /* MineViewController.swift */,
 				AD3E73981D87F0D9005DE560 /* MineInfoCell.swift */,
 				AD3E73961D87E942005DE560 /* MineInfoViewController.swift */,
+				AD4C04481DD82D3A0097571A /* ModifyInformationViewController.swift */,
 				AD582A871DD4248C00DA3C91 /* SettingCell.swift */,
 				AD582A811DD41F8500DA3C91 /* SettingViewController.swift */,
 			);
@@ -191,8 +196,9 @@
 		AD45D9C01DD04D0F0031FF9E /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				AD45D9C11DD059E40031FF9E /* SignUpService.swift */,
+				AD45D9C11DD059E40031FF9E /* SignUpRouter.swift */,
 				AD582A7F1DD40F2900DA3C91 /* Student.swift */,
+				ADABF3AE1DD8498600226D86 /* StudentRouter.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -505,6 +511,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AD771B791DD171410082BCB3 /* LoadingButton.swift in Sources */,
+				AD4C04491DD82D3A0097571A /* ModifyInformationViewController.swift in Sources */,
 				AD3E73891D87A129005DE560 /* MainTabBarViewController.swift in Sources */,
 				ADEF11F51D869EB0001F9C19 /* LogInViewController.swift in Sources */,
 				AD582A821DD41F8500DA3C91 /* SettingViewController.swift in Sources */,
@@ -521,7 +528,8 @@
 				ADEF11F91D869EB6001F9C19 /* SignUpStep1ViewController.swift in Sources */,
 				AD3E73931D87D964005DE560 /* LeftAvatarCell.swift in Sources */,
 				074734AA1D86C5080005D58C /* SignViewController.swift in Sources */,
-				AD45D9C21DD059E40031FF9E /* SignUpService.swift in Sources */,
+				ADABF3AF1DD8498600226D86 /* StudentRouter.swift in Sources */,
+				AD45D9C21DD059E40031FF9E /* SignUpRouter.swift in Sources */,
 				AD3E73951D87E056005DE560 /* MineLeftImageCell.swift in Sources */,
 				ADEF12091D869F6B001F9C19 /* Color.swift in Sources */,
 				ADEF11FB1D869EB6001F9C19 /* SignUpStep3ViewController.swift in Sources */,

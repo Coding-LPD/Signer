@@ -19,9 +19,9 @@ class LeftAvatarCell: UITableViewCell
     
     static let cellHeight: CGFloat = 70
     
-    func configureCell(withAvatarUrl: String?, userName: String?, id: String?)
+    func configureCell(withAvatarUrl avatarUrl: String?, userName: String?, id: String?)
     {
-        
+        avatarImageView.sd_setImage(with: URL(string: avatarUrl!))
         userNameLabel.text = userName
         idLabel.text = id
     }

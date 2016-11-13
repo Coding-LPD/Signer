@@ -68,7 +68,7 @@ class SignUpStep3ViewController: UIViewController, LoadingButtonDelegate
                 DispatchQueue.main.async {
                     self.doneButton.stopWaiting()
                     if json["code"] == "200" {
-                        SignUpService.writeLogInStatus(isLogged: true, json: json)
+                        LogInViewController.writeLogInStatus(isLogged: true, id: json["data"]["person"]["_id"].stringValue, phone: phoneNumber, name: json["data"]["person"]["name"].stringValue, avatarUrl: json["data"]["person"]["avatar"].stringValue)
                         self.showHomePage()
                     } else {
                         self.view.makeToast("注册失败，检查网络连接", duration: 1.0, position: .center)
@@ -92,10 +92,11 @@ class SignUpStep3ViewController: UIViewController, LoadingButtonDelegate
         present(alert, animated: true, completion: nil)
     }
 
-    func showHomePage()
+    private func showHomePage()
     {
         if let mainTabBarVC = storyboard?.instantiateViewController(withIdentifier: "MainTabBarViewController") as? MainTabBarViewController {
             present(mainTabBarVC, animated: true, completion: nil)
         }
     }
+ 
 }

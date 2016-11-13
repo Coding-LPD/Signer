@@ -47,8 +47,8 @@ extension MineViewController: UITableViewDataSource, UITableViewDelegate
     {
         if indexPath.section == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "LeftAvatarCell", for: indexPath) as! LeftAvatarCell
-            let student = Student.currentStudent()
-            cell.configureCell(withAvatarUrl: student.avatarUrl, userName: student.name, id: "ID: \(student.phone!)")
+            let student = Student.sharedStudent
+            cell.configureCell(withAvatarUrl: student.avatarUrl, userName: student.name, id: "ID: \(student.phone)")
             return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "MineLeftImageCell", for: indexPath) as! MineLeftImageCell

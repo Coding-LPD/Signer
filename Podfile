@@ -7,6 +7,7 @@ target 'Signer' do
     pod 'RxCocoa',    '~> 3.0'
     pod 'Alamofire', '~> 4.0'
     pod 'SwiftyJSON', '~> 3.1.1'
+    pod 'SDWebImage', '~>3.8'
 
     pod 'Toast-Swift', '~> 2.0.0'
     pod 'IQKeyboardManager', '~> 4.0.5'

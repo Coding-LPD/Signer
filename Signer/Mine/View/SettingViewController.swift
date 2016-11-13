@@ -77,7 +77,9 @@ extension SettingViewController: UITableViewDataSource, UITableViewDelegate
         if indexPath.section == 3 && indexPath.row == 0 {
             let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
             let logOutAction = UIAlertAction(title: "退出登录", style: .destructive, handler: { (action) in
-                SignUpService.writeLogInStatus(isLogged: false, json: nil)
+                let userDefaults = UserDefaults.standard
+                userDefaults.set(false, forKey: "isLogged")
+                userDefaults.synchronize()
                 if let logInVC = self.storyboard?.instantiateViewController(withIdentifier: "LogInViewController") as? LogInViewController {
                     self.present(logInVC, animated: true, completion: nil)
                 }

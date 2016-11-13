@@ -62,7 +62,7 @@ class LogInViewController: UIViewController, LoadingButtonDelegate
                     DispatchQueue.main.async {
                         self.logInButton.stopWaiting()
                         if json["code"] == "200" {
-                                SignUpService.writeLogInStatus(isLogged: true, json: json)
+                            LogInViewController.writeLogInStatus(isLogged: true, id: json["data"]["person"]["_id"].stringValue, phone: phoneNumber, name: json["data"]["person"]["name"].stringValue, avatarUrl: json["data"]["person"]["avatar"].stringValue)
                                 self.showHomePage()
                             } else {
                                 self.view.makeToast("登录失败，手机号与密码不匹配", duration: 1.0, position: .center)
@@ -79,6 +79,17 @@ class LogInViewController: UIViewController, LoadingButtonDelegate
         if let mainTabBarVC = storyboard?.instantiateViewController(withIdentifier: "MainTabBarViewController") as? MainTabBarViewController {
             present(mainTabBarVC, animated: true, completion: nil)
         }
+    }
+    
+    static func writeLogInStatus(isLogged: Bool,id: String, phone: String, name: String, avatarUrl: String)
+    {
+        let userDefaults = UserDefaults.standard
+        userDefaults.set(isLogged, forKey: "isLogged")
+        userDefaults.set(phone, forKey: "phone")
+        userDefaults.set(id, forKey: "id")
+        userDefaults.set(name, forKey: "name")
+        userDefaults.set(avatarUrl, forKey: "avatarUrl")
+        userDefaults.synchronize()
     }
     
 
