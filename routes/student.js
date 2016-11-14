@@ -13,6 +13,7 @@ var multipartMiddleware = multipart(config.cmConfig);
 var log = require('../services/log');
 
 var Student = require('../services/mongo').Student;
+var SignStudent = require('../services/mongo').SignStudent;
 var Sign = require('../services/mongo').Sign;
 var SignRecord = require('../services/mongo').SignRecord;
 
@@ -237,6 +238,42 @@ router.get('/:phone/notice', function (req, res) {
           });
         });
       });
+      sendInfo(errorCodes.Success, res, retData);
+    })
+    .catch(function (err) {
+      if (err.code) {
+        sendInfo(err.code, res, []);
+      } else {
+        handleErrors(err, res, []);
+      }
+    });
+});
+
+// 通过学号，关联学生个人信息和教师导入课程的学生信息，返回学生姓名和昵称
+router.post('/relatedInfo', function (req, res) {
+  var signId = req.body.signId;
+  var number = req.body.number;
+  var promises = [];
+
+  // 查询签到信息
+  Sign.findById(signId)
+    .then(function (sign) {
+      if (!sign) {
+        return Promise.reject({ code: errorCodes.SignNotExist });
+      }
+
+      // 查新该学生个人信息以及关联的签到学生的信息
+      promises.push(Student.findOne({ number: number }));
+      promises.push(SignStudent.findOne({ number: number, courseId: sign.get('courseId')}));
+      return Promise.all(promises);
+    })
+    .then(function (results) {
+      var student = results[0];
+      var signStudent = results[1];
+      var retData = {
+        name: signStudent ? signStudent.get('name') : '',
+        nickname: student ? student.get('name') : ''     
+      };      
       sendInfo(errorCodes.Success, res, retData);
     })
     .catch(function (err) {
