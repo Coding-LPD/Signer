@@ -148,7 +148,7 @@ public class NoticeFragment extends Fragment implements INoticeView,
         }
 
         String value = new Gson().toJson(notices);
-        Log.e("notice", value);
+        //Log.e("notice", value);
         if (segment == STATE_BEFORE){
             ACache.get(context).put("notice_before", value);
         }
@@ -175,7 +175,6 @@ public class NoticeFragment extends Fragment implements INoticeView,
             plv_notice.onLoadMoreCompleted();
         }
 
-        Log.e(">>", "no newtwork" + notices.size());
         if (notices.size() == 0){
             ll_no_network.setVisibility(View.VISIBLE);
         }

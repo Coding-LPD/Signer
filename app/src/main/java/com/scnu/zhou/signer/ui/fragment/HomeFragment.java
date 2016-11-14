@@ -153,7 +153,7 @@ public class HomeFragment extends Fragment implements IHomeView, PullToRefreshLi
         }
 
         String value = new Gson().toJson(mData);
-        Log.e("put-array", value);
+        //Log.e("put-array", value);
         ACache.get(context).put("course", value);
     }
 
