@@ -37,4 +37,10 @@ export class SignRecordService extends BaseService {
       .catch(this.handleError);      
   }
 
+  addition(signId: string, courseId: string, number: string, type: number) {
+    return this._http.post(API.domain + API.signRecordAddition, { signId, courseId, number, type })
+      .map(this.extractData)
+      .catch(this.handleError);
+  }
+
 }

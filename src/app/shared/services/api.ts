@@ -32,6 +32,7 @@ export class API {
   static signRecordRefusal = '/signRecords/{0}/refusal';  
   static signRecordRefusalAll = '/signRecords/refusal/all'
   static signRecordSearch = '/signRecords/search';
+  static signRecordAddition = '/signRecords/addition';
   static position = '/positions';
 
   static stringReplace(str: string, params: string[]) {

@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
 
-import { Sign } from '../../../shared';
+import { Sign, SignRecordService } from '../../../shared';
 import { StudentService } from '../../student';
 import { SignService } from '../sign.service';
 
@@ -19,13 +19,15 @@ export class AddSignInComponent implements OnInit {
   student = {
     number: '',
     name: '请输入学号',
-    nickname: '请输入学号',
+    nickname: '请输入学号'
   };  
 
   constructor(
     private _route: ActivatedRoute,
+    private _router: Router,
     private _studentService: StudentService,
-    private _signService: SignService  
+    private _signService: SignService,
+    private _signRecordService: SignRecordService  
   ) {}
 
   ngOnInit() {
@@ -58,7 +60,7 @@ export class AddSignInComponent implements OnInit {
             });
           }          
         })
-        .subscribe((body) => {
+        .subscribe(body => {
           this.student.name = body.data.name;
           this.student.nickname = body.data.nickname;
         });
@@ -71,7 +73,15 @@ export class AddSignInComponent implements OnInit {
   }
 
   addSignIn() {
-    
+    this._signRecordService.addition(this.sign._id, this.sign.courseId, this.student.number, null)
+      .subscribe(body => {
+        if (+body.code == 200) {
+          alert('补签成功');
+          this._router.navigate(['/home/sign', this.sign._id, 'detail']);
+        } else {
+          alert(body.msg);
+        }        
+      })
   }
 
 }
