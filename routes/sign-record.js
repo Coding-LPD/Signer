@@ -154,7 +154,8 @@ router.post('/addition', function (req, res) {
   var courseId = req.body.courseId;
   var number = req.body.number;
   var type = req.body.type;
-  var promises = [];
+  var student, promises = [];
+  var now = moment().format('YYYY-MM-DD HH:mm:ss');
 
   promises.push(Sign.findById(signId));
   promises.push(Student.findOne({ number: number }));
@@ -162,7 +163,7 @@ router.post('/addition', function (req, res) {
   Promise.all(promises)
     .then(function (results) {
       var sign = results[0];
-      var student = results[1];
+      student = results[1];
       var signStudent = results[2];
 
       if (!sign) {
@@ -179,14 +180,14 @@ router.post('/addition', function (req, res) {
         signId: signId,
         courseId: courseId,
         phoneId: '1',
-        studentId: number,
+        studentId: student._id,
         studentName: student.get('name'),
         studentAvatar: student.get('avatar'),
         distance: 0,
         state: 1,
         battery: 0,
-        createdAt: sign.get('createdAt'),
-        confirmAt: sign.get('createdAt')
+        createdAt: now,
+        confirmAt: now
       };      
 
       // 若指定了type，则只保存一条签到记录；若没指定，则保存两条签到记录
@@ -205,7 +206,25 @@ router.post('/addition', function (req, res) {
       return Promise.all(promises);
     })
     .then(function (results) {
+      var signIn;
+      // 签到完成人数加1
+      if (type) {
+        signIn = type == 0 ? { beforeSignIn: 1 } : { afterSignIn: 1 };
+      } else {
+        signIn = { beforeSignIn: 1, afterSignIn: 1 };
+      }
+      return Sign.findByIdAndUpdate(signId, { $inc: signIn }, { new: true });      
+    })
+    .then(function () {
+      // 响应http
       sendInfo(errorCodes.Success, res, {});
+
+      // 推送数据给手机客户端
+      signSocket.noticeStudent(student._id, '');
+      // 若无指定type，则补签课前课后两次，所以要再通知一次
+      if (!type) {
+        signSocket.noticeStudent(student._id, '');
+      }
     })
     .catch(function (err) {
       if (err.code) {
