@@ -1,0 +1,27 @@
+<div *ngIf="sign">
+
+<div class="header">
+  <div class="title">补充签到 - {{sign.courseName}}</div>
+</div>
+<form name="signInForm">
+  <div class="form-group wrap">
+    <label class="left" for="number">学号</label>
+    <input type="text" class="right" id="number" name="number" autocomplete="off" 
+      [ngModel]="student.number" (ngModelChange)="searchStudent($event)" />
+  </div>
+  <div class="form-group wrap">
+    <label class="left">学生姓名</label>
+    <label class="right">{{student.name || '尚未导入该学生'}}</label>
+  </div>
+  <div class="form-group wrap">
+    <label class="left">学生昵称</label>
+    <label class="right">{{student.nickname || '该学生尚未注册'}}</label>
+  </div>
+  <div class="form-group wrap">
+    <div class="right">
+      <button type="button" class="save-btn red" (click)="addSignIn()">补签</button>
+    </div>
+  </div>
+</form>
+
+</div>

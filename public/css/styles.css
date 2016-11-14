@@ -104,6 +104,13 @@ a:hover {
   font-size: 1.1em;
 }
 
+.form-group label.right {
+  float: right;
+  height: 39px;
+  line-height: 39px;
+  font-size: 1.1em;
+}
+
 .form-group .right {
   float: right;
   width: 84%;

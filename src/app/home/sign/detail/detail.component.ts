@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 
 import { SignService } from '../sign.service';
@@ -41,6 +41,7 @@ export class DetailComponent implements OnInit {
 
   constructor(
     private _route: ActivatedRoute,
+    private _router: Router,
     private _socketService: SocketService,
     private _loginService: LoginService,
     private _signService: SignService,
@@ -197,6 +198,13 @@ export class DetailComponent implements OnInit {
           this.popup.show(body.msg);
         }
       })
+  }
+
+  addSignIn() {
+    this._route.params.forEach((params: Params) => {
+      var signId = params['id'];
+      this._router.navigate(['/home/sign', signId, 'record', 'add']);
+    });
   }
 
   private refreshRecords(signId: string, type: number) {

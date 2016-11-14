@@ -27,7 +27,13 @@ export class StudentService extends BaseService {
   }
 
   search(conditions: any) {
-    return this._http.post(API.domain + API.signStudentSearch, conditions, { withCredentials: true })
+    return this._http.post(API.domain + API.signStudentSearch, conditions, this.options)
+      .map(this.extractData)
+      .catch(this.handleError);
+  }
+
+  searchRelatedInfo(number: string, signId: string) {
+    return this._http.post(API.domain + API.studentRelatedInfo, { number, signId }, this.options)
       .map(this.extractData)
       .catch(this.handleError);
   }

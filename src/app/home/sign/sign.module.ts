@@ -6,6 +6,7 @@ import { SharedModule } from '../../shared';
 import { SignComponent } from './sign.component';
 import { SignService } from './sign.service';
 import { DetailComponent } from './detail';
+import { AddSignInComponent } from './add-sign-in';
 import { 
   CreateComponent, 
   Step1Component, 
@@ -27,7 +28,8 @@ import {
     Step2Component,
     Step3Component,
     CompleteComponent,
-    DetailComponent    
+    DetailComponent,
+    AddSignInComponent    
   ],
   exports: [
     SignComponent,
@@ -36,7 +38,8 @@ import {
     Step2Component,
     Step3Component,
     CompleteComponent,
-    DetailComponent
+    DetailComponent,
+    AddSignInComponent
   ],
   providers: [
     SignService

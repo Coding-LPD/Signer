@@ -29,10 +29,13 @@
   <div class="radio-group">
     <button type="button" [class.inactive]="radiosInactive[0]" (click)="selectRadio(0)">课前</button>
     <button type="button" [class.inactive]="radiosInactive[1]" (click)="selectRadio(1)">课后</button>
-  </div>  
-  <div class="all-confirm-group" *ngIf="records.length - signIn > 0">
-    <button type="button" class="blue" (click)="confirmAll(0)">全部同意</button>
-    <button type="button" class="red" (click)="confirmAll(1)">全部拒绝</button>
+  </div>
+  <div class="operate-group">
+    <div class="all-confirm-group" *ngIf="records.length - signIn > 0">
+      <button type="button" class="blue" (click)="confirmAll(0)">全部同意</button>
+      <button type="button" class="red" (click)="confirmAll(1)">全部拒绝</button>
+    </div>
+    <button type="button" (click)="addSignIn()">补充签到</button>
   </div>
   <ul class="sign-in-list">
     <li *ngFor="let r of records">

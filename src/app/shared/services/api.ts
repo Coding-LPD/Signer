@@ -16,6 +16,7 @@ export class API {
   static loginWithSmsCode = '/users/loginWithSmsCode';
   static user = '/users';
   static userSearch = '/users/search';
+  static studentRelatedInfo = '/students/relatedInfo';
   static signStudent = '/signStudents';
   static signStudentSearch = '/signStudents/search';
   static signStudentImport = '/signStudents/import';

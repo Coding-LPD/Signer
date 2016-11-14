@@ -105,16 +105,20 @@ baidu-map {
   background-color: transparent;  
 }
 
-.all-confirm-group {
+.operate-group {
   display: inline-block;
   margin-left: 30px;
 }
 
-.all-confirm-group button {
+.operate-group button {
   display: inline-block;
   width: auto;
   margin-right: 20px;
   padding: 10px 20px;  
+}
+
+.all-confirm-group {
+  display: inline-block;
 }
 
 .sign-in-list li {

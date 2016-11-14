@@ -85,7 +85,7 @@ export class SignComponent implements OnInit {
   }
 
   toDetail(sign: Sign) {
-    this._router.navigate(['/home/sign/detail', sign._id]);
+    this._router.navigate(['/home/sign', sign._id, 'detail']);
   }
 
 }
