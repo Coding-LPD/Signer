@@ -148,6 +148,74 @@ router.post('/search', function (req, res) {
   });
 });
 
+// 补签
+router.post('/addition', function (req, res) {
+  var signId = req.body.signId;
+  var courseId = req.body.courseId;
+  var number = req.body.number;
+  var type = req.body.type;
+  var promises = [];
+
+  promises.push(Sign.findById(signId));
+  promises.push(Student.findOne({ number: number }));
+  promises.push(SignStudent.findOne({ number: number, courseId: courseId }));
+  Promise.all(promises)
+    .then(function (results) {
+      var sign = results[0];
+      var student = results[1];
+      var signStudent = results[2];
+
+      if (!sign) {
+        return Promise.reject({ code: errorCodes.SignNotExist });
+      }
+      if (!student) {
+        return Promise.reject({ code: errorCodes.StudentNotExist });
+      }
+      if (!signStudent) {
+        return Promise.reject({ code: errorCodes.SignStudentNotExist });
+      }
+
+      var record = {
+        signId: signId,
+        courseId: courseId,
+        phoneId: '1',
+        studentId: number,
+        studentName: student.get('name'),
+        studentAvatar: student.get('avatar'),
+        distance: 0,
+        state: 1,
+        battery: 0,
+        createdAt: sign.get('createdAt'),
+        confirmAt: sign.get('createdAt')
+      };      
+
+      // 若指定了type，则只保存一条签到记录；若没指定，则保存两条签到记录
+      promises = [];
+      var signRecord1 = new SignRecord(record);
+      var signRecord2 = new SignRecord(record);
+      if (type) {
+        signRecord1.set('type', type);
+        promises.push(signRecord1.save());
+      } else {
+        signRecord1.set('type', 0);
+        signRecord2.set('type', 1);
+        promises.push(signRecord1.save());
+        promises.push(signRecord2.save());
+      }
+      return Promise.all(promises);
+    })
+    .then(function (results) {
+      sendInfo(errorCodes.Success, res, {});
+    })
+    .catch(function (err) {
+      if (err.code) {
+        sendInfo(err.code, res, {});
+      } else {
+        handleErrors(err, res, {});
+      }
+    });
+});
+
 function confirm(req, res, state) {
   var type, record;
   var now = moment().format('YYYY-MM-DD HH:mm:ss');
