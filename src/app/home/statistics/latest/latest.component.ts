@@ -8,14 +8,14 @@ import { Component, OnInit } from '@angular/core';
 export class LatestComponent implements OnInit {
 
   // 图例
-  signInLabels = ['已签', '未签'];
+  signInLabels = ['未签', '已签'];
   batteryLabels = ['0~10%', '10~30%', '30~50%', '50~70%', '70~90%', '90~100%'];
   top10BatteryLabels = ['ID1', 'ID2', 'ID3', 'ID4', 'ID5', 'ID6', 'ID7', 'ID8', 'ID9', 'ID10'];
   last10BatteryLabels = ['ID1', 'ID2', 'ID3', 'ID4', 'ID5', 'ID6', 'ID7', 'ID8', 'ID9', 'ID10'];
 
   // 图的数据
-  beforeSignInData = [40, 10];
-  afterSignInData = [20, 30];
+  beforeSignInData = [10, 40];
+  afterSignInData = [30, 20];
   batteryData = [
     { label: '人数', data: [5, 5, 10, 15, 12, 3] }
   ];
