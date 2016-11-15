@@ -1,10 +1,11 @@
 import { NgModule } from '@angular/core';
 import { ChartsModule } from 'ng2-charts/ng2-charts';
 
+import { SharedModule } from '../../shared';
 import { StatisticsComponent } from './statistics.component';
 import { LatestComponent } from './latest';
 import { AllComponent } from './all';
-import { SharedModule } from '../../shared'; 
+import { StatisticsService } from './statistics.service';
 
 @NgModule({
   imports: [
@@ -20,6 +21,9 @@ import { SharedModule } from '../../shared';
     StatisticsComponent,
     LatestComponent,
     AllComponent    
+  ],
+  providers: [
+    StatisticsService
   ]
 })
 export class StatisticsModule {

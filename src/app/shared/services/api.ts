@@ -24,6 +24,7 @@ export class API {
   static teacherSearch = '/teachers/search';
   static course = '/courses';
   static courseSearch = '/courses/search';
+  static courseLatestStatistics = '/courses/{0}/statistics/latest';
   static sign = '/signs';
   static signSearch = '/signs/search';
   static signRecord = '/signRecords';

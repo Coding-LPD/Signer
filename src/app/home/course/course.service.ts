@@ -34,4 +34,11 @@ export class CourseService extends BaseService {
       .catch(this.handleError);
   }
 
+  getLatestStatistics(courseId: string) {
+    var url = API.domain + API.stringReplace(API.courseLatestStatistics, [courseId]);
+    return this._http.get(url, this.options)
+      .map(this.extractData)
+      .catch(this.handleError);
+  }
+
 }

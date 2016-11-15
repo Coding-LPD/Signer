@@ -3,12 +3,12 @@
   <li routerLinkActive="active"><a routerLink="all">全部</a></li>
   <li>
     <div class="select-value" (click)="toggleSelect()">
-      <span class="value" [title]="selectedCourse">{{ selectedCourse || '请选择课程' }}</span>
+      <span class="value">{{ selectedCourse ? selectedCourse.name : '请选择课程' }}</span>
       <span class="caret"></span>
     </div>
     <ul class="select-list" [hidden]="!isOpenSelect">
-      <li class="option" title="请选择课程" (click)="selectCourse('')">请选择课程</li>
-      <li *ngFor="let c of courses" [title]="c" (click)="selectCourse(c)">{{c}}</li>
+      <li class="option" title="请选择课程" (click)="selectCourse(null)">请选择课程</li>
+      <li *ngFor="let c of courses" (click)="selectCourse(c)">{{c.name}}</li>
     </ul>
   </li>
 </ul>
