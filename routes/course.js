@@ -209,4 +209,95 @@ router.get('/:id/students/:studentId/signRecords', function (req, res) {
     });  
 });
 
+router.get('/:id/statistics/latest', function (req, res) {
+  var courseId = req.params['id'];
+  var sign, batteryCostData, top10BatteryCost, last10BatteryCost;
+
+  // 查找课程最近一次签到
+  Sign.findOne({ courseId: courseId }, null, { $sort: '-createdAt' })
+    .then(function (findedSign) {
+      if (!findedSign) {
+        return Promise.reject({ code: errorCodes.NoRelatedSign });
+      }
+
+      sign = findedSign;
+
+      // 根据签到和课程，查询学生课前课后的电量，并进行分组
+      return SignRecord.aggregate()
+        .match({ signId: '' + sign._id, courseId: courseId })
+        .sort('type')
+        .project('signId studentId battery')        
+        .group({ _id: { signId: '$signId', studentId: '$studentId' }, battery: { $push: '$battery' } })
+        .exec();
+    })
+    .then(function (results) {
+      // 提取学生id和对应的电量消耗
+      var batterys = [];
+      results.forEach(function (r) {
+        if (r.battery.length == 2) {
+          batterys.push({
+            studentId: r._id.studentId,
+            batteryCost: r.battery[1] - r.battery[0]
+          });
+        }
+      });
+      // 电量按照一定百分比分组，并统计每组人数
+      batteryCostData = batteryCostGroup(batterys.map(function (b) {
+        return b.batteryCost;
+      }));
+      // 按照电量消耗从小到大排序
+      batterys = batterys.sort(function (a, b) {
+        return a.batteryCost - b.batteryCost;
+      });
+      // 电量消耗前十
+      top10BatteryCost = batterys.slice(0, 10);
+      // 电量消耗后十
+      last10BatteryCost = batterys.slice(-11).reverse();
+
+      sendInfo(errorCodes.Success, res, {
+        studentCount: sign.get('studentCount'),
+        beforeSignIn: sign.get('beforeSignIn'),
+        afterSignIn: sign.get('afterSignIn'),  
+        batteryCost: batteryCostData,
+        top10BatteryCost: top10BatteryCost,
+        last10BatteryCost: last10BatteryCost      
+      });
+    })
+    .catch(function (err) {
+      if (err.code) {
+        sendInfo(err.code, res, {});
+      } else {
+        handleErrors(err, res, {});
+      }
+    });
+});
+
+function batteryCostGroup(batteryCost) {
+  // 0: -100~0%
+  // 1: 0~30%
+  // 2: 30~50%
+  // 3: 50~70%
+  // 4: 70~90%
+  // 5: 90~100%
+  var results = [0, 0, 0, 0, 0, 0];
+
+  batteryCost.forEach(function (cost) {
+    if (cost < 0) {
+      results[0]++;
+    } else if (cost < 30) {
+      results[1]++;
+    } else if (cost < 50) {
+      results[2]++;
+    } else if (cost < 70) {
+      results[3]++;
+    } else if (cost < 90) {
+      results[4]++;
+    } else {
+      results[5]++;
+    }
+  });
+
+  return results;
+}
+
 module.exports = router;
