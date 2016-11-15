@@ -272,6 +272,64 @@ router.get('/:id/statistics/latest', function (req, res) {
     });
 });
 
+// 统计最近几天内的签到比例，同一天多个签到，则统计平均值
+router.get('/:id/statistics/all', function (req, res) {
+  var courseId = req.params['id'];
+  var maxDayCount = 8;  // 最近8天内的签到比例
+
+  // 查新该课程最近几天的签到
+  Sign.find({ courseId: courseId }, null, { sort: '-startTime' })
+    .then(function (signs) {
+      if (signs.length <= 0) {
+        return Promise.reject({ code: errorCodes.NoRelatedSign });
+      }      
+
+      var startTime = moment(signs[0].get('startTime'));      
+      var studentCount = 0, signInCount = 0;
+      var preTime = startTime;
+      var signIn = [];
+
+      // 循环中不会把最后一项加入结果中，所以添加一个冗余项，保证原本数据都能加入结果中
+      signs.push(new Sign({ startTime: '2000-01-01', studentCount: 0, beforeSignIn: 0 }));
+
+      // 计算同一天签到的平均比例，统计出最近几天的签到即可
+      for (var i=0; i<signs.length; i++) {
+        var sign = signs[i];
+        startTime = moment(sign.get('startTime')); 
+
+        /**
+         * 同一天的签到，则累加学生数量和签到数量
+         * 不同天的签到，则把之前累加好的保存，再初始化来累加
+         * 已经超过指定天数，把最后一天的剔除
+         */
+        if (startTime.isSame(preTime, 'day')) {
+          studentCount += sign.get('studentCount');
+          signInCount += sign.get('beforeSignIn');
+        } else if (signIn.length <= maxDayCount) {
+          signIn.push({ time: preTime.format('YYYY-MM-DD'), ratio: Math.round(signInCount / studentCount * 100) });                    
+          studentCount = sign.get('studentCount');
+          signInCount = sign.get('beforeSignIn');
+          preTime = startTime;
+        } else {
+          signIn = signIn.slice(-1);
+          break;
+        }
+      }
+
+      var retData = {
+        signIn: signIn.reverse()  // 使数据按时间顺序排列
+      }
+      sendInfo(errorCodes.Success, res, retData);
+    })
+    .catch(function (err) {
+      if (err.code) {
+        sendInfo(err.code, res, {});
+      } else {
+        handleErrors(err, res, {});
+      }
+    });
+})
+
 function batteryCostGroup(batteryCost) {
   // 0: -100~0%
   // 1: 0~30%
