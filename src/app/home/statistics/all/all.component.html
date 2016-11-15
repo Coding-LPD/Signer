@@ -1,4 +1,4 @@
-<ul class="chart-list">
+<ul class="chart-list" *ngIf="!tip">
   <li *ngIf="showChart">
     <div class="title">参与签到比例图</div>
     <div class="chart-container">
@@ -10,3 +10,5 @@
     </div>
   </li>
 </ul>
+
+<div class="tip" *ngIf="tip">{{tip}}</div>
