@@ -88,7 +88,6 @@ export class LoginService extends BaseService {
         if (teacherId) {
           return this._http.post(API.domain + API.courseSearch, { teacherId })
             .map(this.extractData)
-            .catch(this.handleError);
         } else {
           return Observable.of<any>({
             code: '600',
