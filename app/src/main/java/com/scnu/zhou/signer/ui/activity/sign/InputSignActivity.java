@@ -58,7 +58,7 @@ public class InputSignActivity extends BaseActivity {
             @Override
             public void onCompleteInput() {
                 // 输入完成
-                String result = sixNumEditText.getNumber() + "";
+                String result = sixNumEditText.getNumber();
                 Log.e("result", result);
                 Intent intent = new Intent(InputSignActivity.this, ConfirmSignActivity.class);
                 intent.putExtra("code", result);

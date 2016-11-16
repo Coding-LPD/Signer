@@ -17,7 +17,7 @@ public class SixNumEditText extends LinearLayout {
     private TextView num01, num02, num03, num04, num05, num06;
 
     private int pos = 1;
-    private int number = 0;
+    private String number = "";
 
     private OnCompleteInputListener listener;
 
@@ -97,7 +97,7 @@ public class SixNumEditText extends LinearLayout {
 
         pos++;
 
-        number = number * 10 + num;
+        number = number + num;
 
         if (pos == 7){
             listener.onCompleteInput();
@@ -138,10 +138,10 @@ public class SixNumEditText extends LinearLayout {
 
         pos--;
 
-        number = number/10;
+        number = number.substring(0, number.length() - 1);
     }
 
-    public int getNumber(){
+    public String getNumber(){
         return number;
     }
 

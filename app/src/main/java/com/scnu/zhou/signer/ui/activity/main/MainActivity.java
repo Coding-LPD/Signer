@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.scnu.zhou.signer.R;
 import com.scnu.zhou.signer.component.adapter.pager.HomePagerAdapter;
 import com.scnu.zhou.signer.component.cache.NoticeCache;
+import com.scnu.zhou.signer.component.config.SocketClient;
 import com.scnu.zhou.signer.component.util.tabbar.TabBarManager;
 import com.scnu.zhou.signer.ui.activity.base.BaseFragmentActivity;
 import com.scnu.zhou.signer.ui.activity.sign.CaptureActivity;
@@ -19,7 +20,6 @@ import com.scnu.zhou.signer.ui.fragment.ChatFragment;
 import com.scnu.zhou.signer.ui.fragment.HomeFragment;
 import com.scnu.zhou.signer.ui.fragment.MineFragment;
 import com.scnu.zhou.signer.ui.fragment.NoticeFragment;
-import com.scnu.zhou.signer.ui.service.NoticeService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,17 +47,7 @@ public class MainActivity extends BaseFragmentActivity{
         public void run() {
 
             int num = NoticeCache.getInstance().getNoticenNumber(MainActivity.this);
-            if (num != 0){
-                tv_tab_warning.setVisibility(View.VISIBLE);
-
-                if (num < 99) {
-                    tv_tab_warning.setText(num + "");
-                }
-                else{
-                    tv_tab_warning.setText("99");
-                }
-            }
-            else{
+            if (num == 0){
                 tv_tab_warning.setVisibility(View.GONE);
             }
 
@@ -81,6 +71,7 @@ public class MainActivity extends BaseFragmentActivity{
 
         handler = new Handler();
         handler.postDelayed(new NoticeRunnable(), 500);
+
     }
 
     public static MainActivity getInstance(){
@@ -111,8 +102,35 @@ public class MainActivity extends BaseFragmentActivity{
      */
     private void startService(){
 
-        Intent intent = new Intent(this, NoticeService.class);
-        startService(intent);
+        //Intent intent = new Intent(this, NoticeService.class);
+        //startService(intent);
+        //bindService(intent, connection, BIND_AUTO_CREATE);
+
+        SocketClient.getInstance().startSocketClient(this);
+        SocketClient.getInstance().setOnNoticeReceiveListener(new SocketClient.OnNoticeReceiveListener() {
+            @Override
+            public void onNoticeReceive() {
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        // 有新通知到达
+                        int num = NoticeCache.getInstance().getNoticenNumber(MainActivity.this);
+                        if (num != 0){
+                            tv_tab_warning.setVisibility(View.VISIBLE);
+
+                            if (num < 99) {
+                                tv_tab_warning.setText(num + "");
+                            }
+                            else{
+                                tv_tab_warning.setText("99");
+                            }
+                        }
+                    }
+                });
+            }
+        });
     }
 
 
@@ -181,5 +199,12 @@ public class MainActivity extends BaseFragmentActivity{
             startActivity(intent);
             overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        //unbindService(connection);
     }
 }

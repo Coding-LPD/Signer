@@ -1,10 +1,6 @@
-package com.scnu.zhou.signer.ui.service;
+package com.scnu.zhou.signer.component.config;
 
-import android.app.Service;
-import android.content.Intent;
-import android.os.Binder;
-import android.os.IBinder;
-import android.support.annotation.Nullable;
+import android.content.Context;
 import android.util.Log;
 
 import com.github.nkzawa.emitter.Emitter;
@@ -12,42 +8,31 @@ import com.github.nkzawa.socketio.client.IO;
 import com.github.nkzawa.socketio.client.Socket;
 import com.scnu.zhou.signer.component.cache.NoticeCache;
 import com.scnu.zhou.signer.component.cache.UserCache;
-import com.scnu.zhou.signer.component.config.SignerServer;
-import com.scnu.zhou.signer.component.config.SocketEvent;
 
 /**
- * Created by zhou on 16/11/1.
+ * Created by zhou on 16/11/16.
  */
-public class NoticeService extends Service {
+public class SocketClient {
 
-    private final String TAG = "NoticeService";
+    private final String TAG = "SocketClient";
 
     private OnNoticeReceiveListener listener;
 
-    private NoticeServiceBinder mBinder = new NoticeServiceBinder();
+    private SocketClient(){
 
-    @Nullable
-    @Override
-    public IBinder onBind(Intent intent) {
-        return mBinder;
     }
 
+    public static SocketClient getInstance(){
 
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        startSocketClient();
+        return SocketClientHolder.instance;
     }
 
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
+    private static class SocketClientHolder {
 
-        //startSocketClient();
-
-        return super.onStartCommand(intent, flags, startId);
+        private static final SocketClient instance = new SocketClient();
     }
 
-    private void startSocketClient(){
+    public void startSocketClient(final Context context){
 
         IO.Options opts = new IO.Options();
         opts.forceNew = true;
@@ -64,7 +49,7 @@ public class NoticeService extends Service {
                     Log.e(TAG,"EVENT_CONNECT");
 
                     // 传回StudentId
-                    socket.emit("student-in", UserCache.getInstance().getId(NoticeService.this));
+                    socket.emit("student-in", UserCache.getInstance().getId(context));
 
                 }
 
@@ -99,8 +84,8 @@ public class NoticeService extends Service {
                     // 监听未读通知
                     Log.e(TAG, "notice");
 
-                    int number = NoticeCache.getInstance().getNoticenNumber(NoticeService.this) + 1;
-                    NoticeCache.getInstance().setNoticenNumber(NoticeService.this, number);
+                    int number = NoticeCache.getInstance().getNoticenNumber(context) + 1;
+                    NoticeCache.getInstance().setNoticenNumber(context, number);
 
                     if (listener != null){
 
@@ -118,7 +103,6 @@ public class NoticeService extends Service {
         }
     }
 
-
     public void setOnNoticeReceiveListener(OnNoticeReceiveListener listener){
 
         this.listener = listener;
@@ -132,14 +116,5 @@ public class NoticeService extends Service {
     public interface OnNoticeReceiveListener{
 
         void onNoticeReceive();
-    }
-
-
-    public class NoticeServiceBinder extends Binder {
-
-        public NoticeService getService() {
-
-            return NoticeService.this;
-        }
     }
 }
