@@ -7,23 +7,63 @@
         android:layout_width="38dp"
         android:layout_height="38dp"
         android:src="@drawable/default_header_male"
-        android:layout_margin="12dp"/>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/bg_chat_left"
+        android:layout_marginLeft="12dp"
         android:layout_marginTop="12dp"
-        android:layout_marginRight="12dp"
-        android:padding="10dp">
+        android:layout_marginBottom="12dp"
+        android:layout_marginRight="5dp"/>
 
-        <TextView
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="10dp"
+            android:layout_height="15dp"
+            android:src="@drawable/icon_left_arrow"
+            android:layout_marginTop="25dp"/>
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="简单点  说话的方式简单点"
-            android:textSize="14sp"
-            android:textColor="#333"/>
+            android:background="@drawable/bg_chat_left"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="72dp"
+            android:layout_marginLeft="8dp"
+            android:padding="8dp"
+            android:orientation="vertical">
 
-    </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="4dp">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/icon_chat_time_left"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="12:00 AM"
+                    android:textSize="12sp"
+                    android:textColor="@color/colorTheme"
+                    android:layout_marginLeft="2dp"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="简单点  说话的方式简单点  简单点  说话的方式简单点"
+                android:textSize="14sp"
+                android:textColor="#333"
+                android:lineSpacingExtra="2dp"/>
+
+        </LinearLayout>
+
+    </FrameLayout>
 
 </LinearLayout>
