@@ -9,10 +9,12 @@ var common = require('../services/common');
 var signSocket = require('../sockets/sign');
 
 var Student = require('../services/mongo').Student;
+var Teacher = require('../services/mongo').Teacher;
 var SignStudent = require('../services/mongo').SignStudent;
 var Sign = require('../services/mongo').Sign;
 var SignRecord = require('../services/mongo').SignRecord;
 var Position = require('../services/mongo').Position;
+var ChatRoom = require('../services/mongo').ChatRoom;
 
 router.get('/', function (req, res) {
   SignRecord.find({}, function (err, signRecords) {
@@ -107,6 +109,18 @@ router.post('/', function (req, res) {
       sendInfo(errorCodes.Success, res, savedData);
       // 推送数据给浏览器
       signSocket.send(signSocket.events.sign, savedData);
+    
+      // 查询课程对应的老师，将教师头像作为聊天室头像
+      return Teacher.findById(sign.get('teacherId'));
+    })
+    .then(function (findedTeacher) {
+      // 将该学生加入聊天室，聊天室不存在则创建
+      return ChatRoom
+        .findOneAndUpdate(
+          { courseId: sign.get('courseId') },
+          { name: sign.get('courseName'), avatar: findedTeacher.get('avatar'), $push: { studentIds: studentId } },
+          { new: true, upsert: true }
+        );
     })
     .catch(function (err) {
       if (err.code) {
