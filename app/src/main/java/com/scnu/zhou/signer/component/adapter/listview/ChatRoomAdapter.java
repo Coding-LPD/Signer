@@ -5,13 +5,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.scnu.zhou.signer.R;
 import com.scnu.zhou.signer.component.bean.chat.ChatRoom;
 import com.scnu.zhou.signer.component.util.image.ImageLoaderUtil;
 import com.scnu.zhou.signer.component.util.time.TimeUtil;
+import com.scnu.zhou.signer.ui.widget.image.CircleImageView;
 
 import java.util.List;
 
@@ -51,9 +51,9 @@ public class ChatRoomAdapter extends BaseAdapter {
 
         if (convertView == null){
 
-            convertView = LayoutInflater.from(context).inflate(R.layout.listitem_chat, null);
+            convertView = LayoutInflater.from(context).inflate(R.layout.listitem_room, null);
             viewholder = new Viewholder();
-            viewholder.iv_avatar = (ImageView) convertView.findViewById(R.id.iv_avatar);
+            viewholder.civ_avatar = (CircleImageView) convertView.findViewById(R.id.civ_avatar);
             viewholder.tv_chat_title = (TextView) convertView.findViewById(R.id.tv_chat_title);
             viewholder.tv_chat_content = (TextView) convertView.findViewById(R.id.tv_chat_content);
             viewholder.tv_latest_time = (TextView) convertView.findViewById(R.id.tv_latest_time);
@@ -72,12 +72,12 @@ public class ChatRoomAdapter extends BaseAdapter {
             viewholder.tv_chat_content.setText(mData.get(position).getMsg().getContent());
             viewholder.tv_latest_time.setText(TimeUtil.setDaysForNow(TimeUtil.stringToLong(mData.get(position)
                     .getMsg().getCreatedAt(), "yyyy-MM-dd HH:mm:ss")));
-            ImageLoaderUtil.getInstance().displayHeaderImage(viewholder.iv_avatar,
+            ImageLoaderUtil.getInstance().displayHeaderImage(viewholder.civ_avatar,
                     mData.get(position).getMsg().getAvatar());
         }
         else{
             viewholder.tv_chat_content.setText("还没有人发言哦");
-            ImageLoaderUtil.getInstance().displayHeaderImage(viewholder.iv_avatar,
+            ImageLoaderUtil.getInstance().displayHeaderImage(viewholder.civ_avatar,
                     mData.get(position).getAvatar());
         }
 
@@ -86,7 +86,7 @@ public class ChatRoomAdapter extends BaseAdapter {
 
     private static class Viewholder{
 
-        private ImageView iv_avatar;
+        private CircleImageView civ_avatar;
         private TextView tv_chat_title;
         private TextView tv_chat_content;
         private TextView tv_latest_time;

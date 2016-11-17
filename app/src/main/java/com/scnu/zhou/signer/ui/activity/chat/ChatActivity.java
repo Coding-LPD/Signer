@@ -159,6 +159,8 @@ public class ChatActivity extends BaseSlideActivity implements IChatView {
 
                     //dismissLoadingDialog();
 
+                    et_content.setText("");
+
                     ChatMessage message = response.getData();
                     mData.add(message);
                     adapter.notifyDataSetChanged();

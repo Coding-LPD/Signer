@@ -48,7 +48,6 @@ public class ChatMessageAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
 
         View view;
-        ViewHolder viewHolder;
 
         if (!mData.get(position).getStudentId().equals(UserCache.getInstance().getId(context))) {
             // 他人的消息
@@ -57,24 +56,13 @@ public class ChatMessageAdapter extends BaseAdapter {
             view = LayoutInflater.from(context).inflate(R.layout.listitem_chat_right, null);
         }
 
-        viewHolder = new ViewHolder();
-        viewHolder.iv_avatar = (ImageView) view.findViewById(R.id.iv_avatar);
-        viewHolder.tv_content = (TextView) view.findViewById(R.id.tv_content);
-        viewHolder.tv_time = (TextView) view.findViewById(R.id.tv_time);
+        ImageView iv_avatar = (ImageView) view.findViewById(R.id.iv_avatar);
+        TextView tv_content = (TextView) view.findViewById(R.id.tv_content);
+        TextView tv_time = (TextView) view.findViewById(R.id.tv_time);
 
-        if (convertView == null) {
-
-            convertView = view;
-            convertView.setTag(viewHolder);
-        }
-        else{
-
-            viewHolder = (ViewHolder) convertView.getTag();
-        }
-
-        ImageLoaderUtil.getInstance().displayHeaderImage(viewHolder.iv_avatar,
+        ImageLoaderUtil.getInstance().displayHeaderImage(iv_avatar,
                 mData.get(position).getAvatar());
-        viewHolder.tv_content.setText(mData.get(position).getContent());
+        tv_content.setText(mData.get(position).getContent());
 
         String timeStr[] = mData.get(position).getCreatedAt().split(" ");
         String hour = timeStr[1].substring(0, 2);
@@ -95,15 +83,8 @@ public class ChatMessageAdapter extends BaseAdapter {
             time = hour + ":" + minute + " AM";
         }
 
-        viewHolder.tv_time.setText(time);
+        tv_time.setText(time);
 
         return view;
-    }
-
-    private static class ViewHolder{
-
-        private ImageView iv_avatar;
-        private TextView tv_content;
-        private TextView tv_time;
     }
 }
