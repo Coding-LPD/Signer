@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Created by zhou on 16/11/17.
  */
-public interface IRoomListView {
+public interface IRoomView {
 
     void onGetRoomListSuccess(ResultResponse<List<ChatRoom>> response);
 }

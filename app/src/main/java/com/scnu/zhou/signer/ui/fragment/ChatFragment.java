@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,16 +13,16 @@ import android.widget.AdapterView;
 import android.widget.LinearLayout;
 
 import com.scnu.zhou.signer.R;
-import com.scnu.zhou.signer.component.adapter.listview.ChatAdapter;
+import com.scnu.zhou.signer.component.adapter.listview.ChatRoomAdapter;
 import com.scnu.zhou.signer.component.bean.chat.ChatRoom;
 import com.scnu.zhou.signer.component.bean.http.ResultResponse;
 import com.scnu.zhou.signer.component.cache.UserCache;
-import com.scnu.zhou.signer.presenter.chat.ChatPresenter;
-import com.scnu.zhou.signer.presenter.chat.IChatPresenter;
+import com.scnu.zhou.signer.presenter.chat.IRoomPresenter;
+import com.scnu.zhou.signer.presenter.chat.RoomPresenter;
 import com.scnu.zhou.signer.ui.activity.chat.ChatActivity;
 import com.scnu.zhou.signer.ui.widget.listview.PullToRefreshListView;
 import com.scnu.zhou.signer.ui.widget.toast.ToastView;
-import com.scnu.zhou.signer.view.chat.IRoomListView;
+import com.scnu.zhou.signer.view.chat.IRoomView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +33,7 @@ import butterknife.ButterKnife;
 /**
  * Created by zhou on 16/9/6.
  */
-public class ChatFragment extends Fragment implements IRoomListView, PullToRefreshListView.OnPullToRefreshListener,
+public class ChatFragment extends Fragment implements IRoomView, PullToRefreshListView.OnPullToRefreshListener,
         AdapterView.OnItemClickListener{
 
     private Activity context;
@@ -45,9 +44,9 @@ public class ChatFragment extends Fragment implements IRoomListView, PullToRefre
     @Bind(R.id.ll_no_network) LinearLayout ll_no_network;
 
     private List<ChatRoom> mData;
-    private ChatAdapter adapter;
+    private ChatRoomAdapter adapter;
 
-    private IChatPresenter presenter;
+    private IRoomPresenter presenter;
 
     @Nullable
     @Override
@@ -78,11 +77,11 @@ public class ChatFragment extends Fragment implements IRoomListView, PullToRefre
 
     public void initData(){
 
-        presenter = new ChatPresenter(context, this);
+        presenter = new RoomPresenter(context, this);
 
         mData = new ArrayList<>();
 
-        adapter = new ChatAdapter(context, mData);
+        adapter = new ChatRoomAdapter(context, mData);
         plv_chat.setAdapter(adapter);
     }
 
@@ -121,21 +120,22 @@ public class ChatFragment extends Fragment implements IRoomListView, PullToRefre
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-        Intent intent = new Intent(context, ChatActivity.class);
-        startActivity(intent);
-        context.overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+        if (position > 0) {
+            Intent intent = new Intent(context, ChatActivity.class);
+            intent.putExtra("courseId", mData.get(position - 1).getCourseId());
+            startActivity(intent);
+            context.overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+        }
 
     }
 
 
     /**
-     * Implementation for IRoomListView
+     * Implementation for IRoomView
      * @param response
      */
     @Override
     public void onGetRoomListSuccess(final ResultResponse<List<ChatRoom>> response) {
-
-        Log.e("response", response.toString());
 
         context.runOnUiThread(new Runnable() {
             @Override
@@ -146,7 +146,7 @@ public class ChatFragment extends Fragment implements IRoomListView, PullToRefre
                     //dismissLoadingDialog();
 
                     mData = response.getData();
-                    adapter = new ChatAdapter(context, mData);
+                    adapter = new ChatRoomAdapter(context, mData);
                     plv_chat.setAdapter(adapter);
                 }
                 else{

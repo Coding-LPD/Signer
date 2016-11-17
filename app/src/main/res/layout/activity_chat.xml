@@ -17,4 +17,6 @@
 
     <include layout="@layout/bottombar_chat"/>
 
+    <include layout="@layout/layout_no_message"/>
+
 </RelativeLayout>

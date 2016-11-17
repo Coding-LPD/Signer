@@ -18,12 +18,12 @@ import java.util.List;
 /**
  * Created by zhou on 16/11/3.
  */
-public class ChatAdapter extends BaseAdapter {
+public class ChatRoomAdapter extends BaseAdapter {
 
     private Context context;
     private List<ChatRoom> mData;
 
-    public ChatAdapter(Context context, List<ChatRoom> mData){
+    public ChatRoomAdapter(Context context, List<ChatRoom> mData){
 
         this.context = context;
         this.mData = mData;

@@ -9,7 +9,9 @@ import com.github.nkzawa.socketio.client.IO;
 import com.github.nkzawa.socketio.client.Socket;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.scnu.zhou.signer.callback.chat.ChatCallBack;
 import com.scnu.zhou.signer.callback.chat.RoomListCallBack;
+import com.scnu.zhou.signer.component.bean.chat.ChatMessage;
 import com.scnu.zhou.signer.component.bean.chat.ChatRoom;
 import com.scnu.zhou.signer.component.bean.http.ResultResponse;
 import com.scnu.zhou.signer.component.cache.NoticeCache;
@@ -30,6 +32,7 @@ public class SocketClient {
 
     private OnNoticeReceiveListener listener;
     private RoomListCallBack roomListCallBack;
+    private ChatCallBack messageListCallBack;
 
     private SocketClient(){
 
@@ -130,6 +133,30 @@ public class SocketClient {
 
                 }
 
+            }).on(SocketEvent.MSGLIST_EVENT, new Emitter.Listener() {
+
+                @Override
+                public void call(Object... args) {
+
+                    // 获取聊天室列表
+                    Log.e(TAG, "msg-list");
+
+                    if (messageListCallBack != null) {
+                        String response = ((JSONObject) args[0]).toString();
+                        ResultResponse<List<ChatMessage>> mData = new ResultResponse<List<ChatMessage>>();
+
+                        Log.e(TAG, response);
+
+                        if (!TextUtils.isEmpty(response) && !response.equals("null"))
+                            mData = new Gson().fromJson(response,
+                                    new TypeToken<ResultResponse<List<ChatMessage>>>() {
+                                    }.getType());
+
+                        messageListCallBack.onGetMessageListSuccess(mData);
+                    }
+
+                }
+
             });
 
             socket.connect();
@@ -142,10 +169,28 @@ public class SocketClient {
     }
 
 
+    /**
+     * 获取聊天室列表
+     * @param studentId
+     * @param callBack
+     */
     public void sendRoomListRequest(String studentId, RoomListCallBack callBack){
 
-        socket.emit("room-list", studentId);
+        socket.emit(SocketEvent.ROOMLIST_EVENT, studentId);
         this.roomListCallBack = callBack;
+    }
+
+
+    /**
+     * 获取消息列表
+     * @param courseId
+     * @param page
+     * @param callBack
+     */
+    public void sendMessageListRequest(String courseId, int page, ChatCallBack callBack){
+
+        socket.emit(SocketEvent.MSGLIST_EVENT, courseId, page);
+        this.messageListCallBack = callBack;
     }
 
 

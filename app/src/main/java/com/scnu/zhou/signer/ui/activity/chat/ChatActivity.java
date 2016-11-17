@@ -1,15 +1,22 @@
 package com.scnu.zhou.signer.ui.activity.chat;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.scnu.zhou.signer.R;
-import com.scnu.zhou.signer.component.adapter.listview.ChatItemAdapter;
-import com.scnu.zhou.signer.component.bean.chat.ChatItem;
+import com.scnu.zhou.signer.component.adapter.listview.ChatMessageAdapter;
+import com.scnu.zhou.signer.component.bean.chat.ChatMessage;
+import com.scnu.zhou.signer.component.bean.http.ResultResponse;
+import com.scnu.zhou.signer.presenter.chat.ChatPresenter;
+import com.scnu.zhou.signer.presenter.chat.IChatPresenter;
 import com.scnu.zhou.signer.ui.activity.base.BaseSlideActivity;
+import com.scnu.zhou.signer.ui.widget.toast.ToastView;
+import com.scnu.zhou.signer.view.chat.IChatView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,15 +28,21 @@ import butterknife.OnClick;
 /**
  * Created by zhou on 16/11/7.
  */
-public class ChatActivity extends BaseSlideActivity {
+public class ChatActivity extends BaseSlideActivity implements IChatView {
 
     @Bind(R.id.tv_title) TextView tv_title;
     @Bind(R.id.ll_return) LinearLayout ll_return;
 
     @Bind(R.id.lv_chat) ListView lv_chat;
+    @Bind(R.id.ll_no_message) LinearLayout ll_no_message;
 
-    private List<ChatItem> mData;
-    private ChatItemAdapter adapter;
+    private List<ChatMessage> mData;
+    private ChatMessageAdapter adapter;
+
+    private IChatPresenter presenter;
+
+    private String courseId;
+    private int page = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,23 +66,15 @@ public class ChatActivity extends BaseSlideActivity {
 
     public void initData(){
 
-
-        ChatItem item = new ChatItem();
-        item.setType(0);
-
-        ChatItem item2 = new ChatItem();
-        item2.setType(1);
-
         mData = new ArrayList<>();
-        mData.add(item);
-        mData.add(item);
-        mData.add(item);
-        mData.add(item2);
-        mData.add(item);
-        mData.add(item);
 
-        adapter = new ChatItemAdapter(this, mData);
+        adapter = new ChatMessageAdapter(this, mData);
         lv_chat.setAdapter(adapter);
+
+        courseId = getIntent().getStringExtra("courseId");
+
+        presenter = new ChatPresenter(this);
+        presenter.sendMessageListRequest(courseId, page);
     }
 
 
@@ -77,5 +82,45 @@ public class ChatActivity extends BaseSlideActivity {
     @OnClick(R.id.ll_return)
     public void back(){
         finish();
+    }
+
+
+    /**
+     * Implementation for IChatView
+     * @param response
+     */
+    @Override
+    public void onGetMessageListSuccess(final ResultResponse<List<ChatMessage>> response) {
+
+        Log.e("response", "msg-list");
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+
+                if (response.getCode().equals("200")){
+
+                    //dismissLoadingDialog();
+
+                    mData = response.getData();
+                    adapter = new ChatMessageAdapter(ChatActivity.this, mData);
+                    lv_chat.setAdapter(adapter);
+                }
+                else{
+                    //dismissLoadingDialog();
+                    String msg = response.getMsg();
+                    ToastView toastView = new ToastView(ChatActivity.this, msg);
+                    toastView.setGravity(Gravity.CENTER, 0, 0);
+                    toastView.show();
+                }
+
+                if (mData.size() == 0){
+                    ll_no_message.setVisibility(View.VISIBLE);
+                }
+                else{
+                    ll_no_message.setVisibility(View.GONE);
+                }
+            }
+        });
     }
 }
