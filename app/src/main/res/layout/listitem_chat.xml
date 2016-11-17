@@ -14,6 +14,7 @@
         android:background="@drawable/bg_card_corner">
 
         <ImageView
+            android:id="@+id/iv_avatar"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:src="@drawable/default_header_male"
@@ -36,7 +37,6 @@
                     android:layout_height="wrap_content"
                     android:textSize="16sp"
                     android:textColor="#333"
-                    android:text="软件工程"
                     android:layout_centerVertical="true"/>
 
                 <LinearLayout
@@ -57,22 +57,23 @@
                         android:src="@drawable/icon_chat_person_tag"/>
 
                     <TextView
+                        android:id="@+id/tv_people_count"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="12sp"
                         android:textColor="#fff"
-                        android:text="34"
+                        android:text="0"
                         android:layout_marginLeft="4dp"/>
 
                 </LinearLayout>
 
                 <TextView
+                    android:id="@+id/tv_latest_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="#666"
                     android:textSize="12sp"
                     android:layout_alignParentRight="true"
-                    android:text="12分钟前"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="16dp"/>
 
@@ -84,11 +85,11 @@
                 android:layout_marginTop="10dp">
 
                 <TextView
+                    android:id="@+id/tv_chat_content"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="14sp"
                     android:textColor="#666"
-                    android:text="楼主是傻逼吗 。。。 重要的事情问三遍？"
                     android:layout_marginRight="50dp"
                     android:singleLine="true"/>
 
@@ -98,7 +99,8 @@
                     android:src="@drawable/bg_point_warning"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="16dp"/>
+                    android:layout_marginRight="16dp"
+                    android:visibility="gone"/>
 
             </RelativeLayout>
 

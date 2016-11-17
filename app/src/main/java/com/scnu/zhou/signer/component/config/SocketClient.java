@@ -1,13 +1,23 @@
 package com.scnu.zhou.signer.component.config;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.IO;
 import com.github.nkzawa.socketio.client.Socket;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.scnu.zhou.signer.callback.chat.RoomListCallBack;
+import com.scnu.zhou.signer.component.bean.chat.ChatRoom;
+import com.scnu.zhou.signer.component.bean.http.ResultResponse;
 import com.scnu.zhou.signer.component.cache.NoticeCache;
 import com.scnu.zhou.signer.component.cache.UserCache;
+
+import org.json.JSONObject;
+
+import java.util.List;
 
 /**
  * Created by zhou on 16/11/16.
@@ -16,7 +26,10 @@ public class SocketClient {
 
     private final String TAG = "SocketClient";
 
+    private Socket socket;
+
     private OnNoticeReceiveListener listener;
+    private RoomListCallBack roomListCallBack;
 
     private SocketClient(){
 
@@ -39,7 +52,7 @@ public class SocketClient {
         opts.reconnection = true;
         opts.port = 3000;
         try {
-            final Socket socket = IO.socket(SignerServer.Server + "/sign",opts);
+            socket = IO.socket(SignerServer.Server + "/sign",opts);
 
             socket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
 
@@ -91,7 +104,32 @@ public class SocketClient {
 
                         listener.onNoticeReceive();
                     }
+
                 }
+            }).on(SocketEvent.ROOMLIST_EVENT, new Emitter.Listener() {
+
+                @Override
+                public void call(Object... args) {
+
+                    // 获取聊天室列表
+                    Log.e(TAG, "room-list");
+
+                    if (roomListCallBack != null) {
+                        String response = ((JSONObject) args[0]).toString();
+                        ResultResponse<List<ChatRoom>> mData = new ResultResponse<List<ChatRoom>>();
+
+                        Log.e(TAG, response);
+
+                        if (!TextUtils.isEmpty(response) && !response.equals("null"))
+                            mData = new Gson().fromJson(response,
+                                    new TypeToken<ResultResponse<List<ChatRoom>>>() {
+                                    }.getType());
+
+                        roomListCallBack.onGetRoomListSuccess(mData);
+                    }
+
+                }
+
             });
 
             socket.connect();
@@ -103,6 +141,18 @@ public class SocketClient {
         }
     }
 
+
+    public void sendRoomListRequest(String studentId, RoomListCallBack callBack){
+
+        socket.emit("room-list", studentId);
+        this.roomListCallBack = callBack;
+    }
+
+
+    /**
+     * Listener for NoticeReceive
+     * @param listener
+     */
     public void setOnNoticeReceiveListener(OnNoticeReceiveListener listener){
 
         this.listener = listener;

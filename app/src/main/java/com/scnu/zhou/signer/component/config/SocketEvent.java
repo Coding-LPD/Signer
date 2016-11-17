@@ -6,4 +6,6 @@ package com.scnu.zhou.signer.component.config;
 public class SocketEvent {
 
     public static final String NOTICE_ENVENT = "notice";
+
+    public static final String ROOMLIST_EVENT = "room-list";
 }

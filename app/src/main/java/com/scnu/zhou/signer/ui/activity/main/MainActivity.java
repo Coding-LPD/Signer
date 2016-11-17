@@ -206,5 +206,6 @@ public class MainActivity extends BaseFragmentActivity{
         super.onDestroy();
 
         //unbindService(connection);
+        SocketClient.getInstance().clearOnNoticeReceiveListener();
     }
 }
