@@ -1,10 +1,19 @@
+var ChatRoom = require('../routes/chat-room');
+var ChatMsg = require('../routes/chat-msg');
+
 var nsp;
 var namespace = '/sign';
 var events = {
+  // sign
   studentIn: 'student-in',
   studentOut: 'student-out',
   sign: 'sign',
-  notice: 'notice'
+  notice: 'notice',
+
+  // chatroom
+  roomList: 'room-list',
+  msgList: 'msg-list',
+  newMsg: 'newMsg'
 };
 var students = {};
 
@@ -22,8 +31,15 @@ function setSocket(io) {
 function listen(client) {
   client.on('disconnect', disconnect);
   client.on('error', handleError);
-  client.on(events.studentIn, studentIn(client));
-  client.on(events.studentOut, studentOut(client));
+
+  // sign
+  client.on(events.studentIn, onStudentIn(client));
+  client.on(events.studentOut, onStudentOut(client));
+
+  // chatroom
+  client.on(events.roomList, onRoomList(client));
+  client.on(events.msgList, onMsgList(client));
+  client.on(events.newMsg, onNewMsg(client));
 }
 
 function disconnect() {
@@ -34,16 +50,53 @@ function handleError(err) {
   console.log('socket error: ' + err);
 }
 
-function studentIn(client) {
-  return function (data) {    
+function onStudentIn(client) {
+  return function (data) {
     students[data] = client;
   }
 }
 
-function studentOut(client) {
+function onStudentOut(client) {
   return function (data) {
     students[data] = client;
   }
+}
+
+// 监听room-list事件，返回聊天室列表，并把该客户端加入对应聊天室
+function onRoomList(client) {
+  return function (studentId) {
+    console.log('room-list studentid: ' + studentId);
+    ChatRoom.getRoomList(studentId)
+      .then(function (results) {
+        // 将聊天室列表发送给客户端
+        client.emit(events.roomList, results);
+        // 将客户端加入对应课程的聊天室
+        results.forEach(function (r) {
+          client.join(r.courseId);
+        });
+      });
+  }
+}
+
+// 监听msg-list事件，返回指定聊天室的聊天信息
+function onMsgList(client) {
+  return function (data) {
+    console.log('msg-list: ', data);    
+    ChatMsg.getMsgList(data)
+      .then(function (results) {
+        client.emit(events.msgList, results);        
+      });
+  }
+}
+
+// 监听new-msg事件，返回保存好的聊天信息，通知同一个聊天室的人有新消息
+function onNewMsg(client) {
+    return function (data) {
+      ChatMsg.saveMsg(data)
+        .then(function (results) {
+          client.to(data.courseId).emit(events.newMsg. results);
+        });
+    }
 }
 
 function send(event, data) {
