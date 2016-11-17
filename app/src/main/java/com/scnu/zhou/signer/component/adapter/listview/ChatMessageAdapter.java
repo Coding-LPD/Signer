@@ -57,13 +57,14 @@ public class ChatMessageAdapter extends BaseAdapter {
             view = LayoutInflater.from(context).inflate(R.layout.listitem_chat_right, null);
         }
 
+        viewHolder = new ViewHolder();
+        viewHolder.iv_avatar = (ImageView) view.findViewById(R.id.iv_avatar);
+        viewHolder.tv_content = (TextView) view.findViewById(R.id.tv_content);
+        viewHolder.tv_time = (TextView) view.findViewById(R.id.tv_time);
+
         if (convertView == null) {
 
-            viewHolder = new ViewHolder();
-            viewHolder.iv_avatar = (ImageView) convertView.findViewById(R.id.iv_avatar);
-            viewHolder.tv_content = (TextView) convertView.findViewById(R.id.tv_content);
-            viewHolder.tv_time = (TextView) convertView.findViewById(R.id.tv_time);
-
+            convertView = view;
             convertView.setTag(viewHolder);
         }
         else{
@@ -75,8 +76,26 @@ public class ChatMessageAdapter extends BaseAdapter {
                 mData.get(position).getAvatar());
         viewHolder.tv_content.setText(mData.get(position).getContent());
 
-        String time[] = mData.get(position).getCreatedAt().split(" ");
-        viewHolder.tv_time.setText(time[1]);
+        String timeStr[] = mData.get(position).getCreatedAt().split(" ");
+        String hour = timeStr[1].substring(0, 2);
+        String minute = timeStr[1].substring(3, 5);
+
+        String time;
+        if (Integer.parseInt(hour) > 12){
+
+            int newHour = Integer.parseInt(hour) - 12;
+            if (newHour >= 10) {
+                time = newHour + ":" + minute + " PM";
+            }
+            else{
+                time = "0" + newHour + ":" + minute + " PM";
+            }
+        }
+        else{
+            time = hour + ":" + minute + " AM";
+        }
+
+        viewHolder.tv_time.setText(time);
 
         return view;
     }

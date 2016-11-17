@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * Created by zhou on 16/11/17.
  */
-public class ChatPresenter implements IChatPresenter, ChatCallBack{
+public class ChatPresenter implements IChatPresenter, ChatCallBack {
 
     private IChatView chatView;
 
@@ -27,8 +27,20 @@ public class ChatPresenter implements IChatPresenter, ChatCallBack{
     }
 
     @Override
+    public void sendMessageAction(String courseId, String studentId, String content) {
+
+        SocketClient.getInstance().sendMessageAction(courseId, studentId, content, this);
+    }
+
+    @Override
     public void onGetMessageListSuccess(ResultResponse<List<ChatMessage>> response) {
 
         chatView.onGetMessageListSuccess(response);
+    }
+
+    @Override
+    public void onSendMessageSuccess(ResultResponse<ChatMessage> response) {
+
+        chatView.onSendMessageSuccess(response);
     }
 }

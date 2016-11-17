@@ -10,4 +10,6 @@ public class SocketEvent {
     public static final String ROOMLIST_EVENT = "room-list";
 
     public static final String MSGLIST_EVENT = "msg-list";
+
+    public static final String SENDMSG_EVENT = "new-msg";
 }

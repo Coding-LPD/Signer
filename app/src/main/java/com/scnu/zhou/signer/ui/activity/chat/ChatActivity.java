@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -12,6 +14,7 @@ import com.scnu.zhou.signer.R;
 import com.scnu.zhou.signer.component.adapter.listview.ChatMessageAdapter;
 import com.scnu.zhou.signer.component.bean.chat.ChatMessage;
 import com.scnu.zhou.signer.component.bean.http.ResultResponse;
+import com.scnu.zhou.signer.component.cache.UserCache;
 import com.scnu.zhou.signer.presenter.chat.ChatPresenter;
 import com.scnu.zhou.signer.presenter.chat.IChatPresenter;
 import com.scnu.zhou.signer.ui.activity.base.BaseSlideActivity;
@@ -35,6 +38,9 @@ public class ChatActivity extends BaseSlideActivity implements IChatView {
 
     @Bind(R.id.lv_chat) ListView lv_chat;
     @Bind(R.id.ll_no_message) LinearLayout ll_no_message;
+
+    @Bind(R.id.et_content) EditText et_content;
+    @Bind(R.id.ibtn_send) ImageButton ibtn_send;
 
     private List<ChatMessage> mData;
     private ChatMessageAdapter adapter;
@@ -78,10 +84,26 @@ public class ChatActivity extends BaseSlideActivity implements IChatView {
     }
 
 
+    public void refresh(){
+
+        page = 0;
+        presenter.sendMessageListRequest(courseId, page);
+    }
+
+
     // 返回上一页面
     @OnClick(R.id.ll_return)
     public void back(){
         finish();
+    }
+
+
+    // 点击发送消息
+    @OnClick(R.id.ibtn_send)
+    public void send(){
+        Log.e("click", "send");
+        presenter.sendMessageAction(courseId, UserCache.getInstance().getId(this),
+                et_content.getText().toString());
     }
 
 
@@ -119,6 +141,36 @@ public class ChatActivity extends BaseSlideActivity implements IChatView {
                 }
                 else{
                     ll_no_message.setVisibility(View.GONE);
+                }
+            }
+        });
+    }
+
+    @Override
+    public void onSendMessageSuccess(final ResultResponse<ChatMessage> response) {
+
+        Log.e("response", "send message success");
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+
+                if (response.getCode().equals("200")){
+
+                    //dismissLoadingDialog();
+
+                    ChatMessage message = response.getData();
+                    mData.add(message);
+                    adapter.notifyDataSetChanged();
+
+                    refresh();
+                }
+                else{
+                    //dismissLoadingDialog();
+                    String msg = response.getMsg();
+                    ToastView toastView = new ToastView(ChatActivity.this, msg);
+                    toastView.setGravity(Gravity.CENTER, 0, 0);
+                    toastView.show();
                 }
             }
         });

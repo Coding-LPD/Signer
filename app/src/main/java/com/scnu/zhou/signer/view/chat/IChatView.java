@@ -11,4 +11,6 @@ import java.util.List;
 public interface IChatView {
 
     void onGetMessageListSuccess(ResultResponse<List<ChatMessage>> response);
+
+    void onSendMessageSuccess(ResultResponse<ChatMessage> response);
 }

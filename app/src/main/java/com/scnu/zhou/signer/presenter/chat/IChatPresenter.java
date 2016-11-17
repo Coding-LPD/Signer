@@ -6,4 +6,6 @@ package com.scnu.zhou.signer.presenter.chat;
 public interface IChatPresenter {
 
     void sendMessageListRequest(String courseId, int page);
+
+    void sendMessageAction(String courseId, String studentId, String content);
 }

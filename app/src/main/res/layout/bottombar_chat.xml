@@ -18,6 +18,7 @@
             android:background="#eee"/>
 
         <EditText
+            android:id="@+id/et_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@null"
@@ -35,6 +36,7 @@
     </LinearLayout>
 
     <ImageButton
+        android:id="@+id/ibtn_send"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"

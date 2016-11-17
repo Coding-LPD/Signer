@@ -32,7 +32,7 @@ public class SocketClient {
 
     private OnNoticeReceiveListener listener;
     private RoomListCallBack roomListCallBack;
-    private ChatCallBack messageListCallBack;
+    private ChatCallBack chatCallBack;
 
     private SocketClient(){
 
@@ -141,7 +141,7 @@ public class SocketClient {
                     // 获取聊天室列表
                     Log.e(TAG, "msg-list");
 
-                    if (messageListCallBack != null) {
+                    if (chatCallBack != null) {
                         String response = ((JSONObject) args[0]).toString();
                         ResultResponse<List<ChatMessage>> mData = new ResultResponse<List<ChatMessage>>();
 
@@ -152,7 +152,31 @@ public class SocketClient {
                                     new TypeToken<ResultResponse<List<ChatMessage>>>() {
                                     }.getType());
 
-                        messageListCallBack.onGetMessageListSuccess(mData);
+                        chatCallBack.onGetMessageListSuccess(mData);
+                    }
+
+                }
+
+            }).on(SocketEvent.SENDMSG_EVENT, new Emitter.Listener() {
+
+                @Override
+                public void call(Object... args) {
+
+                    // 获取聊天室列表
+                    Log.e(TAG, "send-msg");
+
+                    if (chatCallBack != null) {
+                        String response = ((JSONObject) args[0]).toString();
+                        ResultResponse<ChatMessage> mData = new ResultResponse<ChatMessage>();
+
+                        Log.e(TAG, response);
+
+                        if (!TextUtils.isEmpty(response) && !response.equals("null"))
+                            mData = new Gson().fromJson(response,
+                                    new TypeToken<ResultResponse<ChatMessage>>() {
+                                    }.getType());
+
+                        chatCallBack.onSendMessageSuccess(mData);
                     }
 
                 }
@@ -190,7 +214,21 @@ public class SocketClient {
     public void sendMessageListRequest(String courseId, int page, ChatCallBack callBack){
 
         socket.emit(SocketEvent.MSGLIST_EVENT, courseId, page);
-        this.messageListCallBack = callBack;
+        this.chatCallBack = callBack;
+    }
+
+
+    /**
+     * 发送消息动作
+     * @param courseId
+     * @param studentId
+     * @param content
+     * @param callBack
+     */
+    public void sendMessageAction(String courseId, String studentId, String content, ChatCallBack callBack){
+
+        socket.emit(SocketEvent.SENDMSG_EVENT, courseId, studentId, content);
+        this.chatCallBack = callBack;
     }
 
 
