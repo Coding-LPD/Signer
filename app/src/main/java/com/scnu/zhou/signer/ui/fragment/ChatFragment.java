@@ -100,6 +100,8 @@ public class ChatFragment extends Fragment implements IRoomView, PullToRefreshLi
     @Override
     public void onLoadMore() {
 
+        plv_chat.onLoadMoreAllCompleted();
+
     }
 
     @Override
@@ -166,6 +168,8 @@ public class ChatFragment extends Fragment implements IRoomView, PullToRefreshLi
                 else{
                     ll_no_chat.setVisibility(View.GONE);
                 }
+
+                plv_chat.onRefreshCompleted();
             }
         });
 
