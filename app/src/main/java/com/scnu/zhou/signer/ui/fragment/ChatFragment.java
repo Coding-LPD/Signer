@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import android.widget.LinearLayout;
 
 import com.scnu.zhou.signer.R;
 import com.scnu.zhou.signer.component.adapter.listview.ChatRoomAdapter;
+import com.scnu.zhou.signer.component.bean.chat.ChatMessage;
 import com.scnu.zhou.signer.component.bean.chat.ChatRoom;
 import com.scnu.zhou.signer.component.bean.http.ResultResponse;
 import com.scnu.zhou.signer.component.cache.UserCache;
@@ -123,7 +125,7 @@ public class ChatFragment extends Fragment implements IRoomView, PullToRefreshLi
         if (position > 0) {
             Intent intent = new Intent(context, ChatActivity.class);
             intent.putExtra("courseId", mData.get(position - 1).getCourseId());
-            startActivity(intent);
+            startActivityForResult(intent, 0);
             context.overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
         }
 
@@ -169,9 +171,23 @@ public class ChatFragment extends Fragment implements IRoomView, PullToRefreshLi
     }
 
     @Override
+    public void onReceiveNewMessage(ResultResponse<ChatMessage> response) {
+
+        onRefresh();
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
 
+        onRefresh();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        Log.e("result", ">>");
         onRefresh();
     }
 }

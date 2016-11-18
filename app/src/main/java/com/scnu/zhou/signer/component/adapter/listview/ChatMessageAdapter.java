@@ -5,13 +5,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.scnu.zhou.signer.R;
 import com.scnu.zhou.signer.component.bean.chat.ChatMessage;
 import com.scnu.zhou.signer.component.cache.UserCache;
 import com.scnu.zhou.signer.component.util.image.ImageLoaderUtil;
+import com.scnu.zhou.signer.ui.widget.image.CircleImageView;
 
 import java.util.List;
 
@@ -56,7 +56,7 @@ public class ChatMessageAdapter extends BaseAdapter {
             view = LayoutInflater.from(context).inflate(R.layout.listitem_chat_right, null);
         }
 
-        ImageView iv_avatar = (ImageView) view.findViewById(R.id.iv_avatar);
+        CircleImageView iv_avatar = (CircleImageView) view.findViewById(R.id.iv_avatar);
         TextView tv_content = (TextView) view.findViewById(R.id.tv_content);
         TextView tv_time = (TextView) view.findViewById(R.id.tv_time);
 

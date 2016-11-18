@@ -157,26 +157,30 @@ public class SocketClient {
 
                 }
 
-            }).on(SocketEvent.SENDMSG_EVENT, new Emitter.Listener() {
+            }).on(SocketEvent.NEWMSG_EVENT, new Emitter.Listener() {
 
                 @Override
                 public void call(Object... args) {
 
-                    // 获取聊天室列表
-                    Log.e(TAG, "send-msg");
+                    // 收到新消息
+                    Log.e(TAG, "new-msg");
+
+                    String response = ((JSONObject) args[0]).toString();
+                    ResultResponse<ChatMessage> mData = new ResultResponse<ChatMessage>();
+
+                    Log.e(TAG, response);
+
+                    if (!TextUtils.isEmpty(response) && !response.equals("null"))
+                        mData = new Gson().fromJson(response,
+                                new TypeToken<ResultResponse<ChatMessage>>() {
+                                }.getType());
 
                     if (chatCallBack != null) {
-                        String response = ((JSONObject) args[0]).toString();
-                        ResultResponse<ChatMessage> mData = new ResultResponse<ChatMessage>();
+                        chatCallBack.onReceiveNewMessage(mData);
+                    }
 
-                        Log.e(TAG, response);
-
-                        if (!TextUtils.isEmpty(response) && !response.equals("null"))
-                            mData = new Gson().fromJson(response,
-                                    new TypeToken<ResultResponse<ChatMessage>>() {
-                                    }.getType());
-
-                        chatCallBack.onSendMessageSuccess(mData);
+                    if (roomListCallBack != null){
+                        roomListCallBack.onReceiveNewMessage(mData);
                     }
 
                 }
@@ -223,12 +227,10 @@ public class SocketClient {
      * @param courseId
      * @param studentId
      * @param content
-     * @param callBack
      */
-    public void sendMessageAction(String courseId, String studentId, String content, ChatCallBack callBack){
+    public void sendMessageAction(String courseId, String studentId, String content){
 
         socket.emit(SocketEvent.SENDMSG_EVENT, courseId, studentId, content);
-        this.chatCallBack = callBack;
     }
 
 

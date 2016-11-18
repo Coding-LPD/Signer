@@ -5,10 +5,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.scnu.zhou.signer.R;
 import com.scnu.zhou.signer.component.bean.chat.ChatRoom;
+import com.scnu.zhou.signer.component.cache.TimeCache;
 import com.scnu.zhou.signer.component.util.image.ImageLoaderUtil;
 import com.scnu.zhou.signer.component.util.time.TimeUtil;
 import com.scnu.zhou.signer.ui.widget.image.CircleImageView;
@@ -58,6 +60,7 @@ public class ChatRoomAdapter extends BaseAdapter {
             viewholder.tv_chat_content = (TextView) convertView.findViewById(R.id.tv_chat_content);
             viewholder.tv_latest_time = (TextView) convertView.findViewById(R.id.tv_latest_time);
             viewholder.tv_people_count = (TextView) convertView.findViewById(R.id.tv_people_count);
+            viewholder.iv_unread = (ImageView) convertView.findViewById(R.id.iv_unread);
 
             convertView.setTag(viewholder);
         }
@@ -81,6 +84,18 @@ public class ChatRoomAdapter extends BaseAdapter {
                     mData.get(position).getAvatar());
         }
 
+        long last = TimeUtil.stringToLong(TimeCache.getInstance().getTime(
+                context, mData.get(position).getCourseId()), "yyyy-MM-dd HH:mm:ss");
+        long now = TimeUtil.stringToLong(mData.get(position).getMsg().getCreatedAt(),
+                "yyyy-MM-dd HH:mm:ss");
+
+        if (last < now){
+            viewholder.iv_unread.setVisibility(View.VISIBLE);
+        }
+        else{
+            viewholder.iv_unread.setVisibility(View.GONE);
+        }
+
         return convertView;
     }
 
@@ -91,5 +106,6 @@ public class ChatRoomAdapter extends BaseAdapter {
         private TextView tv_chat_content;
         private TextView tv_latest_time;
         private TextView tv_people_count;
+        private ImageView iv_unread;
     }
 }

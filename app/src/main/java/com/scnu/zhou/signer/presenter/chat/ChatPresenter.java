@@ -29,7 +29,7 @@ public class ChatPresenter implements IChatPresenter, ChatCallBack {
     @Override
     public void sendMessageAction(String courseId, String studentId, String content) {
 
-        SocketClient.getInstance().sendMessageAction(courseId, studentId, content, this);
+        SocketClient.getInstance().sendMessageAction(courseId, studentId, content);
     }
 
     @Override
@@ -39,8 +39,8 @@ public class ChatPresenter implements IChatPresenter, ChatCallBack {
     }
 
     @Override
-    public void onSendMessageSuccess(ResultResponse<ChatMessage> response) {
+    public void onReceiveNewMessage(ResultResponse<ChatMessage> response) {
 
-        chatView.onSendMessageSuccess(response);
+        chatView.onReceiveNewMessage(response);
     }
 }

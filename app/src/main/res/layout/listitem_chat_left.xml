@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <ImageView
+    <com.scnu.zhou.signer.ui.widget.image.CircleImageView
         android:id="@+id/iv_avatar"
         android:layout_width="38dp"
         android:layout_height="38dp"
@@ -11,7 +12,9 @@
         android:layout_marginLeft="12dp"
         android:layout_marginTop="12dp"
         android:layout_marginBottom="12dp"
-        android:layout_marginRight="5dp"/>
+        android:layout_marginRight="5dp"
+        app:border_color="#ffffff"
+        app:border_width="0dp"/>
 
     <FrameLayout
         android:layout_width="wrap_content"

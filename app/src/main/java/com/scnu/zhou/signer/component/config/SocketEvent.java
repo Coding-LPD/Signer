@@ -12,4 +12,6 @@ public class SocketEvent {
     public static final String MSGLIST_EVENT = "msg-list";
 
     public static final String SENDMSG_EVENT = "new-msg";
+
+    public static final String NEWMSG_EVENT = "new-msg";
 }

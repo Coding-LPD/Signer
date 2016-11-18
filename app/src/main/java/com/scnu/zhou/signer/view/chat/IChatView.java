@@ -12,5 +12,5 @@ public interface IChatView {
 
     void onGetMessageListSuccess(ResultResponse<List<ChatMessage>> response);
 
-    void onSendMessageSuccess(ResultResponse<ChatMessage> response);
+    void onReceiveNewMessage(ResultResponse<ChatMessage> response);
 }

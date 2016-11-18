@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingBottom="12dp">
@@ -60,12 +61,14 @@
 
     </RelativeLayout>
 
-    <ImageView
+    <com.scnu.zhou.signer.ui.widget.image.CircleImageView
         android:id="@+id/iv_avatar"
         android:layout_width="38dp"
         android:layout_height="38dp"
         android:src="@drawable/default_header_male"
         android:layout_margin="12dp"
-        android:layout_alignParentRight="true"/>
+        android:layout_alignParentRight="true"
+        app:border_color="#ffffff"
+        app:border_width="0dp"/>
 
 </RelativeLayout>
