@@ -10,6 +10,10 @@ import java.util.List;
  */
 public interface IChatView {
 
+    void initView();
+
+    void initData();
+
     void onGetMessageListSuccess(ResultResponse<List<ChatMessage>> response);
 
     void onReceiveNewMessage(ResultResponse<ChatMessage> response);

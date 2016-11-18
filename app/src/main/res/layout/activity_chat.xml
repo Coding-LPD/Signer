@@ -6,18 +6,33 @@
 
     <include layout="@layout/actionbar_main"/>
 
-    <ListView
-        android:id="@+id/lv_chat"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/bottombar_chat"
-        android:divider="@null"
-        android:scrollbars="none"
-        android:layout_marginTop="51dp"
-        android:listSelector="@android:color/transparent"  />
+    <com.scnu.zhou.signer.ui.widget.scrollview.IMMListenerScrollView
+        android:id="@+id/scrollContent"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:fadeScrollbars="true"
+        android:fillViewport="true"
+        android:layout_marginTop="51dp">
 
-    <include layout="@layout/bottombar_chat"/>
+        <RelativeLayout
+            android:id="@+id/iml_chat"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    <include layout="@layout/layout_no_message"/>
+            <ListView
+                android:id="@+id/lv_chat"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_above="@+id/bottombar_chat"
+                android:divider="@null"
+                android:scrollbars="none" />
+
+            <include layout="@layout/bottombar_chat02"/>
+
+            <include layout="@layout/layout_no_message"/>
+
+        </RelativeLayout>
+
+    </com.scnu.zhou.signer.ui.widget.scrollview.IMMListenerScrollView>
 
 </RelativeLayout>

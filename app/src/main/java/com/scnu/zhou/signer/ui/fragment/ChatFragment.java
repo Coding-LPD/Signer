@@ -125,6 +125,7 @@ public class ChatFragment extends Fragment implements IRoomView, PullToRefreshLi
         if (position > 0) {
             Intent intent = new Intent(context, ChatActivity.class);
             intent.putExtra("courseId", mData.get(position - 1).getCourseId());
+            intent.putExtra("courseName", mData.get(position - 1).getName());
             startActivityForResult(intent, 0);
             context.overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
         }

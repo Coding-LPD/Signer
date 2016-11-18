@@ -1,13 +1,18 @@
 package com.scnu.zhou.signer.ui.activity.chat;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -21,6 +26,7 @@ import com.scnu.zhou.signer.component.cache.UserCache;
 import com.scnu.zhou.signer.presenter.chat.ChatPresenter;
 import com.scnu.zhou.signer.presenter.chat.IChatPresenter;
 import com.scnu.zhou.signer.ui.activity.base.BaseSlideActivity;
+import com.scnu.zhou.signer.ui.widget.scrollview.IMMListenerScrollView;
 import com.scnu.zhou.signer.ui.widget.toast.ToastView;
 import com.scnu.zhou.signer.view.chat.IChatView;
 
@@ -33,11 +39,13 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnItemClick;
 
 /**
  * Created by zhou on 16/11/7.
  */
-public class ChatActivity extends BaseSlideActivity implements IChatView, AbsListView.OnScrollListener {
+public class ChatActivity extends BaseSlideActivity implements IChatView, AbsListView.OnScrollListener,
+        View.OnKeyListener, OnItemClickListener{
 
     @Bind(R.id.tv_title) TextView tv_title;
     @Bind(R.id.ll_return) LinearLayout ll_return;
@@ -46,7 +54,7 @@ public class ChatActivity extends BaseSlideActivity implements IChatView, AbsLis
     @Bind(R.id.ll_no_message) LinearLayout ll_no_message;
 
     @Bind(R.id.et_content) EditText et_content;
-    @Bind(R.id.ibtn_send) ImageButton ibtn_send;
+    @Bind(R.id.scrollContent) IMMListenerScrollView scrollContent;
 
     private List<ChatMessage> mData;
     private ChatMessageAdapter adapter;
@@ -76,13 +84,14 @@ public class ChatActivity extends BaseSlideActivity implements IChatView, AbsLis
     }
 
 
+    @Override
     public void initView(){
 
-        tv_title.setText("聊天室");
+        tv_title.setText(getIntent().getStringExtra("courseName"));
         ll_return.setVisibility(View.VISIBLE);
 
         lv_chat.setOnScrollListener(this);
-
+        et_content.setOnKeyListener(this);
 
         // 添加头布局
         headerView = LayoutInflater.from(this).inflate(R.layout.listview_loadingview, null);
@@ -97,9 +106,29 @@ public class ChatActivity extends BaseSlideActivity implements IChatView, AbsLis
                 AbsListView.LayoutParams.MATCH_PARENT, 40);
         footerView.setLayoutParams(params);
         lv_chat.addFooterView(footerView);
+
+        // 监听软键盘弹出事件
+        scrollContent.setListener(new IMMListenerScrollView.InputWindowListener() {
+            @Override
+            public void show() {
+                Log.e("chat", "input window show");
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        lv_chat.setSelection(lv_chat.getBottom());
+                    }
+                }, 100);
+
+            }
+
+            @Override
+            public void hidden() {
+
+            }
+        });
     }
 
-
+    @Override
     public void initData(){
 
         mData = new ArrayList<>();
@@ -114,25 +143,8 @@ public class ChatActivity extends BaseSlideActivity implements IChatView, AbsLis
     }
 
 
-    public void refresh(){
-
-        page = 0;
-        isRefresh = true;
-        presenter.sendMessageListRequest(courseId, page);
-    }
-
-
-    // 返回上一页面
-    @OnClick(R.id.ll_return)
-    public void back(){
-        finish();
-    }
-
-
-    // 点击发送消息
-    @OnClick(R.id.ibtn_send)
+    // 发送消息
     public void send(){
-        Log.e("click", "send");
 
         ChatMessage message = new ChatMessage();
         message.setAvatar(UserCache.getInstance().getAvatar(this));
@@ -277,9 +289,31 @@ public class ChatActivity extends BaseSlideActivity implements IChatView, AbsLis
         }
     }
 
+
+    /**
+     * implementation for Keylistener
+     * @param v
+     * @param keyCode
+     * @param event
+     * @return
+     */
+    @Override
+    public boolean onKey(View v, int keyCode, KeyEvent event) {
+
+        if (keyCode == event.KEYCODE_ENTER) {
+            // 执行发送动作
+            Log.e("action", "send >>>>");
+
+            send();
+        }
+        return false;
+    }
+
+
     @Override
     public void finish() {
 
+        // 保存最近访问时间戳
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date curDate = new Date(System.currentTimeMillis());//获取当前时间
         String time = format.format(curDate);
@@ -288,5 +322,30 @@ public class ChatActivity extends BaseSlideActivity implements IChatView, AbsLis
         TimeCache.getInstance().setTime(this, courseId, time);
 
         super.finish();
+    }
+
+
+    @OnItemClick(R.id.lv_chat)
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+        dismissKeyBoard();
+    }
+
+    // 返回上一页面
+    @OnClick(R.id.ll_return)
+    public void back(){
+        finish();
+    }
+
+
+    // 取消软键盘
+    public void dismissKeyBoard(){
+
+        InputMethodManager imm =  (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        if(imm != null) {
+
+            imm.hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(), 0);
+        }
     }
 }
