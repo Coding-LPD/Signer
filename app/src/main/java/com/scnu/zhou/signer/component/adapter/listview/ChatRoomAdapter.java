@@ -1,6 +1,7 @@
 package com.scnu.zhou.signer.component.adapter.listview;
 
 import android.content.Context;
+import android.text.SpannableString;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import com.scnu.zhou.signer.R;
 import com.scnu.zhou.signer.component.bean.chat.ChatRoom;
 import com.scnu.zhou.signer.component.cache.TimeCache;
+import com.scnu.zhou.signer.component.util.emotion.ExpressionUtil;
 import com.scnu.zhou.signer.component.util.image.ImageLoaderUtil;
 import com.scnu.zhou.signer.component.util.time.TimeUtil;
 import com.scnu.zhou.signer.ui.widget.image.CircleImageView;
@@ -72,7 +74,10 @@ public class ChatRoomAdapter extends BaseAdapter {
         viewholder.tv_chat_title.setText(mData.get(position).getName());
         viewholder.tv_people_count.setText(mData.get(position).getCount() + "");
         if (mData.get(position).getMsg() != null) {
-            viewholder.tv_chat_content.setText(mData.get(position).getMsg().getContent());
+            SpannableString spannableString = ExpressionUtil.getExpressionString(context,
+                    mData.get(position).getMsg().getContent(), 40);
+            viewholder.tv_chat_content.setText(spannableString );
+            //viewholder.tv_chat_content.setText(mData.get(position).getMsg().getContent());
             viewholder.tv_latest_time.setText(TimeUtil.setDaysForNow(TimeUtil.stringToLong(mData.get(position)
                     .getMsg().getCreatedAt(), "yyyy-MM-dd HH:mm:ss")));
             ImageLoaderUtil.getInstance().displayHeaderImage(viewholder.civ_avatar,

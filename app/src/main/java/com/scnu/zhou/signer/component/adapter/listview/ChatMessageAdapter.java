@@ -1,6 +1,7 @@
 package com.scnu.zhou.signer.component.adapter.listview;
 
 import android.content.Context;
+import android.text.SpannableString;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import com.scnu.zhou.signer.R;
 import com.scnu.zhou.signer.component.bean.chat.ChatMessage;
 import com.scnu.zhou.signer.component.cache.UserCache;
+import com.scnu.zhou.signer.component.util.emotion.ExpressionUtil;
 import com.scnu.zhou.signer.component.util.image.ImageLoaderUtil;
 import com.scnu.zhou.signer.ui.widget.image.CircleImageView;
 
@@ -62,7 +64,10 @@ public class ChatMessageAdapter extends BaseAdapter {
 
         ImageLoaderUtil.getInstance().displayHeaderImage(iv_avatar,
                 mData.get(position).getAvatar());
-        tv_content.setText(mData.get(position).getContent());
+
+        SpannableString spannableString = ExpressionUtil.getExpressionString(context,
+                mData.get(position).getContent(), 40);
+        tv_content.setText(spannableString );
 
         String timeStr[] = mData.get(position).getCreatedAt().split(" ");
         String hour = timeStr[1].substring(0, 2);

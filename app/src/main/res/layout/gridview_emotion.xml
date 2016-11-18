@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/ll_emotion"
+    android:visibility="gone">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#ddd" />
+
+    <GridView
+        android:id="@+id/gv_emotions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:numColumns="6"
+        android:stretchMode="columnWidth"
+        android:gravity="center"
+        android:horizontalSpacing="0dp"
+        android:verticalSpacing="14dp"
+        android:paddingBottom="14dp"
+        android:paddingTop="14dp"
+        android:background="#F5F5F6" />
+
+</LinearLayout>

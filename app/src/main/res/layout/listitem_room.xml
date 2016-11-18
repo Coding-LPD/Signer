@@ -16,8 +16,8 @@
 
         <com.scnu.zhou.signer.ui.widget.image.CircleImageView
             android:id="@+id/civ_avatar"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="52dp"
+            android:layout_height="52dp"
             android:src="@drawable/default_header_male"
             android:layout_margin="16dp"
             app:border_color="#ffffff"
@@ -85,7 +85,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp">
+                android:layout_marginTop="8dp">
 
                 <TextView
                     android:id="@+id/tv_chat_content"

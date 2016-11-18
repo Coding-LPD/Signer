@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="53dp"
+    android:layout_height="wrap_content"
     android:layout_alignParentBottom="true"
     android:id="@+id/bottombar_chat"
     android:background="#F5F5F6">
@@ -13,7 +13,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="52dp">
 
         <EditText
             android:id="@+id/et_content"
@@ -30,6 +30,7 @@
             android:imeOptions="actionSend"/>
 
         <Button
+            android:id="@+id/btn_emotion"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:background="@drawable/icon_emotion"
@@ -38,5 +39,7 @@
             android:layout_marginRight="10dp"/>
 
     </RelativeLayout>
+
+    <include layout="@layout/gridview_emotion"/>
 
 </LinearLayout>

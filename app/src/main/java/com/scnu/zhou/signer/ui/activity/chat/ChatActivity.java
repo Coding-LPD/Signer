@@ -1,8 +1,15 @@
 package com.scnu.zhou.signer.ui.activity.chat;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.TextUtils;
+import android.text.style.ImageSpan;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -12,17 +19,23 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.scnu.zhou.signer.R;
 import com.scnu.zhou.signer.component.adapter.listview.ChatMessageAdapter;
 import com.scnu.zhou.signer.component.bean.chat.ChatMessage;
+import com.scnu.zhou.signer.component.bean.chat.Emotion;
 import com.scnu.zhou.signer.component.bean.http.ResultResponse;
 import com.scnu.zhou.signer.component.cache.TimeCache;
 import com.scnu.zhou.signer.component.cache.UserCache;
+import com.scnu.zhou.signer.component.util.emotion.ExpressionUtil;
+import com.scnu.zhou.signer.component.util.emotion.XmlUtil;
 import com.scnu.zhou.signer.presenter.chat.ChatPresenter;
 import com.scnu.zhou.signer.presenter.chat.IChatPresenter;
 import com.scnu.zhou.signer.ui.activity.base.BaseSlideActivity;
@@ -30,10 +43,13 @@ import com.scnu.zhou.signer.ui.widget.scrollview.IMMListenerScrollView;
 import com.scnu.zhou.signer.ui.widget.toast.ToastView;
 import com.scnu.zhou.signer.view.chat.IChatView;
 
+import java.io.InputStream;
+import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.Bind;
@@ -56,6 +72,10 @@ public class ChatActivity extends BaseSlideActivity implements IChatView, AbsLis
     @Bind(R.id.et_content) EditText et_content;
     @Bind(R.id.scrollContent) IMMListenerScrollView scrollContent;
 
+    @Bind(R.id.ll_emotion) LinearLayout ll_emotion;
+    @Bind(R.id.btn_emotion) Button btn_emotion;
+    @Bind(R.id.gv_emotions) GridView gv_emotions;
+
     private List<ChatMessage> mData;
     private ChatMessageAdapter adapter;
 
@@ -70,6 +90,13 @@ public class ChatActivity extends BaseSlideActivity implements IChatView, AbsLis
     private View footerView = null;
 
     private int headerHeight = 0;
+
+    private static final int STATE_EMOTION = 0x001;
+    private static final int STATE_KEYBOARD = 0x002;
+    private int input_state = STATE_KEYBOARD;
+
+
+    private List<Emotion> emotions = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,12 +139,16 @@ public class ChatActivity extends BaseSlideActivity implements IChatView, AbsLis
             @Override
             public void show() {
                 Log.e("chat", "input window show");
+
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
+                        btn_emotion.setBackgroundResource(R.drawable.icon_emotion);
+                        ll_emotion.setVisibility(View.GONE);
+                        input_state = STATE_KEYBOARD;
                         lv_chat.setSelection(lv_chat.getBottom());
                     }
-                }, 100);
+                }, 10);
 
             }
 
@@ -126,6 +157,10 @@ public class ChatActivity extends BaseSlideActivity implements IChatView, AbsLis
 
             }
         });
+
+
+        // 初始化表情布局
+        initEmotionView();
     }
 
     @Override
@@ -146,25 +181,27 @@ public class ChatActivity extends BaseSlideActivity implements IChatView, AbsLis
     // 发送消息
     public void send(){
 
-        ChatMessage message = new ChatMessage();
-        message.setAvatar(UserCache.getInstance().getAvatar(this));
-        message.setStudentId(UserCache.getInstance().getId(this));
-        message.setCourseId(courseId);
-        message.setContent(et_content.getText().toString());
+        if (!TextUtils.isEmpty(et_content.getText().toString())) {
+            ChatMessage message = new ChatMessage();
+            message.setAvatar(UserCache.getInstance().getAvatar(this));
+            message.setStudentId(UserCache.getInstance().getId(this));
+            message.setCourseId(courseId);
+            message.setContent(et_content.getText().toString());
 
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date curDate = new Date(System.currentTimeMillis());//获取当前时间
-        String time = format.format(curDate);
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date curDate = new Date(System.currentTimeMillis());//获取当前时间
+            String time = format.format(curDate);
 
-        message.setCreatedAt(time);
-        mData.add(message);
-        adapter.notifyDataSetChanged();
-        lv_chat.setSelection(lv_chat.getBottom());
+            message.setCreatedAt(time);
+            mData.add(message);
+            adapter.notifyDataSetChanged();
+            lv_chat.setSelection(lv_chat.getBottom());
 
-        presenter.sendMessageAction(courseId, UserCache.getInstance().getId(this),
-                et_content.getText().toString());
+            presenter.sendMessageAction(courseId, UserCache.getInstance().getId(this),
+                    et_content.getText().toString());
 
-        et_content.setText("");
+            et_content.setText("");
+        }
     }
 
 
@@ -318,10 +355,38 @@ public class ChatActivity extends BaseSlideActivity implements IChatView, AbsLis
         Date curDate = new Date(System.currentTimeMillis());//获取当前时间
         String time = format.format(curDate);
 
-        Log.e("time", time);
         TimeCache.getInstance().setTime(this, courseId, time);
 
         super.finish();
+    }
+
+
+    @OnClick(R.id.btn_emotion)
+    public void switchInput(){
+
+        if (input_state == STATE_EMOTION){
+            // 切换输入法
+            btn_emotion.setBackgroundResource(R.drawable.icon_emotion);
+            showKeyBoard();
+            ll_emotion.setVisibility(View.GONE);
+
+            input_state = STATE_KEYBOARD;
+        }
+        else{
+            // 切换表情
+            btn_emotion.setBackgroundResource(R.drawable.icon_keyboard);
+            dismissKeyBoard();
+            ll_emotion.setVisibility(View.VISIBLE);
+
+            input_state = STATE_EMOTION;
+        }
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                lv_chat.setSelection(lv_chat.getBottom());
+            }
+        }, 10);
     }
 
 
@@ -339,6 +404,17 @@ public class ChatActivity extends BaseSlideActivity implements IChatView, AbsLis
     }
 
 
+    // 打开软键盘
+    public void showKeyBoard(){
+
+        InputMethodManager imm =  (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        if(imm != null) {
+
+            imm.showSoftInput(et_content,InputMethodManager.SHOW_FORCED);
+        }
+    }
+
+
     // 取消软键盘
     public void dismissKeyBoard(){
 
@@ -346,6 +422,97 @@ public class ChatActivity extends BaseSlideActivity implements IChatView, AbsLis
         if(imm != null) {
 
             imm.hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(), 0);
+        }
+    }
+
+
+    /**
+     * 初始化表情区
+     */
+    public void initEmotionView(){
+
+        try {
+            InputStream inputStream = this.getResources().getAssets()
+                    .open("emotions.xml");
+            emotions = XmlUtil.getEmotions(inputStream);
+
+            ArrayList<HashMap<String, Object>> items = new ArrayList<HashMap<String, Object>>();
+            for (int i = 0; i < emotions.size(); i++) {
+                Emotion emotion = emotions.get(i);
+                if (emotion != null) {
+                    HashMap<String, Object> map = new HashMap<String, Object>();
+                    Field f = (Field) R.drawable.class.getDeclaredField(emotion
+                            .getName());
+                    int j = f.getInt(R.drawable.class);
+                    map.put("itemImage", j);
+                    items.add(map);
+                }
+            }
+            items.remove(items.size() - 1);
+            HashMap<String, Object> map = new HashMap<String, Object>();
+            map.put("itemImage", R.drawable.img_delete);
+            items.add(map);
+
+            SimpleAdapter saImageItems = new SimpleAdapter(this, items,
+                    R.layout.emotion_item, new String[] { "itemImage" },
+                    new int[] { R.id.iv_emotion });
+            gv_emotions.setSelector(new ColorDrawable(Color.TRANSPARENT));
+            gv_emotions.setAdapter(saImageItems);
+
+            gv_emotions.setOnItemClickListener(new OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    if(position == emotions.size() - 1) {
+                        int cursorPosition = et_content.getSelectionStart();
+                        if(cursorPosition > 0) {
+                            String str = et_content.getText().subSequence(0, cursorPosition).toString();
+                            int lastIndex = str.lastIndexOf("f");
+                            if(lastIndex >= 0 && lastIndex < cursorPosition) {
+                                str = str.substring(lastIndex, cursorPosition);
+                                boolean match = ExpressionUtil.matchEmotion(str);
+                                if(match) {
+                                    et_content.getEditableText().delete(lastIndex, cursorPosition);
+                                } else {
+                                    et_content.getEditableText().delete(cursorPosition - 1, cursorPosition);
+                                }
+                            } else {
+                                et_content.getEditableText().delete(cursorPosition - 1, cursorPosition);
+                            }
+                        }
+                    } else {
+                        Emotion emotion = emotions.get(position);
+                        int cursor = et_content.getSelectionStart();
+                        Field f;
+                        try {
+                            f = (Field) R.drawable.class.getDeclaredField(emotion.getName());
+                            int j = f.getInt(R.drawable.class);
+                            Drawable d = getResources().getDrawable(j);
+                            int textSize = (int)et_content.getTextSize();
+                            d.setBounds(0, 0, textSize, textSize);
+
+                            String str = null;
+                            int pos = position + 1;
+                            if (pos < 10) {
+                                str = "f00" + pos;
+                            } else if (pos < 100) {
+                                str = "f0" + pos;
+                            } else {
+                                str = "f" + pos;
+                            }
+                            SpannableString ss = new SpannableString(str);
+                            ImageSpan span = new ImageSpan(d, ImageSpan.ALIGN_BOTTOM);
+                            ss.setSpan(span, 0, str.length(),
+                                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                            et_content.getText().insert(cursor, ss);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
