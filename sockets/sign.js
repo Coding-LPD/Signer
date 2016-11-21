@@ -13,7 +13,7 @@ var events = {
   // chatroom
   roomList: 'room-list',
   msgList: 'msg-list',
-  newMsg: 'newMsg'
+  newMsg: 'new-msg'
 };
 var students = {};
 
@@ -67,12 +67,12 @@ function onRoomList(client) {
   return function (studentId) {
     console.log('room-list studentid: ' + studentId);
     ChatRoom.getRoomList(studentId)
-      .then(function (results) {
+      .then(function (result) {
         // 将聊天室列表发送给客户端
-        client.emit(events.roomList, results);
+        client.emit(events.roomList, result);
         // 将客户端加入对应课程的聊天室
-        results.forEach(function (r) {
-          client.join(r.courseId);
+        result.data.forEach(function (d) {
+          client.join(d.courseId);
         });
       });
   }
@@ -80,9 +80,9 @@ function onRoomList(client) {
 
 // 监听msg-list事件，返回指定聊天室的聊天信息
 function onMsgList(client) {
-  return function (data) {
-    console.log('msg-list: ', data);    
-    ChatMsg.getMsgList(data)
+  return function (courseId, page, limit) {
+    console.log('msg-list');    
+    ChatMsg.getMsgList(courseId, page, limit)
       .then(function (results) {
         client.emit(events.msgList, results);        
       });
@@ -90,11 +90,12 @@ function onMsgList(client) {
 }
 
 // 监听new-msg事件，返回保存好的聊天信息，通知同一个聊天室的人有新消息
-function onNewMsg(client) {
-    return function (data) {
-      ChatMsg.saveMsg(data)
+function onNewMsg(client) {  
+    return function (courseId, studentId, content) {
+      console.log('new-msg');
+      ChatMsg.saveMsg(courseId, studentId, content)
         .then(function (results) {
-          client.to(data.courseId).emit(events.newMsg. results);
+          client.to(courseId).emit(events.newMsg, results);
         });
     }
 }

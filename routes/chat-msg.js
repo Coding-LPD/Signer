@@ -9,12 +9,12 @@ var Teacher = require('../services/mongo').Teacher;
 var ChatRoom = require('../services/mongo').ChatRoom;
 var ChatMsg = require('../services/mongo').ChatMsg;
 
-function getMsgList(data) {
-  var courseId = data.courseId;
-  var page = data.page || 0;
-  var limit = data.limit || 18;
+function getMsgList(courseId, page, limit) {
+  courseId = courseId;
+  page = page || 0;
+  limit = limit || 18;
 
-  ChatMsg.find({ courseId: courseId }, null, { sort: '-createdAt', limit: 18, skip: page*limit })
+  return ChatMsg.find({ courseId: courseId }, null, { sort: '-createdAt', limit: 18, skip: page*limit })
     .then(function (findedMsg) {
       return wrapData(errorCodes.Success, findedMsg);
     })
@@ -27,13 +27,13 @@ function getMsgList(data) {
     });
 }
 
-function saveMsg(data) {
-  var courseId = data.courseId;
-  var studentId = data.studentId || '';
-  var teacherId = data.teacherId || '';
-  var content = data.content;
+function saveMsg(courseId, studentId, content) {
+  courseId = courseId;
+  studentId = studentId || '';
+  var teacherId = '';
+  content = content;
   
-  Promise.resolve()
+  return Promise.resolve()
     .then(function () {
       if (studentId) {
         return Student.findById(studentId);
@@ -51,7 +51,7 @@ function saveMsg(data) {
         content: content,
         avatar: sender.get('avatar'),
         name: sender.get('name'),
-        createdAt: moment().format('YYYY-MM-DD hh:mm:ss')
+        createdAt: moment().format('YYYY-MM-DD HH:mm:ss')
       });
 
       return newMsg.save();

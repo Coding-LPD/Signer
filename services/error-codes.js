@@ -15,7 +15,7 @@ var errorCodes = {
   NoFileError:            '1015',
   NoDefaultImageError:    '1016',
   SignRecordStateError:   '1017',
-  SignRecordTypeError:    '1018',
+  SignRecordTypeError:    '1018',  
 
   AuthInfoEmpty:          '2000',
   AuthInfoError:          '2001',
