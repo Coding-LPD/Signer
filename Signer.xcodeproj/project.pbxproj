@@ -31,7 +31,10 @@
 		AD63C2BE1DD1CF0A00BA1276 /* RSA.m in Sources */ = {isa = PBXBuildFile; fileRef = AD63C2BD1DD1CF0A00BA1276 /* RSA.m */; };
 		AD771B771DD1712A0082BCB3 /* LoadingButton.xib in Resources */ = {isa = PBXBuildFile; fileRef = AD771B761DD1712A0082BCB3 /* LoadingButton.xib */; };
 		AD771B791DD171410082BCB3 /* LoadingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD771B781DD171410082BCB3 /* LoadingButton.swift */; };
+		ADA257DE1DE2E4A000470B07 /* MineAvatarCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = ADA257DD1DE2E4A000470B07 /* MineAvatarCell.xib */; };
+		ADA257E01DE2E4D000470B07 /* MineAvatarCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA257DF1DE2E4D000470B07 /* MineAvatarCell.swift */; };
 		ADABF3AF1DD8498600226D86 /* StudentRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADABF3AE1DD8498600226D86 /* StudentRouter.swift */; };
+		ADC806241DDC250A0006F0E5 /* MineInfoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = ADC806231DDC250A0006F0E5 /* MineInfoCell.xib */; };
 		ADEF11DB1D869D99001F9C19 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADEF11DA1D869D99001F9C19 /* AppDelegate.swift */; };
 		ADEF11E21D869D99001F9C19 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ADEF11E01D869D99001F9C19 /* Main.storyboard */; };
 		ADEF11E41D869D99001F9C19 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ADEF11E31D869D99001F9C19 /* Assets.xcassets */; };
@@ -74,7 +77,10 @@
 		AD63C2C21DD1D30700BA1276 /* 华师小签.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "华师小签.entitlements"; sourceTree = "<group>"; };
 		AD771B761DD1712A0082BCB3 /* LoadingButton.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoadingButton.xib; sourceTree = "<group>"; };
 		AD771B781DD171410082BCB3 /* LoadingButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingButton.swift; sourceTree = "<group>"; };
+		ADA257DD1DE2E4A000470B07 /* MineAvatarCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MineAvatarCell.xib; sourceTree = "<group>"; };
+		ADA257DF1DE2E4D000470B07 /* MineAvatarCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MineAvatarCell.swift; sourceTree = "<group>"; };
 		ADABF3AE1DD8498600226D86 /* StudentRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudentRouter.swift; sourceTree = "<group>"; };
+		ADC806231DDC250A0006F0E5 /* MineInfoCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MineInfoCell.xib; sourceTree = "<group>"; };
 		ADEF11D71D869D99001F9C19 /* 华师小签.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "华师小签.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADEF11DA1D869D99001F9C19 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		ADEF11E11D869D99001F9C19 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -200,6 +206,9 @@
 		AD34AF9E1DDC20540085F21B /* View */ = {
 			isa = PBXGroup;
 			children = (
+				ADA257DD1DE2E4A000470B07 /* MineAvatarCell.xib */,
+				ADA257DF1DE2E4D000470B07 /* MineAvatarCell.swift */,
+				ADC806231DDC250A0006F0E5 /* MineInfoCell.xib */,
 				AD34AFA61DDC20870085F21B /* MineInfoCell.swift */,
 				AD34AFA71DDC20870085F21B /* MineInfoViewController.swift */,
 				AD34AFA81DDC20870085F21B /* ModifyInformationViewController.swift */,
@@ -478,8 +487,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ADC806241DDC250A0006F0E5 /* MineInfoCell.xib in Resources */,
 				AD3B5C571D86A5CA00CEB9DE /* CountdownUnderlineTextField.xib in Resources */,
 				ADEF11E71D869D99001F9C19 /* LaunchScreen.storyboard in Resources */,
+				ADA257DE1DE2E4A000470B07 /* MineAvatarCell.xib in Resources */,
 				ADEF11E41D869D99001F9C19 /* Assets.xcassets in Resources */,
 				AD3B5C551D86A42000CEB9DE /* UnderlineTextField.xib in Resources */,
 				AD771B771DD1712A0082BCB3 /* LoadingButton.xib in Resources */,
@@ -563,6 +574,7 @@
 				ADABF3AF1DD8498600226D86 /* StudentRouter.swift in Sources */,
 				AD34AFAE1DDC208D0085F21B /* SettingCell.swift in Sources */,
 				AD45D9C21DD059E40031FF9E /* SignUpRouter.swift in Sources */,
+				ADA257E01DE2E4D000470B07 /* MineAvatarCell.swift in Sources */,
 				ADEF12091D869F6B001F9C19 /* Color.swift in Sources */,
 				ADEF11FB1D869EB6001F9C19 /* SignUpStep3ViewController.swift in Sources */,
 				AD3E73911D87AF1C005DE560 /* NoticeViewController.swift in Sources */,

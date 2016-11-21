@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MineInfoCell: UITableViewCell
+@IBDesignable class MineInfoCell: UIView
 {
 
     @IBOutlet weak var leftLabel: UILabel!
@@ -17,19 +17,37 @@ class MineInfoCell: UITableViewCell
     
     @IBOutlet weak var seperateLine: UIView!
     
-    var leftText: String?
-    var contentText: String?
-    var parameterName: String?
-    
-    func configureCell(leftText: String?, parameterName: String, contentText: String?, placeText: String?, isLineHidden: Bool)
-    {
-        leftLabel.text = leftText
-        contentLabel.text = (contentText ?? "").isEmpty ? placeText : contentText
-        seperateLine.isHidden = isLineHidden
-        
-        self.leftText = leftText
-        self.parameterName = parameterName
-        self.contentText = contentText
+    @IBInspectable
+    var leftText: String? {
+        didSet {
+            leftLabel.text = leftText
+        }
     }
+
+    override init(frame: CGRect)
+    {
+        super.init(frame: frame)
+        
+        loadViewFromNib()
+    }
+    
+    required init?(coder aDecoder: NSCoder)
+    {
+        super.init(coder: aDecoder)
+        
+        loadViewFromNib()
+    }
+    
+    func loadViewFromNib()
+    {
+        let bundle = Bundle(for: type(of: self))
+        let nib = UINib(nibName: String(describing: type(of: self)), bundle: bundle)
+        let view = nib.instantiate(withOwner: self, options: nil)[0] as! UIView
+        view.frame = bounds
+        view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        addSubview(view)
+    }
+    
+    
     
 }
