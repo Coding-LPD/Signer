@@ -25,7 +25,8 @@
                 android:layout_height="match_parent"
                 android:layout_above="@+id/bottombar_chat"
                 android:divider="@null"
-                android:scrollbars="none" />
+                android:scrollbars="none"
+                android:listSelector="@android:color/transparent"/>
 
             <include layout="@layout/bottombar_chat02"/>
 

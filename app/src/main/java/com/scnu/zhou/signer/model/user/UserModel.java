@@ -25,6 +25,34 @@ import rx.schedulers.Schedulers;
 public class UserModel implements IUserModel {
 
     @Override
+    public void getPublicKeySuccess(final UserInfoCallBack callBack) {
+
+        RetrofitServer.getRetrofit()
+                .create(SignerApi.class)
+                .getPublicKey()
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<ResultResponse<String>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                        callBack.onGetPublicKeyError(e);
+                    }
+
+                    @Override
+                    public void onNext(ResultResponse<String> response) {
+
+                        callBack.onGetPublicKeySuccess(response);
+                    }
+                });
+    }
+
+    @Override
     public void getStudentInfo(String phone, final UserInfoCallBack callBack) {
 
         RetrofitServer.getRetrofit()

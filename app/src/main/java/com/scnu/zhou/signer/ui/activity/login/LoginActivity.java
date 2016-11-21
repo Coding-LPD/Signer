@@ -107,6 +107,7 @@ public class LoginActivity extends BaseActivity implements ILoginView, TextWatch
     public void regist(){
 
         Intent intent = new Intent(this, InputPhoneActivity.class);
+        intent.putExtra("state", "regist");
         startActivity(intent);
         overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
     }

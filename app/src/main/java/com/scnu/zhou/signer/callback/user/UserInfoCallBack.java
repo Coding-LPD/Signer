@@ -10,6 +10,9 @@ import java.util.List;
  */
 public interface UserInfoCallBack {
 
+    void onGetPublicKeySuccess(ResultResponse<String> response);
+    void onGetPublicKeyError(Throwable e);
+
     void onGetSuccess(ResultResponse<List<Student>> response);
     void onGetError(Throwable e);
 

@@ -34,6 +34,8 @@ public class InputPhoneActivity extends BaseSlideActivity{
 
     private static InputPhoneActivity instance;
 
+    private String state;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +45,7 @@ public class InputPhoneActivity extends BaseSlideActivity{
         ButterKnife.bind(this);
         instance = this;
         initView();
+        initData();
     }
 
     public void initView() {
@@ -73,6 +76,11 @@ public class InputPhoneActivity extends BaseSlideActivity{
         });
     }
 
+    public void initData(){
+
+        state = getIntent().getStringExtra("state");
+    }
+
 
     // 返回上一页面
     @OnClick(R.id.ll_return)
@@ -87,6 +95,7 @@ public class InputPhoneActivity extends BaseSlideActivity{
         if (PhoneUtil.isMobileNO(et_phone.getText())) {
             Intent intent = new Intent(this, InputCodeActivity.class);
             intent.putExtra("phone", et_phone.getText());
+            intent.putExtra("state", state);
             startActivity(intent);
             overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
         }

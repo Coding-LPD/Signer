@@ -74,6 +74,7 @@
         <activity android:name=".ui.activity.user.settings.FeedbackActivity"/>
         <activity android:name=".ui.activity.user.settings.AboutActivity"/>
         <activity android:name=".ui.activity.user.settings.PrivateActivity"/>
+        <activity android:name=".ui.activity.user.settings.UpdatePasswordActivity"/>
         <activity android:name=".ui.activity.user.mysign.MySignActivity"/>
 
         <activity

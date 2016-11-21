@@ -7,6 +7,8 @@ import java.io.File;
  */
 public interface IUserPresenter {
 
+    void getPublicKey();
+
     void getStudentInfo(String phone);   // 获取用户学生信息
     void updateStudentInfo(String userid, String key, String value);  // 更新用户学生信息
 

@@ -46,6 +46,9 @@
     <string name="settings_clear">清理缓存</string>
     <string name="settings_logout">退出登录</string>
 
+    <string name="password_update_hint">请输入新的密码</string>
+    <string name="password_confirm_hint">请确认密码</string>
+
     <string name="private_option01">名片上显示学号信息</string>
     <string name="private_option02">名片上显示学院专业信息</string>
     <string name="private_option03">名片上显示年级班级信息</string>

@@ -7,6 +7,7 @@ import com.scnu.zhou.signer.model.user.IUserModel;
 import com.scnu.zhou.signer.model.user.UserModel;
 import com.scnu.zhou.signer.view.user.IUserHeaderView;
 import com.scnu.zhou.signer.view.user.IUserInfoView;
+import com.scnu.zhou.signer.view.user.IUserPasswordView;
 import com.scnu.zhou.signer.view.user.IUserUpdateView;
 
 import java.io.File;
@@ -21,8 +22,9 @@ public class UserPresenter implements IUserPresenter, UserInfoCallBack{
     private IUserInfoView userInfoView;
     private IUserUpdateView userUpdateView;
     private IUserHeaderView userHeaderView;
+    private IUserPasswordView userPasswordView;
 
-    private int ViewType = 1;    // 1为IUserInfoView, 2为IUserUpdateView, 3为IUserHeaderView
+    private int ViewType = 1;    // 1为IUserInfoView, 2为IUserUpdateView, 3为IUserHeaderView, 4为IUserPasswordView
 
     public UserPresenter(IUserInfoView userInfoView){
 
@@ -43,6 +45,19 @@ public class UserPresenter implements IUserPresenter, UserInfoCallBack{
         this.userModel = new UserModel();
         this.userHeaderView = userHeaderView;
         this.ViewType = 3;
+    }
+
+    public UserPresenter(IUserPasswordView userPasswordView){
+
+        this.userModel = new UserModel();
+        this.userPasswordView = userPasswordView;
+        this.ViewType = 4;
+    }
+
+    @Override
+    public void getPublicKey() {
+
+        userModel.getPublicKeySuccess(this);
     }
 
     @Override
@@ -71,15 +86,37 @@ public class UserPresenter implements IUserPresenter, UserInfoCallBack{
 
 
     @Override
+    public void onGetPublicKeySuccess(ResultResponse<String> response) {
+
+        userPasswordView.onGetPublicKeySuccess(response);
+    }
+
+    @Override
+    public void onGetPublicKeyError(Throwable e) {
+
+        userPasswordView.onGetPublicKeyError(e);
+    }
+
+    @Override
     public void onGetSuccess(ResultResponse<List<Student>> response) {
 
-        userInfoView.onGetStudentInfoSuccess(response);
+        if (ViewType == 1) {
+            userInfoView.onGetStudentInfoSuccess(response);
+        }
+        else if (ViewType == 4){
+            userPasswordView.onGetUserIdSuccess(response);
+        }
     }
 
     @Override
     public void onGetError(Throwable e) {
 
-        userInfoView.onGetStudentInfoError(e);
+        if (ViewType == 1) {
+            userInfoView.onGetStudentInfoError(e);
+        }
+        else if (ViewType == 4){
+            userPasswordView.onGetUserIdError(e);
+        }
     }
 
     @Override
@@ -94,6 +131,9 @@ public class UserPresenter implements IUserPresenter, UserInfoCallBack{
         else if (ViewType == 3){
             userHeaderView.onUpdateAvatarSuccess(response);
         }
+        else if (ViewType == 4){
+            userPasswordView.onUpdateStudentPasswordSuccess(response);
+        }
     }
 
     @Override
@@ -107,6 +147,9 @@ public class UserPresenter implements IUserPresenter, UserInfoCallBack{
         }
         else if (ViewType == 3){
             userHeaderView.onUpdateAvatarError(e);
+        }
+        else if (ViewType == 4){
+            userPasswordView.onUpdateStudentPasswordError(e);
         }
     }
 
