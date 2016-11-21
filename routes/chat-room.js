@@ -7,11 +7,30 @@ var Course = require('../services/mongo').Course;
 var ChatRoom = require('../services/mongo').ChatRoom;
 var ChatMsg = require('../services/mongo').ChatMsg;
 
-function getRoomList(studentId) {
+function getRoomList(studentId, teacherId) {
   var rooms;
 
-  // 查询学生id里面包含studentId的聊天室
-  return ChatRoom.find({ studentIds: studentId })
+  return Promise.resolve()
+    .then(function () {
+      // 若有指定教师id，则查询教师
+      if (teacherId) {
+        return Course.find({ teacherId: teacherId });
+      }
+    })
+    .then(function (findedCourses) {
+      /**
+       * 若有指定教师id，则查询教师相关聊天室
+       * 若无，则查询学生id里面包含studentId的聊天室
+       */    
+      if (teacherId) {
+        var courseIds = findedCourses.map(function (c) {
+          return c._id; 
+        });
+        return ChatRoom.find({ courseId: { $in: courseIds } });
+      } else {
+        return ChatRoom.find({ studentIds: studentId });
+      }
+    })
     .then(function (findedRooms) {
       rooms = findedRooms;
 
