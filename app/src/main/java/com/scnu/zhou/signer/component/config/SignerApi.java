@@ -1,5 +1,6 @@
 package com.scnu.zhou.signer.component.config;
 
+import com.scnu.zhou.signer.component.bean.feedback.Feedback;
 import com.scnu.zhou.signer.component.bean.http.ResultResponse;
 import com.scnu.zhou.signer.component.bean.login.LoginResult;
 import com.scnu.zhou.signer.component.bean.main.CourseDetail;
@@ -115,4 +116,12 @@ public interface SignerApi {
     @GET("/api/students/{phone}/notice")     // 获取最近通知
     Observable<ResultResponse<List<NoticeBean>>> getNotices(@Path("phone") String phone, @Query("type") int type,
                                                             @Query("limit") int limit, @Query("page") int page);
+
+
+    /**
+     * Send Feedback
+     */
+    @FormUrlEncoded
+    @POST("/api/feedbacks")    // 发送反馈
+    Observable<ResultResponse<Feedback>> sendFeedback(@FieldMap Map<String,String> infos);
 }

@@ -13,10 +13,11 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         app:cell_title="@string/settings_password"
-        app:cell_isdivider="true">
+        app:cell_isdivider="false">
 
     </com.scnu.zhou.signer.ui.widget.cell.TitleTextCell>
 
+    <!--
     <com.scnu.zhou.signer.ui.widget.cell.TitleTextCell
         android:id="@+id/tc_private"
         android:layout_width="match_parent"
@@ -24,7 +25,7 @@
         app:cell_title="@string/settings_private"
         app:cell_isdivider="false">
 
-    </com.scnu.zhou.signer.ui.widget.cell.TitleTextCell>
+    </com.scnu.zhou.signer.ui.widget.cell.TitleTextCell>-->
 
     <com.scnu.zhou.signer.ui.widget.cell.TitleTextCell
         android:id="@+id/tc_about"

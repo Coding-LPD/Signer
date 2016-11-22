@@ -64,12 +64,13 @@ public class SettingActivity extends BaseSlideActivity{
 
 
     // 隐私设置
+    /**
     @OnClick(R.id.tc_private)
     public void setPrivate(){
         Intent intent = new Intent(this, PrivateActivity.class);
         startActivity(intent);
         overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
-    }
+    }*/
 
 
     // 关于Signer
