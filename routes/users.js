@@ -119,13 +119,22 @@ router.post('/', function (req, res) {
     });
 });
 
-// 修改指定id的数据
-router.put('/:id', function (req, res) {
-  var userId = req.params['id'];
+// 修改指定手机号码的用户数据
+router.put('/:phone', function (req, res) {
+  var phone = req.params['phone'];  
   var newPassword = req.body.password;
+  var user;
 
-  // 读取私钥
-  readKey(1)
+  User.findOne({ phone: phone })
+    .then(function (findedUser) {
+      if (!findedUser) {
+        return Promise.reject({ code: errorCodes.UserNotExist });
+      }
+      user = findedUser;
+
+      // 读取私钥
+      return readKey(1);
+    })
     .then(function (privatekey) {
       // 解密密码
       return decryptContent(newPassword, privatekey);
@@ -135,7 +144,8 @@ router.put('/:id', function (req, res) {
       newPassword = sha1Content(password);
 
       // 更新用户密码
-      return User.findByIdAndUpdate(userId, { password: newPassword }, { new: true });
+      user.set('password', newPassword);
+      return user.save();
     })
     .then(function (updatedUser) {
       // 返回的新的user信息不包含密码
@@ -149,7 +159,8 @@ router.put('/:id', function (req, res) {
       } else {
         handleErrors(err, res, {});
       }
-    });  
+    });
+    
 });
 
 // 删除指定id的数据

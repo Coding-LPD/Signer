@@ -109,11 +109,11 @@
  */
 
 /**
- * @api {put} /users/:id 修改密码
+ * @api {put} /users/:phone 修改密码
  * @apiVersion 1.0.0
  * @apiName PutUser
  * @apiGroup User
- * @apiDescription 修改指定id用户的密码。
+ * @apiDescription 修改指定phone的用户的密码。
  * 
  * @apiParam {String} password  密码（必须用服务器提供的公钥进行加密）
  * 

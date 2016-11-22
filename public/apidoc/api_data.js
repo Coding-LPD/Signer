@@ -1681,12 +1681,12 @@ define({ "api": [
   },
   {
     "type": "put",
-    "url": "/users/:id",
+    "url": "/users/:phone",
     "title": "修改密码",
     "version": "1.0.0",
     "name": "PutUser",
     "group": "User",
-    "description": "<p>修改指定id用户的密码。</p>",
+    "description": "<p>修改指定phone的用户的密码。</p>",
     "parameter": {
       "fields": {
         "Parameter": [
