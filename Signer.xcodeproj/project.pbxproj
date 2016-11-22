@@ -27,6 +27,12 @@
 		AD3E73911D87AF1C005DE560 /* NoticeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD3E73901D87AF1C005DE560 /* NoticeViewController.swift */; };
 		AD45D9C21DD059E40031FF9E /* SignUpRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD45D9C11DD059E40031FF9E /* SignUpRouter.swift */; };
 		AD582A801DD40F2900DA3C91 /* Student.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD582A7F1DD40F2900DA3C91 /* Student.swift */; };
+		AD5899831DE4276400A2F8AE /* AbstractActionSheetPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = AD5899801DE4276400A2F8AE /* AbstractActionSheetPicker.m */; };
+		AD5899841DE4276400A2F8AE /* ActionSheetStringPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = AD5899821DE4276400A2F8AE /* ActionSheetStringPicker.m */; };
+		AD5899871DE427B700A2F8AE /* SWActionSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = AD5899861DE427B700A2F8AE /* SWActionSheet.m */; };
+		AD5899891DE432C500A2F8AE /* ChangeAvatarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5899881DE432C500A2F8AE /* ChangeAvatarViewController.swift */; };
+		AD58998B1DE433F500A2F8AE /* UIView+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD58998A1DE433F500A2F8AE /* UIView+extension.swift */; };
+		AD58998D1DE43D5600A2F8AE /* PreviewAvatarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD58998C1DE43D5600A2F8AE /* PreviewAvatarViewController.swift */; };
 		AD63C2961DD1B5FF00BA1276 /* ChatRoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD63C2951DD1B5FF00BA1276 /* ChatRoomViewController.swift */; };
 		AD63C2BE1DD1CF0A00BA1276 /* RSA.m in Sources */ = {isa = PBXBuildFile; fileRef = AD63C2BD1DD1CF0A00BA1276 /* RSA.m */; };
 		AD771B771DD1712A0082BCB3 /* LoadingButton.xib in Resources */ = {isa = PBXBuildFile; fileRef = AD771B761DD1712A0082BCB3 /* LoadingButton.xib */; };
@@ -35,6 +41,7 @@
 		ADA257E01DE2E4D000470B07 /* MineAvatarCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA257DF1DE2E4D000470B07 /* MineAvatarCell.swift */; };
 		ADABF3AF1DD8498600226D86 /* StudentRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADABF3AE1DD8498600226D86 /* StudentRouter.swift */; };
 		ADC806241DDC250A0006F0E5 /* MineInfoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = ADC806231DDC250A0006F0E5 /* MineInfoCell.xib */; };
+		ADD87F201DE3E5060093A25F /* Reveal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ADD87F1F1DE3E5060093A25F /* Reveal.framework */; };
 		ADEF11DB1D869D99001F9C19 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADEF11DA1D869D99001F9C19 /* AppDelegate.swift */; };
 		ADEF11E21D869D99001F9C19 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ADEF11E01D869D99001F9C19 /* Main.storyboard */; };
 		ADEF11E41D869D99001F9C19 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ADEF11E31D869D99001F9C19 /* Assets.xcassets */; };
@@ -71,6 +78,15 @@
 		AD3E73901D87AF1C005DE560 /* NoticeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoticeViewController.swift; sourceTree = "<group>"; };
 		AD45D9C11DD059E40031FF9E /* SignUpRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpRouter.swift; sourceTree = "<group>"; };
 		AD582A7F1DD40F2900DA3C91 /* Student.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Student.swift; sourceTree = "<group>"; };
+		AD58997F1DE4276400A2F8AE /* AbstractActionSheetPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AbstractActionSheetPicker.h; sourceTree = "<group>"; };
+		AD5899801DE4276400A2F8AE /* AbstractActionSheetPicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AbstractActionSheetPicker.m; sourceTree = "<group>"; };
+		AD5899811DE4276400A2F8AE /* ActionSheetStringPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActionSheetStringPicker.h; sourceTree = "<group>"; };
+		AD5899821DE4276400A2F8AE /* ActionSheetStringPicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActionSheetStringPicker.m; sourceTree = "<group>"; };
+		AD5899851DE427B700A2F8AE /* SWActionSheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWActionSheet.h; sourceTree = "<group>"; };
+		AD5899861DE427B700A2F8AE /* SWActionSheet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWActionSheet.m; sourceTree = "<group>"; };
+		AD5899881DE432C500A2F8AE /* ChangeAvatarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangeAvatarViewController.swift; sourceTree = "<group>"; };
+		AD58998A1DE433F500A2F8AE /* UIView+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+extension.swift"; sourceTree = "<group>"; };
+		AD58998C1DE43D5600A2F8AE /* PreviewAvatarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewAvatarViewController.swift; sourceTree = "<group>"; };
 		AD63C2951DD1B5FF00BA1276 /* ChatRoomViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatRoomViewController.swift; sourceTree = "<group>"; };
 		AD63C2BC1DD1CF0A00BA1276 /* RSA.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSA.h; sourceTree = "<group>"; };
 		AD63C2BD1DD1CF0A00BA1276 /* RSA.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSA.m; sourceTree = "<group>"; };
@@ -81,6 +97,7 @@
 		ADA257DF1DE2E4D000470B07 /* MineAvatarCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MineAvatarCell.swift; sourceTree = "<group>"; };
 		ADABF3AE1DD8498600226D86 /* StudentRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudentRouter.swift; sourceTree = "<group>"; };
 		ADC806231DDC250A0006F0E5 /* MineInfoCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MineInfoCell.xib; sourceTree = "<group>"; };
+		ADD87F1F1DE3E5060093A25F /* Reveal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Reveal.framework; sourceTree = "<group>"; };
 		ADEF11D71D869D99001F9C19 /* 华师小签.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "华师小签.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADEF11DA1D869D99001F9C19 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		ADEF11E11D869D99001F9C19 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -104,6 +121,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4289AA9668495BCDD69083EB /* Pods_Signer.framework in Frameworks */,
+				ADD87F201DE3E5060093A25F /* Reveal.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -164,6 +182,7 @@
 		63BB714A2E03054C3FE51A59 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				ADD87F1F1DE3E5060093A25F /* Reveal.framework */,
 				FEB9F7DA29CDEF2318471B66 /* Pods_Signer.framework */,
 			);
 			name = Frameworks;
@@ -212,6 +231,8 @@
 				AD34AFA61DDC20870085F21B /* MineInfoCell.swift */,
 				AD34AFA71DDC20870085F21B /* MineInfoViewController.swift */,
 				AD34AFA81DDC20870085F21B /* ModifyInformationViewController.swift */,
+				AD5899881DE432C500A2F8AE /* ChangeAvatarViewController.swift */,
+				AD58998C1DE43D5600A2F8AE /* PreviewAvatarViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -249,6 +270,19 @@
 				ADABF3AE1DD8498600226D86 /* StudentRouter.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		AD58997E1DE4274800A2F8AE /* ActionSheetPicker */ = {
+			isa = PBXGroup;
+			children = (
+				AD5899851DE427B700A2F8AE /* SWActionSheet.h */,
+				AD5899861DE427B700A2F8AE /* SWActionSheet.m */,
+				AD58997F1DE4276400A2F8AE /* AbstractActionSheetPicker.h */,
+				AD5899801DE4276400A2F8AE /* AbstractActionSheetPicker.m */,
+				AD5899811DE4276400A2F8AE /* ActionSheetStringPicker.h */,
+				AD5899821DE4276400A2F8AE /* ActionSheetStringPicker.m */,
+			);
+			path = ActionSheetPicker;
 			sourceTree = "<group>";
 		};
 		AD63C2931DD1B5D000BA1276 /* ChatRoom */ = {
@@ -387,6 +421,7 @@
 				AD08D8301D86A0DC007C7ECD /* UIButton+countDown.m */,
 				AD08D82E1D86A0DC007C7ECD /* String+extension.swift */,
 				AD08D8311D86A0DC007C7ECD /* UIColor+extension.swift */,
+				AD58998A1DE433F500A2F8AE /* UIView+extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -394,6 +429,7 @@
 		ADEF11FD1D869ECB001F9C19 /* CustomView */ = {
 			isa = PBXGroup;
 			children = (
+				AD58997E1DE4274800A2F8AE /* ActionSheetPicker */,
 				AD771B751DD170FB0082BCB3 /* LoadingButton */,
 				ADEF12031D869F31001F9C19 /* CountdownUnderlineTextField */,
 				ADEF11FE1D869EF0001F9C19 /* UnderlineTextField */,
@@ -553,7 +589,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AD5899841DE4276400A2F8AE /* ActionSheetStringPicker.m in Sources */,
 				AD34AFAF1DDC208D0085F21B /* SettingViewController.swift in Sources */,
+				AD5899871DE427B700A2F8AE /* SWActionSheet.m in Sources */,
 				AD771B791DD171410082BCB3 /* LoadingButton.swift in Sources */,
 				AD3E73891D87A129005DE560 /* MainTabBarViewController.swift in Sources */,
 				ADEF11F51D869EB0001F9C19 /* LogInViewController.swift in Sources */,
@@ -561,12 +599,15 @@
 				AD08D8331D86A0DC007C7ECD /* UIButton+countDown.m in Sources */,
 				AD582A801DD40F2900DA3C91 /* Student.swift in Sources */,
 				AD34AFA31DDC207F0085F21B /* LeftAvatarCell.swift in Sources */,
+				AD58998B1DE433F500A2F8AE /* UIView+extension.swift in Sources */,
 				ADEF12061D869F51001F9C19 /* CountdownUnderlineTextField.swift in Sources */,
+				AD58998D1DE43D5600A2F8AE /* PreviewAvatarViewController.swift in Sources */,
 				ADEF120C1D869F7A001F9C19 /* UnderlineTextField.swift in Sources */,
 				AD34AFAB1DDC20870085F21B /* ModifyInformationViewController.swift in Sources */,
 				ADEF11FA1D869EB6001F9C19 /* SignUpStep2ViewController.swift in Sources */,
 				AD63C2BE1DD1CF0A00BA1276 /* RSA.m in Sources */,
 				AD63C2961DD1B5FF00BA1276 /* ChatRoomViewController.swift in Sources */,
+				AD5899831DE4276400A2F8AE /* AbstractActionSheetPicker.m in Sources */,
 				AD34AFA51DDC207F0085F21B /* MineViewController.swift in Sources */,
 				ADEF11F91D869EB6001F9C19 /* SignUpStep1ViewController.swift in Sources */,
 				AD34AFA41DDC207F0085F21B /* MineLeftImageCell.swift in Sources */,
@@ -574,6 +615,7 @@
 				ADABF3AF1DD8498600226D86 /* StudentRouter.swift in Sources */,
 				AD34AFAE1DDC208D0085F21B /* SettingCell.swift in Sources */,
 				AD45D9C21DD059E40031FF9E /* SignUpRouter.swift in Sources */,
+				AD5899891DE432C500A2F8AE /* ChangeAvatarViewController.swift in Sources */,
 				ADA257E01DE2E4D000470B07 /* MineAvatarCell.swift in Sources */,
 				ADEF12091D869F6B001F9C19 /* Color.swift in Sources */,
 				ADEF11FB1D869EB6001F9C19 /* SignUpStep3ViewController.swift in Sources */,
@@ -707,8 +749,35 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = R6964LXMCM;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = Signer/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-framework",
+					"\"Alamofire\"",
+					"-framework",
+					"\"AlamofireNetworkActivityIndicator\"",
+					"-framework",
+					"\"IQKeyboardManager\"",
+					"-framework",
+					"\"RxCocoa\"",
+					"-framework",
+					"\"RxSwift\"",
+					"-framework",
+					"\"SDWebImage\"",
+					"-framework",
+					"\"SwiftyJSON\"",
+					"-framework",
+					"\"Toast_Swift\"",
+					"-ObjC",
+					"-lz",
+					"-framework",
+					Reveal,
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = cn.edu.scnu.Signer;
 				PRODUCT_NAME = "华师小签";
 				PROVISIONING_PROFILE = "";
@@ -729,8 +798,35 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = R6964LXMCM;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = Signer/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-framework",
+					"\"Alamofire\"",
+					"-framework",
+					"\"AlamofireNetworkActivityIndicator\"",
+					"-framework",
+					"\"IQKeyboardManager\"",
+					"-framework",
+					"\"RxCocoa\"",
+					"-framework",
+					"\"RxSwift\"",
+					"-framework",
+					"\"SDWebImage\"",
+					"-framework",
+					"\"SwiftyJSON\"",
+					"-framework",
+					"\"Toast_Swift\"",
+					"-ObjC",
+					"-lz",
+					"-framework",
+					Reveal,
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = cn.edu.scnu.Signer;
 				PRODUCT_NAME = "华师小签";
 				PROVISIONING_PROFILE = "";

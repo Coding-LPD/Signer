@@ -21,6 +21,8 @@ class MineViewController: UIViewController
         tableView.separatorStyle = .none
         tableView.tableFooterView = UIView()
         tableView.backgroundColor = UIColor(netHex: 0xf5f5f5)
+        
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
 
 }

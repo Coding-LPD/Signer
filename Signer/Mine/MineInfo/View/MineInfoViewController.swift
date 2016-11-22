@@ -9,110 +9,162 @@
 import UIKit
 import Alamofire
 import SDWebImage
+import SwiftyJSON
+import Toast_Swift
 
 class MineInfoViewController: UITableViewController
 {
-
+    @IBOutlet weak var mineAvatarView: MineAvatarCell!
+    @IBOutlet weak var numberCell: MineInfoCell!
+    @IBOutlet weak var nameCell: MineInfoCell!
+    @IBOutlet weak var genderCell: MineInfoCell!
+    @IBOutlet weak var schoolCell: MineInfoCell!
+    @IBOutlet weak var academyCell: MineInfoCell!
+    @IBOutlet weak var majorCell: MineInfoCell!
+    @IBOutlet weak var gradeCell: MineInfoCell!
+    @IBOutlet weak var classCell: MineInfoCell!
+    @IBOutlet weak var mailCell: MineInfoCell!
+    
     let student = Student.sharedStudent
+    
+    private var json: JSON?
     
     override func viewDidLoad()
     {
         super.viewDidLoad()
         
-       // initUI()
+        initUI()
+    }
+    
+    override func viewDidAppear(_ animated: Bool)
+    {
+        super.viewDidAppear(animated)
+        
+        Alamofire
+            .request(StudentRouter.queryStudent(id: student.id))
+            .responseJSON { (response) in
+                switch response.result {
+                case .success(let value):
+                    let json = JSON(value)
+                    print("查询学生成功: \(json)")
+                    DispatchQueue.main.async {
+                        self.configureUIWith(json: json["data"][0])
+                        self.json = json["data"][0]
+                        self.view.hideToastActivity()
+                    }
+                case .failure:
+                    DispatchQueue.main.async {
+                        self.view.makeToast("获取学生信息失败，检查网络连接", duration: 1.0, position: .center)
+                        self.view.hideToastActivity()
+                    }
+                }
+        }
+    }
+    
+    func initUI()
+    {
+        tableView.tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: 0.01))
+        
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+
+        view.makeToastActivity(.center)
+    }
+    
+    func configureUIWith(json: JSON)
+    {
+        LogInViewController.writeLogInStatus(isLogged: true, id: student.id, phone: student.phone, name: json["name"].stringValue, avatarUrl: json["avatar"].stringValue)
+        
+        mineAvatarView.avatarImageView.sd_setImage(with: URL(string: json["avatar"].stringValue))
+        mineAvatarView.nameText = json["name"].stringValue
+    
+        numberCell.contentText = json["number"].stringValue.length > 0 ? json["number"].stringValue : "未填写"
+        nameCell.contentText = json["name"].stringValue.length > 0 ? json["name"].stringValue : "未填写"
+        genderCell.contentText = json["gender"].stringValue.length > 0 ? json["gender"].stringValue : "未填写"
+        schoolCell.contentText = json["school"].stringValue.length > 0 ? json["school"].stringValue : "未填写"
+        academyCell.contentText = json["academy"].stringValue.length > 0 ? json["academy"].stringValue : "未填写"
+        majorCell.contentText = json["major"].stringValue.length > 0 ? json["major"].stringValue : "未填写"
+        gradeCell.contentText = json["grade"].stringValue.length > 0 ? json["grade"].stringValue : "未填写"
+        classCell.contentText = json["_class"].stringValue.length > 0 ? json["_class"].stringValue : "未填写"
+        mailCell.contentText = json["mail"].stringValue.length > 0 ? json["mail"].stringValue : "未填写"
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
+    {
+        if indexPath.section == 0 {
+            
+        } else if indexPath.section == 1 && indexPath.row == 2 {
+            ActionSheetStringPicker.show(withTitle: "性别", rows: [["男", "女", "保密"]], initialSelection: [0], doneBlock: {(_, _, selectedGender) in
+                    self.modifyStudentWith(studentID: self.student.id, parameters: ["gender": selectedGender?.first as! String])
+                }, cancel: nil, origin: self.view)
+        } else if indexPath.section == 3 && indexPath.row == 0 {
+            let currentYear = getYear()
+            ActionSheetStringPicker.show(withTitle: "年级", rows: [["\(currentYear)级", "\(currentYear-1)级", "\(currentYear-2)级", "\(currentYear-3)级"]], initialSelection: [0], doneBlock: {(_, _, selectedGrade) in
+                self.modifyStudentWith(studentID: self.student.id, parameters: ["grade": selectedGrade?.first as! String])
+            }, cancel: nil, origin: self.view)
+        } else if indexPath.section == 3 && indexPath.row == 1 {
+            ActionSheetStringPicker.show(withTitle: "班级", rows: [["1班", "2班", "3班", "4班", "5班", "6班", "7班", "8班"]], initialSelection: [0], doneBlock: {(_, _, selectedClass) in
+                self.modifyStudentWith(studentID: self.student.id, parameters: ["_class": selectedClass?.first as! String])
+            }, cancel: nil, origin: self.view)
+        }
+    }
+    
+    func modifyStudentWith(studentID: String, parameters: Parameters)
+    {
+        Alamofire
+            .request(StudentRouter.modifyStudent(id: studentID, parameters: parameters))
+            .responseJSON { (response) in
+                switch response.result {
+                case .success(let value):
+                    let json = JSON(value)
+                    print(json)
+                    if json["code"] == "200" {
+                        DispatchQueue.main.async {
+                            self.configureUIWith(json: json["data"])
+                        }
+                    } else {
+                        fatalError("修改学生信息失败")
+                    }
+                case .failure(_):
+                    DispatchQueue.main.async {
+                        self.view.makeToast("修改信息失败，检查网络连接", duration: 1.0, position: .center)
+                    }
+                }
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?)
+    {
+        super.prepare(for: segue, sender: sender)
+        
+        if let desVC = segue.destination as? ModifyInformationViewController {
+            guard let json = json else {
+                fatalError("prepareSegue json error!!!")
+            }
+            
+            desVC.studentID = student.id
+            if segue.identifier == "number" {
+                desVC.modifyType = .number(oldNumber: json["number"].stringValue)
+            } else if segue.identifier == "name" {
+                desVC.modifyType = .name(oldName: json["name"].stringValue)
+            } else if segue.identifier == "school" {
+                desVC.modifyType = .school(oldSchool: json["school"].stringValue)
+            } else if segue.identifier == "academy" {
+                desVC.modifyType = .academy(oldAcademy: json["academy"].stringValue)
+            } else if segue.identifier == "major" {
+                desVC.modifyType = .major(oldMajor: json["major"].stringValue)
+            } else if segue.identifier == "mail" {
+                desVC.modifyType = .mail(oldMail: json["mail"].stringValue)
+            }
+        }
+    }
+
+    // MARK: - private 
+    
+    func getYear() -> Int
+    {
+        let year = Calendar.current.component(Calendar.Component.year, from: Date())
+        return year
     }
     
 }
-//    func initUI()
-//    {
-//        tableView.dataSource = self
-//        tableView.delegate = self
-//        tableView.separatorStyle = .none
-//        tableView.backgroundColor = UIColor(netHex: 0xf5f5f5)
-//        
-//        avatarImageView.sd_setImage(with: URL(string: student.avatarUrl))
-//        nameLabel.text = student.name.isEmpty ? "用户名" : student.name
-//    }
-//    
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?)
-//    {
-//        super.prepare(for: segue, sender: sender)
-//        
-//        if segue.identifier == "ModifyInformation" {
-//            if let desVC = segue.destination as? ModifyInformationViewController,
-//                let cell = tableView.cellForRow(at: tableView.indexPathForSelectedRow!) as? MineInfoCell {
-//                desVC.caption = cell.leftText
-//                desVC.content = cell.contentText
-//                desVC.studentID = student.id
-//                desVC.parameterName = cell.parameterName
-//                
-//            }
-//        }
-//    }
-//}
 
-//extension MineInfoViewController: UITableViewDataSource, UITableViewDelegate
-//{
-//    func numberOfSections(in tableView: UITableView) -> Int
-//    {
-//        return 3
-//    }
-//    
-//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
-//    {
-//        if section == 0 {
-//            return 3
-//        } else if section == 1 {
-//            return 3
-//        } else {
-//            return 3
-//        }
-//    }
-//    
-//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
-//    {
-//        let cell = tableView.dequeueReusableCell(withIdentifier: "MineInfoCell", for: indexPath) as! MineInfoCell
-//        configureCell(cell, atIndexPath: indexPath)
-//        return cell
-//    }
-//    
-//    func configureCell(_ cell: MineInfoCell, atIndexPath indexPath: IndexPath)
-//    {
-//        if indexPath.section == 0 && indexPath.row == 0 {
-//            cell.configureCell(leftText: "学号", parameterName: "number", contentText: student.number, placeText: "未填写", isLineHidden: false)
-//        } else if indexPath.section == 0 && indexPath.row == 1 {
-//            cell.configureCell(leftText: "姓名", parameterName: "name", contentText: student.name, placeText: "未填写", isLineHidden: false)
-//        } else if indexPath.section == 0 && indexPath.row == 2 {
-//            cell.configureCell(leftText: "性别", parameterName: "gender", contentText: student.gender, placeText: "未填写", isLineHidden: true)
-//        } else if indexPath.section == 1 && indexPath.row == 0 {
-//            cell.configureCell(leftText: "学校", parameterName: "school", contentText: student.school, placeText: "未填写", isLineHidden: false)
-//        } else if indexPath.section == 1 && indexPath.row == 1 {
-//            cell.configureCell(leftText: "学院", parameterName: "academy", contentText: student.academy, placeText: "未填写", isLineHidden: false)
-//        } else if indexPath.section == 1 && indexPath.row == 2 {
-//            cell.configureCell(leftText: "专业", parameterName: "major", contentText: student.major, placeText: "未填写", isLineHidden: true)
-//        } else if indexPath.section == 2 && indexPath.row == 0 {
-//            cell.configureCell(leftText: "年级", parameterName: "grade", contentText: student.grade, placeText: "未填写", isLineHidden: false)
-//        } else if indexPath.section == 2 && indexPath.row == 1 {
-//            cell.configureCell(leftText: "班级", parameterName: "class", contentText: student.classroom, placeText: "未填写", isLineHidden: false)
-//        } else if indexPath.section == 2 && indexPath.row == 2 {
-//            cell.configureCell(leftText: "邮箱", parameterName: "mail", contentText: student.mail, placeText: "未填写", isLineHidden: true)
-//        }
-//    }
-//    
-//    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat
-//    {
-//        return 16.0
-//    }
-//    
-//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
-//    {
-//        if (indexPath.section == 0 && (indexPath.row == 0 || indexPath.row == 1)) ||
-//            (indexPath.section == 1) ||
-//            (indexPath.section == 2 && indexPath.row == 2) {
-//            performSegue(withIdentifier: "ModifyInformation", sender: nil)
-//        } else {
-//            
-//        }
-//    }
-//    
-//}

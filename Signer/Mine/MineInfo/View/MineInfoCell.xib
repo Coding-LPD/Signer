@@ -9,9 +9,15 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MineInfoCell" customModule="华师小签" customModuleProvider="target">
+            <connections>
+                <outlet property="contentLabel" destination="4v6-9P-Xgs" id="HtE-YN-qKf"/>
+                <outlet property="leftLabel" destination="MMF-R1-Jm3" id="7S1-9F-Ygm"/>
+                <outlet property="seperateLine" destination="0lM-Rl-zWD" id="Mso-Vf-7Ys"/>
+            </connections>
+        </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view contentMode="scaleToFill" id="o1Z-dW-yYN" customClass="MineInfoCell" customModule="华师小签" customModuleProvider="target">
+        <view contentMode="scaleToFill" id="o1Z-dW-yYN">
             <rect key="frame" x="0.0" y="0.0" width="320" height="45"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
@@ -57,11 +63,6 @@
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <connections>
-                <outlet property="contentLabel" destination="4v6-9P-Xgs" id="kFI-gD-wKl"/>
-                <outlet property="leftLabel" destination="MMF-R1-Jm3" id="M44-Mt-9C7"/>
-                <outlet property="seperateLine" destination="0lM-Rl-zWD" id="LAT-HR-A6G"/>
-            </connections>
             <point key="canvasLocation" x="40" y="71.5"/>
         </view>
     </objects>

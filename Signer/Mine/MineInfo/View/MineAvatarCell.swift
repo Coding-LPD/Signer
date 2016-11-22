@@ -21,6 +21,20 @@ import UIKit
             avatarImageView.image = avatarImage
         }
     }
+    
+    @IBInspectable
+    var nameText: String? {
+        didSet {
+            nameLabel.text = nameText
+        }
+    }
+    
+    @IBInspectable
+    var descriptionText: String? {
+        didSet {
+            descriptionLabel.text = descriptionText
+        }
+    }
 
     override init(frame: CGRect)
     {

@@ -9,9 +9,15 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MineAvatarCell" customModule="华师小签" customModuleProvider="target">
+            <connections>
+                <outlet property="avatarImageView" destination="r5Z-WK-OhN" id="Nvc-76-hUc"/>
+                <outlet property="descriptionLabel" destination="0VW-Km-8dZ" id="YFu-ej-I6a"/>
+                <outlet property="nameLabel" destination="zMt-AG-W25" id="LZG-QI-Cus"/>
+            </connections>
+        </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view contentMode="scaleToFill" id="lQQ-RY-4Gn" customClass="MineAvatarCell" customModule="华师小签" customModuleProvider="target">
+        <view contentMode="scaleToFill" id="lQQ-RY-4Gn">
             <rect key="frame" x="0.0" y="0.0" width="320" height="150"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
@@ -46,11 +52,6 @@
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <connections>
-                <outlet property="avatarImageView" destination="r5Z-WK-OhN" id="dVO-ls-ulH"/>
-                <outlet property="descriptionLabel" destination="0VW-Km-8dZ" id="djE-Zo-KWm"/>
-                <outlet property="nameLabel" destination="0VW-Km-8dZ" id="wZg-AW-sLm"/>
-            </connections>
             <point key="canvasLocation" x="-63" y="52"/>
         </view>
     </objects>

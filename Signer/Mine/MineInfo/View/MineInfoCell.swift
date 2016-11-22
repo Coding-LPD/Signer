@@ -23,6 +23,20 @@ import UIKit
             leftLabel.text = leftText
         }
     }
+    
+    @IBInspectable
+    var contentText: String? {
+        didSet {
+            contentLabel.text = contentText
+        }
+    }
+    
+    @IBInspectable
+    var isHideSeperateLine: Bool = false {
+        didSet {
+            seperateLine.isHidden = isHideSeperateLine
+        }
+    }
 
     override init(frame: CGRect)
     {
@@ -47,7 +61,5 @@ import UIKit
         view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         addSubview(view)
     }
-    
-    
     
 }
