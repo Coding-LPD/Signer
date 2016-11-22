@@ -320,3 +320,31 @@
  *      msg:  "错误信息"
  *    }
  */
+
+/**
+ * @api {get} /students/:id/chatDays/detail?date=XXX 某天的发言
+ * @apiVersion 1.0.0
+ * @apiName GetStudentChatDayDetail
+ * @apiGroup Student
+ * @apiDescription 获取指定id学生的某天的发言，date格式为2016-10-22（必须指定）
+ * 
+ * @apiSuccessExample 成功
+ *    HTTP/1.1 200 OK
+ *    {
+ *      code: "200",
+ *      data: 
+ *      [{
+ *        courseName: 'XXX'                     // 签到对应的课程名称
+ *        msgCount: 10                          // 在该聊天室中的发言数
+ *      }]        
+ *      msg:  "操作成功"
+ *    }
+ * 
+ * @apiErrorExample 失败：
+ *    HTTP/1.1 200 OK
+ *    {
+ *      code: "XXXX",
+ *      data: [],
+ *      msg:  "错误信息"
+ *    }
+ */

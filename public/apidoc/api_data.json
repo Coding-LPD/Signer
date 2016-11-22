@@ -934,6 +934,35 @@
   },
   {
     "type": "get",
+    "url": "/students/:id/chatDays/detail?date=XXX",
+    "title": "某天的发言",
+    "version": "1.0.0",
+    "name": "GetStudentChatDayDetail",
+    "group": "Student",
+    "description": "<p>获取指定id学生的某天的发言，date格式为2016-10-22（必须指定）</p>",
+    "success": {
+      "examples": [
+        {
+          "title": "成功",
+          "content": "HTTP/1.1 200 OK\n{\n  code: \"200\",\n  data: \n  [{\n    courseName: 'XXX'                     // 签到对应的课程名称\n    msgCount: 10                          // 在该聊天室中的发言数\n  }]        \n  msg:  \"操作成功\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "失败：",
+          "content": "HTTP/1.1 200 OK\n{\n  code: \"XXXX\",\n  data: [],\n  msg:  \"错误信息\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "docjs/students.js",
+    "groupTitle": "学生"
+  },
+  {
+    "type": "get",
     "url": "/students/:id/chatDays?date=XXX",
     "title": "有发言的日期",
     "version": "1.0.0",

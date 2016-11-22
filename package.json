@@ -65,6 +65,7 @@
       "GetStudentSignInDays",
       "GetStudentSignInDaysDetail",
       "GetStudentChatDays",
+      "GetStudentChatDayDetail",
       "Teacher",
       "GetTeacher",
       "PostTeacherSearch",

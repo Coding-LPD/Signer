@@ -448,4 +448,53 @@ router.get('/:id/chatDays', function (req, res) {
     });
 });
 
+// 查询指定日期内的所有发言
+router.get('/:id/chatDays/detail', function (req, res) {
+  var studentId = req.params['id'];
+  var date = req.query['date'] || '';  // 2016-10-22
+  var roomWithMsgs = [];
+
+  Promise.resolve()
+    .then(function () {
+      // 查询日期为空
+      if (!date.trim()) {
+        return Promise.reject({ code: errorCodes.SearchDateEmpty });
+      }
+
+      var startTime = moment(date).format('YYYY-MM-DD HH:mm:ss');
+      var endTime = moment(date).add(1, 'days').format('YYYY-MM-DD HH:mm:ss');
+      
+      // 按照课程id进行分组
+      return ChatMsg.aggregate()
+        .match({ studentId: studentId, createdAt: { $gte: startTime, $lt: endTime } })
+        .group({ _id: '$courseId', msgs: { $push: '$$ROOT' } })
+        .exec()
+    })
+    .then(function (results) {
+      roomWithMsgs = results;
+
+      // 查询每个聊天室的名称
+      return Promise.all(results.map(function (r) {
+        return Course.findById(r._id);
+      }));
+    })
+    .then(function (courses) {
+      var retData = [];
+      roomWithMsgs.forEach(function (value, index) {
+        retData.push({
+          courseName: courses[index].get('name'),
+          msgCount: value.msgs.length
+        });
+      });
+      sendInfo(errorCodes.Success, res, retData);
+    })
+    .catch(function (err) {
+      if (err.code) {
+        sendInfo(err.code, res, []);
+      } else {
+        handleErrors(err, res, []);
+      }
+    });
+});
+
 module.exports = router;
