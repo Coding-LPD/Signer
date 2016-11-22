@@ -26,3 +26,5 @@ var Feedback = {
     default: ''
   }
 };
+
+module.exports = Feedback;
