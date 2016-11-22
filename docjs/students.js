@@ -244,3 +244,27 @@
  *      msg:  "错误信息"
  *    }
  */
+
+/**
+ * @api {get} /students/:id/signInDays?date=XXX 有完成签到的日期
+ * @apiVersion 1.0.0
+ * @apiName GetStudentSignInDays
+ * @apiGroup Student
+ * @apiDescription 获取指定id学生的指定月份的完成签到的日期，date格式为2016-10，默认获取所有完成签到的日期
+ * 
+ * @apiSuccessExample 成功
+ *    HTTP/1.1 200 OK
+ *    {
+ *      code: "200",
+ *      data: ['2016-10-23', 'XXXXX']       // 完成签到的日期数组，格式为2016-10-23 
+ *      msg:  "操作成功"
+ *    }
+ * 
+ * @apiErrorExample 失败：
+ *    HTTP/1.1 200 OK
+ *    {
+ *      code: "XXXX",
+ *      data: [],
+ *      msg:  "错误信息"
+ *    }
+ */

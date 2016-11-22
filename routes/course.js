@@ -92,6 +92,7 @@ router.post('/search', function (req, res) {
   });
 });
 
+// 课程最近一次签到
 router.get('/:id/latestSignRecords', function (req, res) {
   var maxAvatarNum = 20;
   var course, teacher, signNum, promises;
@@ -166,6 +167,7 @@ router.get('/:id/latestSignRecords', function (req, res) {
     });  
 });
 
+// 该课程中，指定学生的签到情况
 router.get('/:id/students/:studentId/signRecords', function (req, res) {
   var signs;
 

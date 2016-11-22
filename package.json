@@ -62,6 +62,7 @@
       "GetStudentRelatedCourses",
       "GetStudentNotice",
       "GetStudentActiveInfo",
+      "GetStudentSignInDays",
       "Teacher",
       "GetTeacher",
       "PostTeacherSearch",

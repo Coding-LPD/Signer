@@ -1038,6 +1038,35 @@
     "groupTitle": "学生"
   },
   {
+    "type": "get",
+    "url": "/students/:id/signInDays?date=XXX",
+    "title": "有完成签到的日期",
+    "version": "1.0.0",
+    "name": "GetStudentSignInDays",
+    "group": "Student",
+    "description": "<p>获取指定id学生的指定月份的完成签到的日期，date格式为2016-10，默认获取所有完成签到的日期</p>",
+    "success": {
+      "examples": [
+        {
+          "title": "成功",
+          "content": "HTTP/1.1 200 OK\n{\n  code: \"200\",\n  data: ['2016-10-23', 'XXXXX']       // 完成签到的日期数组，格式为2016-10-23 \n  msg:  \"操作成功\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "失败：",
+          "content": "HTTP/1.1 200 OK\n{\n  code: \"XXXX\",\n  data: [],\n  msg:  \"错误信息\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "docjs/students.js",
+    "groupTitle": "学生"
+  },
+  {
     "type": "post",
     "url": "/students/images",
     "title": "上传头像",

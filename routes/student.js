@@ -3,6 +3,7 @@ var path = require('path');
 var multipart = require('connect-multiparty');
 var express = require('express');
 var router = express.Router();
+var moment = require('moment');
 
 var handleErrors = require('../services/error-handler').handleErrors;
 var sendInfo = require('../services/error-handler').sendInfo; 
@@ -286,6 +287,7 @@ router.post('/relatedInfo', function (req, res) {
     });
 });
 
+// 签到数和发言数
 router.get('/:id/activeInfo', function (req, res) {
   var studentId = req.params['id'];
   var promises = [];
@@ -308,6 +310,37 @@ router.get('/:id/activeInfo', function (req, res) {
         sendInfo(err.code, res, {});
       } else {
         handleErrors(err, res, {});
+      }
+    });
+});
+
+// 查询学生指定年月的有签到的日期
+router.get('/:id/signInDays', function (req, res) {
+  var date = req.query['date'];  // 2016-07
+  var studentId = req.params['id'];
+  var startTime = moment(date).format('YYYY-MM-DD HH-mm-ss');
+  var endTime = moment(date).add(1, 'months').format('YYYY-MM-DD HH-mm-ss');
+
+  SignRecord.find({ studentId: studentId, confirmAt: { $gte: startTime, $lt: endTime } })
+    .then(function (records) {
+      // 筛选出所有不同的完成签到的日期
+      var day;
+      var temp = {};      
+      var retData = [];
+      records.forEach(function (record) {
+         day = moment(record.get('confirmAt')).format('YYYY-MM-DD');
+         if (!temp[day]) {
+           temp[day] = true;
+           retData.push(day);
+         }
+      }); 
+      sendInfo(errorCodes.Success, res, retData);
+    })
+    .catch(function (err) {
+      if (err.code) {
+        sendInfo(err.code, res, []);
+      } else {
+        handleErrors(err, res, []);
       }
     });
 });

@@ -33,6 +33,7 @@
     "GetStudentRelatedCourses",
     "GetStudentNotice",
     "GetStudentActiveInfo",
+    "GetStudentSignInDays",
     "Teacher",
     "GetTeacher",
     "PostTeacherSearch",
@@ -62,7 +63,7 @@
   "apidoc": "0.2.0",
   "generator": {
     "name": "apidoc",
-    "time": "2016-11-22T05:04:05.851Z",
+    "time": "2016-11-22T07:12:31.194Z",
     "url": "http://apidocjs.com",
     "version": "0.16.1"
   }
