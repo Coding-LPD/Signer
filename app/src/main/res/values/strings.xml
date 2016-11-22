@@ -46,6 +46,9 @@
     <string name="settings_clear">清理缓存</string>
     <string name="settings_logout">退出登录</string>
 
+    <string name="password_old_title">原密码</string>
+    <string name="password_new_title">新密码</string>
+    <string name="password_old_hint">请输入原先的密码</string>
     <string name="password_update_hint">请输入新的密码</string>
     <string name="password_confirm_hint">请确认密码</string>
 

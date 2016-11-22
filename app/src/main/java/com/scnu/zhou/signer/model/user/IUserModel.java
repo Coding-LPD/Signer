@@ -17,5 +17,5 @@ public interface IUserModel {
     void getDefaultImageUrl(int pos, UserInfoCallBack callBack);   // 获取默认头像url
     void uploadStudentAvatar(File file, UserInfoCallBack callBack);    // 上传头像
 
-    void updateUserPassword(String phone, UserInfoCallBack callBack);    // 更改密码
+    void updateUserPassword(String phone, String password, UserInfoCallBack callBack);    // 更改密码
 }

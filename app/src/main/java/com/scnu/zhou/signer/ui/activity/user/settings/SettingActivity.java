@@ -7,12 +7,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.scnu.zhou.signer.R;
+import com.scnu.zhou.signer.component.cache.ClearCache;
+import com.scnu.zhou.signer.component.cache.UserCache;
 import com.scnu.zhou.signer.ui.activity.base.BaseSlideActivity;
 import com.scnu.zhou.signer.ui.activity.login.LoginActivity;
 import com.scnu.zhou.signer.ui.activity.main.MainActivity;
-import com.scnu.zhou.signer.component.cache.ClearCache;
-import com.scnu.zhou.signer.component.cache.UserCache;
-import com.scnu.zhou.signer.ui.activity.regist.InputPhoneActivity;
 import com.scnu.zhou.signer.ui.widget.picker.MenuPicker;
 
 import java.util.ArrayList;
@@ -58,8 +57,7 @@ public class SettingActivity extends BaseSlideActivity{
     @OnClick(R.id.tc_password)
     public void updatePassword(){
 
-        Intent intent = new Intent(this, InputPhoneActivity.class);
-        intent.putExtra("state", "update");
+        Intent intent = new Intent(this, UpdatePasswordActivity2.class);
         startActivityForResult(intent, 0);
         overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
     }

@@ -80,7 +80,7 @@ public interface SignerApi {
 
     @FormUrlEncoded
     @PUT("/api/users/{phone}")    // 更新用户密码
-    Observable<ResultResponse<User>> updateUserPassword(@Path("phone") String phone);
+    Observable<ResultResponse<User>> updateUserPassword(@Path("phone") String phone, @FieldMap Map<String,String> infos);
 
 
     /**

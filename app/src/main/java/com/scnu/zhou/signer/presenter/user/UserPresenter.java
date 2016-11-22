@@ -85,8 +85,9 @@ public class UserPresenter implements IUserPresenter, UserInfoCallBack{
     }
 
     @Override
-    public void updateUserPassword(String phone) {
+    public void updateUserPassword(String phone, String password) {
 
+        userModel.updateUserPassword(phone, password, this);
     }
 
 

@@ -182,11 +182,14 @@ public class UserModel implements IUserModel {
 
 
     @Override
-    public void updateUserPassword(String phone, final UserInfoCallBack callBack) {
+    public void updateUserPassword(String phone, String password, final UserInfoCallBack callBack) {
+
+        Map<String, String> infos = new HashMap<>();
+        infos.put("password", password);
 
         RetrofitServer.getRetrofit()
                 .create(SignerApi.class)
-                .updateUserPassword(phone)
+                .updateUserPassword(phone, infos)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<ResultResponse<User>>() {
