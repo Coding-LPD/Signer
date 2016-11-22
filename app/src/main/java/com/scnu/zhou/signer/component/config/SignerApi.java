@@ -9,6 +9,7 @@ import com.scnu.zhou.signer.component.bean.notice.NoticeBean;
 import com.scnu.zhou.signer.component.bean.sign.ScanResult;
 import com.scnu.zhou.signer.component.bean.sign.SignRecord;
 import com.scnu.zhou.signer.component.bean.user.Student;
+import com.scnu.zhou.signer.component.bean.user.User;
 
 import java.util.List;
 import java.util.Map;
@@ -77,6 +78,10 @@ public interface SignerApi {
     @POST("/api/students/images")    // 上传头像
     Observable<ResultResponse<String>> uploadUserImage(@Part("file\"; filename=\"image.png") RequestBody file);
 
+    @FormUrlEncoded
+    @PUT("/api/users/{phone}")    // 更新用户密码
+    Observable<ResultResponse<User>> updateUserPassword(@Path("phone") String phone);
+
 
     /**
      * Scan and Sign
@@ -100,6 +105,9 @@ public interface SignerApi {
     @GET("/api/courses/{id}/latestSignRecords")     // 获取相关课程信息详情
     Observable<ResultResponse<CourseDetail>> getCourseDetail(@Path("id") String courseId);
 
+    @GET("/api/courses/{id}/students/{studentId}/signRecords")   // 获取相关签到记录
+    Observable<ResultResponse<List<SignBean>>> getSignDetail(@Path("id") String courseId, @Path("studentId") String studentId);
+
 
     /**
      * Notice Page
@@ -107,11 +115,4 @@ public interface SignerApi {
     @GET("/api/students/{phone}/notice")     // 获取最近通知
     Observable<ResultResponse<List<NoticeBean>>> getNotices(@Path("phone") String phone, @Query("type") int type,
                                                             @Query("limit") int limit, @Query("page") int page);
-
-
-    /**
-     * Check Sign
-     */
-    @GET("/api/courses/{id}/students/{studentId}/signRecords")
-    Observable<ResultResponse<List<SignBean>>> getSignDetail(@Path("id") String courseId, @Path("studentId") String studentId);
 }

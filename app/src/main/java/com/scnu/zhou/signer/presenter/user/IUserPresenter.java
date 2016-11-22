@@ -14,4 +14,6 @@ public interface IUserPresenter {
 
     void getDefaultImageUrl(int pos);   // 获取默认头像url
     void uploadStudentAvatar(File file);    // 上传头像
+
+    void updateUserPassword(String phone);
 }

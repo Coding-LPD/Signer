@@ -2,6 +2,7 @@ package com.scnu.zhou.signer.callback.user;
 
 import com.scnu.zhou.signer.component.bean.http.ResultResponse;
 import com.scnu.zhou.signer.component.bean.user.Student;
+import com.scnu.zhou.signer.component.bean.user.User;
 
 import java.util.List;
 
@@ -24,4 +25,7 @@ public interface UserInfoCallBack {
 
     void onUploadImageSuccess(ResultResponse<String> response);
     void onUploadImageError(Throwable e);
+
+    void onUpdatePasswordSuccess(ResultResponse<User> response);
+    void onUpdatePasswordError(Throwable e);
 }

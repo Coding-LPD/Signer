@@ -112,6 +112,15 @@ public class LoginActivity extends BaseActivity implements ILoginView, TextWatch
         overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
     }
 
+    // 忘记密码
+    @OnClick(R.id.tv_find)
+    public void find(){
+
+        Intent intent = new Intent(this, InputPhoneActivity.class);
+        intent.putExtra("state", "update");
+        startActivityForResult(intent, 0);
+        overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+    }
 
     // 登录动作
     @OnClick(R.id.btn_login)

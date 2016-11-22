@@ -1,6 +1,5 @@
 package com.scnu.zhou.signer.ui.activity.user.settings;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -14,22 +13,17 @@ import android.widget.TextView;
 
 import com.scnu.zhou.signer.R;
 import com.scnu.zhou.signer.component.bean.http.ResultResponse;
-import com.scnu.zhou.signer.component.bean.user.Student;
-import com.scnu.zhou.signer.component.cache.UserCache;
+import com.scnu.zhou.signer.component.bean.user.User;
 import com.scnu.zhou.signer.component.util.encrypt.RSAEncryptUtil;
 import com.scnu.zhou.signer.component.util.http.ResponseCode;
 import com.scnu.zhou.signer.presenter.user.IUserPresenter;
 import com.scnu.zhou.signer.presenter.user.UserPresenter;
 import com.scnu.zhou.signer.ui.activity.base.BaseSlideActivity;
-import com.scnu.zhou.signer.ui.activity.login.LoginActivity;
-import com.scnu.zhou.signer.ui.activity.main.MainActivity;
 import com.scnu.zhou.signer.ui.activity.regist.InputCodeActivity;
 import com.scnu.zhou.signer.ui.activity.regist.InputPhoneActivity;
 import com.scnu.zhou.signer.ui.widget.edit.TextClearableEditText;
 import com.scnu.zhou.signer.ui.widget.toast.ToastView;
 import com.scnu.zhou.signer.view.user.IUserPasswordView;
-
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -81,36 +75,6 @@ public class UpdatePasswordActivity extends BaseSlideActivity implements IUserPa
         phone = getIntent().getStringExtra("phone");
     }
 
-    @Override
-    public void onGetUserIdSuccess(ResultResponse<List<Student>> response) {
-
-        if (response.getCode().equals("200")){
-
-            Student student = response.getData().get(0);
-
-            userId = student.get_id();
-
-            presenter.getPublicKey();
-        }
-        else{
-            dismissLoadingDialog();
-            String data = response.getMsg();
-            ToastView toastView = new ToastView(UpdatePasswordActivity.this, data);
-            toastView.setGravity(Gravity.CENTER, 0, 0);
-            toastView.show();
-        }
-    }
-
-    @Override
-    public void onGetUserIdError(Throwable e) {
-
-        Log.e("get info error", e.toString());
-        dismissLoadingDialog();
-        ToastView toastView = new ToastView(UpdatePasswordActivity.this, "请检查您的网络连接");
-        toastView.setGravity(Gravity.CENTER, 0, 0);
-        toastView.show();
-    }
-
 
     // 获取公钥成功
     @Override
@@ -148,7 +112,7 @@ public class UpdatePasswordActivity extends BaseSlideActivity implements IUserPa
     }
 
     @Override
-    public void onUpdateStudentPasswordSuccess(ResultResponse<Student> response) {
+    public void onUpdatePasswordSuccess(ResultResponse<User> response) {
 
         dismissLoadingDialog();
 
@@ -161,18 +125,6 @@ public class UpdatePasswordActivity extends BaseSlideActivity implements IUserPa
             InputPhoneActivity.getInstance().finish();
             InputCodeActivity.getInstance().finish();
 
-            // 页面跳转
-            Intent intent = new Intent(UpdatePasswordActivity.this, LoginActivity.class);
-            startActivity(intent);
-            overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
-
-            // 清除缓存
-            UserCache.getInstance().logout(UpdatePasswordActivity.this);
-
-            MainActivity.getInstance().finish();
-
-            setResult(0);
-            finish();
         }
         else{
             String data = response.getMsg();
@@ -183,7 +135,7 @@ public class UpdatePasswordActivity extends BaseSlideActivity implements IUserPa
     }
 
     @Override
-    public void onUpdateStudentPasswordError(Throwable e) {
+    public void onUpdatePasswordError(Throwable e) {
 
         Log.e("update password error", e.toString());
 
@@ -213,7 +165,7 @@ public class UpdatePasswordActivity extends BaseSlideActivity implements IUserPa
         else{
 
             showLoadingDialog("修改中");
-            presenter.getStudentInfo(phone);
+            presenter.getPublicKey();
         }
     }
 

@@ -5,6 +5,7 @@ import android.util.Log;
 import com.scnu.zhou.signer.callback.user.UserInfoCallBack;
 import com.scnu.zhou.signer.component.bean.http.ResultResponse;
 import com.scnu.zhou.signer.component.bean.user.Student;
+import com.scnu.zhou.signer.component.bean.user.User;
 import com.scnu.zhou.signer.component.config.SignerApi;
 import com.scnu.zhou.signer.component.util.http.RetrofitServer;
 
@@ -25,7 +26,7 @@ import rx.schedulers.Schedulers;
 public class UserModel implements IUserModel {
 
     @Override
-    public void getPublicKeySuccess(final UserInfoCallBack callBack) {
+    public void getPublicKey(final UserInfoCallBack callBack) {
 
         RetrofitServer.getRetrofit()
                 .create(SignerApi.class)
@@ -175,6 +176,36 @@ public class UserModel implements IUserModel {
                     public void onNext(ResultResponse<String> response) {
 
                         callBack.onUploadImageSuccess(response);
+                    }
+                });
+    }
+
+
+    @Override
+    public void updateUserPassword(String phone, final UserInfoCallBack callBack) {
+
+        RetrofitServer.getRetrofit()
+                .create(SignerApi.class)
+                .updateUserPassword(phone)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<ResultResponse<User>>() {
+
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                        callBack.onUpdatePasswordError(e);
+                    }
+
+                    @Override
+                    public void onNext(ResultResponse<User> response) {
+
+                        callBack.onUpdatePasswordSuccess(response);
                     }
                 });
     }
