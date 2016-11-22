@@ -18,6 +18,8 @@ define({
     "PostUser",
     "PostUserLogin",
     "PostUserLoginWithSmsCode",
+    "PostUserSearch",
+    "PutUser",
     "SmsCode",
     "PostSmsCode",
     "PostSmsCodeVerification",
@@ -56,7 +58,7 @@ define({
   "apidoc": "0.2.0",
   "generator": {
     "name": "apidoc",
-    "time": "2016-11-03T04:28:11.987Z",
+    "time": "2016-11-22T03:18:01.827Z",
     "url": "http://apidocjs.com",
     "version": "0.16.1"
   }

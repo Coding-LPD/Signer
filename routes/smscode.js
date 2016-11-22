@@ -1,8 +1,9 @@
-var https = require('https');
+var rp = require('request-promise');
 var crypto = require('crypto');
 var querystring = require('querystring');
 var express = require('express');
 var router = express.Router();
+
 var config = require('../config');
 var sendInfo = require('../services/error-handler').sendInfo;
 var errorCodes = require('../services/error-codes').errorCodes;
@@ -15,257 +16,172 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'SmsCode' });
 });
 
-router.get('/h', function (req, res) {
-  res.status(405);
-  res.end();
-});
-
 // 发送短信验证码
 router.post('/', function(req, res) {
-  var phone = req.body.phone;  
-  if (!common.validatePhone(phone)) {
-    sendInfo(errorCodes.PhoneError, res, '');
-    return;
-  }
+  var phone = req.body.phone;
   var data = {
     mobilePhoneNumber: phone
   }
-  var dataString = JSON.stringify(data);
+  var dataString = JSON.stringify(data);  
 
-  var opt = {
-    method: 'POST',
-    hostname: 'api.bmob.cn',
-    path: '/1/requestSmsCode',
-    headers: {
-      'X-Bmob-Application-Id': config.applicationId,
-      'X-Bmob-REST-API-Key': config.restApiKey,
-      'Content-Type': 'application/json',
-      'Content-Length': dataString.length
-    }
-  };
+  Promise.resolve()
+    .then(function () {
+      // 手机号码无效
+      if (!common.validatePhone(phone)) {        
+        return Promise.reject({ code: errorCodes.PhoneError }) ;
+      }
 
-  var smscodeReq = https.request(opt, function (smscodeRes) {
-    var responseString = '';
+      var options = {
+        method: 'POST',
+        uri: 'https://api.bmob.cn/1/requestSmsCode',
+        body: data,
+        headers: {
+          'X-Bmob-Application-Id': config.applicationId,
+          'X-Bmob-REST-API-Key': config.restApiKey,
+          'Content-Type': 'application/json',
+          'Content-Length': dataString.length
+        },
+        json: true
+      };
 
-    smscodeRes.on('data', function(data) {
-      responseString += data;
-    });
-
-    smscodeRes.on('end', function () {         
-        var resData = JSON.parse(responseString);
-        if (resData.error) {
-          handleBmobError(resData, res);
-        } else {
-          sendInfo(errorCodes.Success, res, resData.smsId);
-        }
-    }); 
-  });
-
-  smscodeReq.on('error', function(e) {
-      console.log('request bmob smscode error: \n',e);
-      sendInfo(errorCodes.OtherError, res, '');
-  });
-
-  smscodeReq.write(dataString);
-  smscodeReq.end();
+      return rp(options);
+    })
+    .then(function (data) {
+      sendInfo(errorCodes.Success, res, data.smsId);
+    })
+    .catch(function (err) {
+      var result = handleBmobError(err.error);
+      if (result.code) {
+        sendInfo(result.code, res, result.bmobError || '');
+      } else {
+        handleErrors(err, res, '');
+      }
+    })
 });
 
 // 验证短信验证码
 router.post('/verification', function (req, res) {
   var smsCode = req.body.smsCode;
   var phone = req.body.phone;
-  if (!common.validatePhone(phone)) {
-    sendInfo(errorCodes.PhoneError, res, '');
-    return;
-  }
-  
-  verifySmsCode(phone, smsCode, res, function (err, data) {
-    if (!err) {
-      sendInfo(errorCodes.Success, res, '');
-    }
-  });
 
+  Promise.resolve()
+    .then(function () {
+      // 手机号码无效
+      if (!common.validatePhone(phone)) {
+        return Promise.reject({ code: errorCodes.PhoneError }) ;
+      }
+
+      return verifySmsCode(phone, smsCode);
+    })
+    .then(function (data) {
+      sendInfo(errorCodes.Success, res, '');
+    })
+    .catch(function (err) {
+      if (err.code) {
+        sendInfo(err.code, res, err.bmobError || '');
+      } else {
+        handleErrors(err, res, '');
+      }
+    });
 });
 
 // 查询短信状态
 router.get('/state', function (req, res) {
   var smsid = req.query.smsid;
 
-  getSmsCodeState(smsid, res, function (err, data) {
-    // 请求成功，则返回相应短信状态数据
-    if (!err) {
+  getSmsCodeState(smsid)
+    .then(function (data) {
       sendInfo(errorCodes.Success, res, data);
-    }
-  });  
+    })
+    .catch(function (err) {
+      if (err.code) {
+        sendInfo(err.code, res, err.bmobError || '');
+      } else {
+        handleErrors(err, res, '');
+      }
+    });
 });
 
-function verifySmsCode(phone, smsCode, res, callback) {
+/**
+ * bmob验证短信验证码
+ */
+function verifySmsCode(phone, smsCode) {
   var data = {
     mobilePhoneNumber: phone
   };
   var dataString = JSON.stringify(data);
 
-  var opt = {
+  var options = {
     method: 'POST',
-    hostname: 'api.bmob.cn',
-    path: '/1/verifySmsCode/' + smsCode,
+    uri: 'https://api.bmob.cn/1/verifySmsCode/' + smsCode,
+    body: data,
     headers: {
       'X-Bmob-Application-Id': config.applicationId,
       'X-Bmob-REST-API-Key': config.restApiKey,
       'Content-Type': 'application/json',
       'Content-Length': dataString.length
-    }
+    },
+    json: true
   };
 
-  var verificationReq = https.request(opt, function (verificationRes) {
-    var responseString = '';
-
-  	verificationRes.on('data', function(data) {
-    	responseString += data;
-  	});
-
-    verificationRes.on('end', function () {         
-        var resData = JSON.parse(responseString);        
-        if (resData.error) {     
-          handleBmobError(resData, res);
-          callback(resData);
-        } else {               
-          callback(null, resData);          
-        }        
-    }); 
-  });
-
-  verificationReq.write(dataString);
-  verificationReq.end();
+  return rp(options)
+    .then(function (data) {
+      return data;
+    })
+    .catch(function (err) {
+      return Promise.reject(handleBmobError(err.error));
+    });
 }
 
-function getSmsCodeState(smsid, res, callback) {
-  var opt = {
+function getSmsCodeState(smsid) {
+  var options = {
     method: 'GET',
-    hostname: 'api.bmob.cn',
-    path: '/1/querySms/' + smsid,
+    uri: 'https://api.bmob.cn/1/querySms/:' + smsid,
     headers: {
       'X-Bmob-Application-Id': config.applicationId,
       'X-Bmob-REST-API-Key': config.restApiKey,
       'Content-Type': 'application/json'
-    }
+    },
+    json: true
   };
 
-  var stateReq = https.request(opt, function (stateRes) {
-    var responseString = '';
-
-  	stateRes.on('data', function(data) {
-    	responseString += data;
-  	});
-
-    stateRes.on('end', function () { 
-        var resData = JSON.parse(responseString);
-        if (resData.error) {          
-          log.info('bmob return msg: ' + resData.error);
-          sendInfo(errorCodes.SmsidError, res, '');
-          callback(resData);
-        } else {
-          resData = {
-            sendState: resData.sms_state,
-            verifyState: resData.verify_state
-          };
-          callback(null, resData);
-        }
-    }); 
-  });
-
-  stateReq.end();
+  return rp(options)
+    .then(function (data) {
+      return {
+        sendState: data.sms_state,
+        verifyState: data.verify_state
+      };
+    })
+    .catch(function (err) {
+      return Promise.reject(handleBmobError(err.error));
+    });
 }
 
-function handleBmobError(resData, res) {
-  if (!resData.code) {
-    sendInfo(errorCodes.OtherError, res, '');
-    return;
+function handleBmobError(data) {
+  var result = { code: errorCodes.OtherError, bmobError: null };
+  if (!data.code) {
+    return result;
   }
-  switch(resData.code) {
+  switch(data.code) {
     case 207:
       // 验证码错误或已被验证过
-      sendInfo(errorCodes.SmsCodeError, res, '');
+      result.code = errorCodes.SmsCodeError;
       break;
     case 301:
       // 手机号码不正确
-      sendInfo(errorCodes.PhoneError, res, '');
+      result.code = errorCodes.PhoneError;
       break;
     case 10010:
-      sendInfo(errorCodes.SmsCodeLimit, res, '');
+      result.code = errorCodes.SmsCodeLimit;
       break;
     default:      
       // bmob其他错误，直接返回bmob的错误提示
-      sendInfo(errorCodes.BmobOtherError, res, resData.error);
+      result.code = errorCodes.BmobOtherError;
+      result.bmobError = data.error;
       break;
   }
+  return result;
 }
-
-
-// // 秒滴发送短信
-// function miaodi(req, res) {
-//   var timestamp = getTimeStamp();
-//   var md5sum = crypto.createHash('md5');
-//   md5sum.update(config.accountSID + config.authToken + timestamp);
-//   var sig = md5sum.digest('hex');
-//   console.log('sig: ' + sig);
-
-//   var data = {
-//     accountSid: config.accountSID,
-//     smsContent: '【秒嘀科技】您的验证码是345678，30分钟输入有效。',
-//     to: '15603005627',
-//     timestamp: getTimeStamp(),
-//     sig: sig
-//   };
-//   data = querystring.stringify(data);
-
-//   var opt = {
-//     method: 'POST',
-//     host: 'api.miaodiyun.com',
-//     path: '/20150822/industrySMS/sendSMS',
-//     headers: {
-//       'Content-Type': 'application/x-www-form-urlencoded'
-//     }
-//   };
-
-//   var req = http.request(opt, function (res) {
-//     console.log('STATUS: ' + res.statusCode);  
-//     console.log('HEADERS: ' + JSON.stringify(res.headers));
-//     res.on('data', function (chunk) {  
-//         console.log('BODY: ' + chunk);  
-//     }); 
-//   });
-
-//   req.write(data);
-//   req.end();
-// }
-
-// function getTimeStamp() {
-//   var d = new Date();
-//   var year = d.getFullYear();
-//   var month = d.getMonth() + 1;    
-//   var day = d.getDate();
-//   var hour = d.getHours();
-//   var minute = d.getMinutes();
-//   var second = d.getSeconds(); 
-//   if (month < 10) {
-//     month = '0' + month;
-//   }
-//   if (day < 10) {
-//     day = '0' + day;
-//   }
-//   if (hour < 10) {
-//     hour = '0' + hour;
-//   } 
-//   if (minute < 10) {
-//     minute = '0' + minute;
-//   }
-//   if (second < 10) {
-//     second = '0' + second;
-//   }
-//   console.log('timestamp: ' + year + month + day + hour + minute + second);
-//   return '' + year + month + day + hour + minute + second;
-// }
 
 exports.router = router;
 exports.verifySmsCode = verifySmsCode;

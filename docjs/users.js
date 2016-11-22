@@ -107,3 +107,29 @@
  *      msg:  "错误信息"
  *    }
  */
+
+/**
+ * @api {put} /users/:id 修改密码
+ * @apiVersion 1.0.0
+ * @apiName PutUser
+ * @apiGroup User
+ * @apiDescription 修改指定id用户的密码。
+ * 
+ * @apiParam {String} password  密码（必须用服务器提供的公钥进行加密）
+ * 
+ * @apiSuccessExample 成功：
+ *    HTTP/1.1 200 OK
+ *    {
+ *      code: "200",
+ *      data: {},         // 修改密码的用户信息，不包含密码
+ *      msg:  "请求成功"
+ *    } 
+ * 
+ * @apiErrorExample 失败：
+ *    HTTP/1.1 200 OK
+ *    {
+ *      code: "XXXX",
+ *      data: {},         
+ *      msg:  "错误信息"
+ *    }
+ */

@@ -1,6 +1,7 @@
 var crypto = require('crypto');
 var express = require('express');
 var fs = require('fs');
+var fsp = require('fs-promise');
 var path = require('path');
 var NodeRSA = require('node-rsa');
 var router = express.Router();
@@ -46,97 +47,109 @@ router.post('/', function (req, res) {
   var phone = req.body.phone;
   var password = req.body.password;
   var role = req.body.role;
+  var user;
 
-  // 检查手机号码是否有效
-  if (!common.validatePhone(phone)) {
-    sendInfo(errorCodes.PhoneError, res, {});
-    return;
-  }
-
-  // 查找手机号码是否已经注册过
-  User.find({phone}, function (err, user) {
-    if (err) {
-      handleErrors(err, res, {});
-      return;
-    }
-    // 用户已存在，注册失败
-    if (user.length != 0) {
-      sendInfo(errorCodes.UserExist, res, {});
-      return;
-    }
-
-    // 根据用户提交的数据新建一个用户
-    var newUser = new User({phone, password, role});
-    // 读取私钥    
-    var privatekeyPath = path.resolve(__dirname, '../services/privatekey.pem');
-    fs.readFile(privatekeyPath, function (err, privatekey) {
-      if (err) {
-        handleErrors(err, res, {});
-        return;
+  Promise.resolve()
+    .then(function () {
+      // 检查手机号码是否有效
+      if (!common.validatePhone(phone)) {
+        return Promise.reject({ code: errorCodes.PhoneError });
       }
+
+      return User.find({ phone: phone });
+    })
+    .then(function (users) {
+      // 用户已存在，注册失败
+      if (users.length != 0) {        
+        return Promise.reject({ code: errorCodes.UserExist });
+      }      
+
+      // 读取私钥 
+      return readKey(1);
+    })
+    .then(function (privatekey) {
       // 利用私钥解密用户提交的密码
-      var key = new NodeRSA();
-      key.importKey(privatekey);
-      key.setOptions({encryptionScheme: 'pkcs1'});
-      try {
-        newUser.password = key.decrypt(newUser.password, 'utf8');
-      } catch (err) {
-        // 解密密码失败
-        console.log(err);
-        sendInfo(errorCodes.PasswordDecryptError, res, {});
-        return;
-      }
-      // 将明文密码sha1加密
-      var sha1 = crypto.createHash('sha1');
-      sha1.update(newUser.password);
-      newUser.password = sha1.digest('hex');
-      // 保存用户
-      newUser.save(function (err, savedUser) {
-        if (err) {
-          handleErrors(err, res, {});
-          return;
-        }
-        var promise = [];
-        // 用户成功注册
-        if (savedUser.role === '0') {
-          // 创建学生信息
-          var student = new Student({ phone: phone });
-          promise.push(student.save());
-        } else {
-          // 创建教师信息
-          var teacher = new Teacher({ phone: phone });
-          promise.push(teacher.save());
-        }
-        Promise.all(promise).then(function (savedData) {
-          var id = savedData[0]._id;
-          if (!id) {
-            handleErrors(savedData[0], res, {});
-            return;
-          }
-          // 返回认证token
-          var token = jwtService.createToken(savedUser._id, 'student');
-          res.cookie('access_token', token);
-          sendInfo(errorCodes.Success, res, 
-            { 
-              user: {_id: savedUser._id, phone: savedUser.get('phone'), role: savedUser.get('role')}, 
-              person: savedData[0] 
-            }
-          );
-        });
+      return decryptContent(password, privatekey);
+    })
+    .then(function (oriPassword) {
+      // 加密密码
+      password = sha1Content(oriPassword);
+
+      // 根据用户提交的数据新建一个用户
+      var user = new User({
+        phone: phone, 
+        password: password, 
+        role: role
       });
+
+      return user.save();
+    })
+    .then(function (savedUser) {
+      user = savedUser;      
+      /**
+       * role
+       * 1：创建教师信息
+       * 其他：创建学生信息
+       */
+      if (+savedUser.get('role') == 1) {
+        return new Teacher({ phone: phone }).save();
+      } else {
+        return new Student({ phone: phone }).save();
+      }
+    })
+    .then(function (savedPerson) {
+      // token可使用范围
+      var scope = +user.get('role') == 1 ? 'teacher' : 'student';
+      // 返回认证token
+      var token = jwtService.createToken(user._id, scope);
+      res.cookie('access_token', token, { httpOnly: true });
+      sendInfo(errorCodes.Success, res, 
+        { 
+          user: { _id: user._id, phone: user.get('phone'), role: user.get('role') }, 
+          person: savedPerson
+        }
+      );      
+    })
+    .catch(function (err) {
+      if (err.code) {
+        sendInfo(err.code, res, {});
+      } else {
+        handleErrors(err, res, {});
+      }
     });
-  });
 });
 
 // 修改指定id的数据
 router.put('/:id', function (req, res) {
-  User.findByIdAndUpdate(req.params['id'], req.body, { new: true }, function (err, user) {
-    if (!err) {
-      sendInfo(errorCodes.Success, res, user);      
-    } else {
-      handleErrors(err, res, {});
-    }
-  });
+  var userId = req.params['id'];
+  var newPassword = req.body.password;
+
+  // 读取私钥
+  readKey(1)
+    .then(function (privatekey) {
+      // 解密密码
+      return decryptContent(newPassword, privatekey);
+    })
+    .then(function (password) {
+      // sha1加密密码
+      newPassword = sha1Content(password);
+
+      // 更新用户密码
+      return User.findByIdAndUpdate(userId, { password: newPassword }, { new: true });
+    })
+    .then(function (updatedUser) {
+      // 返回的新的user信息不包含密码
+      updatedUser = updatedUser.toObject();
+      delete updatedUser.password;
+      sendInfo(errorCodes.Success, res, updatedUser);
+    })
+    .catch(function (err) {
+      if (err.code) {
+        sendInfo(err.code, res, {});
+      } else {
+        handleErrors(err, res, {});
+      }
+    });  
 });
 
 // 删除指定id的数据
@@ -165,137 +178,161 @@ router.post('/search', function (req, res) {
 router.post('/login', function (req, res) {
   var phone = req.body.phone || '';
   var password = req.body.password || '';  
+  var user;
   
-  // 参数错误
-  if (!common.validatePhone(phone) || password.length == 0) {
-    sendInfo(errorCodes.AuthInfoEmpty, res, {});
-    return;
-  }
+  Promise.resolve()
+    .then(function () {
+      // 参数错误
+      if (!common.validatePhone(phone) || password.length == 0) {
+        return Promise.reject({ code: errorCodes.AuthInfoEmpty });
+      }
 
-  // 查找要登录的用户
-  User.find({phone}, function (err, users) {    
-    if (err) {
-      handleErrors(err, res, {});
-      return;
-    }
-    // 用户不存在
-    if (users.length != 1) {
-      sendInfo(errorCodes.AuthInfoError, res, {});
-      return;
-    }
-    var user = users[0];
-    // 读取私钥
-    var privatekeyPath = path.resolve(__dirname, '../services/privatekey.pem');
-    fs.readFile(privatekeyPath, function (err, privatekey) {
-      if (err) {
-        handleErrors(err, res, {});
-        return;
+      return User.find({ phone });
+    }) 
+    .then(function (users) {
+      // 用户不存在
+      if (users.length != 1) {
+        return Promise.reject({ code: errorCodes.AuthInfoError });
       }
-      // 解密密码      
-      var key = new NodeRSA();      
-      key.importKey(privatekey);
-      key.setOptions({encryptionScheme: 'pkcs1'});
-      try {
-        password = key.decrypt(password);
-      }
-      catch (err) {
-        // 解密密码失败
-        console.log(err);
-        sendInfo(errorCodes.PasswordDecryptError, res, {});
-        return;
-      }
-      // sha1明文密码，并与数据库中的密码比对
-      var sha1 = crypto.createHash('sha1');
-      sha1.update(password);
-      var r = sha1.digest('hex');
+
+      user = users[0];
+      return readKey(1);
+    })
+    .then(function (privatekey) {
+      return decryptContent(password, privatekey);
+    })
+    .then(function (oriPassword) {
+      var password = sha1Content(oriPassword);
       // 密码不正确
-      if (r !== user.password) {
-        sendInfo(errorCodes.AuthInfoError, res, {});
-        return;
-      }      
-      getPersonInfo(user, function (err, person) {
-        if (err) {
-          handleErrors(err, res, {});
-          return;
+      if (password !== user.get('password')) {        
+        return Promise.reject({ code: errorCodes.AuthInfoError });
+      }
+      /**
+       * role
+       * 1：查询教师信息
+       * 其他：查询学生信息
+       */
+      if (+user.get('role') == 1) {
+        return Teacher.findOne({ phone: phone });
+      } else {
+        return Student.findOne({ phone: phone });
+      }
+    })
+    .then(function (person) {
+      // token可使用范围
+      var scope = +user.get('role') == 1 ? 'teacher' : 'student';
+      // 返回带有token的cookie
+      var token = jwtService.createToken(user._id, scope);
+      res.cookie('access_token', token, { httpOnly: true });
+      sendInfo(errorCodes.Success, res,
+        { 
+          user: { _id: user._id, phone: user.get('phone'), role: user.get('role') }, 
+          person: person
         }
-        // 成功登录
-        // 返回带有token的cookie
-        var token = jwtService.createToken(user._id, 'student');
-        res.cookie('access_token', token, { httpOnly: true });
-        sendInfo(errorCodes.Success, res, 
-          { 
-            user: {_id: user._id, phone: user.get('phone'), role: user.get('role')}, 
-            person: person
-          }
-        );
-      });
+      );
+    })
+    .catch(function (err) {
+      if (err.code) {
+        sendInfo(err.code, res, {});
+      } else {
+        handleErrors(err, res, {});
+      }
     });
-  });
 });
 
 // 验证码登录
 router.post('/loginWithSmsCode', function (req, res) {
   var phone = req.body.phone || '';
   var smsCode = req.body.smsCode || '';
+  var user;
 
-  // 手机号码无效
-  if (!common.validatePhone(phone)) {
-    sendInfo(errorCodes.PhoneError, res, {});
-    return;
-  }
+  Promise.resolve()
+    .then(function () {
+      // 手机号码无效
+      if (!common.validatePhone(phone)) {
+        return Promise.reject({ code: errorCodes.PhoneError });
+      }
 
-  // 查找要登录的用户
-  User.find({phone}, function (err, users) {
-    if (err) {
-      handleErrors(err, res, {});
-      return;
-    }
-    // 用户不存在
-    if (users.length != 1) {
-      sendInfo(errorCodes.UserNotExist, res, {});
-      return;
-    }
-    verifySmsCode(phone, smsCode, res, function (err, data) {
-      // 验证成功，则说明用户登录成功
-      if (!err) {
-        var user = users[0];
-        getPersonInfo(user, function (err, person) {
-          if (err) {
-            handleErrors(err, res, {});
-            return;
-          }
-          // 返回带有token的cookie
-          var token = jwtService.createToken(user._id, 'student');
-          res.cookie('access_token', token, { httpOnly: true });
-          sendInfo(errorCodes.Success, res, 
-            { 
-              user: {_id: user._id, phone: user.get('phone'), role: user.get('role')}, 
-              person: person 
-            }
-          );
-        });        
+      return User.find({ phone: phone });
+    })
+    .then(function (users) {
+      // 用户不存在
+      if (users.length != 1) {        
+        return Promise.reject({ code: errorCodes.UserNotExist });
+      }
+      user = users[0];
+
+      return verifySmsCode(phone, smsCode);
+    })
+    .then(function (data) {
+      /**
+       * role
+       * 1：查询教师信息
+       * 其他：查询学生信息
+       */
+      if (+user.get('role') == 1) {
+        return Teacher.findOne({ phone: phone });
+      } else {
+        return Student.findOne({ phone: phone });
+      }
+    })
+    .then(function (person) {
+      // token可使用范围
+      var scope = +user.get('role') == 1 ? 'teacher' : 'student';
+      // 返回带有token的cookie
+      var token = jwtService.createToken(user._id, scope);
+      res.cookie('access_token', token, { httpOnly: true });
+      sendInfo(errorCodes.Success, res,
+        { 
+          user: { _id: user._id, phone: user.get('phone'), role: user.get('role') }, 
+          person: person
+        }
+      );
+    })
+    .catch(function (err) {
+      if (err.code) {
+        sendInfo(err.code, res, err.bmobError || {});
+      } else {
+        handleErrors(err, res, {});
       }
     });
-  }); 
 });
 
-function getPersonInfo(user, callback) {
-  var phone = user.get('phone');
-  var role = user.get('role');
-  var promise = [];
-  if (+role == 0) {
-    promise.push(Student.find({ phone }));
-  } else {
-    promise.push(Teacher.find({ phone }));
+/**
+ * 读取密钥
+ * type：0公钥，1私钥
+ */
+function readKey(type) {
+  type = type || 0;  
+  var keyPath = type == 1 ? 'privatekey.pem' : 'publickey.pem';
+  keyPath = path.resolve(__dirname, '../services/' + keyPath);
+
+  return fsp.readFile(keyPath);
+}
+
+/**
+ * 利用指定密钥解密指定内容，默认加密模式为pkcs1，编码格式为utf8
+ */
+function decryptContent(content, key) {
+  var rsa = new NodeRSA();
+  rsa.importKey(key);
+  rsa.setOptions({encryptionScheme: 'pkcs1'});
+  try {
+    result = rsa.decrypt(content, 'utf8');
+    return Promise.resolve(result);
+  } catch (err) {
+    // 解密密码失败
+    return Promise.reject({ code: errorCodes.PasswordDecryptError });        
   }
-  Promise.all(promise).then(function (findedData) {
-    var id = findedData[0][0]._id;
-    if (id) {
-      callback(null, findedData[0][0]);
-    } else {
-      callback(findedData[0]);
-    }
-  });
+}
+
+/**
+ * 将指定进行sha1加密
+ */
+function sha1Content(content) {
+  var sha1 = crypto.createHash('sha1');
+  sha1.update(content);
+  return sha1.digest('hex');
 }
 
 module.exports = router;

@@ -17,10 +17,6 @@ var config = {
   // 返回数据时，默认返回10条
   limit: 10,
 
-  // 秒滴短信验证码
-  // accountSID: '2e13f0c4838b4b239dbb64514863262b',
-  // authToken: '145300409ae049189f7e79720432e816',
-
   // 百度服务端AK
   applicationAK: 'fLHlHHLy4lrss2hY1GNsdSdb1y8FOwZ3',
 

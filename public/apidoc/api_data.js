@@ -1522,5 +1522,47 @@ define({ "api": [
     },
     "filename": "docjs/users.js",
     "groupTitle": "用户"
+  },
+  {
+    "type": "put",
+    "url": "/users/:id",
+    "title": "修改密码",
+    "version": "1.0.0",
+    "name": "PutUser",
+    "group": "User",
+    "description": "<p>修改指定id用户的密码。</p>",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "password",
+            "description": "<p>密码（必须用服务器提供的公钥进行加密）</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "examples": [
+        {
+          "title": "成功：",
+          "content": "HTTP/1.1 200 OK\n{\n  code: \"200\",\n  data: {},         // 修改密码的用户信息，不包含密码\n  msg:  \"请求成功\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "失败：",
+          "content": "HTTP/1.1 200 OK\n{\n  code: \"XXXX\",\n  data: {},         \n  msg:  \"错误信息\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "docjs/users.js",
+    "groupTitle": "用户"
   }
 ] });
