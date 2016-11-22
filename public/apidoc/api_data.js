@@ -934,6 +934,35 @@ define({ "api": [
   },
   {
     "type": "get",
+    "url": "/students/:id/chatDays?date=XXX",
+    "title": "有发言的日期",
+    "version": "1.0.0",
+    "name": "GetStudentChatDays",
+    "group": "Student",
+    "description": "<p>获取指定id学生的指定月份的发言日期，date格式为2016-10（必须指定）</p>",
+    "success": {
+      "examples": [
+        {
+          "title": "成功",
+          "content": "HTTP/1.1 200 OK\n{\n  code: \"200\",\n  data: ['2016-10-23', 'XXXXX']       // 有发言的日期数组\n  msg:  \"操作成功\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "失败：",
+          "content": "HTTP/1.1 200 OK\n{\n  code: \"XXXX\",\n  data: [],\n  msg:  \"错误信息\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "docjs/students.js",
+    "groupTitle": "学生"
+  },
+  {
+    "type": "get",
     "url": "/students/images/:id",
     "title": "获取默认头像url",
     "version": "1.0.0",
@@ -1044,7 +1073,7 @@ define({ "api": [
     "version": "1.0.0",
     "name": "GetStudentSignInDays",
     "group": "Student",
-    "description": "<p>获取指定id学生的指定月份的完成签到的日期，date格式为2016-10，默认获取所有完成签到的日期</p>",
+    "description": "<p>获取指定id学生的指定月份的完成签到的日期，date格式为2016-10（必须指定）</p>",
     "success": {
       "examples": [
         {

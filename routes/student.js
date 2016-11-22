@@ -15,6 +15,7 @@ var log = require('../services/log');
 
 var Student = require('../services/mongo').Student;
 var SignStudent = require('../services/mongo').SignStudent;
+var Course = require('../services/mongo').Course;
 var Sign = require('../services/mongo').Sign;
 var SignRecord = require('../services/mongo').SignRecord;
 var ChatMsg = require('../services/mongo').ChatMsg;
@@ -320,7 +321,7 @@ router.get('/:id/activeInfo', function (req, res) {
 // 查询学生指定年月的有签到的日期
 router.get('/:id/signInDays', function (req, res) {
   var studentId = req.params['id'];
-  var date = req.query['date'];  // 2016-07  
+  var date = req.query['date'] || '';  // 2016-07  
   var startTime = moment(date).format('YYYY-MM-DD HH:mm:ss');
   var endTime = moment(date).add(1, 'months').format('YYYY-MM-DD HH:mm:ss');
 
@@ -358,8 +359,8 @@ router.get('/:id/signInDays', function (req, res) {
 
 // 查询指定日期内的所有完成的签到
 router.get('/:id/signInDays/detail', function (req, res) {
-  var studentId = req.params['id'];  
-  var date = req.query['date'];  // 2016-10-22  
+  var studentId = req.params['id'];
+  var date = req.query['date'] || '';  // 2016-10-22
   var signWithRecords = [];
 
   Promise.resolve()
@@ -395,6 +396,46 @@ router.get('/:id/signInDays/detail', function (req, res) {
             courseName: signs[index].get('courseName')
           });
         });
+      });
+      sendInfo(errorCodes.Success, res, retData);
+    })
+    .catch(function (err) {
+      if (err.code) {
+        sendInfo(err.code, res, []);
+      } else {
+        handleErrors(err, res, []);
+      }
+    });
+});
+
+// 查询学生指定年月的发言的日期
+router.get('/:id/chatDays', function (req, res) {
+  var studentId = req.params['id'];
+  var date = req.query['date'] || '';  // 2016-10
+
+  Promise.resolve()
+    .then(function () {
+      // 查询日期为空
+      if (!date.trim()) {
+        return Promise.reject({ code: errorCodes.SearchDateEmpty });
+      }
+
+      var startTime = moment(date).format('YYYY-MM-DD HH:mm:ss');
+      var endTime = moment(date).add(1, 'months').format('YYYY-MM-DD HH:mm:ss');
+
+      return ChatMsg.find({ studentId: studentId, createdAt: { $gte: startTime, $lt: endTime } });
+    })
+    .then(function (msgs) {
+      // 筛选出所有不同的发言日期
+      var day;
+      var temp = {};
+      var retData = [];
+      msgs.forEach(function (msg) {
+        day = moment(msg.get('createdAt')).format('YYYY-MM-DD');
+        if (!temp[day]) {
+          temp[day] = true;
+          retData.push(day);
+        }
       });
       sendInfo(errorCodes.Success, res, retData);
     })

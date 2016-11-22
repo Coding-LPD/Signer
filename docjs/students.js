@@ -296,3 +296,27 @@
  *      msg:  "错误信息"
  *    }
  */
+
+/**
+ * @api {get} /students/:id/chatDays?date=XXX 有发言的日期
+ * @apiVersion 1.0.0
+ * @apiName GetStudentChatDays
+ * @apiGroup Student
+ * @apiDescription 获取指定id学生的指定月份的发言日期，date格式为2016-10（必须指定）
+ * 
+ * @apiSuccessExample 成功
+ *    HTTP/1.1 200 OK
+ *    {
+ *      code: "200",
+ *      data: ['2016-10-23', 'XXXXX']       // 有发言的日期数组
+ *      msg:  "操作成功"
+ *    }
+ * 
+ * @apiErrorExample 失败：
+ *    HTTP/1.1 200 OK
+ *    {
+ *      code: "XXXX",
+ *      data: [],
+ *      msg:  "错误信息"
+ *    }
+ */

@@ -35,6 +35,7 @@ define({
     "GetStudentActiveInfo",
     "GetStudentSignInDays",
     "GetStudentSignInDaysDetail",
+    "GetStudentChatDays",
     "Teacher",
     "GetTeacher",
     "PostTeacherSearch",
@@ -64,7 +65,7 @@ define({
   "apidoc": "0.2.0",
   "generator": {
     "name": "apidoc",
-    "time": "2016-11-22T07:56:37.912Z",
+    "time": "2016-11-22T08:36:00.726Z",
     "url": "http://apidocjs.com",
     "version": "0.16.1"
   }
