@@ -76,6 +76,7 @@ router.post('/search', function (req, res) {
   });
 });
 
+// 上传头像
 router.post('/images', multipartMiddleware, function (req, res) {
   var file;
   for (var prop in req.files) {
@@ -101,6 +102,7 @@ router.post('/images', multipartMiddleware, function (req, res) {
   });
 });
 
+// 获取默认头像url
 router.get('/images/:id', function (req, res) {
   var id = req.params['id'];
   if (id < 1 || id > config.defaultImagesCount) {
@@ -110,6 +112,7 @@ router.get('/images/:id', function (req, res) {
   }
 });
 
+// 查询学生相关课程以及课程的最近一次签到
 router.get('/:phone/relatedCourses', function (req, res) {
   var phone = req.params['phone'];
   var limit = +req.query['limit'] || 10;
@@ -193,7 +196,7 @@ router.get('/:phone/relatedCourses', function (req, res) {
     });
 });
 
-
+// 查询学生相关通知
 router.get('/:phone/notice', function (req, res) {
   var student, recordGroups;
   var type = +req.query['type'] || 0;
@@ -316,12 +319,12 @@ router.get('/:id/activeInfo', function (req, res) {
 
 // 查询学生指定年月的有签到的日期
 router.get('/:id/signInDays', function (req, res) {
-  var date = req.query['date'];  // 2016-07
   var studentId = req.params['id'];
-  var startTime = moment(date).format('YYYY-MM-DD HH-mm-ss');
-  var endTime = moment(date).add(1, 'months').format('YYYY-MM-DD HH-mm-ss');
+  var date = req.query['date'];  // 2016-07  
+  var startTime = moment(date).format('YYYY-MM-DD HH:mm:ss');
+  var endTime = moment(date).add(1, 'months').format('YYYY-MM-DD HH:mm:ss');
 
-  SignRecord.find({ studentId: studentId, confirmAt: { $gte: startTime, $lt: endTime } })
+  SignRecord.find({ studentId: studentId, type: 0, confirmAt: { $gte: startTime, $lt: endTime } })
     .then(function (records) {
       // 筛选出所有不同的完成签到的日期
       var day;
@@ -334,6 +337,56 @@ router.get('/:id/signInDays', function (req, res) {
            retData.push(day);
          }
       }); 
+      sendInfo(errorCodes.Success, res, retData);
+    })
+    .catch(function (err) {
+      if (err.code) {
+        sendInfo(err.code, res, []);
+      } else {
+        handleErrors(err, res, []);
+      }
+    });
+});
+
+// 查询指定日期内的所有完成的签到
+router.get('/:id/signInDays/detail', function (req, res) {
+  var studentId = req.params['id'];  
+  var date = req.query['date'];  // 2016-10-22  
+  var signWithRecords = [];
+
+  Promise.resolve()
+    .then(function () {
+      if (!date.trim()) {
+        return Promise.reject({ code: errorCodes.SearchDateEmpty });
+      }
+
+      var startTime = moment(date).format('YYYY-MM-DD HH:mm:ss');
+      var endTime = moment(date).add(1, 'days').format('YYYY-MM-DD HH:mm:ss');
+      
+      // 按照签到id进行分组
+      return SignRecord.aggregate()
+        .match({ studentId: studentId, type: 0, confirmAt: { $gte: startTime, $lt: endTime } })
+        .group({ _id: '$signId', records: { $push: '$$ROOT' } })
+        .exec()
+    })
+    .then(function (results) {
+      signWithRecords = results;
+
+      // 查询每个签到对应的课程名称
+      return Promise.all(results.map(function (r) {
+        return Sign.findById(r._id);
+      }));
+    })
+    .then(function (signs) {
+      var retData = [];
+      signWithRecords.forEach(function (value, index) {
+        value.records.forEach(function (record) {
+          retData.push({
+            confirmAt: record.confirmAt,
+            courseName: signs[index].get('courseName')
+          });
+        });
+      });
       sendInfo(errorCodes.Success, res, retData);
     })
     .catch(function (err) {

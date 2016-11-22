@@ -1049,7 +1049,36 @@ define({ "api": [
       "examples": [
         {
           "title": "成功",
-          "content": "HTTP/1.1 200 OK\n{\n  code: \"200\",\n  data: ['2016-10-23', 'XXXXX']       // 完成签到的日期数组，格式为2016-10-23 \n  msg:  \"操作成功\"\n}",
+          "content": "HTTP/1.1 200 OK\n{\n  code: \"200\",\n  data: ['2016-10-23', 'XXXXX']       // 完成签到的日期数组\n  msg:  \"操作成功\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "失败：",
+          "content": "HTTP/1.1 200 OK\n{\n  code: \"XXXX\",\n  data: [],\n  msg:  \"错误信息\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "docjs/students.js",
+    "groupTitle": "学生"
+  },
+  {
+    "type": "get",
+    "url": "/students/:id/signInDays/detail?date=XXX",
+    "title": "某天完成的签到",
+    "version": "1.0.0",
+    "name": "GetStudentSignInDaysDetail",
+    "group": "Student",
+    "description": "<p>获取指定id学生的某天完成的签到，date格式为2016-10-22（必须指定）</p>",
+    "success": {
+      "examples": [
+        {
+          "title": "成功",
+          "content": "HTTP/1.1 200 OK\n{\n  code: \"200\",\n  data: \n  [{\n    confirmAt: '2016-10-23 10:20:11'      // 完成签到时间\n    courseName: 'XXX'                     // 签到对应的课程名称\n  }]        \n  msg:  \"操作成功\"\n}",
           "type": "json"
         }
       ]

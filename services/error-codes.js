@@ -15,7 +15,8 @@ var errorCodes = {
   NoFileError:            '1015',
   NoDefaultImageError:    '1016',
   SignRecordStateError:   '1017',
-  SignRecordTypeError:    '1018',  
+  SignRecordTypeError:    '1018',
+  SearchDateEmpty:        '1019',
 
   AuthInfoEmpty:          '2000',
   AuthInfoError:          '2001',
@@ -75,6 +76,7 @@ var errorMsg = {
   1016: '不存在该默认图片',
   1017: '签到记录的状态的值只能为0、1、2',
   1018: '签到记录的类型的值只能为0、1',
+  1019: '查询日期不能为空',
   2000: '手机号码或密码不能为空',
   2001: '手机号码或密码错误',
   2002: '该手机号码已被注册',
