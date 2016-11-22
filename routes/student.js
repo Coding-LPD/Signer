@@ -16,6 +16,7 @@ var Student = require('../services/mongo').Student;
 var SignStudent = require('../services/mongo').SignStudent;
 var Sign = require('../services/mongo').Sign;
 var SignRecord = require('../services/mongo').SignRecord;
+var ChatMsg = require('../services/mongo').ChatMsg;
 
 router.get('/', function (req, res) {
   Student.find(function (err, students) {
@@ -281,6 +282,32 @@ router.post('/relatedInfo', function (req, res) {
         sendInfo(err.code, res, []);
       } else {
         handleErrors(err, res, []);
+      }
+    });
+});
+
+router.get('/:id/activeInfo', function (req, res) {
+  var studentId = req.params['id'];
+  var promises = [];
+
+  promises.push(ChatMsg.count({ studentId: studentId }));
+  promises.push(SignRecord.aggregate()
+                    .match({ studentId: studentId, state: { $gt: 0 } })
+                    .group({ _id: '$signId' })
+                    .exec());
+  Promise.all(promises)
+    .then(function (results) {
+      var retData = {
+        msgCount: results[0],
+        signCount: results[1].length
+      };
+      sendInfo(errorCodes.Success, res, retData);
+    })
+    .catch(function (err) {
+      if (err.code) {
+        sendInfo(err.code, res, {});
+      } else {
+        handleErrors(err, res, {});
       }
     });
 });

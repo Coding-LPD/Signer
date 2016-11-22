@@ -216,3 +216,31 @@
  *      msg:  "错误信息"
  *    }
  */
+
+/**
+ * @api {get} /students/:id/activeInfo 发言与签到
+ * @apiVersion 1.0.0
+ * @apiName GetStudentActiveInfo
+ * @apiGroup Student
+ * @apiDescription 获取指定学生的发言数与签到数
+ * 
+ * @apiSuccessExample 成功
+ *    HTTP/1.1 200 OK
+ *    {
+ *      code: "200",
+ *      data: 
+ *      {
+ *        msgCount: 0,            // 发言数
+ *        signCount: 0            // 签到数
+ *      }
+ *      msg:  "操作成功"
+ *    }
+ * 
+ * @apiErrorExample 失败：
+ *    HTTP/1.1 200 OK
+ *    {
+ *      code: "XXXX",
+ *      data: {},         
+ *      msg:  "错误信息"
+ *    }
+ */

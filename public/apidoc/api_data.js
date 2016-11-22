@@ -807,6 +807,35 @@ define({ "api": [
   },
   {
     "type": "get",
+    "url": "/students/:id/activeInfo",
+    "title": "发言与签到",
+    "version": "1.0.0",
+    "name": "GetStudentActiveInfo",
+    "group": "Student",
+    "description": "<p>获取指定学生的发言数与签到数</p>",
+    "success": {
+      "examples": [
+        {
+          "title": "成功",
+          "content": "HTTP/1.1 200 OK\n{\n  code: \"200\",\n  data: \n  {\n    msgCount: 0,            // 发言数\n    signCount: 0            // 签到数\n  }\n  msg:  \"操作成功\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "失败：",
+          "content": "HTTP/1.1 200 OK\n{\n  code: \"XXXX\",\n  data: {},         \n  msg:  \"错误信息\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "docjs/students.js",
+    "groupTitle": "学生"
+  },
+  {
+    "type": "get",
     "url": "/students/images/:id",
     "title": "获取默认头像url",
     "version": "1.0.0",
