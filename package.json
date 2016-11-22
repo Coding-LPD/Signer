@@ -79,7 +79,10 @@
       "SignRecord",
       "GetSignRecord",
       "PostSignRecord",
-      "PostSignRecordSearch"
+      "PostSignRecordSearch",
+      "Feedback",
+      "GetFeedback",
+      "PostFeedback"
     ],
     "template": {
       "withGenerator": false

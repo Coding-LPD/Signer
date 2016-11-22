@@ -269,6 +269,104 @@ define({ "api": [
   },
   {
     "type": "get",
+    "url": "/feedbacks",
+    "title": "获取所有",
+    "version": "1.0.0",
+    "name": "GetFeedback",
+    "group": "Feedback",
+    "description": "<p>仅供调试。</p>",
+    "success": {
+      "examples": [
+        {
+          "title": "成功",
+          "content": "HTTP/1.1 200 OK\n{\n  code: \"200\",\n  data: [],         // 查询到的所有反馈\n  msg:  \"操作成功\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "失败：",
+          "content": "HTTP/1.1 200 OK\n{\n  code: \"XXXX\",\n  data: [],         // 空数组\n  msg:  \"错误信息\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "docjs/feedback.js",
+    "groupTitle": "反馈"
+  },
+  {
+    "type": "post",
+    "url": "/feedbacks",
+    "title": "创建",
+    "version": "1.0.0",
+    "name": "PostFeedback",
+    "group": "Feedback",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "studentId",
+            "description": "<p>反馈者为学生，则发送该字段</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "teacherId",
+            "description": "<p>反馈者为教师，则发送该字段</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "name",
+            "description": "<p>反馈者姓名</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "phone",
+            "description": "<p>反馈者联系电话</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "content",
+            "description": "<p>反馈内容</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "examples": [
+        {
+          "title": "成功",
+          "content": "HTTP/1.1 200 OK\n{\n  code: \"200\",\n  data: {},         // 创建后的反馈信息\n  msg:  \"操作成功\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "失败：",
+          "content": "HTTP/1.1 200 OK\n{\n  code: \"XXXX\",\n  data: {},         // 空对象\n  msg:  \"错误信息\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "docjs/feedback.js",
+    "groupTitle": "反馈"
+  },
+  {
+    "type": "get",
     "url": "/publickey",
     "title": "获取公钥",
     "version": "1.0.0",

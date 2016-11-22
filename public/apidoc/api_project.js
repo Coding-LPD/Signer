@@ -50,7 +50,10 @@ define({
     "SignRecord",
     "GetSignRecord",
     "PostSignRecord",
-    "PostSignRecordSearch"
+    "PostSignRecordSearch",
+    "Feedback",
+    "GetFeedback",
+    "PostFeedback"
   ],
   "template": {
     "withGenerator": false
@@ -59,7 +62,7 @@ define({
   "apidoc": "0.2.0",
   "generator": {
     "name": "apidoc",
-    "time": "2016-11-22T04:36:06.634Z",
+    "time": "2016-11-22T05:04:05.851Z",
     "url": "http://apidocjs.com",
     "version": "0.16.1"
   }

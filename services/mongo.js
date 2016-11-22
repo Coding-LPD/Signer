@@ -14,6 +14,7 @@ var signRecord = require('../models/sign-record');
 var position = require('../models/position');
 var chatRoom = require('../models/chat-room');
 var chatMsg = require('../models/chat-msg');
+var feedback = require('../models/feedback');
 
 mongoose.connect(config.connection);
 mongoose.set('debug', config.debug);
@@ -33,6 +34,7 @@ var SignRecordSchema = mongoose.Schema(signRecord);
 var PositionSchema = mongoose.Schema(position);
 var ChatRoomSchema = mongoose.Schema(chatRoom);
 var ChatMsgSchema = mongoose.Schema(chatMsg);
+var FeedbackSchema = mongoose.Schema(feedback);
 
 SignSchema.statics = sign.statics;
 SignSchema.methods = sign.methods;
@@ -47,6 +49,7 @@ var SignRecord = mongoose.model('signRecord', SignRecordSchema);
 var Position = mongoose.model('position', PositionSchema);
 var ChatRoom = mongoose.model('chatRoom', ChatRoomSchema);
 var ChatMsg = mongoose.model('chatMsg', ChatMsgSchema);
+var Feedback = mongoose.model('feedback', FeedbackSchema);
 
 exports.User = User;
 exports.Student = Student;
@@ -58,3 +61,4 @@ exports.SignRecord = SignRecord;
 exports.Position = Position;
 exports.ChatRoom = ChatRoom;
 exports.ChatMsg = ChatMsg;
+exports.Feedback = Feedback;

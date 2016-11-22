@@ -47,6 +47,8 @@ var errorCodes = {
   NoRelatedTeacher:       '5002',
 
   MsgSenderIsEmpty:       '6000',
+
+  FeedbackContentEmpty:   '7000',
   
   AuthenticationError:    '401',
   AuthenticationExpired:  '402',
@@ -98,6 +100,7 @@ var errorMsg = {
   5001: '该课程暂无相关签到',
   5002: '该课程暂无相关教师',
   6000: '缺少发言者Id',
+  7000: '反馈内容不能为空',
   401:  '认证信息有误',
   402:  '认证信息已失效',
   403:  '无权限访问该资源',
