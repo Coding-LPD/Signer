@@ -324,7 +324,15 @@ router.get('/:id/signInDays', function (req, res) {
   var startTime = moment(date).format('YYYY-MM-DD HH:mm:ss');
   var endTime = moment(date).add(1, 'months').format('YYYY-MM-DD HH:mm:ss');
 
-  SignRecord.find({ studentId: studentId, type: 0, confirmAt: { $gte: startTime, $lt: endTime } })
+  Promise.resolve()
+    .then(function () {
+      // 查询日期为空
+      if (!date.trim()) {
+        return Promise.reject({ code: errorCodes.SearchDateEmpty });        
+      }
+
+      return SignRecord.find({ studentId: studentId, type: 0, confirmAt: { $gte: startTime, $lt: endTime } });
+    })
     .then(function (records) {
       // 筛选出所有不同的完成签到的日期
       var day;
@@ -356,6 +364,7 @@ router.get('/:id/signInDays/detail', function (req, res) {
 
   Promise.resolve()
     .then(function () {
+      // 查询日期为空
       if (!date.trim()) {
         return Promise.reject({ code: errorCodes.SearchDateEmpty });
       }
