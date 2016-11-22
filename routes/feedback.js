@@ -7,8 +7,6 @@ var sendInfo = require('../services/error-handler').sendInfo;
 var errorCodes = require('../services/error-codes').errorCodes;
 var common = require('../services/common');
 var config = require('../config');
-var multipartMiddleware = multipart(config.cmConfig);
-var log = require('../services/log');
 
 var Feedback = require('../services/mongo').Feedback;
 
