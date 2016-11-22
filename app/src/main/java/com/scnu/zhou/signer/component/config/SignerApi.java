@@ -9,6 +9,7 @@ import com.scnu.zhou.signer.component.bean.main.SignBean;
 import com.scnu.zhou.signer.component.bean.notice.NoticeBean;
 import com.scnu.zhou.signer.component.bean.sign.ScanResult;
 import com.scnu.zhou.signer.component.bean.sign.SignRecord;
+import com.scnu.zhou.signer.component.bean.user.ActiveInfo;
 import com.scnu.zhou.signer.component.bean.user.Student;
 import com.scnu.zhou.signer.component.bean.user.User;
 
@@ -65,6 +66,10 @@ public interface SignerApi {
     @FormUrlEncoded
     @POST("/api/students/search")    // 根据手机获取学生用户信息
     Observable<ResultResponse<List<Student>>> getStudentInfoByPhone(@Field("phone") String phone);
+
+    @GET("/api/students/{id}/activeInfo")    // 获取学生签到次数与发言次数
+    Observable<ResultResponse<ActiveInfo>> getStudentActiveInfo(@Path("id") String studentId);
+
 
     @FormUrlEncoded
     @PUT("/api/students/{userid}")    // 更新学生用户信息

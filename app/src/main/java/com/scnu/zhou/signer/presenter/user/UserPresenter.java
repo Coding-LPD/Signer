@@ -2,6 +2,7 @@ package com.scnu.zhou.signer.presenter.user;
 
 import com.scnu.zhou.signer.callback.user.UserInfoCallBack;
 import com.scnu.zhou.signer.component.bean.http.ResultResponse;
+import com.scnu.zhou.signer.component.bean.user.ActiveInfo;
 import com.scnu.zhou.signer.component.bean.user.Student;
 import com.scnu.zhou.signer.component.bean.user.User;
 import com.scnu.zhou.signer.model.user.IUserModel;
@@ -67,6 +68,12 @@ public class UserPresenter implements IUserPresenter, UserInfoCallBack{
     }
 
     @Override
+    public void getActiveInfo(String studentId) {
+
+        userModel.getStudentActiveInfo(studentId, this);
+    }
+
+    @Override
     public void updateStudentInfo(String userid, String key, String value) {
 
         userModel.updateStudentInfo(userid, key, value, this);
@@ -107,6 +114,18 @@ public class UserPresenter implements IUserPresenter, UserInfoCallBack{
 
         userInfoView.onGetStudentInfoError(e);
 
+    }
+
+    @Override
+    public void onGetActivtInfoSuccess(ResultResponse<ActiveInfo> response) {
+
+        userInfoView.onGetActivtInfoSuccess(response);
+    }
+
+    @Override
+    public void onGetActivtInfoError(Throwable e) {
+
+        userInfoView.onGetActivtInfoError(e);
     }
 
     @Override

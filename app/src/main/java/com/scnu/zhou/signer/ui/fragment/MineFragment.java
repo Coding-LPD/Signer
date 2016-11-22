@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.scnu.zhou.signer.R;
 import com.scnu.zhou.signer.component.bean.http.ResultResponse;
+import com.scnu.zhou.signer.component.bean.user.ActiveInfo;
 import com.scnu.zhou.signer.component.bean.user.Student;
 import com.scnu.zhou.signer.component.cache.UserCache;
 import com.scnu.zhou.signer.component.util.image.ImageLoaderUtil;
@@ -146,6 +147,16 @@ public class MineFragment extends Fragment implements IUserInfoView{
     public void onGetStudentInfoError(Throwable e) {
 
         Log.e("get info error", e.toString());
+    }
+
+    @Override
+    public void onGetActivtInfoSuccess(ResultResponse<ActiveInfo> response) {
+
+    }
+
+    @Override
+    public void onGetActivtInfoError(Throwable e) {
+
     }
 
     @Override

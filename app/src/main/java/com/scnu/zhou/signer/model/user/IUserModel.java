@@ -12,6 +12,8 @@ public interface IUserModel {
     void getPublicKey(UserInfoCallBack callBack);
 
     void getStudentInfo(String phone, UserInfoCallBack callBack);   // 获取用户学生信息
+    void getStudentActiveInfo(String studentId, UserInfoCallBack callBack); // 获取学生签到次数与发言次数
+
     void updateStudentInfo(String userid, String key, String value, UserInfoCallBack callBack);  // 更新用户学生信息
 
     void getDefaultImageUrl(int pos, UserInfoCallBack callBack);   // 获取默认头像url

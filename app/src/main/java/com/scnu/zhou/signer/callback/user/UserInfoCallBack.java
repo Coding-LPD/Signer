@@ -1,6 +1,7 @@
 package com.scnu.zhou.signer.callback.user;
 
 import com.scnu.zhou.signer.component.bean.http.ResultResponse;
+import com.scnu.zhou.signer.component.bean.user.ActiveInfo;
 import com.scnu.zhou.signer.component.bean.user.Student;
 import com.scnu.zhou.signer.component.bean.user.User;
 
@@ -16,6 +17,9 @@ public interface UserInfoCallBack {
 
     void onGetSuccess(ResultResponse<List<Student>> response);
     void onGetError(Throwable e);
+
+    void onGetActivtInfoSuccess(ResultResponse<ActiveInfo> response);
+    void onGetActivtInfoError(Throwable e);
 
     void onUpdateSuccess(ResultResponse<Student> response);
     void onUpdateError(Throwable e);

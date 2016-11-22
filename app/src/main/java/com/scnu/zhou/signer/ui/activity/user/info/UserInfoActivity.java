@@ -20,6 +20,7 @@ import android.widget.TextView;
 import com.scnu.zhou.signer.R;
 import com.scnu.zhou.signer.component.adapter.listview.UserInfoCellAdapter;
 import com.scnu.zhou.signer.component.bean.http.ResultResponse;
+import com.scnu.zhou.signer.component.bean.user.ActiveInfo;
 import com.scnu.zhou.signer.component.bean.user.Student;
 import com.scnu.zhou.signer.component.bean.view.CellBean;
 import com.scnu.zhou.signer.component.cache.UserCache;
@@ -57,7 +58,7 @@ public class UserInfoActivity extends BaseSlideActivity implements IUserInfoView
 
 
     @Bind(R.id.civ_user_header) CircleImageView civ_user_header;
-    private TextView tv_user_name;
+    private TextView tv_user_name, tv_sign, tv_message;
     private View header_profile = null;
     private int header_width = 0;
     private int scrollY = 0;
@@ -96,6 +97,8 @@ public class UserInfoActivity extends BaseSlideActivity implements IUserInfoView
 
         // 设置头像姓名
         tv_user_name = (TextView) header_profile.findViewById(R.id.tv_user_name);
+        tv_sign = (TextView) header_profile.findViewById(R.id.tv_sign);
+        tv_message = (TextView) header_profile.findViewById(R.id.tv_message);
         ImageLoaderUtil.getInstance().displayHeaderImage(civ_user_header, UserCache.getInstance().getAvatar(context));
         tv_user_name.setText(UserCache.getInstance().getName(context));
 
@@ -135,6 +138,7 @@ public class UserInfoActivity extends BaseSlideActivity implements IUserInfoView
     public void loadData() {
 
         userPresenter.getStudentInfo(UserCache.getInstance().getPhone(this));
+        userPresenter.getActiveInfo(UserCache.getInstance().getId(this));
     }
 
 
@@ -356,6 +360,33 @@ public class UserInfoActivity extends BaseSlideActivity implements IUserInfoView
     public void onGetStudentInfoError(Throwable e) {
 
         Log.e("get info error", e.toString());
+        iv_loading.clearAnimation();
+        iv_loading.setVisibility(View.GONE);
+        ToastView toastView = new ToastView(UserInfoActivity.this, "请检查您的网络连接");
+        toastView.setGravity(Gravity.CENTER, 0, 0);
+        toastView.show();
+    }
+
+    @Override
+    public void onGetActivtInfoSuccess(ResultResponse<ActiveInfo> response) {
+
+        if (response.getCode().equals("200")){
+
+            tv_sign.setText(response.getData().getSignCount() + "");
+            tv_message.setText(response.getData().getMsgCount() + "");
+        }
+        else{
+            String data = response.getMsg();
+            ToastView toastView = new ToastView(context, data);
+            toastView.setGravity(Gravity.CENTER, 0, 0);
+            toastView.show();
+        }
+    }
+
+    @Override
+    public void onGetActivtInfoError(Throwable e) {
+
+        Log.e("get active info error", e.toString());
         iv_loading.clearAnimation();
         iv_loading.setVisibility(View.GONE);
         ToastView toastView = new ToastView(UserInfoActivity.this, "请检查您的网络连接");

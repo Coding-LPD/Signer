@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.scnu.zhou.signer.callback.user.UserInfoCallBack;
 import com.scnu.zhou.signer.component.bean.http.ResultResponse;
+import com.scnu.zhou.signer.component.bean.user.ActiveInfo;
 import com.scnu.zhou.signer.component.bean.user.Student;
 import com.scnu.zhou.signer.component.bean.user.User;
 import com.scnu.zhou.signer.component.config.SignerApi;
@@ -78,6 +79,35 @@ public class UserModel implements IUserModel {
                     public void onNext(ResultResponse<List<Student>> response) {
 
                         callBack.onGetSuccess(response);
+                    }
+                });
+    }
+
+    @Override
+    public void getStudentActiveInfo(String studentId,final UserInfoCallBack callBack) {
+
+        RetrofitServer.getRetrofit()
+                .create(SignerApi.class)
+                .getStudentActiveInfo(studentId)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<ResultResponse<ActiveInfo>>() {
+
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                        callBack.onGetActivtInfoError(e);
+                    }
+
+                    @Override
+                    public void onNext(ResultResponse<ActiveInfo> response) {
+
+                        callBack.onGetActivtInfoSuccess(response);
                     }
                 });
     }
