@@ -1,21 +1,17 @@
-package com.scnu.zhou.signer.callback.mine;
+package com.scnu.zhou.signer.view.mine;
 
 import com.scnu.zhou.signer.component.bean.http.ResultResponse;
 import com.scnu.zhou.signer.component.bean.mine.MyChat;
-import com.scnu.zhou.signer.component.bean.mine.MySign;
 
 import java.util.List;
 
 /**
  * Created by zhou on 16/11/23.
  */
-public interface MySignerCallBack {
+public interface IMyChatView {
 
-    void onGetSignDaysSuccess(ResultResponse<List<String>> response);
-    void onGetSignDaysError(Throwable e);
-
-    void onGetSignDaysDetailSuccess(ResultResponse<List<MySign>> response);
-    void onGetSignDaysDetailError(Throwable e);
+    void initView();
+    void initData();
 
     void onGetChatDaysSuccess(ResultResponse<List<String>> response);
     void onGetChatDaysError(Throwable e);

@@ -1,4 +1,4 @@
-package com.scnu.zhou.signer.ui.activity.user.mysign;
+package com.scnu.zhou.signer.ui.activity.user.mine;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -12,14 +12,14 @@ import android.widget.TextView;
 
 import com.scnu.zhou.signer.R;
 import com.scnu.zhou.signer.component.bean.http.ResultResponse;
-import com.scnu.zhou.signer.component.bean.mine.MySign;
+import com.scnu.zhou.signer.component.bean.mine.MyChat;
 import com.scnu.zhou.signer.component.cache.UserCache;
 import com.scnu.zhou.signer.presenter.mine.IMySignerPresenter;
 import com.scnu.zhou.signer.presenter.mine.MySignerPresenter;
 import com.scnu.zhou.signer.ui.activity.base.BaseSlideActivity;
 import com.scnu.zhou.signer.ui.widget.calendar.NoteCalendar;
 import com.scnu.zhou.signer.ui.widget.toast.ToastView;
-import com.scnu.zhou.signer.view.mine.IMySignView;
+import com.scnu.zhou.signer.view.mine.IMyChatView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,9 +31,9 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
- * Created by zhou on 16/11/9.
+ * Created by zhou on 16/11/23.
  */
-public class MySignActivity extends BaseSlideActivity implements IMySignView{
+public class MyChatActivity extends BaseSlideActivity implements IMyChatView {
 
     @Bind(R.id.ll_return) LinearLayout ll_return;
     @Bind(R.id.tv_title) TextView tv_title;
@@ -41,7 +41,7 @@ public class MySignActivity extends BaseSlideActivity implements IMySignView{
     @Bind(R.id.nc_calendar) NoteCalendar nc_calendar;
     @Bind(R.id.tv_date) TextView tv_date;
 
-    @Bind(R.id.lv_mysign) ListView lv_mysign;
+    @Bind(R.id.lv_mychat) ListView lv_mychat;
     @Bind(R.id.pb_loading) ProgressBar pb_loading;
     @Bind(R.id.tv_tip) TextView tv_tip;
 
@@ -53,7 +53,7 @@ public class MySignActivity extends BaseSlideActivity implements IMySignView{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_mysign);
+        setContentView(R.layout.activity_mychat);
 
         ButterKnife.bind(this);
         initData();
@@ -67,7 +67,7 @@ public class MySignActivity extends BaseSlideActivity implements IMySignView{
         tv_title.setText("我的签到");
 
         tv_date.setText(nc_calendar.getCurrentMonth() + 1 + "月" + nc_calendar.getCurrentDay() + "日");
-        presenter.getSignDaysDetail(studentId, nc_calendar.getCurrentYear() + "-" +
+        presenter.getChatDaysDetail(studentId, nc_calendar.getCurrentYear() + "-" +
                 (nc_calendar.getCurrentMonth() + 1) + "-" + nc_calendar.getCurrentDay());
 
         nc_calendar.setOnItemClickListener(new NoteCalendar.OnItemClickListener() {
@@ -77,9 +77,9 @@ public class MySignActivity extends BaseSlideActivity implements IMySignView{
                 tv_date.setText(month + "月" + day + "日");
 
                 pb_loading.setVisibility(View.VISIBLE);
-                lv_mysign.setVisibility(View.GONE);
+                lv_mychat.setVisibility(View.GONE);
                 tv_tip.setVisibility(View.GONE);
-                presenter.getSignDaysDetail(studentId, year + "-" + month + "-" + day);
+                presenter.getChatDaysDetail(studentId, year + "-" + month + "-" + day);
             }
         });
 
@@ -92,13 +92,13 @@ public class MySignActivity extends BaseSlideActivity implements IMySignView{
         studentId = UserCache.getInstance().getId(this);
 
         presenter = new MySignerPresenter(this);
-        presenter.getSignDays(studentId,
+        presenter.getChatDays(studentId,
                 nc_calendar.getCurrentYear() + "-" + (nc_calendar.getCurrentMonth() + 1));
         Log.e("date", nc_calendar.getCurrentYear() + "-" + (nc_calendar.getCurrentMonth() + 1));
     }
 
     @Override
-    public void onGetSignDaysSuccess(ResultResponse<List<String>> response) {
+    public void onGetChatDaysSuccess(ResultResponse<List<String>> response) {
 
         dismissLoadingDialog();
         if (response.getCode().equals("200")){
@@ -112,25 +112,25 @@ public class MySignActivity extends BaseSlideActivity implements IMySignView{
         }
         else{
             String data = response.getMsg();
-            ToastView toastView = new ToastView(MySignActivity.this, data);
+            ToastView toastView = new ToastView(MyChatActivity.this, data);
             toastView.setGravity(Gravity.CENTER, 0, 0);
             toastView.show();
         }
     }
 
     @Override
-    public void onGetSignDaysError(Throwable e) {
+    public void onGetChatDaysError(Throwable e) {
 
         Log.e("get sign days error", e.toString());
 
         dismissLoadingDialog();
-        ToastView toastView = new ToastView(MySignActivity.this, "请检查您的网络连接");
+        ToastView toastView = new ToastView(MyChatActivity.this, "请检查您的网络连接");
         toastView.setGravity(Gravity.CENTER, 0, 0);
         toastView.show();
     }
 
     @Override
-    public void onGetSignDaysDetailSuccess(ResultResponse<List<MySign>> response) {
+    public void onGetChatDaysDetailSuccess(ResultResponse<List<MyChat>> response) {
 
         pb_loading.setVisibility(View.GONE);
 
@@ -140,19 +140,19 @@ public class MySignActivity extends BaseSlideActivity implements IMySignView{
 
             if (response.getData().size() == 0){
                 tv_tip.setVisibility(View.VISIBLE);
-                tv_tip.setText("暂无签到");
+                tv_tip.setText("暂无发言");
             }
             else {
 
-                lv_mysign.setVisibility(View.VISIBLE);
-                for (MySign sign : response.getData()) {
+                lv_mychat.setVisibility(View.VISIBLE);
+                for (MyChat chat : response.getData()) {
 
-                    data.add(sign.getConfirmAt().substring(11, 16) + "  " + sign.getCourseName());
+                    data.add(chat.getCourseName() + "  " + chat.getMsgCount() + "条");
                 }
 
                 ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                         R.layout.simple_list_item, data);
-                lv_mysign.setAdapter(adapter);
+                lv_mychat.setAdapter(adapter);
             }
         }
         else{
@@ -165,7 +165,7 @@ public class MySignActivity extends BaseSlideActivity implements IMySignView{
     }
 
     @Override
-    public void onGetSignDaysDetailError(Throwable e) {
+    public void onGetChatDaysDetailError(Throwable e) {
 
         Log.e("get sign detail error", e.toString());
 

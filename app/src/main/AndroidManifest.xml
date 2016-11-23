@@ -76,7 +76,8 @@
         <activity android:name=".ui.activity.user.settings.PrivateActivity"/>
         <activity android:name=".ui.activity.user.settings.UpdatePasswordActivity"/>
         <activity android:name=".ui.activity.user.settings.UpdatePasswordActivity2"/>
-        <activity android:name=".ui.activity.user.mysign.MySignActivity"/>
+        <activity android:name=".ui.activity.user.mine.MySignActivity"/>
+        <activity android:name=".ui.activity.user.mine.MyChatActivity"/>
 
         <activity
             android:configChanges="orientation|keyboardHidden"

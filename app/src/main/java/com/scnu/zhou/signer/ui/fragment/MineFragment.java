@@ -21,7 +21,8 @@ import com.scnu.zhou.signer.component.cache.UserCache;
 import com.scnu.zhou.signer.component.util.image.ImageLoaderUtil;
 import com.scnu.zhou.signer.presenter.user.UserPresenter;
 import com.scnu.zhou.signer.ui.activity.user.info.UserInfoActivity;
-import com.scnu.zhou.signer.ui.activity.user.mysign.MySignActivity;
+import com.scnu.zhou.signer.ui.activity.user.mine.MyChatActivity;
+import com.scnu.zhou.signer.ui.activity.user.mine.MySignActivity;
 import com.scnu.zhou.signer.ui.activity.user.settings.SettingActivity;
 import com.scnu.zhou.signer.ui.widget.image.CircleImageView;
 import com.scnu.zhou.signer.ui.widget.toast.ToastView;
@@ -95,6 +96,15 @@ public class MineFragment extends Fragment implements IUserInfoView{
     @OnClick(R.id.tc_mysign)
     public void mysign(){
         Intent intent = new Intent(context, MySignActivity.class);
+        startActivity(intent);
+        context.overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+    }
+
+
+    // 进入我的发言
+    @OnClick(R.id.tc_mychat)
+    public void mychat(){
+        Intent intent = new Intent(context, MyChatActivity.class);
         startActivity(intent);
         context.overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
     }

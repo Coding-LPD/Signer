@@ -6,6 +6,7 @@ import com.scnu.zhou.signer.component.bean.login.LoginResult;
 import com.scnu.zhou.signer.component.bean.main.CourseDetail;
 import com.scnu.zhou.signer.component.bean.main.MainCourse;
 import com.scnu.zhou.signer.component.bean.main.SignBean;
+import com.scnu.zhou.signer.component.bean.mine.MyChat;
 import com.scnu.zhou.signer.component.bean.mine.MySign;
 import com.scnu.zhou.signer.component.bean.notice.NoticeBean;
 import com.scnu.zhou.signer.component.bean.sign.ScanResult;
@@ -140,4 +141,10 @@ public interface SignerApi {
 
     @GET("/api/students/{id}/signInDays/detail")   // 获得学生在某日期的签到课程
     Observable<ResultResponse<List<MySign>>> getSignDaysDetail(@Path("id") String phone, @Query("date") String date);
+
+    @GET("/api/students/{id}/chatDays")     // 获得学生发言日期
+    Observable<ResultResponse<List<String>>> getChatDays(@Path("id") String phone, @Query("date") String date);
+
+    @GET("/api/students/{id}/chatDays/detail")   // 获得学生在某日期的发言情况
+    Observable<ResultResponse<List<MyChat>>> getChatDaysDetail(@Path("id") String phone, @Query("date") String date);
 }

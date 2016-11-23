@@ -101,6 +101,7 @@
     </com.scnu.zhou.signer.ui.widget.cell.IconTitleCell>
 
     <com.scnu.zhou.signer.ui.widget.cell.IconTitleCell
+        android:id="@+id/tc_mychat"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:text="@string/mine_cell02_title"

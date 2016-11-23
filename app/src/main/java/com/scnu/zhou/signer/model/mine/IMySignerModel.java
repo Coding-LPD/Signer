@@ -9,4 +9,7 @@ public interface IMySignerModel {
 
     void getSignDays(String studentId, String date, MySignerCallBack callBack);
     void getSignDaysDetail(String studentId, String date, MySignerCallBack callBack);
+
+    void getChatDays(String studentId, String date, MySignerCallBack callBack);
+    void getChatDaysDetail(String studentId, String date, MySignerCallBack callBack);
 }

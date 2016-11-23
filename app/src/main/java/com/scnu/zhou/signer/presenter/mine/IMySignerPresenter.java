@@ -7,4 +7,7 @@ public interface IMySignerPresenter {
 
     void getSignDays(String studentId, String date);
     void getSignDaysDetail(String studentId, String date);
+
+    void getChatDays(String studentId, String date);
+    void getChatDaysDetail(String studentId, String date);
 }
