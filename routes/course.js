@@ -12,6 +12,8 @@ var Sign = require('../services/mongo').Sign;
 var SignRecord = require('../services/mongo').SignRecord;
 var SignStudent = require('../services/mongo').SignStudent;
 var Position = require('../services/mongo').Position;
+var ChatRoom = require('../services/mongo').ChatRoom;
+var ChatMsg = require('../services/mongo').ChatMsg;
 
 router.get('/', function (req, res) {
   Course.find(function (err, courses) {
@@ -50,6 +52,9 @@ router.delete('/:id', function (req, res) {
       promises.push(SignStudent.remove({ courseId: courseId }));
       promises.push(SignRecord.remove({ courseId: courseId }));
       promises.push(Sign.update({ relatedId: courseId }, { relatedId: '', studentCount: 0 }, { multi: true }));
+      // 删除课程相关的聊天室与聊天信息
+      promises.push(ChatRoom.remove({ courseId: courseId }));
+      promises.push(ChatMsg.remove({ courseId: courseId }));
       
       return Promise.all(promises);
     })

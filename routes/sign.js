@@ -115,7 +115,7 @@ router.delete('/:id', function (req, res) {
       // 删除签到相关记录和定位信息，并将课程签到次数减1
       promises.push(SignRecord.remove({ signId: signId }));
       promises.push(Position.remove({ signId: signId }));
-      promises.push(Course.findByIdAndUpdate(sign.get('courseId'), { $inc: { signCount: -1 } }));
+      promises.push(Course.findByIdAndUpdate(sign.get('courseId'), { $inc: { signCount: -1 } }));      
 
       return Promise.all(promises);
     })
