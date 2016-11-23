@@ -10,13 +10,5 @@ import UIKit
 
 extension UIView
 {
-    var shadowUIColor: UIColor {
-        get {
-            return UIColor(cgColor: layer.shadowColor!)
-        }
-        set {
-            layer.shadowColor = newValue.cgColor
-        }
-    }
 
 }

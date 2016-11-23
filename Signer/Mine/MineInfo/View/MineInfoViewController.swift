@@ -61,6 +61,8 @@ class MineInfoViewController: UITableViewController
         }
     }
     
+    @IBAction func unwindToThisViewController(segue: UIStoryboardSegue) {}
+    
     func initUI()
     {
         tableView.tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: 0.01))

@@ -40,6 +40,7 @@
 		ADA257DE1DE2E4A000470B07 /* MineAvatarCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = ADA257DD1DE2E4A000470B07 /* MineAvatarCell.xib */; };
 		ADA257E01DE2E4D000470B07 /* MineAvatarCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA257DF1DE2E4D000470B07 /* MineAvatarCell.swift */; };
 		ADABF3AF1DD8498600226D86 /* StudentRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADABF3AE1DD8498600226D86 /* StudentRouter.swift */; };
+		ADBB2D321DE57D8600F1A251 /* CALayer+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADBB2D311DE57D8600F1A251 /* CALayer+extension.swift */; };
 		ADC806241DDC250A0006F0E5 /* MineInfoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = ADC806231DDC250A0006F0E5 /* MineInfoCell.xib */; };
 		ADD87F201DE3E5060093A25F /* Reveal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ADD87F1F1DE3E5060093A25F /* Reveal.framework */; };
 		ADEF11DB1D869D99001F9C19 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADEF11DA1D869D99001F9C19 /* AppDelegate.swift */; };
@@ -96,6 +97,7 @@
 		ADA257DD1DE2E4A000470B07 /* MineAvatarCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MineAvatarCell.xib; sourceTree = "<group>"; };
 		ADA257DF1DE2E4D000470B07 /* MineAvatarCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MineAvatarCell.swift; sourceTree = "<group>"; };
 		ADABF3AE1DD8498600226D86 /* StudentRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudentRouter.swift; sourceTree = "<group>"; };
+		ADBB2D311DE57D8600F1A251 /* CALayer+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CALayer+extension.swift"; sourceTree = "<group>"; };
 		ADC806231DDC250A0006F0E5 /* MineInfoCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MineInfoCell.xib; sourceTree = "<group>"; };
 		ADD87F1F1DE3E5060093A25F /* Reveal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Reveal.framework; sourceTree = "<group>"; };
 		ADEF11D71D869D99001F9C19 /* 华师小签.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "华师小签.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -422,6 +424,7 @@
 				AD08D82E1D86A0DC007C7ECD /* String+extension.swift */,
 				AD08D8311D86A0DC007C7ECD /* UIColor+extension.swift */,
 				AD58998A1DE433F500A2F8AE /* UIView+extension.swift */,
+				ADBB2D311DE57D8600F1A251 /* CALayer+extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -619,6 +622,7 @@
 				ADA257E01DE2E4D000470B07 /* MineAvatarCell.swift in Sources */,
 				ADEF12091D869F6B001F9C19 /* Color.swift in Sources */,
 				ADEF11FB1D869EB6001F9C19 /* SignUpStep3ViewController.swift in Sources */,
+				ADBB2D321DE57D8600F1A251 /* CALayer+extension.swift in Sources */,
 				AD3E73911D87AF1C005DE560 /* NoticeViewController.swift in Sources */,
 				074734A41D86C3EC0005D58C /* HomePageViewController.swift in Sources */,
 				AD08D8341D86A0DC007C7ECD /* UIColor+extension.swift in Sources */,

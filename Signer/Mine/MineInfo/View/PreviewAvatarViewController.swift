@@ -7,11 +7,13 @@
 //
 
 import UIKit
+import Alamofire
 
 class PreviewAvatarViewController: UIViewController
 {
     var image: UIImage?
 
+    @IBOutlet weak var cardView: UIView!
     @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
@@ -21,6 +23,10 @@ class PreviewAvatarViewController: UIViewController
     {
         super.viewDidLoad()
 
+        cardView.layer.borderColor = UIColor(netHex: 0xDDDDDD).cgColor
+        cardView.layer.borderWidth = 1.0
+        cardView.layer.cornerRadius = 12.0
+        
         guard let image = image else {
             fatalError("PreviewAvatarViewController初始图片为空")
         }
@@ -28,6 +34,16 @@ class PreviewAvatarViewController: UIViewController
         avatarImageView.image = image
     }
     
+    @IBAction func uploadAvatarAction(_ sender: UIButton)
+    {
+        Alamofire.upload(multipartFormData: { (multipartFormData) in
+            multipartFormData.append(<#T##data: Data##Data#>, withName: <#T##String#>)
+        }, to: <#T##URLConvertible#>, encodingCompletion: <#T##((SessionManager.MultipartFormDataEncodingResult) -> Void)?##((SessionManager.MultipartFormDataEncodingResult) -> Void)?##(SessionManager.MultipartFormDataEncodingResult) -> Void#>)
+    }
     
+    @IBAction func cancelAction(_ sender: UIButton)
+    {
+        
+    }
 
 }
