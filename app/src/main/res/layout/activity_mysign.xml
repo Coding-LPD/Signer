@@ -29,16 +29,41 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/colorOrange"
-            android:textSize="16sp"
-            android:text="11月6日" />
+            android:textSize="16sp"/>
 
+        <ProgressBar
+            android:id="@+id/pb_loading"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/tv_tip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#333"
+            android:textSize="14sp"
+            android:layout_marginTop="10dp"
+            android:visibility="gone"/>
+
+        <ListView
+            android:id="@+id/lv_mysign"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
+
+        </ListView>
+
+        <!--
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#666"
             android:textSize="14sp"
             android:text="8:30 软件工程"
-            android:layout_marginTop="10dp"/>
+            android:layout_marginTop="10dp"/>-->
 
     </LinearLayout>
 

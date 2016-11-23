@@ -28,9 +28,9 @@
                 android:scrollbars="none"
                 android:listSelector="@android:color/transparent"/>
 
-            <include layout="@layout/bottombar_chat02"/>
-
             <include layout="@layout/layout_no_message"/>
+
+            <include layout="@layout/bottombar_chat02"/>
 
         </RelativeLayout>
 

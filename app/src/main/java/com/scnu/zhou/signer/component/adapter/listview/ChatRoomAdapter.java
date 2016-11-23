@@ -82,23 +82,23 @@ public class ChatRoomAdapter extends BaseAdapter {
                     .getMsg().getCreatedAt(), "yyyy-MM-dd HH:mm:ss")));
             ImageLoaderUtil.getInstance().displayHeaderImage(viewholder.civ_avatar,
                     mData.get(position).getMsg().getAvatar());
+
+            long last = TimeUtil.stringToLong(TimeCache.getInstance().getTime(
+                    context, mData.get(position).getCourseId()), "yyyy-MM-dd HH:mm:ss");
+            long now = TimeUtil.stringToLong(mData.get(position).getMsg().getCreatedAt(),
+                    "yyyy-MM-dd HH:mm:ss");
+
+            if (last < now){
+                viewholder.iv_unread.setVisibility(View.VISIBLE);
+            }
+            else{
+                viewholder.iv_unread.setVisibility(View.GONE);
+            }
         }
         else{
             viewholder.tv_chat_content.setText("还没有人发言哦");
             ImageLoaderUtil.getInstance().displayHeaderImage(viewholder.civ_avatar,
                     mData.get(position).getAvatar());
-        }
-
-        long last = TimeUtil.stringToLong(TimeCache.getInstance().getTime(
-                context, mData.get(position).getCourseId()), "yyyy-MM-dd HH:mm:ss");
-        long now = TimeUtil.stringToLong(mData.get(position).getMsg().getCreatedAt(),
-                "yyyy-MM-dd HH:mm:ss");
-
-        if (last < now){
-            viewholder.iv_unread.setVisibility(View.VISIBLE);
-        }
-        else{
-            viewholder.iv_unread.setVisibility(View.GONE);
         }
 
         return convertView;

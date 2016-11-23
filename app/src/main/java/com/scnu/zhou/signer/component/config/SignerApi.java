@@ -6,6 +6,7 @@ import com.scnu.zhou.signer.component.bean.login.LoginResult;
 import com.scnu.zhou.signer.component.bean.main.CourseDetail;
 import com.scnu.zhou.signer.component.bean.main.MainCourse;
 import com.scnu.zhou.signer.component.bean.main.SignBean;
+import com.scnu.zhou.signer.component.bean.mine.MySign;
 import com.scnu.zhou.signer.component.bean.notice.NoticeBean;
 import com.scnu.zhou.signer.component.bean.sign.ScanResult;
 import com.scnu.zhou.signer.component.bean.sign.SignRecord;
@@ -118,7 +119,7 @@ public interface SignerApi {
     /**
      * Notice Page
      */
-    @GET("/api/students/{phone}/notice")     // 获取最近通知
+    @GET("/api/students/{phone}/notice")     // 获取最近通知,date格式为2016-10
     Observable<ResultResponse<List<NoticeBean>>> getNotices(@Path("phone") String phone, @Query("type") int type,
                                                             @Query("limit") int limit, @Query("page") int page);
 
@@ -129,4 +130,14 @@ public interface SignerApi {
     @FormUrlEncoded
     @POST("/api/feedbacks")    // 发送反馈
     Observable<ResultResponse<Feedback>> sendFeedback(@FieldMap Map<String,String> infos);
+
+
+    /**
+     * My Sign
+     */
+    @GET("/api/students/{id}/signInDays")     // 获得学生签到日期
+    Observable<ResultResponse<List<String>>> getSignDays(@Path("id") String phone, @Query("date") String date);
+
+    @GET("/api/students/{id}/signInDays/detail")   // 获得学生在某日期的签到课程
+    Observable<ResultResponse<List<MySign>>> getSignDaysDetail(@Path("id") String phone, @Query("date") String date);
 }
