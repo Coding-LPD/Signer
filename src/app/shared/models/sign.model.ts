@@ -14,7 +14,8 @@ export class Sign {
     public color?: string,
     public relatedId?: string,
     public code?: string,
-    public studentCount?: number
+    public studentCount?: number,
+    public isAfterOpen?: boolean
   ) {}
 
 }

@@ -1,22 +1,33 @@
 <div *ngIf="sign">
 
+<!-- 标题栏 -->
 <div class="title">
   <span [style.background-color]="sign.color">{{sign.courseName}}</span>
 </div>
+
+<!-- 签到基本信息栏 -->
 <div class="info wrap" *ngIf="!isLargeQRCode">
+  
+  <!-- 签到信息 -->
   <ul class="status-list">
     <li><label>开始时间</label><span>{{sign.startTime}}</span></li>
     <li><label>结束时间</label><span>{{sign.endTime}}</span></li>
     <li><label>签到状态</label><span [style.color]="signStates[sign.state].color">{{signStates[sign.state].text}}</span></li>
   </ul>
+
+  <!-- 签到二维码 -->
   <div class="qr-code" (click)="ToggleQRCodeSize()">
     <qr-code [data]="sign.code" [size]="'120'"></qr-code>
     <div class="qr-code-tip">点我放大</div>
   </div>
+
+  <!-- 定位地图 -->
   <div class="map-container">
     <baidu-map [lng]="map.lng" [lat]="map.lat" (mapClick)="changePosition($event)"></baidu-map>
     <button type="button" (click)="updatePosition()">使用该定位</button>
   </div>  
+
+  <!-- 签到情况图 -->
   <div class="sign-in">
     <circle-progress [nowValue]="signIn" [maxValue]="sign.studentCount" 
         [fontSize]="18" [fontColor]="'gray'" [boxSize]="140" 
@@ -25,18 +36,27 @@
     </circle-progress>
   </div>
 </div>
+
+<!-- 签到记录栏 -->
 <div class="body" *ngIf="!isLargeQRCode">
+
+  <!-- 课前、课后选择 -->
   <div class="radio-group">
     <button type="button" [class.inactive]="radiosInactive[0]" (click)="selectRadio(0)">课前</button>
     <button type="button" [class.inactive]="radiosInactive[1]" (click)="selectRadio(1)">课后</button>
   </div>
+
+  <!-- 可进行的操作 -->
   <div class="operate-group">
     <div class="all-confirm-group" *ngIf="records.length - signIn > 0">
       <button type="button" class="blue" (click)="confirmAll(0)">全部同意</button>
       <button type="button" class="red" (click)="confirmAll(1)">全部拒绝</button>
     </div>
-    <button type="button" (click)="addSignIn()">补充签到</button>
+    <button type="button" class="orange" *ngIf="radiosInactive[0] && !sign.isAfterOpen" (click)="openAfterSign()">开放签到</button>
+    <button type="button" (click)="addSignIn()">补充签到</button>    
   </div>
+
+  <!-- 签到记录列表 -->
   <ul class="sign-in-list">
     <li *ngFor="let r of records">
       <img class="avatar" [src]="r.studentAvatar" onerror="javascript:this.src='/public/images/default.png'" />
@@ -52,9 +72,12 @@
       </div>      
     </li>    
   </ul>
+
+  <!-- 无签到记录时的提示 -->
   <div class="no-sign-tip" *ngIf="records.length <= 0">暂无学生签到</div>  
 </div>
 
+<!-- 放大版二维码 -->
 <div class="big-qr-code" *ngIf="isLargeQRCode">
     <qr-code [data]="sign.code" [size]="'350'" (click)="ToggleQRCodeSize()"></qr-code>
     <div class="qrcode">Code: <span class="qrcode-num">{{sign.code}}</span></div>

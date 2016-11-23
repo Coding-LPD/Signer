@@ -207,6 +207,18 @@ export class DetailComponent implements OnInit {
     });
   }
 
+  openAfterSign() {
+    this._signService.openAfterSign(this.sign._id)
+      .subscribe(body => {
+        if (+body.code == 200) {
+          this.sign.isAfterOpen = true;
+          this.popup.show('课后签到成功开放');
+        } else {
+          this.popup.show(body.msg);
+        }
+      })
+  }
+
   private refreshRecords(signId: string, type: number) {
     this._signRecordService.search({ signId, type })
       .subscribe(body => {

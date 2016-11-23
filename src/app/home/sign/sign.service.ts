@@ -44,4 +44,10 @@ export class SignService extends BaseService {
       .catch(this.handleError);
   }
 
+  openAfterSign(signId: string) {
+    return this._http.put(API.domain + API.sign + `/${signId}`, { isAfterOpen: true })
+      .map(this.extractData)
+      .catch(this.handleError);
+  }
+
 }
