@@ -102,6 +102,19 @@ router.post('/', function (req, res) {
     });
 });
 
+router.put('/:id', function (req, res) {
+  var signId = req.params['id'];
+  var isAfterOpen = req.body.isAfterOpen || false;
+
+  Sign.findByIdAndUpdate(signId, { isAfterOpen: isAfterOpen }, function (err, updatedSign) {
+    if (err) {
+      handleErrors(err, res, {});
+    } else {
+      sendInfo(errorCodes.Success, res, updatedSign);
+    }
+  });
+})
+
 router.delete('/:id', function (req, res) {
   var signId = req.params['id'];
   var promises = [];

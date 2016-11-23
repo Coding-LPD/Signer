@@ -42,6 +42,7 @@ var errorCodes = {
   PhoneHasSign:           '4010',
   StudentNotExist:        '4011',
   SignStudentNotExist:    '4012',
+  AfterSignNotOpen:       '4013',
 
   CourseNotExist:         '5000',
   NoRelatedSign:          '5001',
@@ -98,6 +99,7 @@ var errorMsg = {
   4010: '该手机已经参与过本次签到',
   4011: '该学生尚未注册',
   4012: '相应课程没有导入该学生信息',
+  4013: '课后签到还未开放',
   5000: '课程不存在',
   5001: '该课程暂无相关签到',
   5002: '该课程暂无相关教师',

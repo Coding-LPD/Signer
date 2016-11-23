@@ -57,6 +57,10 @@ var Sign = {
   courseName: {
     type: String,
     default: ''    
+  },
+  isAfterOpen: {
+    type: Boolean,
+    default: false
   }
 };
 

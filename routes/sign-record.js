@@ -67,6 +67,11 @@ router.post('/', function (req, res) {
         return Promise.reject({ code: errorCodes.SignHasEnd });
       }
 
+      // 未开放课后签到
+      if (type == 1 && !sign.get('isAfterOpen')) {
+        return Promise.reject({ code: errorCodes.AfterSignNotOpen });
+      }
+
     //   promises = [];
     //   promises.push(SignRecord.findOne({ signId: signId, studentId: studentId, type: type}));
     //   promises.push(SignRecord.findOne({ signId: signId, phoneId: phoneId, type: type }));
