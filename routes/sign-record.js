@@ -41,6 +41,7 @@ router.post('/', function (req, res) {
       sign = results[1];
       var teacherId = sign.get('teacherId');
       var courseId = sign.get('courseId');
+      var relatedId = sign.get('relatedId');
       var number = student.get('number');
 
       // 学生没有设置学号
@@ -48,7 +49,7 @@ router.post('/', function (req, res) {
         return Promise.reject({ code: errorCodes.StudentNumberEmpty });
       }
 
-      return SignStudent.find({ teacherId: teacherId, courseId: courseId, number: number });
+      return SignStudent.find({ teacherId: teacherId, number: number, courseId: { $in: [ courseId, relatedId ] } } );
     })
     .then(function (signStudents) {
       // 学生不属于该课程
@@ -118,7 +119,7 @@ router.post('/', function (req, res) {
       return ChatRoom
         .findOneAndUpdate(
           { courseId: sign.get('courseId') },
-          { name: sign.get('courseName'), avatar: findedTeacher.get('avatar'), $push: { studentIds: studentId } },
+          { name: sign.get('courseName'), avatar: findedTeacher.get('avatar'), $addToSet: { studentIds: studentId } },
           { new: true, upsert: true }
         );
     })
