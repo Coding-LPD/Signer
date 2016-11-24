@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.scnu.zhou.signer.R;
 import com.scnu.zhou.signer.component.bean.http.ResultResponse;
 import com.scnu.zhou.signer.component.bean.login.LoginResult;
+import com.scnu.zhou.signer.component.bean.user.User;
 import com.scnu.zhou.signer.component.cache.UserCache;
 import com.scnu.zhou.signer.component.util.encrypt.RSAEncryptUtil;
 import com.scnu.zhou.signer.component.util.http.ResponseCode;
@@ -23,6 +24,7 @@ import com.scnu.zhou.signer.presenter.login.ILoginPresenter;
 import com.scnu.zhou.signer.presenter.login.LoginPresenter;
 import com.scnu.zhou.signer.ui.activity.base.BaseActivity;
 import com.scnu.zhou.signer.ui.activity.main.MainActivity;
+import com.scnu.zhou.signer.ui.activity.main.MainActivity02;
 import com.scnu.zhou.signer.ui.activity.regist.InputPhoneActivity;
 import com.scnu.zhou.signer.ui.widget.edit.TextClearableEditText;
 import com.scnu.zhou.signer.ui.widget.image.CircleImageView;
@@ -226,20 +228,35 @@ public class LoginActivity extends BaseActivity implements ILoginView, TextWatch
 
             dismissLoadingDialog();
 
+            User user = response.getData().getUser();
             // 保存登录信息
             if (isCache){
-                UserCache.getInstance().login(this, user_phone, et_password.getText());
+                UserCache.getInstance().login(this, user_phone, et_password.getText(),
+                        user.getRole());
             }
             else {
-                UserCache.getInstance().login(this, et_user.getText(), et_password.getText());
+                UserCache.getInstance().login(this, et_user.getText(), et_password.getText(),
+                        user.getRole());
             }
             UserCache.getInstance().setId(this, response.getData().getPerson().get_id());
-            UserCache.getInstance().setNumber(this, response.getData().getPerson().getNumber());
 
-            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-            startActivity(intent);
-            overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
-            finish();
+            if (user.getRole().equals("0")) {   // 学生
+
+                // 记录学生用户
+                UserCache.getInstance().setNumber(this, response.getData().getPerson().getNumber());
+
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+                finish();
+            }
+            else if (user.getRole().equals("1")){    // 教师
+
+                Intent intent = new Intent(LoginActivity.this, MainActivity02.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+                finish();
+            }
         }
         else{
             dismissLoadingDialog();

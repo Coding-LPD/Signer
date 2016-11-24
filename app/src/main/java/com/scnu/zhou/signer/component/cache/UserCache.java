@@ -26,6 +26,12 @@ public class UserCache {
         return sharedPreferences.getString("_id", "");
     }
 
+    public String getRole(Context context){
+
+        SharedPreferences sharedPreferences = context.getSharedPreferences("User", Context.MODE_PRIVATE);
+        return sharedPreferences.getString("role", "");
+    }
+
     public String getName(Context context){
 
         SharedPreferences sharedPreferences = context.getSharedPreferences("User", Context.MODE_PRIVATE);
@@ -47,6 +53,14 @@ public class UserCache {
         SharedPreferences sharedPreferences = context.getSharedPreferences("User", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("_id", id);
+        editor.commit();
+    }
+
+    public void setRole(Context context, String role){
+
+        SharedPreferences sharedPreferences = context.getSharedPreferences("User", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("role", role);
         editor.commit();
     }
 
@@ -74,11 +88,12 @@ public class UserCache {
         editor.commit();
     }
 
-    public void login(Context context, String phone, String password){
+    public void login(Context context, String phone, String password, String role){
         SharedPreferences sharedPreferences = context.getSharedPreferences("User", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("phone", phone);
         editor.putString("password", password);
+        editor.putString("role", role);
         editor.commit();
     }
 

@@ -87,6 +87,7 @@ public class ChatActivity extends BaseSlideActivity implements IChatView, AbsLis
     private IChatPresenter presenter;
 
     private String courseId;
+    private String role;
     private int page = 0;
     private boolean isRefresh = true;
     private boolean isCompleted = false;
@@ -181,10 +182,11 @@ public class ChatActivity extends BaseSlideActivity implements IChatView, AbsLis
 
         mData = new ArrayList<>();
 
-        adapter = new ChatMessageAdapter(this, mData);
+        adapter = new ChatMessageAdapter(this, mData, role);
         lv_chat.setAdapter(adapter);
 
         courseId = getIntent().getStringExtra("courseId");
+        role = UserCache.getInstance().getRole(this);
 
         presenter = new ChatPresenter(this);
         presenter.sendMessageListRequest(courseId, page);
@@ -197,7 +199,12 @@ public class ChatActivity extends BaseSlideActivity implements IChatView, AbsLis
         if (!TextUtils.isEmpty(et_content.getText().toString().trim())) {
             ChatMessage message = new ChatMessage();
             message.setAvatar(UserCache.getInstance().getAvatar(this));
-            message.setStudentId(UserCache.getInstance().getId(this));
+            if (role.equals("0")) {
+                message.setStudentId(UserCache.getInstance().getId(this));
+            }
+            else if (role.equals("1")) {
+                message.setTeacherId(UserCache.getInstance().getId(this));
+            }
             message.setCourseId(courseId);
             message.setContent(et_content.getText().toString());
 
@@ -210,7 +217,7 @@ public class ChatActivity extends BaseSlideActivity implements IChatView, AbsLis
             adapter.notifyDataSetChanged();
             lv_chat.setSelection(lv_chat.getBottom());
 
-            presenter.sendMessageAction(courseId, UserCache.getInstance().getId(this),
+            presenter.sendMessageAction(courseId, UserCache.getInstance().getId(this), role,
                     et_content.getText().toString().trim());
 
             et_content.setText("");
@@ -242,7 +249,7 @@ public class ChatActivity extends BaseSlideActivity implements IChatView, AbsLis
                     if (page == 0) {
                         Collections.reverse(response.getData());
                         mData = response.getData();
-                        adapter = new ChatMessageAdapter(ChatActivity.this, mData);
+                        adapter = new ChatMessageAdapter(ChatActivity.this, mData, role);
                         lv_chat.setAdapter(adapter);
 
                         lv_chat.setSelection(lv_chat.getBottom());
@@ -255,7 +262,7 @@ public class ChatActivity extends BaseSlideActivity implements IChatView, AbsLis
                         Collections.reverse(mData);
                         mData.addAll(response.getData());
                         Collections.reverse(mData);
-                        adapter = new ChatMessageAdapter(ChatActivity.this, mData);
+                        adapter = new ChatMessageAdapter(ChatActivity.this, mData, role);
                         lv_chat.setAdapter(adapter);
 
                         lv_chat.setSelection(size);

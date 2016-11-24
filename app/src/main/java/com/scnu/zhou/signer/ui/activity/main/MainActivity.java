@@ -102,10 +102,6 @@ public class MainActivity extends BaseFragmentActivity{
      */
     private void startService(){
 
-        //Intent intent = new Intent(this, NoticeService.class);
-        //startService(intent);
-        //bindService(intent, connection, BIND_AUTO_CREATE);
-
         SocketClient.getInstance().startSocketClient(this);
         SocketClient.getInstance().setOnNoticeReceiveListener(new SocketClient.OnNoticeReceiveListener() {
             @Override

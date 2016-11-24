@@ -27,9 +27,9 @@ public class ChatPresenter implements IChatPresenter, ChatCallBack {
     }
 
     @Override
-    public void sendMessageAction(String courseId, String studentId, String content) {
+    public void sendMessageAction(String courseId, String peopleId, String role, String content) {
 
-        SocketClient.getInstance().sendMessageAction(courseId, studentId, content);
+        SocketClient.getInstance().sendMessageAction(courseId, peopleId, role, content);
     }
 
     @Override

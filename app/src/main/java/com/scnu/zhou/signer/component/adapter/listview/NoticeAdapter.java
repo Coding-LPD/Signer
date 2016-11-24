@@ -51,7 +51,7 @@ public class NoticeAdapter extends BaseAdapter {
         ViewHolder viewHolder;
 
         if (convertView == null){
-            convertView = LayoutInflater.from(context).inflate(R.layout.listitem_notice02, null);
+            convertView = LayoutInflater.from(context).inflate(R.layout.listitem_notice, null);
 
             viewHolder = new ViewHolder();
             viewHolder.ll_left_corner = (LinearLayout) convertView.findViewById(R.id.ll_left_corner);

@@ -25,11 +25,13 @@ public class ChatMessageAdapter extends BaseAdapter {
 
     private Context context;
     private List<ChatMessage> mData;
+    private String role;
 
-    public ChatMessageAdapter(Context context, List<ChatMessage> mData){
+    public ChatMessageAdapter(Context context, List<ChatMessage> mData, String role){
 
         this.context = context;
         this.mData = mData;
+        this.role = role;
     }
 
     @Override
@@ -52,11 +54,21 @@ public class ChatMessageAdapter extends BaseAdapter {
 
         View view;
 
-        if (!mData.get(position).getStudentId().equals(UserCache.getInstance().getId(context))) {
-            // 他人的消息
-            view = LayoutInflater.from(context).inflate(R.layout.listitem_chat_left, null);
-        } else {   // 自己的消息
-            view = LayoutInflater.from(context).inflate(R.layout.listitem_chat_right, null);
+        if (role.equals("0")) {
+            if (!mData.get(position).getStudentId().equals(UserCache.getInstance().getId(context))) {
+                // 他人的消息
+                view = LayoutInflater.from(context).inflate(R.layout.listitem_chat_left, null);
+            } else {   // 自己的消息
+                view = LayoutInflater.from(context).inflate(R.layout.listitem_chat_right, null);
+            }
+        }
+        else{
+            if (!mData.get(position).getTeacherId().equals(UserCache.getInstance().getId(context))) {
+                // 他人的消息
+                view = LayoutInflater.from(context).inflate(R.layout.listitem_chat_left, null);
+            } else {   // 自己的消息
+                view = LayoutInflater.from(context).inflate(R.layout.listitem_chat_right, null);
+            }
         }
 
         CircleImageView iv_avatar = (CircleImageView) view.findViewById(R.id.iv_avatar);

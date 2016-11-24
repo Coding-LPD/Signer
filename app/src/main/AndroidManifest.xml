@@ -60,6 +60,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.activity.main.MainActivity"/>
+        <activity android:name=".ui.activity.main.MainActivity02"/>
 
         <activity android:name=".ui.activity.login.LoginActivity"/>
 

@@ -7,5 +7,5 @@ public interface IChatPresenter {
 
     void sendMessageListRequest(String courseId, int page);
 
-    void sendMessageAction(String courseId, String studentId, String content);
+    void sendMessageAction(String courseId, String peopleId, String role, String content);
 }

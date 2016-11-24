@@ -30,7 +30,7 @@
 
             <include layout="@layout/layout_no_message"/>
 
-            <include layout="@layout/bottombar_chat02"/>
+            <include layout="@layout/bottombar_chat"/>
 
         </RelativeLayout>
 

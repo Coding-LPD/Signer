@@ -1,52 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal" android:layout_width="match_parent"
+    android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_alignParentBottom="true"
     android:id="@+id/bottombar_chat"
-    android:background="#fff">
+    android:background="#F5F5F6">
 
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_weight="4">
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#ddd"/>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#eee"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="52dp">
 
         <EditText
             android:id="@+id/et_content"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@null"
-            android:hint="请输入要发送的内容..."
-            android:textSize="14sp"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_emotion_edit"
+            android:gravity="center_vertical"
             android:layout_marginLeft="10dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:imeOptions="actionSend"
+            android:layout_toLeftOf="@+id/btn_emotion" />
+
+        <Button
+            android:id="@+id/btn_emotion"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/icon_emotion"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="8dp"
+            android:layout_toLeftOf="@+id/btn_send"
+            android:layout_alignParentRight="true"/>
+
+        <Button
+            android:id="@+id/btn_send"
+            android:layout_width="48dp"
+            android:layout_height="35dp"
+            android:background="@drawable/btn_login_selector"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:maxLines="4"
-            android:layout_gravity="center_vertical"/>
+            android:text="@string/chat_button_send"
+            android:textSize="14sp"
+            android:textColor="#fff"
+            android:visibility="gone"
+            style="?android:attr/borderlessButtonStyle"/>
 
-    </LinearLayout>
+    </RelativeLayout>
 
-    <ImageButton
-        android:id="@+id/ibtn_send"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:background="@drawable/btn_chat_send_selector"
-        android:gravity="center"
-        android:src="@drawable/icon_chat_send"
-        android:scaleType="centerInside"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp"
-        android:paddingLeft="18dp"
-        android:paddingRight="18dp"/>
+    <include layout="@layout/gridview_emotion"/>
 
 </LinearLayout>

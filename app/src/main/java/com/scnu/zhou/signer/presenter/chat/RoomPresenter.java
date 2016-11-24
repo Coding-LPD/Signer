@@ -26,9 +26,9 @@ public class RoomPresenter implements IRoomPresenter, RoomListCallBack{
     }
 
     @Override
-    public void sendRoomListRequest(String studentId) {
+    public void sendRoomListRequest(String id, String role) {
 
-        SocketClient.getInstance().sendRoomListRequest(studentId, this);
+        SocketClient.getInstance().sendRoomListRequest(id, role, this);
     }
 
     @Override

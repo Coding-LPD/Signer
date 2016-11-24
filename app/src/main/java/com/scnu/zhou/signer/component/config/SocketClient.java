@@ -199,13 +199,20 @@ public class SocketClient {
 
     /**
      * 获取聊天室列表
-     * @param studentId
+     * @param id
+     * @param role
      * @param callBack
      */
-    public void sendRoomListRequest(String studentId, RoomListCallBack callBack){
+    public void sendRoomListRequest(String id, String role, RoomListCallBack callBack){
 
-        socket.emit(SocketEvent.ROOMLIST_EVENT, studentId);
-        this.roomListCallBack = callBack;
+        if (role.equals("0")) {   // 学生请求
+            socket.emit(SocketEvent.ROOMLIST_EVENT, id);
+            this.roomListCallBack = callBack;
+        }
+        else if (role.equals("1")) {    // 教师请求
+            socket.emit(SocketEvent.ROOMLIST_EVENT, "", id);
+            this.roomListCallBack = callBack;
+        }
     }
 
 
@@ -225,12 +232,18 @@ public class SocketClient {
     /**
      * 发送消息动作
      * @param courseId
-     * @param studentId
+     * @param peopleId
+     * @param role
      * @param content
      */
-    public void sendMessageAction(String courseId, String studentId, String content){
+    public void sendMessageAction(String courseId, String peopleId, String role, String content){
 
-        socket.emit(SocketEvent.SENDMSG_EVENT, courseId, studentId, content);
+        if (role.equals("0")) {  // 学生请求
+            socket.emit(SocketEvent.SENDMSG_EVENT, courseId, peopleId, content);
+        }
+        else if (role.equals("1")) {  // 教师请求
+            socket.emit(SocketEvent.SENDMSG_EVENT, courseId, "", content, peopleId);
+        }
     }
 
 

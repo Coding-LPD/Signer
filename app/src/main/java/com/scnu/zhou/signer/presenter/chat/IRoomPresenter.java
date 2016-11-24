@@ -5,5 +5,5 @@ package com.scnu.zhou.signer.presenter.chat;
  */
 public interface IRoomPresenter {
 
-    void sendRoomListRequest(String studentId);
+    void sendRoomListRequest(String id, String role);
 }

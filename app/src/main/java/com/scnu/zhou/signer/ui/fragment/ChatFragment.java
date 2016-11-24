@@ -98,7 +98,8 @@ public class ChatFragment extends Fragment implements IRoomView, PullToRefreshLi
     @Override
     public void onRefresh() {
 
-        presenter.sendRoomListRequest(UserCache.getInstance().getId(context));
+        presenter.sendRoomListRequest(UserCache.getInstance().getId(context),
+                UserCache.getInstance().getRole(context));
     }
 
     @Override
