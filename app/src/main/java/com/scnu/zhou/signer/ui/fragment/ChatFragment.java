@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -13,11 +14,14 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.scnu.zhou.signer.R;
 import com.scnu.zhou.signer.component.adapter.listview.ChatRoomAdapter;
 import com.scnu.zhou.signer.component.bean.chat.ChatMessage;
 import com.scnu.zhou.signer.component.bean.chat.ChatRoom;
 import com.scnu.zhou.signer.component.bean.http.ResultResponse;
+import com.scnu.zhou.signer.component.cache.ACache;
 import com.scnu.zhou.signer.component.cache.UserCache;
 import com.scnu.zhou.signer.presenter.chat.IRoomPresenter;
 import com.scnu.zhou.signer.presenter.chat.RoomPresenter;
@@ -173,6 +177,9 @@ public class ChatFragment extends Fragment implements IRoomView, PullToRefreshLi
             }
         });
 
+        String value = new Gson().toJson(mData);
+        ACache.get(context).put("chat_room", value);
+
     }
 
     @Override
@@ -184,6 +191,13 @@ public class ChatFragment extends Fragment implements IRoomView, PullToRefreshLi
     @Override
     public void onResume() {
         super.onResume();
+
+        String array = ACache.get(context).getAsString("chat_room");
+        //Log.e("get-array", array);
+        if (!TextUtils.isEmpty(array) && !array.equals("null")) mData = new Gson().fromJson(array,
+                new TypeToken<List<ChatRoom>>(){}.getType());
+        adapter = new ChatRoomAdapter(context, mData);
+        plv_chat.setAdapter(adapter);
 
         onRefresh();
     }
