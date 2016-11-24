@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.scnu.zhou.signer.R;
 import com.scnu.zhou.signer.component.bean.chat.ChatMessage;
 import com.scnu.zhou.signer.component.cache.UserCache;
+import com.scnu.zhou.signer.component.util.density.DensityUtil;
 import com.scnu.zhou.signer.component.util.emotion.ExpressionUtil;
 import com.scnu.zhou.signer.component.util.image.ImageLoaderUtil;
 import com.scnu.zhou.signer.ui.widget.image.CircleImageView;
@@ -66,7 +67,7 @@ public class ChatMessageAdapter extends BaseAdapter {
                 mData.get(position).getAvatar());
 
         SpannableString spannableString = ExpressionUtil.getExpressionString(context,
-                mData.get(position).getContent(), 40);
+                mData.get(position).getContent(), DensityUtil.dip2px(context, 20));
         tv_content.setText(spannableString );
 
         String timeStr[] = mData.get(position).getCreatedAt().split(" ");

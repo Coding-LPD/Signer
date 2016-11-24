@@ -33,6 +33,7 @@
     <string name="mine_cell03_title">我的圆桌</string>
     <string name="mine_cell04_title">设置</string>
 
+    <string name="chat_button_send">发送</string>
 
     <string name="info_sign"> 签到 / </string>
     <string name="info_speak"> 发言 </string>

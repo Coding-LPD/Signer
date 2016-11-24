@@ -6,9 +6,11 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Editable;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.text.style.ImageSpan;
 import android.util.Log;
 import android.view.Gravity;
@@ -24,6 +26,7 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
@@ -34,6 +37,7 @@ import com.scnu.zhou.signer.component.bean.chat.Emotion;
 import com.scnu.zhou.signer.component.bean.http.ResultResponse;
 import com.scnu.zhou.signer.component.cache.TimeCache;
 import com.scnu.zhou.signer.component.cache.UserCache;
+import com.scnu.zhou.signer.component.util.density.DensityUtil;
 import com.scnu.zhou.signer.component.util.emotion.ExpressionUtil;
 import com.scnu.zhou.signer.component.util.emotion.XmlUtil;
 import com.scnu.zhou.signer.presenter.chat.ChatPresenter;
@@ -61,7 +65,7 @@ import butterknife.OnItemClick;
  * Created by zhou on 16/11/7.
  */
 public class ChatActivity extends BaseSlideActivity implements IChatView, AbsListView.OnScrollListener,
-        View.OnKeyListener, OnItemClickListener{
+        View.OnKeyListener, OnItemClickListener, TextWatcher{
 
     @Bind(R.id.tv_title) TextView tv_title;
     @Bind(R.id.ll_return) LinearLayout ll_return;
@@ -74,6 +78,7 @@ public class ChatActivity extends BaseSlideActivity implements IChatView, AbsLis
 
     @Bind(R.id.ll_emotion) LinearLayout ll_emotion;
     @Bind(R.id.btn_emotion) Button btn_emotion;
+    @Bind(R.id.btn_send) Button btn_send;
     @Bind(R.id.gv_emotions) GridView gv_emotions;
 
     private List<ChatMessage> mData;
@@ -118,7 +123,8 @@ public class ChatActivity extends BaseSlideActivity implements IChatView, AbsLis
         ll_return.setVisibility(View.VISIBLE);
 
         lv_chat.setOnScrollListener(this);
-        et_content.setOnKeyListener(this);
+        //et_content.setOnKeyListener(this);
+        et_content.addTextChangedListener(this);
 
         // 添加头布局
         headerView = LayoutInflater.from(this).inflate(R.layout.listview_loadingview, null);
@@ -161,6 +167,13 @@ public class ChatActivity extends BaseSlideActivity implements IChatView, AbsLis
 
         // 初始化表情布局
         initEmotionView();
+
+        btn_send.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                send();
+            }
+        });
     }
 
     @Override
@@ -181,7 +194,7 @@ public class ChatActivity extends BaseSlideActivity implements IChatView, AbsLis
     // 发送消息
     public void send(){
 
-        if (!TextUtils.isEmpty(et_content.getText().toString())) {
+        if (!TextUtils.isEmpty(et_content.getText().toString().trim())) {
             ChatMessage message = new ChatMessage();
             message.setAvatar(UserCache.getInstance().getAvatar(this));
             message.setStudentId(UserCache.getInstance().getId(this));
@@ -198,7 +211,7 @@ public class ChatActivity extends BaseSlideActivity implements IChatView, AbsLis
             lv_chat.setSelection(lv_chat.getBottom());
 
             presenter.sendMessageAction(courseId, UserCache.getInstance().getId(this),
-                    et_content.getText().toString());
+                    et_content.getText().toString().trim());
 
             et_content.setText("");
         }
@@ -487,8 +500,8 @@ public class ChatActivity extends BaseSlideActivity implements IChatView, AbsLis
                             f = (Field) R.drawable.class.getDeclaredField(emotion.getName());
                             int j = f.getInt(R.drawable.class);
                             Drawable d = getResources().getDrawable(j);
-                            int textSize = (int)et_content.getTextSize();
-                            d.setBounds(0, 0, textSize, textSize);
+                            int textSize = (int) et_content.getTextSize();
+                            d.setBounds(0, 0, textSize + 10, textSize + 10);
 
                             String str = null;
                             int pos = position + 1;
@@ -514,5 +527,38 @@ public class ChatActivity extends BaseSlideActivity implements IChatView, AbsLis
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+
+    /**
+     * implementation for TextWatacher
+     */
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        if (TextUtils.isEmpty(et_content.getText().toString().trim())){
+            btn_send.setVisibility(View.GONE);
+
+            RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) btn_emotion.getLayoutParams();
+            layoutParams.setMargins(0, 0, DensityUtil.dip2px(this, 8), 0);
+            btn_emotion.setLayoutParams(layoutParams);
+        }
+        else{
+            btn_send.setVisibility(View.VISIBLE);
+
+            RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) btn_emotion.getLayoutParams();
+            layoutParams.setMargins(0, 0, DensityUtil.dip2px(this, 64), 0);
+            btn_emotion.setLayoutParams(layoutParams);
+        }
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+
     }
 }
