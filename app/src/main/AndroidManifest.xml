@@ -94,8 +94,6 @@
         <activity android:name=".ui.activity.course.CheckSignActivity"/>
         <activity android:name=".ui.activity.course.SearchActivity"/>
 
-        <service android:name=".ui.service.NoticeService"/>
-
         <activity android:name=".ui.activity.chat.ChatActivity"/>
 
     </application>

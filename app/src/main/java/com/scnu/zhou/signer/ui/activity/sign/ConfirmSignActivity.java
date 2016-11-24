@@ -236,16 +236,17 @@ public class ConfirmSignActivity extends BaseSlideActivity implements ISignView{
     @OnClick(R.id.btn_sign_before)
     public void signBefore(){
 
-        if (!TextUtils.isEmpty(UserCache.getInstance().getNumber(this))) {   // 有学号信息
-            type = 0;
-            showLoadingDialog("发送请求中");
-            getPhoneBattery();
+        if (TextUtils.isEmpty(UserCache.getInstance().getNumber(this))) {   // 有学号信息
+            showNoNumberDialog();
         }
-        else if (UserPermission.getInstance().isLocatePermitted(this)){
+        else if (!UserPermission.getInstance().isLocatePermitted(this) ||
+                !UserPermission.getInstance().isPhoneStatePermitted(this)){
             showPermissionDialog();
         }
         else{
-            showNoNumberDialog();
+            type = 0;
+            showLoadingDialog("发送请求中");
+            getPhoneBattery();
         }
 
     }
@@ -254,16 +255,17 @@ public class ConfirmSignActivity extends BaseSlideActivity implements ISignView{
     @OnClick(R.id.btn_sign_after)
     public void signAfter(){
 
-        if (!TextUtils.isEmpty(UserCache.getInstance().getNumber(this))) {   // 有学号信息
-            type = 1;
-            showLoadingDialog("发送请求中");
-            getPhoneBattery();
+        if (TextUtils.isEmpty(UserCache.getInstance().getNumber(this))) {   // 有学号信息
+            showNoNumberDialog();
         }
-        else if (UserPermission.getInstance().isLocatePermitted(this)){
+        else if (!UserPermission.getInstance().isLocatePermitted(this) ||
+                !UserPermission.getInstance().isPhoneStatePermitted(this)){
             showPermissionDialog();
         }
         else{
-            showNoNumberDialog();
+            type = 1;
+            showLoadingDialog("发送请求中");
+            getPhoneBattery();
         }
     }
 
@@ -383,14 +385,13 @@ public class ConfirmSignActivity extends BaseSlideActivity implements ISignView{
 
 
     /**
-     * 无定位权限
+     * 无权限
      */
     public void showPermissionDialog(){
 
         final AlertDialog dialog = new AlertDialog(this);
         dialog.setTitle("友情提示");
-        dialog.setMessage("请先到应用权限管理允许\n" +
-                "应用进行GPS定位");
+        dialog.setMessage("请先设置App的应用权限");
         dialog.setNegativeButton("知道了", AlertDialog.BUTTON_LEFT, new View.OnClickListener() {
             @Override
             public void onClick(View v) {

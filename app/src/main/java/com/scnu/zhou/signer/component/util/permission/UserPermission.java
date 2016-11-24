@@ -48,4 +48,16 @@ public class UserPermission {
             return false;
         }
     }
+
+    public boolean isPhoneStatePermitted(Context context){
+
+        PackageManager pm = context.getPackageManager();
+        boolean permission = (PackageManager.PERMISSION_GRANTED ==
+                pm.checkPermission("android.permission.READ_PHONE_STATE", "com.scnu.zhou.signer"));
+        if (permission) {
+            return true;
+        }else {
+            return false;
+        }
+    }
 }

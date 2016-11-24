@@ -7,15 +7,16 @@ import android.text.TextUtils;
 
 import com.scnu.zhou.signer.R;
 import com.scnu.zhou.signer.component.cache.UserCache;
+import com.scnu.zhou.signer.component.util.image.ImageLoaderUtil;
 import com.scnu.zhou.signer.ui.activity.base.BaseActivity;
 import com.scnu.zhou.signer.ui.activity.login.LoginActivity;
-import com.scnu.zhou.signer.component.util.image.ImageLoaderUtil;
-import com.scnu.zhou.signer.ui.service.NoticeService;
 
 /**
  * Created by zhou on 16/9/2.
  */
 public class SplashActivity extends BaseActivity {
+
+    private Handler handler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,23 +24,25 @@ public class SplashActivity extends BaseActivity {
 
         setContentView(R.layout.activity_splash);
 
-        ImageLoaderUtil.getInstance().initImageLoader(this);
-        //startService();
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                turnToPage();
-            }
-        }, 2000);
+        handler = new Handler();
+        initImageLoader();
     }
 
-    /**
-     * 启动Service
-     */
-    private void startService(){
+    private void initImageLoader(){
 
-        Intent intent = new Intent(this, NoticeService.class);
-        startService(intent);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                ImageLoaderUtil.getInstance().initImageLoader(SplashActivity.this);
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        turnToPage();
+                    }
+                }, 2000);
+            }
+        }).start();
     }
 
     /**
