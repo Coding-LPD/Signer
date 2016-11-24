@@ -24,6 +24,7 @@ import com.scnu.zhou.signer.ui.activity.user.info.UserInfoActivity;
 import com.scnu.zhou.signer.ui.activity.user.mine.MyChatActivity;
 import com.scnu.zhou.signer.ui.activity.user.mine.MySignActivity;
 import com.scnu.zhou.signer.ui.activity.user.settings.SettingActivity;
+import com.scnu.zhou.signer.ui.widget.cell.IconTitleCell;
 import com.scnu.zhou.signer.ui.widget.image.CircleImageView;
 import com.scnu.zhou.signer.ui.widget.toast.ToastView;
 import com.scnu.zhou.signer.view.user.IUserInfoView;
@@ -45,7 +46,12 @@ public class MineFragment extends Fragment implements IUserInfoView{
     @Bind(R.id.tv_user_id) TextView tv_user_id;
     @Bind(R.id.civ_user_header) CircleImageView civ_user_header;
 
+    @Bind(R.id.tc_mysign) IconTitleCell tc_mysign;
+    @Bind(R.id.tc_mychat) IconTitleCell tc_mychat;
+
     private UserPresenter userPresenter;
+
+    private String role;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -60,8 +66,8 @@ public class MineFragment extends Fragment implements IUserInfoView{
         super.onActivityCreated(savedInstanceState);
 
         context = getActivity();
-        initView();
         initData();
+        initView();
     }
 
     @Override
@@ -69,12 +75,19 @@ public class MineFragment extends Fragment implements IUserInfoView{
         tv_user_name.setText(UserCache.getInstance().getName(context));
         tv_user_id.setText("ID:" + UserCache.getInstance().getPhone(context));
         ImageLoaderUtil.getInstance().displayHeaderImage(civ_user_header, UserCache.getInstance().getAvatar(context));
+
+        if (role.equals("1")){
+            tc_mysign.setVisibility(View.GONE);
+            tc_mychat.setVisibility(View.GONE);
+        }
     }
 
     @Override
     public void initData() {
 
         userPresenter = new UserPresenter(this);
+
+        role = UserCache.getInstance().getRole(context);
     }
 
     @Override

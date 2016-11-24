@@ -12,6 +12,7 @@ import com.scnu.zhou.signer.component.cache.UserCache;
 import com.scnu.zhou.signer.ui.activity.base.BaseSlideActivity;
 import com.scnu.zhou.signer.ui.activity.login.LoginActivity;
 import com.scnu.zhou.signer.ui.activity.main.MainActivity;
+import com.scnu.zhou.signer.ui.activity.main.MainActivity02;
 import com.scnu.zhou.signer.ui.widget.picker.MenuPicker;
 
 import java.util.ArrayList;
@@ -138,7 +139,13 @@ public class SettingActivity extends BaseSlideActivity{
 
             UserCache.getInstance().logout(SettingActivity.this);
 
-            MainActivity.getInstance().finish();
+            if (UserCache.getInstance().getRole(SettingActivity.this).equals("0")){  // 学生
+                MainActivity.getInstance().finish();
+            }
+            else{
+                MainActivity02.getInstance().finish();
+            }
+
             finish();
         }
     }

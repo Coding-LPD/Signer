@@ -115,7 +115,12 @@ public class FeedbackActivity extends BaseSlideActivity implements IFeedbackView
 
             showLoadingDialog("提交中");
             Feedback feedback = new Feedback();
-            feedback.setStudentId(UserCache.getInstance().getId(this));
+            if (UserCache.getInstance().getRole(this).equals("0")) {
+                feedback.setStudentId(UserCache.getInstance().getId(this));
+            }
+            else{
+                feedback.setTeacherId(UserCache.getInstance().getId(this));
+            }
             feedback.setPhone(UserCache.getInstance().getPhone(this));
             feedback.setName(UserCache.getInstance().getName(this));
             feedback.setContent(et_feedback.getText().toString());

@@ -32,12 +32,15 @@ public class MainActivity02 extends BaseFragmentActivity {
 
     private TabBarManager02 manager;
 
+    private static MainActivity02 instance;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main02);
 
+        instance = this;
         startService();
 
         ButterKnife.bind(this);
@@ -61,6 +64,9 @@ public class MainActivity02 extends BaseFragmentActivity {
         //vp_main.setOnPageChangeListener(this);
     }
 
+    public static MainActivity02 getInstance(){
+        return instance;
+    }
 
     /**
      * 启动Service
@@ -74,16 +80,16 @@ public class MainActivity02 extends BaseFragmentActivity {
     // 点击聊天室tab
     @OnClick(R.id.ll_discover)
     public void clickDiscoverTab(){
-        manager.setSelect(1);
-        vp_main.setCurrentItem(1, true);
+        manager.setSelect(0);
+        vp_main.setCurrentItem(0, true);
     }
 
 
     // 点击我的tab
     @OnClick(R.id.ll_mine)
     public void clickMineTab(){
-        manager.setSelect(3);
-        vp_main.setCurrentItem(3, true);
+        manager.setSelect(1);
+        vp_main.setCurrentItem(1, true);
     }
 
     // Pager滑动监听
