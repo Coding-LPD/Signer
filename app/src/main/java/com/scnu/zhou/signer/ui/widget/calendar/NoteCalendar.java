@@ -294,7 +294,7 @@ public class NoteCalendar extends LinearLayout {
 
             TextView item = new TextView(context);
             AbsListView.LayoutParams layoutParams = new AbsListView.LayoutParams(
-                    DensityUtil.px2dip(context, 150), DensityUtil.px2dip(context, 150));
+                    DensityUtil.dip2px(context, 40), DensityUtil.dip2px(context, 40));
             item.setLayoutParams(layoutParams);
             if (year == getCurrentYear() && month == getCurrentMonth() && days.get(position) == getCurrentDay()){
                 item.setTextColor(cur_day_color);
