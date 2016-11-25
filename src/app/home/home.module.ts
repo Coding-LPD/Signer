@@ -11,6 +11,7 @@ import { StudentModule } from './student';
 import { CourseModule } from './course';
 import { TeacherModule } from './teacher';
 import { StatisticsModule } from './statistics';
+import { ChatModule } from './chat';
 
 @NgModule({
   imports: [
@@ -21,6 +22,7 @@ import { StatisticsModule } from './statistics';
     CourseModule,
     TeacherModule,
     StatisticsModule,
+    ChatModule,
     homeRouting    
   ],
   declarations: [

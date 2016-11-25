@@ -55,8 +55,8 @@ button {
   background-color: #97CC00;
   cursor: pointer;   
 }
-button:active {
-  background-color: #698e00;
+button:active { 
+  background-color: #698e00; 
 }
 button[disabled] {
   background-color: #b6db4d;
@@ -130,3 +130,10 @@ a:hover {
 .orange       { color: white; background-color: #F5A623; }
 .purple       { color: white; background-color: #9013FE; }
 .blue-green   { color: white; background-color: #40CBCE; }
+
+.green:active         { background-color: #698e00; }
+.blue:active          { background-color: #2DBAF0; }
+.red:active           { background-color: #FF1300; }
+.orange:active        { background-color: #D2880B; }
+.purple:active        { background-color: #6301BC; }
+.blue-green:active    { background-color: #28989B; }

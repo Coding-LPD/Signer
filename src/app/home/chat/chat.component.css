@@ -1,0 +1,183 @@
+:host {
+  display: block;
+  margin-left: -15px;
+  margin-right: -15px;
+  margin-top: -15px;
+}
+
+.tab-list {  
+  background-color: #7087A3;
+}
+
+.tab-list li {
+  position: relative;  
+  width: auto;
+  float: right;  
+  margin-right: 15px;
+  text-align: center;
+  cursor: pointer;  
+}
+
+.select-value {
+  padding: 20px 0;
+  color: white;
+  text-align: right;
+  cursor: pointer;
+}
+
+.select-value:hover {
+  color: #2A3542;
+}
+
+.select-value .caret {
+  margin-left: 10px;
+  border-top-color: white;
+}
+
+.select-list {  
+  position: absolute;
+  top: 100%;  right: 0;
+  z-index: 1000;
+  width: auto;
+  padding: 10px 0;  
+  background-color: white;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+.select-list li {
+  float: none;
+  width: auto;
+  padding: 10px 20px;
+  margin: 0;
+  text-align: left;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;  
+  color: black;
+  cursor: pointer;
+}
+.select-list li:last-child {
+  float: none;
+  margin: 0;
+}
+.select-list li:hover {
+  color: white;
+  background-color: #7087A3;
+}
+
+.chat-list-container {
+  margin: 15px
+}
+
+.chat-list {
+  position: relative;
+  width: 100%;
+  height: 340px;
+  overflow-y: scroll;
+  border-radius: 5px;
+  background-color: white;
+}
+
+.chat-list li {
+  padding: 15px;
+}
+
+.avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 100%;
+}
+.left .avatar {
+  float: left;  
+}
+.right .avatar {
+  float: right;
+}
+
+.chat-list .caret {
+  margin-top: 10px;  
+  border-top: 9px solid transparent;
+  border-bottom: 9px solid transparent;
+  border-left: 9px solid transparent;
+  border-right: 9px solid transparent;
+}
+.chat-list .left .caret {
+  float: left;
+  margin-left: 10px;
+  border-right: 9px solid #EBEBEB;
+}
+.chat-list .right .caret {
+  float: right;
+  margin-right: 10px;
+  border-left: 9px solid #EBEBEB;
+}
+
+.msg {  
+  max-width: 80%;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #EBEBEB;
+}
+.left .msg {
+  float: left;
+}
+.right .msg {
+  float: right;
+}
+
+.time {
+  padding-left: 25px;
+  color: #96C2EA;
+  font-size: 16px;
+  background-image: url('/public/images/time.png');
+  background-size: 20px;
+  background-repeat: no-repeat; 
+}
+
+.content {
+  margin-top: 5px;  
+  font-size: 1.2em;
+  color: #4F4F4F;
+}
+
+.send-msg-container {
+  border-top: 1px solid #dddddd; 
+}
+
+.send-msg {
+  width: 100%;
+  margin: 0;
+  padding: 1em;
+  border: none;
+  outline: none;
+  font-size: 1.2em;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -o-box-sizing: border-box;
+}
+
+.send-msg-footer {
+  margin-top: 10px;
+}
+
+.send-msg-btn {  
+  float: right;
+  width: 10%;  
+  font-size: 1.2em;  
+}
+
+.short-cut {
+  float: right;  
+  margin-top: 13px;
+  margin-right: 1em;
+  color: #787878;  
+}
+
+.tip {
+  padding: 90px 0;
+  text-align: center;
+  font-size: 1.5em;
+  color: #787878;
+}

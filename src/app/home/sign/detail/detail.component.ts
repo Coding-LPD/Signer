@@ -1,21 +1,22 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
+import { Subscription } from 'rxjs/Subscription'
 
-import { SignService } from '../sign.service';
 import { LoginService } from '../../../login';
 import { 
   Sign, SignRecord, 
-  PositionService, SignRecordService, SocketService, 
+  PositionService, SignRecordService, SocketService,
   PopUpComponent 
 } from '../../../shared';
+import { SignService } from '../sign.service';
 
 @Component({
   selector: 'detail',
   templateUrl: './detail.component.html',
   styleUrls: ['./detail.component.css']
 })
-export class DetailComponent implements OnInit {
+export class DetailComponent implements OnInit, OnDestroy {
 
   @ViewChild(PopUpComponent) popup: PopUpComponent;
 
@@ -38,6 +39,8 @@ export class DetailComponent implements OnInit {
   }
   // 用户选择的位置，不一定显示在地图中心
   changedPosition: any;
+
+  sub: Subscription;
 
   constructor(
     private _route: ActivatedRoute,
@@ -90,13 +93,12 @@ export class DetailComponent implements OnInit {
       });        
     });
 
-    this._socketService.get('sign')
-      .subscribe(data => {      
-        var index = !this.radiosInactive[0] ? 0 : 1;
-        if (data.type == index) {
-          this.records.push(data);
-        }         
-      })
+    this._socketService.connect('sign');
+    this.sub = this._socketService.sign$.subscribe(body => this.onSign(body));
+  }
+
+  ngOnDestroy() {
+    this.sub.unsubscribe();
   }
 
   selectRadio(index: number) {
@@ -110,6 +112,20 @@ export class DetailComponent implements OnInit {
 
   ToggleQRCodeSize() {
     this.isLargeQRCode = !this.isLargeQRCode;
+  }
+
+  /**
+   * 监听sign事件
+   */
+  onSign(body: any) {
+    if (+body.code == 200) {
+      var index = !this.radiosInactive[0] ? 0 : 1;
+      if (body.data.type == index) {
+        this.records.push(body.data);
+      }
+    } else {
+      this.popup.show(body.msg);
+    }    
   }
 
   confirm(record: SignRecord, type: number = 0) {
