@@ -9,6 +9,7 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.scnu.zhou.signer.R;
+import com.scnu.zhou.signer.component.cache.UserCache;
 import com.scnu.zhou.signer.component.util.statusbar.StatusBarUtil;
 import com.scnu.zhou.signer.component.util.statusbar.SystemBarTintManager;
 import com.scnu.zhou.signer.ui.widget.dialog.LoadingDialog;
@@ -34,11 +35,11 @@ public class BaseActivity extends AppCompatActivity {
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            getWindow().getDecorView().setSystemUiVisibility( View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN|View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         }
-        else {
-            StatusBarUtil.setStatusBarDarkMode(true, this);
-        }
+        StatusBarUtil.setStatusBarDarkMode(true, this);
+
 
         dialog = new LoadingDialog(this);
     }
@@ -71,5 +72,18 @@ public class BaseActivity extends AppCompatActivity {
     public void dismissLoadingDialog(){
 
         if (dialog.isShowing()) dialog.dismiss();
+    }
+
+    /**
+     * 是否是学生
+     */
+    public boolean isStudent(){
+
+        if (UserCache.getInstance().getRole(this).equals("0")){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 }

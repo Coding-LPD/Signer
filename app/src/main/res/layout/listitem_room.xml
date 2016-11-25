@@ -87,14 +87,15 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp">
 
-                <TextView
+                <com.scnu.zhou.signer.ui.widget.emoji.EmojiTextView
                     android:id="@+id/tv_chat_content"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="14sp"
                     android:textColor="#666"
                     android:layout_marginRight="50dp"
-                    android:singleLine="true"/>
+                    android:singleLine="true"
+                    app:emojiSize="20sp"/>
 
                 <ImageView
                     android:id="@+id/iv_unread"

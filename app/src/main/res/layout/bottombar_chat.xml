@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_alignParentBottom="true"
@@ -15,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="52dp">
 
-        <EditText
+        <com.scnu.zhou.signer.ui.widget.emoji.EmojiEditText
             android:id="@+id/et_content"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -27,9 +28,10 @@
             android:layout_marginBottom="8dp"
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
-            android:imeOptions="actionSend"
-            android:layout_toLeftOf="@+id/btn_emotion" />
+            android:layout_toLeftOf="@+id/btn_send"
+            app:emojiSize="22sp"/>
 
+        <!--
         <Button
             android:id="@+id/btn_emotion"
             android:layout_width="30dp"
@@ -38,7 +40,7 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="8dp"
             android:layout_toLeftOf="@+id/btn_send"
-            android:layout_alignParentRight="true"/>
+            android:layout_alignParentRight="true"/>-->
 
         <Button
             android:id="@+id/btn_send"
@@ -51,8 +53,8 @@
             android:text="@string/chat_button_send"
             android:textSize="14sp"
             android:textColor="#fff"
-            android:visibility="gone"
-            style="?android:attr/borderlessButtonStyle"/>
+            style="?android:attr/borderlessButtonStyle"
+            android:enabled="false"/>
 
     </RelativeLayout>
 

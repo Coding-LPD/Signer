@@ -1,20 +1,13 @@
 package com.scnu.zhou.signer.ui.activity.chat;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
-import android.text.Spannable;
-import android.text.SpannableString;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.text.style.ImageSpan;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -23,11 +16,8 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.scnu.zhou.signer.R;
@@ -37,9 +27,6 @@ import com.scnu.zhou.signer.component.bean.chat.Emotion;
 import com.scnu.zhou.signer.component.bean.http.ResultResponse;
 import com.scnu.zhou.signer.component.cache.TimeCache;
 import com.scnu.zhou.signer.component.cache.UserCache;
-import com.scnu.zhou.signer.component.util.density.DensityUtil;
-import com.scnu.zhou.signer.component.util.emotion.ExpressionUtil;
-import com.scnu.zhou.signer.component.util.emotion.XmlUtil;
 import com.scnu.zhou.signer.presenter.chat.ChatPresenter;
 import com.scnu.zhou.signer.presenter.chat.IChatPresenter;
 import com.scnu.zhou.signer.ui.activity.base.BaseSlideActivity;
@@ -47,13 +34,10 @@ import com.scnu.zhou.signer.ui.widget.scrollview.IMMListenerScrollView;
 import com.scnu.zhou.signer.ui.widget.toast.ToastView;
 import com.scnu.zhou.signer.view.chat.IChatView;
 
-import java.io.InputStream;
-import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
 import butterknife.Bind;
@@ -65,7 +49,7 @@ import butterknife.OnItemClick;
  * Created by zhou on 16/11/7.
  */
 public class ChatActivity extends BaseSlideActivity implements IChatView, AbsListView.OnScrollListener,
-        View.OnKeyListener, OnItemClickListener, TextWatcher{
+        OnItemClickListener, TextWatcher{
 
     @Bind(R.id.tv_title) TextView tv_title;
     @Bind(R.id.ll_return) LinearLayout ll_return;
@@ -76,10 +60,10 @@ public class ChatActivity extends BaseSlideActivity implements IChatView, AbsLis
     @Bind(R.id.et_content) EditText et_content;
     @Bind(R.id.scrollContent) IMMListenerScrollView scrollContent;
 
-    @Bind(R.id.ll_emotion) LinearLayout ll_emotion;
-    @Bind(R.id.btn_emotion) Button btn_emotion;
+    //@Bind(R.id.ll_emotion) LinearLayout ll_emotion;
+    //@Bind(R.id.btn_emotion) Button btn_emotion;
     @Bind(R.id.btn_send) Button btn_send;
-    @Bind(R.id.gv_emotions) GridView gv_emotions;
+    //@Bind(R.id.gv_emotions) GridView gv_emotions;
 
     private List<ChatMessage> mData;
     private ChatMessageAdapter adapter;
@@ -150,8 +134,8 @@ public class ChatActivity extends BaseSlideActivity implements IChatView, AbsLis
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        btn_emotion.setBackgroundResource(R.drawable.icon_emotion);
-                        ll_emotion.setVisibility(View.GONE);
+                        //btn_emotion.setBackgroundResource(R.drawable.icon_emotion);
+                        //ll_emotion.setVisibility(View.GONE);
                         input_state = STATE_KEYBOARD;
                         lv_chat.setSelection(lv_chat.getBottom());
                     }
@@ -167,7 +151,7 @@ public class ChatActivity extends BaseSlideActivity implements IChatView, AbsLis
 
 
         // 初始化表情布局
-        initEmotionView();
+        //initEmotionView();
 
         btn_send.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -197,6 +181,7 @@ public class ChatActivity extends BaseSlideActivity implements IChatView, AbsLis
     public void send(){
 
         if (!TextUtils.isEmpty(et_content.getText().toString().trim())) {
+
             ChatMessage message = new ChatMessage();
             message.setAvatar(UserCache.getInstance().getAvatar(this));
             if (role.equals("0")) {
@@ -347,26 +332,6 @@ public class ChatActivity extends BaseSlideActivity implements IChatView, AbsLis
     }
 
 
-    /**
-     * implementation for Keylistener
-     * @param v
-     * @param keyCode
-     * @param event
-     * @return
-     */
-    @Override
-    public boolean onKey(View v, int keyCode, KeyEvent event) {
-
-        if (keyCode == event.KEYCODE_ENTER) {
-            // 执行发送动作
-            Log.e("action", "send >>>>");
-
-            send();
-        }
-        return false;
-    }
-
-
     @Override
     public void finish() {
 
@@ -381,22 +346,23 @@ public class ChatActivity extends BaseSlideActivity implements IChatView, AbsLis
     }
 
 
+    /*
     @OnClick(R.id.btn_emotion)
     public void switchInput(){
 
         if (input_state == STATE_EMOTION){
             // 切换输入法
-            btn_emotion.setBackgroundResource(R.drawable.icon_emotion);
+            //btn_emotion.setBackgroundResource(R.drawable.icon_emotion);
             showKeyBoard();
-            ll_emotion.setVisibility(View.GONE);
+            //ll_emotion.setVisibility(View.GONE);
 
             input_state = STATE_KEYBOARD;
         }
         else{
             // 切换表情
-            btn_emotion.setBackgroundResource(R.drawable.icon_keyboard);
+            //btn_emotion.setBackgroundResource(R.drawable.icon_keyboard);
             dismissKeyBoard();
-            ll_emotion.setVisibility(View.VISIBLE);
+            //ll_emotion.setVisibility(View.VISIBLE);
 
             input_state = STATE_EMOTION;
         }
@@ -407,7 +373,7 @@ public class ChatActivity extends BaseSlideActivity implements IChatView, AbsLis
                 lv_chat.setSelection(lv_chat.getBottom());
             }
         }, 10);
-    }
+    }*/
 
 
     @OnItemClick(R.id.lv_chat)
@@ -449,6 +415,7 @@ public class ChatActivity extends BaseSlideActivity implements IChatView, AbsLis
     /**
      * 初始化表情区
      */
+    /*
     public void initEmotionView(){
 
         try {
@@ -534,7 +501,7 @@ public class ChatActivity extends BaseSlideActivity implements IChatView, AbsLis
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
+    }*/
 
 
     /**
@@ -549,18 +516,20 @@ public class ChatActivity extends BaseSlideActivity implements IChatView, AbsLis
     public void onTextChanged(CharSequence s, int start, int before, int count) {
 
         if (TextUtils.isEmpty(et_content.getText().toString().trim())){
-            btn_send.setVisibility(View.GONE);
+            btn_send.setEnabled(false);
 
+            /*
             RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) btn_emotion.getLayoutParams();
             layoutParams.setMargins(0, 0, DensityUtil.dip2px(this, 8), 0);
-            btn_emotion.setLayoutParams(layoutParams);
+            btn_emotion.setLayoutParams(layoutParams);*/
         }
         else{
-            btn_send.setVisibility(View.VISIBLE);
+            btn_send.setEnabled(true);
 
+            /*
             RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) btn_emotion.getLayoutParams();
             layoutParams.setMargins(0, 0, DensityUtil.dip2px(this, 64), 0);
-            btn_emotion.setLayoutParams(layoutParams);
+            btn_emotion.setLayoutParams(layoutParams);*/
         }
     }
 

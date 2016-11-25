@@ -139,7 +139,7 @@ public class SettingActivity extends BaseSlideActivity{
 
             UserCache.getInstance().logout(SettingActivity.this);
 
-            if (UserCache.getInstance().getRole(SettingActivity.this).equals("0")){  // 学生
+            if (isStudent()){  // 学生
                 MainActivity.getInstance().finish();
             }
             else{

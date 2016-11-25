@@ -53,4 +53,9 @@
         <attr name="inner_scan_bitmap" format="reference" />
         <attr name="inner_scan_speed" format="integer" />
     </declare-styleable>
+
+    <declare-styleable name="Emoji">
+        <attr name="emojiSize" format="dimension" />
+    </declare-styleable>
+
 </resources>

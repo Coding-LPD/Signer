@@ -53,13 +53,13 @@ public class SplashActivity extends BaseActivity {
         if (!TextUtils.isEmpty(UserCache.getInstance().getPhone(this)) &&
                 !TextUtils.isEmpty(UserCache.getInstance().getPassword(this))){
 
-            if (UserCache.getInstance().getRole(this).equals("0")) {
+            if (isStudent()) {
                 Intent intent = new Intent(SplashActivity.this, MainActivity.class);
                 startActivity(intent);
                 overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
                 finish();
             }
-            else if (UserCache.getInstance().getRole(this).equals("1")) {
+            else {
                 Intent intent = new Intent(SplashActivity.this, MainActivity02.class);
                 startActivity(intent);
                 overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
