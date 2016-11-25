@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+import { Subscription } from 'rxjs/Subscription'
 
 import { Course } from '../../../shared';
 import { CourseService } from '../../course';
@@ -10,7 +11,7 @@ import { StatisticsService } from '../statistics.service';
   templateUrl: './latest.component.html',
   styleUrls: ['./latest.component.css']
 })
-export class LatestComponent implements OnInit {
+export class LatestComponent implements OnInit, OnDestroy {
 
   // 没有数据时的提示语
   tip = '请选择课程';
@@ -66,6 +67,8 @@ export class LatestComponent implements OnInit {
   // 先隐藏后显示，使一些图表能适应父元素大小
   showChart = false;
 
+  sub: Subscription;
+
   constructor(
     private _courseService: CourseService,
     private _statisticsService: StatisticsService
@@ -75,7 +78,7 @@ export class LatestComponent implements OnInit {
     // 先隐藏后显示，使一些图表能适应父元素大小
     setTimeout(() => this.showChart = true, 1);
 
-    this._statisticsService.selectedCourse$
+    this.sub = this._statisticsService.selectedCourse$
       .distinctUntilChanged()
       .flatMap((course: Course) => {
         if (!course) {
@@ -94,6 +97,10 @@ export class LatestComponent implements OnInit {
           this.tip = body.msg;
         }
       });
+  }
+
+  ngOnDestroy() {
+    this.sub.unsubscribe();
   }
 
   extractData(data: any) {

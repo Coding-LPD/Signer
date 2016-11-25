@@ -30,7 +30,7 @@ export class StatisticsComponent implements OnInit {
         } else {
           alert(body.msg);
         }
-      });    
+      });
 
     // 监听路由事件中的结束事件，以便向即将路由进去的子组件发送当前选中的课程
     this._router.events
