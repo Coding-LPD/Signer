@@ -24,6 +24,12 @@ class MineViewController: UIViewController
         
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
+    
+    override func viewWillAppear(_ animated: Bool)
+    {
+        super.viewWillAppear(animated)
+        tableView.reloadSections([0], with: .automatic)
+    }
 
 }
 
@@ -49,7 +55,7 @@ extension MineViewController: UITableViewDataSource, UITableViewDelegate
     {
         if indexPath.section == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "LeftAvatarCell", for: indexPath) as! LeftAvatarCell
-            let student = Student.sharedStudent
+            let student = Student()
             cell.configureCell(withAvatarUrl: student.avatarUrl, userName: student.name, id: "ID: \(student.phone)")
             return cell
         } else {

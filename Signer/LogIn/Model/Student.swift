@@ -37,10 +37,8 @@ struct Student
     var gender: String?
     /** 邮箱*/
     var mail: String?
-    
-    static let sharedStudent = Student()
-    
-    private init()
+
+    init()
     {
         let userDefaults = UserDefaults.standard
         guard let id = userDefaults.object(forKey: "id") as? String, let phone = userDefaults.object(forKey: "phone") as? String, let name = userDefaults.object(forKey: "name") as? String, let avatarUrl = userDefaults.object(forKey: "avatarUrl") as? String else {
@@ -51,6 +49,5 @@ struct Student
         self.phone = phone
         self.name = name
         self.avatarUrl = avatarUrl
-
     }
 }

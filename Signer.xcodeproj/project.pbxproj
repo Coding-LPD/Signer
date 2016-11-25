@@ -23,6 +23,9 @@
 		AD34AFAF1DDC208D0085F21B /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD34AFAD1DDC208D0085F21B /* SettingViewController.swift */; };
 		AD3B5C551D86A42000CEB9DE /* UnderlineTextField.xib in Resources */ = {isa = PBXBuildFile; fileRef = AD3B5C541D86A42000CEB9DE /* UnderlineTextField.xib */; };
 		AD3B5C571D86A5CA00CEB9DE /* CountdownUnderlineTextField.xib in Resources */ = {isa = PBXBuildFile; fileRef = AD3B5C561D86A5CA00CEB9DE /* CountdownUnderlineTextField.xib */; };
+		AD3D20F41DE804AA0017D19B /* MTBBarcodeScanner.m in Sources */ = {isa = PBXBuildFile; fileRef = AD3D20F31DE804A90017D19B /* MTBBarcodeScanner.m */; };
+		AD3D20F61DE81B9C0017D19B /* CourseDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD3D20F51DE81B9C0017D19B /* CourseDetailViewController.swift */; };
+		AD3D20F91DE81DBF0017D19B /* SignRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD3D20F81DE81DBF0017D19B /* SignRouter.swift */; };
 		AD3E73891D87A129005DE560 /* MainTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD3E73881D87A129005DE560 /* MainTabBarViewController.swift */; };
 		AD3E73911D87AF1C005DE560 /* NoticeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD3E73901D87AF1C005DE560 /* NoticeViewController.swift */; };
 		AD45D9C21DD059E40031FF9E /* SignUpRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD45D9C11DD059E40031FF9E /* SignUpRouter.swift */; };
@@ -42,6 +45,11 @@
 		ADABF3AF1DD8498600226D86 /* StudentRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADABF3AE1DD8498600226D86 /* StudentRouter.swift */; };
 		ADBB2D321DE57D8600F1A251 /* CALayer+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADBB2D311DE57D8600F1A251 /* CALayer+extension.swift */; };
 		ADC806241DDC250A0006F0E5 /* MineInfoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = ADC806231DDC250A0006F0E5 /* MineInfoCell.xib */; };
+		ADCCAC391DE6ABB600757525 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = ADCCAC381DE6ABB600757525 /* Reachability.m */; };
+		ADCCAC3B1DE6ABE700757525 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ADCCAC3A1DE6ABE700757525 /* SystemConfiguration.framework */; };
+		ADCCAC3D1DE6C25900757525 /* SignCourseView.xib in Resources */ = {isa = PBXBuildFile; fileRef = ADCCAC3C1DE6C25900757525 /* SignCourseView.xib */; };
+		ADCCAC3F1DE6C29200757525 /* SignCourseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADCCAC3E1DE6C29200757525 /* SignCourseView.swift */; };
+		ADCCAC411DE6C64200757525 /* SignCourseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADCCAC401DE6C64200757525 /* SignCourseCell.swift */; };
 		ADD87F201DE3E5060093A25F /* Reveal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ADD87F1F1DE3E5060093A25F /* Reveal.framework */; };
 		ADEF11DB1D869D99001F9C19 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADEF11DA1D869D99001F9C19 /* AppDelegate.swift */; };
 		ADEF11E21D869D99001F9C19 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ADEF11E01D869D99001F9C19 /* Main.storyboard */; };
@@ -75,6 +83,10 @@
 		AD34AFAD1DDC208D0085F21B /* SettingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		AD3B5C541D86A42000CEB9DE /* UnderlineTextField.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UnderlineTextField.xib; sourceTree = "<group>"; };
 		AD3B5C561D86A5CA00CEB9DE /* CountdownUnderlineTextField.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CountdownUnderlineTextField.xib; sourceTree = "<group>"; };
+		AD3D20F21DE804A90017D19B /* MTBBarcodeScanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTBBarcodeScanner.h; sourceTree = "<group>"; };
+		AD3D20F31DE804A90017D19B /* MTBBarcodeScanner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTBBarcodeScanner.m; sourceTree = "<group>"; };
+		AD3D20F51DE81B9C0017D19B /* CourseDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseDetailViewController.swift; sourceTree = "<group>"; };
+		AD3D20F81DE81DBF0017D19B /* SignRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignRouter.swift; sourceTree = "<group>"; };
 		AD3E73881D87A129005DE560 /* MainTabBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTabBarViewController.swift; sourceTree = "<group>"; };
 		AD3E73901D87AF1C005DE560 /* NoticeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoticeViewController.swift; sourceTree = "<group>"; };
 		AD45D9C11DD059E40031FF9E /* SignUpRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpRouter.swift; sourceTree = "<group>"; };
@@ -99,6 +111,12 @@
 		ADABF3AE1DD8498600226D86 /* StudentRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudentRouter.swift; sourceTree = "<group>"; };
 		ADBB2D311DE57D8600F1A251 /* CALayer+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CALayer+extension.swift"; sourceTree = "<group>"; };
 		ADC806231DDC250A0006F0E5 /* MineInfoCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MineInfoCell.xib; sourceTree = "<group>"; };
+		ADCCAC371DE6ABB600757525 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
+		ADCCAC381DE6ABB600757525 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
+		ADCCAC3A1DE6ABE700757525 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		ADCCAC3C1DE6C25900757525 /* SignCourseView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SignCourseView.xib; sourceTree = "<group>"; };
+		ADCCAC3E1DE6C29200757525 /* SignCourseView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignCourseView.swift; sourceTree = "<group>"; };
+		ADCCAC401DE6C64200757525 /* SignCourseCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignCourseCell.swift; sourceTree = "<group>"; };
 		ADD87F1F1DE3E5060093A25F /* Reveal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Reveal.framework; sourceTree = "<group>"; };
 		ADEF11D71D869D99001F9C19 /* 华师小签.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "华师小签.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADEF11DA1D869D99001F9C19 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -122,6 +140,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ADCCAC3B1DE6ABE700757525 /* SystemConfiguration.framework in Frameworks */,
 				4289AA9668495BCDD69083EB /* Pods_Signer.framework in Frameworks */,
 				ADD87F201DE3E5060093A25F /* Reveal.framework in Frameworks */,
 			);
@@ -141,6 +160,7 @@
 		0747349E1D86C3920005D58C /* Sign */ = {
 			isa = PBXGroup;
 			children = (
+				AD3D20F71DE81D880017D19B /* Model */,
 				074734A51D86C3FF0005D58C /* View */,
 			);
 			path = Sign;
@@ -159,6 +179,9 @@
 		074734A01D86C3B00005D58C /* View */ = {
 			isa = PBXGroup;
 			children = (
+				ADCCAC3C1DE6C25900757525 /* SignCourseView.xib */,
+				ADCCAC3E1DE6C29200757525 /* SignCourseView.swift */,
+				ADCCAC401DE6C64200757525 /* SignCourseCell.swift */,
 				074734A31D86C3EC0005D58C /* HomePageViewController.swift */,
 			);
 			path = View;
@@ -168,6 +191,7 @@
 			isa = PBXGroup;
 			children = (
 				074734A91D86C5080005D58C /* SignViewController.swift */,
+				AD3D20F51DE81B9C0017D19B /* CourseDetailViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -184,6 +208,7 @@
 		63BB714A2E03054C3FE51A59 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				ADCCAC3A1DE6ABE700757525 /* SystemConfiguration.framework */,
 				ADD87F1F1DE3E5060093A25F /* Reveal.framework */,
 				FEB9F7DA29CDEF2318471B66 /* Pods_Signer.framework */,
 			);
@@ -246,6 +271,23 @@
 				AD34AFAD1DDC208D0085F21B /* SettingViewController.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		AD3D20F11DE804890017D19B /* QRCodeScanners */ = {
+			isa = PBXGroup;
+			children = (
+				AD3D20F21DE804A90017D19B /* MTBBarcodeScanner.h */,
+				AD3D20F31DE804A90017D19B /* MTBBarcodeScanner.m */,
+			);
+			path = QRCodeScanners;
+			sourceTree = "<group>";
+		};
+		AD3D20F71DE81D880017D19B /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				AD3D20F81DE81DBF0017D19B /* SignRouter.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		AD3E738C1D87AEA7005DE560 /* Notice */ = {
@@ -319,6 +361,15 @@
 				AD771B781DD171410082BCB3 /* LoadingButton.swift */,
 			);
 			path = LoadingButton;
+			sourceTree = "<group>";
+		};
+		ADCCAC361DE6AB9B00757525 /* Reachability */ = {
+			isa = PBXGroup;
+			children = (
+				ADCCAC371DE6ABB600757525 /* Reachability.h */,
+				ADCCAC381DE6ABB600757525 /* Reachability.m */,
+			);
+			path = Reachability;
 			sourceTree = "<group>";
 		};
 		ADEF11CE1D869D99001F9C19 = {
@@ -407,6 +458,8 @@
 		ADEF11F31D869E4A001F9C19 /* Util */ = {
 			isa = PBXGroup;
 			children = (
+				AD3D20F11DE804890017D19B /* QRCodeScanners */,
+				ADCCAC361DE6AB9B00757525 /* Reachability */,
 				ADEF11FD1D869ECB001F9C19 /* CustomView */,
 				ADEF11FC1D869EC3001F9C19 /* Extension */,
 				AD63C2BB1DD1CEE100BA1276 /* RSA */,
@@ -533,6 +586,7 @@
 				ADEF11E41D869D99001F9C19 /* Assets.xcassets in Resources */,
 				AD3B5C551D86A42000CEB9DE /* UnderlineTextField.xib in Resources */,
 				AD771B771DD1712A0082BCB3 /* LoadingButton.xib in Resources */,
+				ADCCAC3D1DE6C25900757525 /* SignCourseView.xib in Resources */,
 				ADEF11E21D869D99001F9C19 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -593,6 +647,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AD5899841DE4276400A2F8AE /* ActionSheetStringPicker.m in Sources */,
+				ADCCAC411DE6C64200757525 /* SignCourseCell.swift in Sources */,
 				AD34AFAF1DDC208D0085F21B /* SettingViewController.swift in Sources */,
 				AD5899871DE427B700A2F8AE /* SWActionSheet.m in Sources */,
 				AD771B791DD171410082BCB3 /* LoadingButton.swift in Sources */,
@@ -602,6 +657,7 @@
 				AD08D8331D86A0DC007C7ECD /* UIButton+countDown.m in Sources */,
 				AD582A801DD40F2900DA3C91 /* Student.swift in Sources */,
 				AD34AFA31DDC207F0085F21B /* LeftAvatarCell.swift in Sources */,
+				ADCCAC391DE6ABB600757525 /* Reachability.m in Sources */,
 				AD58998B1DE433F500A2F8AE /* UIView+extension.swift in Sources */,
 				ADEF12061D869F51001F9C19 /* CountdownUnderlineTextField.swift in Sources */,
 				AD58998D1DE43D5600A2F8AE /* PreviewAvatarViewController.swift in Sources */,
@@ -613,6 +669,7 @@
 				AD5899831DE4276400A2F8AE /* AbstractActionSheetPicker.m in Sources */,
 				AD34AFA51DDC207F0085F21B /* MineViewController.swift in Sources */,
 				ADEF11F91D869EB6001F9C19 /* SignUpStep1ViewController.swift in Sources */,
+				AD3D20F41DE804AA0017D19B /* MTBBarcodeScanner.m in Sources */,
 				AD34AFA41DDC207F0085F21B /* MineLeftImageCell.swift in Sources */,
 				074734AA1D86C5080005D58C /* SignViewController.swift in Sources */,
 				ADABF3AF1DD8498600226D86 /* StudentRouter.swift in Sources */,
@@ -623,8 +680,11 @@
 				ADEF12091D869F6B001F9C19 /* Color.swift in Sources */,
 				ADEF11FB1D869EB6001F9C19 /* SignUpStep3ViewController.swift in Sources */,
 				ADBB2D321DE57D8600F1A251 /* CALayer+extension.swift in Sources */,
+				AD3D20F61DE81B9C0017D19B /* CourseDetailViewController.swift in Sources */,
 				AD3E73911D87AF1C005DE560 /* NoticeViewController.swift in Sources */,
 				074734A41D86C3EC0005D58C /* HomePageViewController.swift in Sources */,
+				AD3D20F91DE81DBF0017D19B /* SignRouter.swift in Sources */,
+				ADCCAC3F1DE6C29200757525 /* SignCourseView.swift in Sources */,
 				AD08D8341D86A0DC007C7ECD /* UIColor+extension.swift in Sources */,
 				ADEF11DB1D869D99001F9C19 /* AppDelegate.swift in Sources */,
 				AD08D8321D86A0DC007C7ECD /* String+extension.swift in Sources */,

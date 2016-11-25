@@ -10,14 +10,15 @@ import Alamofire
 
 enum StudentRouter: URLRequestConvertible
 {
-    static let baseURLString = "http://120.25.65.207:3000/api/students"
-
     case queryStudent(id: String)       // 查询指定id的学生信息
+    case uploadAvatar
     case modifyStudent(id: String, parameters: Parameters)     // 修改指定id的学生信息
     
     var method: HTTPMethod {
         switch self {
         case .queryStudent:
+            return .post
+        case .uploadAvatar:
             return .post
         case .modifyStudent:
             return .put
@@ -28,13 +29,15 @@ enum StudentRouter: URLRequestConvertible
         let result: (path: String, parameters: Parameters) = {
             switch self {
             case let .queryStudent(id):
-                return ("/search", ["_id": id])
+                return ("/students/search", ["_id": id])
+            case .uploadAvatar:
+                return ("/students", [:])
             case let .modifyStudent(id, parameters):
-                return ("/\(id)", parameters)
+                return ("/students/\(id)", parameters)
             }
         }()
         
-        let url = try StudentRouter.baseURLString.asURL()
+        let url = try SignUpRouter.baseURLString.asURL()
         var urlRequest = URLRequest(url: url.appendingPathComponent(result.path))
         urlRequest.httpMethod = method.rawValue
         

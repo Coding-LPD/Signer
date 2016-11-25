@@ -7,3 +7,7 @@
 #include "RSA.h"
 
 #import "ActionSheetStringPicker.h"
+
+#import "Reachability.h"
+
+#import "MTBBarcodeScanner.h"

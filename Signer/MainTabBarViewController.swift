@@ -23,7 +23,7 @@ class MainTabBarViewController: UITabBarController
     func addAllChildViewController()
     {
         // 首页
-        addChildVC("HomePageViewController", title: "首页", image: "tab_homePage")
+        addChildVC("HomePageViewController", title: "签到", image: "tab_homePage")
         // 聊天室
         addChildVC("ChatRoomViewController", title: "聊天室", image: "tab_chatRoom")
         // 签到

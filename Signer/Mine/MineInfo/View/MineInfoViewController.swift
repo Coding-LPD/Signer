@@ -25,7 +25,7 @@ class MineInfoViewController: UITableViewController
     @IBOutlet weak var classCell: MineInfoCell!
     @IBOutlet weak var mailCell: MineInfoCell!
     
-    let student = Student.sharedStudent
+    let student = Student()
     
     private var json: JSON?
     
