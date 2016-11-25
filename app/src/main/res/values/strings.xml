@@ -9,7 +9,7 @@
     <string name="login_password_hint">请输入登录密码</string>
     <string name="login_button_title">登录</string>
     <string name="login_button_regist">手机快速注册</string>
-    <string name="login_button_forget">找回密码</string>
+    <string name="login_button_forget">忘记密码?</string>
 
     <string name="regist_phone_title">+ 86</string>
     <string name="regist_next_step">下一步</string>

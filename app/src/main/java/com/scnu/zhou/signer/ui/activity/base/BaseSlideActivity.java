@@ -9,6 +9,7 @@ import android.view.WindowManager;
 
 import com.scnu.zhou.signer.R;
 import com.scnu.zhou.signer.component.cache.UserCache;
+import com.scnu.zhou.signer.component.util.activity.ActivityManager;
 import com.scnu.zhou.signer.component.util.statusbar.StatusBarUtil;
 import com.scnu.zhou.signer.component.util.statusbar.SystemBarTintManager;
 import com.scnu.zhou.signer.ui.widget.dialog.LoadingDialog;
@@ -40,6 +41,9 @@ public class BaseSlideActivity extends SlideBackActivity {
         StatusBarUtil.setStatusBarDarkMode(true, this);
 
         dialog = new LoadingDialog(this);
+
+        // Activity进栈
+        ActivityManager.getScreenManager().pushActivity(this);
     }
 
     @TargetApi(19)
@@ -83,5 +87,14 @@ public class BaseSlideActivity extends SlideBackActivity {
         else{
             return false;
         }
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        // Activity出栈
+        ActivityManager.getScreenManager().popActivity(this);
     }
 }

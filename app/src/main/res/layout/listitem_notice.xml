@@ -33,7 +33,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="32dp"
                 android:orientation="horizontal"
@@ -56,9 +56,10 @@
                     android:textSize="12sp"
                     android:textColor="#666"
                     android:text="同意签到"
-                    android:layout_marginLeft="10dp"/>
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="16dp"/>
 
-            </LinearLayout>
+            </RelativeLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"

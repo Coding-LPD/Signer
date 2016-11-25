@@ -38,7 +38,6 @@ public class MainActivity extends BaseFragmentActivity{
     private HomePagerAdapter adapter;
 
     private TabBarManager manager;
-    private static MainActivity instance;
 
     private Handler handler;
     private class NoticeRunnable implements Runnable{
@@ -63,7 +62,6 @@ public class MainActivity extends BaseFragmentActivity{
         startService();
 
         ButterKnife.bind(this);
-        instance = this;
 
         manager = new TabBarManager(this);
         manager.setSelect(0);
@@ -72,10 +70,6 @@ public class MainActivity extends BaseFragmentActivity{
         handler = new Handler();
         handler.postDelayed(new NoticeRunnable(), 500);
 
-    }
-
-    public static MainActivity getInstance(){
-        return instance;
     }
 
     private void initViewPager(){

@@ -16,13 +16,14 @@ import com.scnu.zhou.signer.R;
 import com.scnu.zhou.signer.component.bean.http.ResultResponse;
 import com.scnu.zhou.signer.component.bean.user.User;
 import com.scnu.zhou.signer.component.cache.UserCache;
+import com.scnu.zhou.signer.component.util.activity.ActivityManager;
 import com.scnu.zhou.signer.component.util.encrypt.RSAEncryptUtil;
 import com.scnu.zhou.signer.component.util.http.ResponseCode;
 import com.scnu.zhou.signer.presenter.user.IUserPresenter;
 import com.scnu.zhou.signer.presenter.user.UserPresenter;
 import com.scnu.zhou.signer.ui.activity.base.BaseSlideActivity;
 import com.scnu.zhou.signer.ui.activity.login.LoginActivity;
-import com.scnu.zhou.signer.ui.activity.main.MainActivity;
+import com.scnu.zhou.signer.ui.activity.regist.InputPhoneActivity;
 import com.scnu.zhou.signer.ui.widget.edit.TextClearableEditText;
 import com.scnu.zhou.signer.ui.widget.toast.ToastView;
 import com.scnu.zhou.signer.view.user.IUserPasswordView;
@@ -48,6 +49,8 @@ public class UpdatePasswordActivity2 extends BaseSlideActivity implements IUserP
 
     private String phone;
 
+    public static UpdatePasswordActivity2 instance;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +60,8 @@ public class UpdatePasswordActivity2 extends BaseSlideActivity implements IUserP
         ButterKnife.bind(this);
         initView();
         initData();
+
+        instance = this;
     }
 
 
@@ -78,6 +83,11 @@ public class UpdatePasswordActivity2 extends BaseSlideActivity implements IUserP
         phone = UserCache.getInstance().getPhone(this);
     }
 
+
+    public static UpdatePasswordActivity2 getInstance(){
+
+        return instance;
+    }
 
     // 获取公钥成功
     @Override
@@ -133,10 +143,7 @@ public class UpdatePasswordActivity2 extends BaseSlideActivity implements IUserP
             // 清除缓存
             UserCache.getInstance().logout(UpdatePasswordActivity2.this);
 
-            MainActivity.getInstance().finish();
-
-            setResult(0);
-            finish();
+            ActivityManager.getScreenManager().popAllActivityExceptOne(LoginActivity.class);
         }
         else{
             String data = response.getMsg();
@@ -185,6 +192,17 @@ public class UpdatePasswordActivity2 extends BaseSlideActivity implements IUserP
             showLoadingDialog("修改中");
             presenter.getPublicKey();
         }
+    }
+
+
+    // 忘记密码
+    @OnClick(R.id.tv_forget)
+    public void forget(){
+
+        Intent intent = new Intent(this, InputPhoneActivity.class);
+        intent.putExtra("state", "update");
+        startActivity(intent);
+        overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
     }
 
 

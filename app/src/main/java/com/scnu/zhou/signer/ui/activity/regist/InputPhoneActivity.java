@@ -32,8 +32,6 @@ public class InputPhoneActivity extends BaseSlideActivity{
 
     @Bind(R.id.et_phone) TextClearableEditText et_phone;
 
-    private static InputPhoneActivity instance;
-
     private String state;
 
     @Override
@@ -43,7 +41,6 @@ public class InputPhoneActivity extends BaseSlideActivity{
         setContentView(R.layout.activity_input_phone);
 
         ButterKnife.bind(this);
-        instance = this;
         initView();
         initData();
     }
@@ -104,10 +101,5 @@ public class InputPhoneActivity extends BaseSlideActivity{
             toastView.setGravity(Gravity.CENTER, 0, 0);
             toastView.show();
         }
-    }
-
-    // 返回Activity实例对象
-    public static InputPhoneActivity getInstance(){
-        return instance;
     }
 }

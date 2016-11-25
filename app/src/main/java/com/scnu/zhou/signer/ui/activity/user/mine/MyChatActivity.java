@@ -64,7 +64,7 @@ public class MyChatActivity extends BaseSlideActivity implements IMyChatView {
     public void initView() {
 
         ll_return.setVisibility(View.VISIBLE);
-        tv_title.setText("我的签到");
+        tv_title.setText("我的发言");
 
         tv_date.setText(nc_calendar.getCurrentMonth() + 1 + "月" + nc_calendar.getCurrentDay() + "日");
         presenter.getChatDaysDetail(studentId, nc_calendar.getCurrentYear() + "-" +

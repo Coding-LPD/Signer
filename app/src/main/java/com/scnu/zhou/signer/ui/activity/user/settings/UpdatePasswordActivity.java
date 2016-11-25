@@ -1,5 +1,6 @@
 package com.scnu.zhou.signer.ui.activity.user.settings;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -14,13 +15,15 @@ import android.widget.TextView;
 import com.scnu.zhou.signer.R;
 import com.scnu.zhou.signer.component.bean.http.ResultResponse;
 import com.scnu.zhou.signer.component.bean.user.User;
+import com.scnu.zhou.signer.component.cache.UserCache;
+import com.scnu.zhou.signer.component.util.activity.ActivityManager;
+import com.scnu.zhou.signer.component.util.activity.ActivityUtil;
 import com.scnu.zhou.signer.component.util.encrypt.RSAEncryptUtil;
 import com.scnu.zhou.signer.component.util.http.ResponseCode;
 import com.scnu.zhou.signer.presenter.user.IUserPresenter;
 import com.scnu.zhou.signer.presenter.user.UserPresenter;
 import com.scnu.zhou.signer.ui.activity.base.BaseSlideActivity;
-import com.scnu.zhou.signer.ui.activity.regist.InputCodeActivity;
-import com.scnu.zhou.signer.ui.activity.regist.InputPhoneActivity;
+import com.scnu.zhou.signer.ui.activity.login.LoginActivity;
 import com.scnu.zhou.signer.ui.widget.edit.TextClearableEditText;
 import com.scnu.zhou.signer.ui.widget.toast.ToastView;
 import com.scnu.zhou.signer.view.user.IUserPasswordView;
@@ -121,10 +124,16 @@ public class UpdatePasswordActivity extends BaseSlideActivity implements IUserPa
             toastView.setGravity(Gravity.CENTER, 0, 0);
             toastView.show();
 
-            InputPhoneActivity.getInstance().finish();
-            InputCodeActivity.getInstance().finish();
+            if (!ActivityUtil.isExsitActivity(this, LoginActivity.class)) {
+                Intent intent = new Intent(this, LoginActivity.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+            }
 
-            finish();
+            // 清除缓存
+            UserCache.getInstance().logout(UpdatePasswordActivity.this);
+
+            ActivityManager.getScreenManager().popAllActivityExceptOne(LoginActivity.class);
         }
         else{
             String data = response.getMsg();

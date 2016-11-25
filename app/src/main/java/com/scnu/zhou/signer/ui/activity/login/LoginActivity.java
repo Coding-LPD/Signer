@@ -52,8 +52,6 @@ public class LoginActivity extends BaseActivity implements ILoginView, TextWatch
     @Bind(R.id.et_password) TextClearableEditText et_password;
     @Bind(R.id.btn_login) Button btn_login;
 
-    private static LoginActivity instance;
-
     private String publicKey;    // 加密公钥
 
     private boolean isCache = false;   // 记录之前是否有登录过
@@ -68,7 +66,6 @@ public class LoginActivity extends BaseActivity implements ILoginView, TextWatch
         setContentView(R.layout.activity_login);
 
         ButterKnife.bind(this);
-        instance = this;
         initView();
         initData();
     }
@@ -142,11 +139,6 @@ public class LoginActivity extends BaseActivity implements ILoginView, TextWatch
         ll_profile.setVisibility(View.GONE);
         et_user.setVisibility(View.VISIBLE);
         tv_right.setVisibility(View.GONE);
-    }
-
-
-    public static LoginActivity getInstance(){
-        return instance;
     }
 
 

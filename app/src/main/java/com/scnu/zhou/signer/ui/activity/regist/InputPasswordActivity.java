@@ -16,12 +16,12 @@ import com.scnu.zhou.signer.R;
 import com.scnu.zhou.signer.component.bean.http.ResultResponse;
 import com.scnu.zhou.signer.component.bean.login.LoginResult;
 import com.scnu.zhou.signer.component.cache.UserCache;
+import com.scnu.zhou.signer.component.util.activity.ActivityManager;
 import com.scnu.zhou.signer.component.util.encrypt.RSAEncryptUtil;
 import com.scnu.zhou.signer.component.util.http.ResponseCode;
 import com.scnu.zhou.signer.presenter.regist.IRegistPresenter;
 import com.scnu.zhou.signer.presenter.regist.RegistPresenter;
 import com.scnu.zhou.signer.ui.activity.base.BaseSlideActivity;
-import com.scnu.zhou.signer.ui.activity.login.LoginActivity;
 import com.scnu.zhou.signer.ui.activity.main.MainActivity;
 import com.scnu.zhou.signer.ui.widget.edit.TextClearableEditText;
 import com.scnu.zhou.signer.ui.widget.toast.ToastView;
@@ -128,11 +128,6 @@ public class InputPasswordActivity extends BaseSlideActivity implements IRegistV
             toastView.setGravity(Gravity.CENTER, 0, 0);
             toastView.show();
 
-            // 注册成功
-            LoginActivity.getInstance().finish();
-            InputPhoneActivity.getInstance().finish();
-            InputCodeActivity.getInstance().finish();
-
             // 保存注册信息
             UserCache.getInstance().login(this, getPhone(), et_password.getText().toString(), "0");
             UserCache.getInstance().setId(this, response.getData().getPerson().get_id());
@@ -140,7 +135,8 @@ public class InputPasswordActivity extends BaseSlideActivity implements IRegistV
             Intent intent = new Intent(InputPasswordActivity.this, MainActivity.class);
             startActivity(intent);
             overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
-            finish();
+
+            ActivityManager.getScreenManager().popAllActivityExceptOne(MainActivity.class);
         }
         else{
             dismissLoadingDialog();

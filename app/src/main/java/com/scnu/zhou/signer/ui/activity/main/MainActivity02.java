@@ -32,15 +32,12 @@ public class MainActivity02 extends BaseFragmentActivity {
 
     private TabBarManager02 manager;
 
-    private static MainActivity02 instance;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main02);
 
-        instance = this;
         startService();
 
         ButterKnife.bind(this);
@@ -62,10 +59,6 @@ public class MainActivity02 extends BaseFragmentActivity {
         adapter = new HomePagerAdapter(getSupportFragmentManager(), fragments);
         vp_main.setAdapter(adapter);
         //vp_main.setOnPageChangeListener(this);
-    }
-
-    public static MainActivity02 getInstance(){
-        return instance;
     }
 
     /**

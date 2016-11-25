@@ -104,7 +104,8 @@ public class ChatActivity extends BaseSlideActivity implements IChatView, AbsLis
     @Override
     public void initView(){
 
-        tv_title.setText(getIntent().getStringExtra("courseName"));
+        tv_title.setText(getIntent().getStringExtra("courseName") +
+                " (" + getIntent().getIntExtra("peopleNum", 0) + "人)");
         ll_return.setVisibility(View.VISIBLE);
 
         lv_chat.setOnScrollListener(this);

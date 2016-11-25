@@ -43,8 +43,6 @@ public class InputCodeActivity extends BaseSlideActivity implements ISmsView{
     private String phone;
     private String smsCode;
 
-    private static InputCodeActivity instance;
-
     private ISmsPresenter smsPresenter;
 
     private String state;
@@ -56,7 +54,6 @@ public class InputCodeActivity extends BaseSlideActivity implements ISmsView{
         setContentView(R.layout.activity_input_code);
 
         ButterKnife.bind(this);
-        instance = this;
 
         initView();
         initData();
@@ -206,9 +203,5 @@ public class InputCodeActivity extends BaseSlideActivity implements ISmsView{
         }
 
         smsCode = et_smscode.getText().toString();
-    }
-
-    public static InputCodeActivity getInstance(){
-        return instance;
     }
 }

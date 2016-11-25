@@ -9,10 +9,9 @@ import android.widget.TextView;
 import com.scnu.zhou.signer.R;
 import com.scnu.zhou.signer.component.cache.ClearCache;
 import com.scnu.zhou.signer.component.cache.UserCache;
+import com.scnu.zhou.signer.component.util.activity.ActivityManager;
 import com.scnu.zhou.signer.ui.activity.base.BaseSlideActivity;
 import com.scnu.zhou.signer.ui.activity.login.LoginActivity;
-import com.scnu.zhou.signer.ui.activity.main.MainActivity;
-import com.scnu.zhou.signer.ui.activity.main.MainActivity02;
 import com.scnu.zhou.signer.ui.widget.picker.MenuPicker;
 
 import java.util.ArrayList;
@@ -59,7 +58,7 @@ public class SettingActivity extends BaseSlideActivity{
     public void updatePassword(){
 
         Intent intent = new Intent(this, UpdatePasswordActivity2.class);
-        startActivityForResult(intent, 0);
+        startActivity(intent);
         overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
     }
 
@@ -139,23 +138,7 @@ public class SettingActivity extends BaseSlideActivity{
 
             UserCache.getInstance().logout(SettingActivity.this);
 
-            if (isStudent()){  // 学生
-                MainActivity.getInstance().finish();
-            }
-            else{
-                MainActivity02.getInstance().finish();
-            }
-
-            finish();
-        }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == 0 && resultCode == 0){
-            finish();
+            ActivityManager.getScreenManager().popAllActivityExceptOne(LoginActivity.class);
         }
     }
 }

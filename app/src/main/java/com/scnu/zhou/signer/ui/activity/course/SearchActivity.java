@@ -9,8 +9,8 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -26,6 +26,7 @@ import com.scnu.zhou.signer.component.bean.http.ResultResponse;
 import com.scnu.zhou.signer.component.bean.main.MainCourse;
 import com.scnu.zhou.signer.component.cache.ACache;
 import com.scnu.zhou.signer.component.cache.UserCache;
+import com.scnu.zhou.signer.component.util.density.DensityUtil;
 import com.scnu.zhou.signer.presenter.home.HomePresenter;
 import com.scnu.zhou.signer.presenter.home.IHomePresenter;
 import com.scnu.zhou.signer.ui.activity.base.BaseSlideActivity;
@@ -196,8 +197,8 @@ public class SearchActivity extends BaseSlideActivity implements IHomeView, View
 
         if (historys.size() != 0 && lv_search_history.getFooterViewsCount() == 0) {
             footerView = new TextView(this);
-            ViewGroup.LayoutParams parms = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                    150);
+            AbsListView.LayoutParams parms = new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT,
+                    DensityUtil.dip2px(this, 50));
             footerView.setLayoutParams(parms);
             footerView.setText("清空历史记录");
             footerView.setTextColor(Color.parseColor("#999999"));
