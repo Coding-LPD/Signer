@@ -27,10 +27,10 @@ function getMsgList(courseId, page, limit) {
     });
 }
 
-function saveMsg(courseId, studentId, content) {
+function saveMsg(courseId, studentId, content, teacherId) {
   courseId = courseId;
   studentId = studentId || '';
-  var teacherId = '';
+  teacherId = teacherId || '';
   content = content;
   
   return Promise.resolve()

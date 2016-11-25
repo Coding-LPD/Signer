@@ -4,6 +4,7 @@ var router = express.Router();
 
 var handleErrors = require('../services/error-handler').handleErrors;
 var sendInfo = require('../services/error-handler').sendInfo; 
+var wrapData = require('../services/error-handler').wrapData;
 var errorCodes = require('../services/error-codes').errorCodes;
 var common = require('../services/common');
 var signSocket = require('../sockets/sign');
@@ -114,7 +115,7 @@ router.post('/', function (req, res) {
       // 响应http
       sendInfo(errorCodes.Success, res, savedData);
       // 推送数据给浏览器
-      signSocket.send(signSocket.events.sign, savedData);
+      signSocket.send(signSocket.events.sign, wrapData(errorCodes.Success, savedData));
     
       // 查询课程对应的老师，将教师头像作为聊天室头像
       return Teacher.findById(sign.get('teacherId'));

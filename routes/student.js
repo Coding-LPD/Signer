@@ -193,7 +193,7 @@ router.get('/:phone/relatedCourses', function (req, res) {
         sendInfo(err.code, res, []);
       } else {
         handleErrors(err, res, []);
-      }      
+      }
     });
 });
 

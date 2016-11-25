@@ -64,9 +64,9 @@ function onStudentOut(client) {
 
 // 监听room-list事件，返回聊天室列表，并把该客户端加入对应聊天室
 function onRoomList(client) {
-  return function (studentId) {
-    console.log('room-list studentid: ' + studentId);
-    ChatRoom.getRoomList(studentId)
+  return function (studentId, teacherId) {
+    console.log('room-list');
+    ChatRoom.getRoomList(studentId, teacherId)
       .then(function (result) {
         // 将聊天室列表发送给客户端
         client.emit(events.roomList, result);
@@ -91,9 +91,9 @@ function onMsgList(client) {
 
 // 监听new-msg事件，返回保存好的聊天信息，通知同一个聊天室的人有新消息
 function onNewMsg(client) {  
-    return function (courseId, studentId, content) {
+    return function (courseId, studentId, content, teacherId) {
       console.log('new-msg');
-      ChatMsg.saveMsg(courseId, studentId, content)
+      ChatMsg.saveMsg(courseId, studentId, content, teacherId)
         .then(function (results) {
           client.to(courseId).emit(events.newMsg, results);
         });
