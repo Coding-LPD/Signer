@@ -23,6 +23,7 @@ import com.scnu.zhou.signer.component.bean.chat.ChatRoom;
 import com.scnu.zhou.signer.component.bean.http.ResultResponse;
 import com.scnu.zhou.signer.component.cache.ACache;
 import com.scnu.zhou.signer.component.cache.UserCache;
+import com.scnu.zhou.signer.component.util.time.RoomComparator;
 import com.scnu.zhou.signer.presenter.chat.IRoomPresenter;
 import com.scnu.zhou.signer.presenter.chat.RoomPresenter;
 import com.scnu.zhou.signer.ui.activity.chat.ChatActivity;
@@ -31,6 +32,7 @@ import com.scnu.zhou.signer.ui.widget.toast.ToastView;
 import com.scnu.zhou.signer.view.chat.IRoomView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.Bind;
@@ -156,6 +158,7 @@ public class ChatFragment extends Fragment implements IRoomView, PullToRefreshLi
                     //dismissLoadingDialog();
 
                     mData = response.getData();
+                    Collections.sort(mData, new RoomComparator());
                     adapter = new ChatRoomAdapter(context, mData);
                     plv_chat.setAdapter(adapter);
                 }
