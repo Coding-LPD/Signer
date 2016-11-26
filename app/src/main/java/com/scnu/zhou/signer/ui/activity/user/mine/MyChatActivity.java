@@ -11,18 +11,14 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.scnu.zhou.signer.R;
-import com.scnu.zhou.signer.component.bean.http.ResultResponse;
-import com.scnu.zhou.signer.component.bean.mine.MyChat;
 import com.scnu.zhou.signer.component.cache.UserCache;
 import com.scnu.zhou.signer.presenter.mine.IMySignerPresenter;
 import com.scnu.zhou.signer.presenter.mine.MySignerPresenter;
 import com.scnu.zhou.signer.ui.activity.base.BaseSlideActivity;
 import com.scnu.zhou.signer.ui.widget.calendar.NoteCalendar;
 import com.scnu.zhou.signer.ui.widget.toast.ToastView;
-import com.scnu.zhou.signer.view.mine.IMyChatView;
+import com.scnu.zhou.signer.view.mine.IMySignerView;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -33,7 +29,7 @@ import butterknife.OnClick;
 /**
  * Created by zhou on 16/11/23.
  */
-public class MyChatActivity extends BaseSlideActivity implements IMyChatView {
+public class MyChatActivity extends BaseSlideActivity implements IMySignerView {
 
     @Bind(R.id.ll_return) LinearLayout ll_return;
     @Bind(R.id.tv_title) TextView tv_title;
@@ -97,31 +93,27 @@ public class MyChatActivity extends BaseSlideActivity implements IMyChatView {
         Log.e("date", nc_calendar.getCurrentYear() + "-" + (nc_calendar.getCurrentMonth() + 1));
     }
 
+    // 获得聊天日历note
     @Override
-    public void onGetChatDaysSuccess(ResultResponse<List<String>> response) {
+    public void onGetDays(Map<String, Boolean> note) {
 
         dismissLoadingDialog();
-        if (response.getCode().equals("200")){
-
-            List<String> days = response.getData();
-            Map<String, Boolean> note = new HashMap<>();
-            for (String d:days){
-                note.put(d, true);
-            }
-            nc_calendar.setNote01(note);
-        }
-        else{
-            String data = response.getMsg();
-            ToastView toastView = new ToastView(MyChatActivity.this, data);
-            toastView.setGravity(Gravity.CENTER, 0, 0);
-            toastView.show();
-        }
+        nc_calendar.setNote01(note);
     }
 
     @Override
-    public void onGetChatDaysError(Throwable e) {
+    public void onShowError(String msg) {
 
-        Log.e("get sign days error", e.toString());
+        dismissLoadingDialog();
+        ToastView toastView = new ToastView(MyChatActivity.this, msg);
+        toastView.setGravity(Gravity.CENTER, 0, 0);
+        toastView.show();
+    }
+
+    @Override
+    public void onShowError(Throwable e) {
+
+        Log.e("get sign error", e.toString());
 
         dismissLoadingDialog();
         ToastView toastView = new ToastView(MyChatActivity.this, "请检查您的网络连接");
@@ -129,48 +121,43 @@ public class MyChatActivity extends BaseSlideActivity implements IMyChatView {
         toastView.show();
     }
 
+    // 获得某日期的签到详情
     @Override
-    public void onGetChatDaysDetailSuccess(ResultResponse<List<MyChat>> response) {
+    public void onGetDaysDetails(List<String> response) {
 
         pb_loading.setVisibility(View.GONE);
 
-        if (response.getCode().equals("200")){
-
-            List<String> data = new ArrayList<>();
-
-            if (response.getData().size() == 0){
-                tv_tip.setVisibility(View.VISIBLE);
-                tv_tip.setText("暂无发言");
-            }
-            else {
-
-                lv_mychat.setVisibility(View.VISIBLE);
-                for (MyChat chat : response.getData()) {
-
-                    data.add(chat.getCourseName() + "  " + chat.getMsgCount() + "条");
-                }
-
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                        R.layout.simple_list_item, data);
-                lv_mychat.setAdapter(adapter);
-            }
+        if (response.size() == 0){
+            tv_tip.setVisibility(View.VISIBLE);
+            tv_tip.setText("暂无发言");
         }
-        else{
-            //String data = response.getMsg();
-            //ToastView toastView = new ToastView(MySignActivity.this, data);
-            //toastView.setGravity(Gravity.CENTER, 0, 0);
-            //toastView.show();
-            tv_tip.setText("获取信息失败");
+        else {
+
+            lv_mychat.setVisibility(View.VISIBLE);
+
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                    R.layout.simple_list_item, response);
+            lv_mychat.setAdapter(adapter);
         }
     }
 
     @Override
-    public void onGetChatDaysDetailError(Throwable e) {
+    public void onShowDetailError(Throwable e) {
 
         Log.e("get sign detail error", e.toString());
 
         pb_loading.setVisibility(View.GONE);
         //ToastView toastView = new ToastView(MySignActivity.this, "请检查您的网络连接");
+        //toastView.setGravity(Gravity.CENTER, 0, 0);
+        //toastView.show();
+        tv_tip.setText("获取信息失败");
+    }
+
+    @Override
+    public void onShowDetailError(String msg) {
+
+        pb_loading.setVisibility(View.GONE);
+        //ToastView toastView = new ToastView(MySignActivity.this, msg);
         //toastView.setGravity(Gravity.CENTER, 0, 0);
         //toastView.show();
         tv_tip.setText("获取信息失败");

@@ -39,24 +39,63 @@ public class SignPresenter implements ISignPresenter, SignCallBack {
     @Override
     public void onGetScanResultSuccess(ResultResponse<ScanResult> response) {
 
-        signView.onGetScanResultSuccess(response);
+        if (response.getCode().equals("200")) {
+
+            ScanResult result = response.getData();
+            if (result != null) {
+
+                //Log.e("data", result.getCourse().getTime());
+                //String time = "星期一 1节-3节,星期四 5节-8节";
+                String time = result.getCourse().getTime();
+                String[] sessions = time.split(",");   // 按逗号分开
+
+                String week = "";
+                String session = "";
+                for (String se : sessions) {
+                    String[] s = se.split("\\s+");    // 按空格分开
+                    if (week.equals("")) week += s[0];
+                    else week += ";" + s[0];
+                    if (session.equals("")) session += s[1];
+                    else session += ";" + s[1];
+                }
+
+                signView.onGetScanResultSuccess(response.getData(), week, session);
+            }
+        }
+        else if (response.getCode().equals("4000")){
+            signView.showUnavailCode();     // 无效签到码
+        }
+        else{
+            signView.onShowError(response.getMsg());
+        }
     }
 
     @Override
     public void onGetScanResultError(Throwable e) {
 
-        signView.onGetScanResultError(e);
+        signView.onShowError(e);
     }
 
     @Override
     public void onPostSignSuccess(ResultResponse<SignRecord> response) {
 
-        signView.onPostSignSuccess(response);
+        if (response.getCode().equals("200")) {
+            signView.onPostSignSuccess(response.getData());
+        }
+        else if (response.getCode().equals("4005")){
+            signView.showNoNumberDialog();
+        }
+        else if (response.getCode().equals("4006")){
+            signView.showNoAdmittedDialog();
+        }
+        else{
+            signView.onShowError(response.getMsg());
+        }
     }
 
     @Override
     public void onPostSignError(Throwable e) {
 
-        signView.onPostSignError(e);
+        signView.onShowError(e);
     }
 }

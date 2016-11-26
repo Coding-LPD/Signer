@@ -1,6 +1,5 @@
 package com.scnu.zhou.signer.view.regist;
 
-import com.scnu.zhou.signer.component.bean.http.ResultResponse;
 import com.scnu.zhou.signer.component.bean.login.LoginResult;
 
 /**
@@ -11,9 +10,10 @@ public interface IRegistView {
     void initView();
     void initData();
 
-    void onGetPublicKeySuccess(ResultResponse<String> response);
-    void onGetPublicKeyError(Throwable e);
+    void onGetPublicKeySuccess(String response);
 
-    void onPostRegistSuccess(ResultResponse<LoginResult> response);
-    void onPostRegistError(Throwable e);
+    void onPostRegistSuccess(LoginResult response);
+
+    void onShowError(String msg);
+    void onShowError(Throwable e);
 }

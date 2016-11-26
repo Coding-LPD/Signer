@@ -10,10 +10,8 @@ import android.widget.TextView;
 
 import com.scnu.zhou.signer.R;
 import com.scnu.zhou.signer.component.adapter.gridview.SignerAdapter;
-import com.scnu.zhou.signer.component.bean.http.ResultResponse;
 import com.scnu.zhou.signer.component.bean.main.CourseDetail;
 import com.scnu.zhou.signer.component.bean.sign.Signer;
-import com.scnu.zhou.signer.component.util.http.ResponseCode;
 import com.scnu.zhou.signer.presenter.home.CoursePresenter;
 import com.scnu.zhou.signer.presenter.home.ICoursePresenter;
 import com.scnu.zhou.signer.ui.activity.base.BaseSlideActivity;
@@ -87,59 +85,45 @@ public class CourseDetailActivity extends BaseSlideActivity implements ICourseVi
     }
 
 
+
     /**
      * 获取信息成功
      * @param response
+     * @param week
+     * @param session
      */
     @Override
-    public void onGetCourseDetailSuccess(ResultResponse<CourseDetail> response) {
+    public void onGetCourseDetailSuccess(CourseDetail response, String week, String session) {
 
         dismissLoadingDialog();
-        if (response.getCode().equals("200")) {
 
-            CourseDetail result = response.getData();
+        tv_title.setText(response.getCourse().getName());
+        tv_name.setText(response.getCourse().getName());
+        tv_location.setText(response.getCourse().getLocation());
+        tv_teacher.setText(response.getCourse().getTeacherName());
 
-            if (result != null) {
+        tv_week.setText(week);
+        tv_session.setText(session);
 
-                tv_title.setText(result.getCourse().getName());
-                tv_name.setText(result.getCourse().getName());
-                tv_location.setText(result.getCourse().getLocation());
-                tv_teacher.setText(result.getCourse().getTeacherName());
+        signers = response.getRecords();
+        adapter = new SignerAdapter(this, signers);
+        gv_signer.setAdapter(adapter);
 
-                //Log.e("teacher", result.getCourse().getTeacherName());
+        tv_check_sign.setText("共有" + response.getSignNum() + "次签到");
+    }
 
-                //Log.e("data", result.getCourse().getTime());
-                //String time = "星期一 1节-3节,星期四 5节-8节";
-                String time = result.getCourse().getTime();
-                String[] sessions = time.split(",");   // 按逗号分开
 
-                String week = "";
-                String session = "";
-                for (String se : sessions) {
-                    String[] s = se.split("\\s+");    // 按空格分开
-                    if (week.equals("")) week += s[0];
-                    else week += ";" + s[0];
-                    if (session.equals("")) session += s[1];
-                    else session += ";" + s[1];
-                }
+    /**
+     * 获取信息失败
+     * @param msg
+     */
+    @Override
+    public void onGetCourseDetailError(String msg) {
 
-                tv_week.setText(week);
-                tv_session.setText(session);
-
-                signers = result.getRecords();
-                adapter = new SignerAdapter(this, signers);
-                gv_signer.setAdapter(adapter);
-
-                tv_check_sign.setText("共有" + result.getSignNum() + "次签到");
-            }
-        }
-        else{
-
-            ToastView toastView = new ToastView(CourseDetailActivity.this,
-                    ResponseCode.getInstance().getMessage(response.getCode()));
-            toastView.setGravity(Gravity.CENTER, 0, 0);
-            toastView.show();
-        }
+        dismissLoadingDialog();
+        ToastView toastView = new ToastView(CourseDetailActivity.this, msg);
+        toastView.setGravity(Gravity.CENTER, 0, 0);
+        toastView.show();
     }
 
 

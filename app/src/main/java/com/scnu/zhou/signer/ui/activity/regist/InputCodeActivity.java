@@ -13,7 +13,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.scnu.zhou.signer.R;
-import com.scnu.zhou.signer.component.bean.http.ResultResponse;
 import com.scnu.zhou.signer.presenter.regist.ISmsPresenter;
 import com.scnu.zhou.signer.presenter.regist.SmsPresenter;
 import com.scnu.zhou.signer.ui.activity.base.BaseSlideActivity;
@@ -60,7 +59,7 @@ public class InputCodeActivity extends BaseSlideActivity implements ISmsView{
         MyHandler.postDelayed(MyRunnable, 1000);
 
         // 发送短信验证码
-        //smsPresenter.sendSmsCode(phone);
+        smsPresenter.sendSmsCode(phone);
     }
 
     private Handler MyHandler = new Handler();
@@ -103,9 +102,17 @@ public class InputCodeActivity extends BaseSlideActivity implements ISmsView{
 
     // 发送短信验证码成功
     @Override
-    public void onSendSmsSuccess(ResultResponse<String> response) {
+    public void onSendSmsSuccess(String response) {
 
-        Log.e("smsId", response.getData());
+        Log.e("smsId", response);
+    }
+
+    @Override
+    public void onSendSmsError(String msg) {
+
+        ToastView toastView = new ToastView(InputCodeActivity.this, msg);
+        toastView.setGravity(Gravity.CENTER, 0, 0);
+        toastView.show();
     }
 
 
@@ -119,29 +126,21 @@ public class InputCodeActivity extends BaseSlideActivity implements ISmsView{
 
     // 验证短信验证码成功
     @Override
-    public void onVerifySmsSuccess(ResultResponse<String> response) {
+    public void onVerifySmsSuccess(String response) {
 
         dismissLoadingDialog();
-        if (response.getCode().equals("200")){
 
-            if (state.equals("regist")) {      // 注册
-                Intent intent = new Intent(InputCodeActivity.this, InputPasswordActivity.class);
-                intent.putExtra("phone", phone);
-                startActivity(intent);
-                overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
-            }
-            else if (state.equals("update")){    // 修改密码
-                Intent intent = new Intent(InputCodeActivity.this, UpdatePasswordActivity.class);
-                intent.putExtra("phone", phone);
-                startActivity(intent);
-                overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
-            }
+        if (state.equals("regist")) {      // 注册
+            Intent intent = new Intent(InputCodeActivity.this, InputPasswordActivity.class);
+            intent.putExtra("phone", phone);
+            startActivity(intent);
+            overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
         }
-        else{
-            String data = response.getMsg();
-            ToastView toastView = new ToastView(InputCodeActivity.this, data);
-            toastView.setGravity(Gravity.CENTER, 0, 0);
-            toastView.show();
+        else if (state.equals("update")){    // 修改密码
+            Intent intent = new Intent(InputCodeActivity.this, UpdatePasswordActivity.class);
+            intent.putExtra("phone", phone);
+            startActivity(intent);
+            overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
         }
     }
 
@@ -152,6 +151,15 @@ public class InputCodeActivity extends BaseSlideActivity implements ISmsView{
 
         dismissLoadingDialog();
         Log.e("verify sms error", e.toString());
+    }
+
+    @Override
+    public void onVerifySmsError(String msg) {
+
+        dismissLoadingDialog();
+        ToastView toastView = new ToastView(InputCodeActivity.this, msg);
+        toastView.setGravity(Gravity.CENTER, 0, 0);
+        toastView.show();
     }
 
 
@@ -174,20 +182,7 @@ public class InputCodeActivity extends BaseSlideActivity implements ISmsView{
     @OnClick(R.id.btn_next)
     public void next(){
         showLoadingDialog("验证中");
-        //smsPresenter.verifySmsCode(phone, smsCode);
-
-        if (state.equals("regist")) {      // 注册
-            Intent intent = new Intent(InputCodeActivity.this, InputPasswordActivity.class);
-            intent.putExtra("phone", phone);
-            startActivity(intent);
-            overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
-        }
-        else if (state.equals("update")){    // 修改密码
-            Intent intent = new Intent(InputCodeActivity.this, UpdatePasswordActivity.class);
-            intent.putExtra("phone", phone);
-            startActivity(intent);
-            overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
-        }
+        smsPresenter.verifySmsCode(phone, smsCode);
     }
 
 

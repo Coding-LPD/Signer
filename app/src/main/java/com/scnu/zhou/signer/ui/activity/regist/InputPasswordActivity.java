@@ -13,12 +13,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.scnu.zhou.signer.R;
-import com.scnu.zhou.signer.component.bean.http.ResultResponse;
 import com.scnu.zhou.signer.component.bean.login.LoginResult;
 import com.scnu.zhou.signer.component.cache.UserCache;
 import com.scnu.zhou.signer.component.util.activity.ActivityManager;
 import com.scnu.zhou.signer.component.util.encrypt.RSAEncryptUtil;
-import com.scnu.zhou.signer.component.util.http.ResponseCode;
 import com.scnu.zhou.signer.presenter.regist.IRegistPresenter;
 import com.scnu.zhou.signer.presenter.regist.RegistPresenter;
 import com.scnu.zhou.signer.ui.activity.base.BaseSlideActivity;
@@ -80,34 +78,44 @@ public class InputPasswordActivity extends BaseSlideActivity implements IRegistV
 
     // 获取公钥成功
     @Override
-    public void onGetPublicKeySuccess(ResultResponse<String> response) {
+    public void onGetPublicKeySuccess(String response) {
 
         //Log.e("data", response.getData());
 
-        if (response.getCode().equals("200")) {
+        publicKey = response;
 
-            publicKey = response.getData();
+        String key = RSAEncryptUtil.encryptData(et_password.getText().toString(), publicKey);
 
-            String key = RSAEncryptUtil.encryptData(et_password.getText().toString(), publicKey);
-
-            registPresenter.regist(phone, key);
-        }
-        else{
-
-            dismissLoadingDialog();
-            ToastView toastView = new ToastView(InputPasswordActivity.this,
-                    ResponseCode.getInstance().getMessage(response.getCode()));
-            toastView.setGravity(Gravity.CENTER, 0, 0);
-            toastView.show();
-        }
+        registPresenter.regist(phone, key);
     }
 
 
+    // 注册成功
+    @Override
+    public void onPostRegistSuccess(LoginResult response) {
+
+        dismissLoadingDialog();
+
+        ToastView toastView = new ToastView(InputPasswordActivity.this, "注册成功");
+        toastView.setGravity(Gravity.CENTER, 0, 0);
+        toastView.show();
+
+        // 保存注册信息
+        UserCache.getInstance().login(this, getPhone(), et_password.getText().toString(), "0");
+        UserCache.getInstance().setId(this, response.getPerson().get_id());
+
+        Intent intent = new Intent(InputPasswordActivity.this, MainActivity.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+
+        ActivityManager.getScreenManager().popAllActivityExceptOne(MainActivity.class);
+    }
+
     // 获取公钥失败
     @Override
-    public void onGetPublicKeyError(Throwable e) {
+    public void onShowError(Throwable e) {
 
-        Log.e("get key error", e.toString());
+        Log.e("error", e.toString());
 
         dismissLoadingDialog();
         ToastView toastView = new ToastView(InputPasswordActivity.this, "请检查您的网络连接");
@@ -115,47 +123,11 @@ public class InputPasswordActivity extends BaseSlideActivity implements IRegistV
         toastView.show();
     }
 
-
-    // 注册成功
     @Override
-    public void onPostRegistSuccess(ResultResponse<LoginResult> response) {
-
-        if (response.getCode().equals("200")){
-
-            dismissLoadingDialog();
-
-            ToastView toastView = new ToastView(InputPasswordActivity.this, "注册成功");
-            toastView.setGravity(Gravity.CENTER, 0, 0);
-            toastView.show();
-
-            // 保存注册信息
-            UserCache.getInstance().login(this, getPhone(), et_password.getText().toString(), "0");
-            UserCache.getInstance().setId(this, response.getData().getPerson().get_id());
-
-            Intent intent = new Intent(InputPasswordActivity.this, MainActivity.class);
-            startActivity(intent);
-            overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
-
-            ActivityManager.getScreenManager().popAllActivityExceptOne(MainActivity.class);
-        }
-        else{
-            dismissLoadingDialog();
-            String msg = response.getMsg();
-            ToastView toastView = new ToastView(InputPasswordActivity.this, msg);
-            toastView.setGravity(Gravity.CENTER, 0, 0);
-            toastView.show();
-        }
-    }
-
-
-    // 注册失败
-    @Override
-    public void onPostRegistError(Throwable e) {
-
-        Log.e("regist error", e.toString());
+    public void onShowError(String msg) {
 
         dismissLoadingDialog();
-        ToastView toastView = new ToastView(InputPasswordActivity.this, "请检查您的网络连接");
+        ToastView toastView = new ToastView(InputPasswordActivity.this, msg);
         toastView.setGravity(Gravity.CENTER, 0, 0);
         toastView.show();
     }

@@ -1,25 +1,19 @@
 package com.scnu.zhou.signer.ui.activity.course;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.scnu.zhou.signer.R;
-import com.scnu.zhou.signer.component.bean.http.ResultResponse;
-import com.scnu.zhou.signer.component.bean.main.SignBean;
 import com.scnu.zhou.signer.component.cache.UserCache;
-import com.scnu.zhou.signer.component.util.http.ResponseCode;
 import com.scnu.zhou.signer.presenter.home.CoursePresenter;
 import com.scnu.zhou.signer.ui.activity.base.BaseSlideActivity;
 import com.scnu.zhou.signer.ui.widget.calendar.NoteCalendar;
 import com.scnu.zhou.signer.ui.widget.toast.ToastView;
 import com.scnu.zhou.signer.view.home.ICheckSignView;
 
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import butterknife.Bind;
@@ -41,9 +35,6 @@ public class CheckSignActivity extends BaseSlideActivity implements ICheckSignVi
 
     private String title;
     private String courseId;
-
-    private Map<String, Boolean> note01;
-    private Map<String, Boolean> note02;
 
     private CoursePresenter presenter;
 
@@ -77,9 +68,6 @@ public class CheckSignActivity extends BaseSlideActivity implements ICheckSignVi
 
         courseId = getIntent().getStringExtra("courseId");
 
-        note01 = new HashMap<>();
-        note02 = new HashMap<>();
-
         presenter = new CoursePresenter(this);
         presenter.getSignDetail(courseId, UserCache.getInstance().getId(this));
     }
@@ -89,38 +77,24 @@ public class CheckSignActivity extends BaseSlideActivity implements ICheckSignVi
      * implement for get data
      */
     @Override
-    public void onGetSignDetailSuccess(ResultResponse<List<SignBean>> response) {
+    public void onGetSignDetailSuccess(Map<String, Boolean> note01, Map<String, Boolean> note02) {
 
         dismissLoadingDialog();
-        if (response.getCode().equals("200")) {
 
-            List<SignBean> result = response.getData();
-            Log.e("result", result.size() + "");
-            for (SignBean bean: result){
+        nc_calendar.setNote01(note01);
+        nc_calendar.setNote02(note02);
 
-                if (bean.isTag()){
-                    Log.e("note01", bean.getTime());
-                    note01.put(bean.getTime(), true);
-                }
-                else{
-                    Log.e("note02", bean.getTime());
-                    note02.put(bean.getTime(), true);
-                }
-            }
+        tv_signed.setText("已签到" + note01.size() + "次");
+        tv_unsigned.setText("未签到" + note02.size() + "次");
+    }
 
-            nc_calendar.setNote01(note01);
-            nc_calendar.setNote02(note02);
+    @Override
+    public void onGetSignDetailError(String msg) {
 
-            tv_signed.setText("已签到" + note01.size() + "次");
-            tv_unsigned.setText("未签到" + note02.size() + "次");
-        }
-        else{
-
-            ToastView toastView = new ToastView(CheckSignActivity.this,
-                    ResponseCode.getInstance().getMessage(response.getCode()));
-            toastView.setGravity(Gravity.CENTER, 0, 0);
-            toastView.show();
-        }
+        dismissLoadingDialog();
+        ToastView toastView = new ToastView(CheckSignActivity.this, msg);
+        toastView.setGravity(Gravity.CENTER, 0, 0);
+        toastView.show();
     }
 
 

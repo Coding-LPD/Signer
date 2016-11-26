@@ -24,8 +24,6 @@ import com.scnu.zhou.signer.R;
 import com.scnu.zhou.signer.component.adapter.listview.ChatMessageAdapter;
 import com.scnu.zhou.signer.component.bean.chat.ChatMessage;
 import com.scnu.zhou.signer.component.bean.chat.Emotion;
-import com.scnu.zhou.signer.component.bean.http.ResultResponse;
-import com.scnu.zhou.signer.component.cache.TimeCache;
 import com.scnu.zhou.signer.component.cache.UserCache;
 import com.scnu.zhou.signer.presenter.chat.ChatPresenter;
 import com.scnu.zhou.signer.presenter.chat.IChatPresenter;
@@ -203,6 +201,7 @@ public class ChatActivity extends BaseSlideActivity implements IChatView, AbsLis
             adapter.notifyDataSetChanged();
             lv_chat.setSelection(lv_chat.getBottom());
 
+            // 发送消息
             presenter.sendMessageAction(courseId, UserCache.getInstance().getId(this), role,
                     et_content.getText().toString().trim());
 
@@ -212,11 +211,25 @@ public class ChatActivity extends BaseSlideActivity implements IChatView, AbsLis
 
 
     /**
+     * 检查是不是没有消息
+     */
+    private void checkIsNoMesage(){
+
+        if (mData.size() == 0){
+            ll_no_message.setVisibility(View.VISIBLE);
+        }
+        else{
+            ll_no_message.setVisibility(View.GONE);
+        }
+    }
+
+
+    /**
      * Implementation for IChatView
      * @param response
      */
     @Override
-    public void onGetMessageListSuccess(final ResultResponse<List<ChatMessage>> response) {
+    public void onGetMessageList(final List<ChatMessage> response) {
 
         Log.e("response", "msg-list");
 
@@ -224,59 +237,44 @@ public class ChatActivity extends BaseSlideActivity implements IChatView, AbsLis
             @Override
             public void run() {
 
-                if (response.getCode().equals("200")){
+                if (response == null || response.size() < 18){  // 每次返回18条信息
+                    Log.e("update", "completed");
+                    isCompleted = true;
+                }
 
-                    //dismissLoadingDialog();
-                    if (response.getData() == null || response.getData().size() < 18){  // 每次返回18条信息
-                        Log.e("update", "completed");
-                        isCompleted = true;
-                    }
+                if (page == 0) {
+                    mData = response;
+                    Collections.reverse(mData);
+                    adapter = new ChatMessageAdapter(ChatActivity.this, mData, role);
+                    lv_chat.setAdapter(adapter);
 
-                    if (page == 0) {
-                        Collections.reverse(response.getData());
-                        mData = response.getData();
-                        adapter = new ChatMessageAdapter(ChatActivity.this, mData, role);
-                        lv_chat.setAdapter(adapter);
-
-                        lv_chat.setSelection(lv_chat.getBottom());
-                    }
-                    else{
-
-                        headerView.setPadding(0, - headerHeight, 0, 0);
-
-                        int size = response.getData().size();
-                        Collections.reverse(mData);
-                        mData.addAll(response.getData());
-                        Collections.reverse(mData);
-                        adapter = new ChatMessageAdapter(ChatActivity.this, mData, role);
-                        lv_chat.setAdapter(adapter);
-
-                        lv_chat.setSelection(size);
-                    }
-
-                    isRefresh = false;
-                    page++;
+                    lv_chat.setSelection(lv_chat.getBottom());
                 }
                 else{
-                    //dismissLoadingDialog();
-                    String msg = response.getMsg();
-                    ToastView toastView = new ToastView(ChatActivity.this, msg);
-                    toastView.setGravity(Gravity.CENTER, 0, 0);
-                    toastView.show();
+
+                    headerView.setPadding(0, - headerHeight, 0, 0);
+
+                    int size = response.size();
+                    Collections.reverse(mData);
+                    mData.addAll(response);
+                    Collections.reverse(mData);
+                    adapter = new ChatMessageAdapter(ChatActivity.this, mData, role);
+                    lv_chat.setAdapter(adapter);
+
+                    lv_chat.setSelection(size);
                 }
 
-                if (mData.size() == 0){
-                    ll_no_message.setVisibility(View.VISIBLE);
-                }
-                else{
-                    ll_no_message.setVisibility(View.GONE);
-                }
+                isRefresh = false;
+                page++;
+
+                checkIsNoMesage();
             }
         });
     }
 
+
     @Override
-    public void onReceiveNewMessage(final ResultResponse<ChatMessage> response) {
+    public void onReceiveNewMessage(final ChatMessage response) {
 
         Log.e("response", "receive new message");
 
@@ -284,27 +282,22 @@ public class ChatActivity extends BaseSlideActivity implements IChatView, AbsLis
             @Override
             public void run() {
 
-                if (response.getCode().equals("200")){
-
-                    //dismissLoadingDialog();
-
-                    //et_content.setText("");
-
-                    ChatMessage message = response.getData();
-                    mData.add(message);
-                    adapter.notifyDataSetChanged();
-                    lv_chat.setSelection(lv_chat.getBottom());
-                    //refresh();
-                }
-                else{
-                    //dismissLoadingDialog();
-                    String msg = response.getMsg();
-                    ToastView toastView = new ToastView(ChatActivity.this, msg);
-                    toastView.setGravity(Gravity.CENTER, 0, 0);
-                    toastView.show();
-                }
+                mData.add(response);
+                adapter.notifyDataSetChanged();
+                lv_chat.setSelection(lv_chat.getBottom());
             }
         });
+    }
+
+
+    @Override
+    public void onErrorMessageShow(String msg) {
+
+        ToastView toastView = new ToastView(ChatActivity.this, msg);
+        toastView.setGravity(Gravity.CENTER, 0, 0);
+        toastView.show();
+
+        checkIsNoMesage();
     }
 
 
@@ -337,11 +330,7 @@ public class ChatActivity extends BaseSlideActivity implements IChatView, AbsLis
     public void finish() {
 
         // 保存最近访问时间戳
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date curDate = new Date(System.currentTimeMillis());//获取当前时间
-        String time = format.format(curDate);
-
-        TimeCache.getInstance().setTime(this, courseId, time);
+        presenter.saveLatestVisitTime(this, courseId);
 
         super.finish();
     }

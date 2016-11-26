@@ -17,14 +17,10 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.scnu.zhou.signer.R;
 import com.scnu.zhou.signer.component.adapter.listview.MainCourseAdapter;
 import com.scnu.zhou.signer.component.adapter.listview.SearchHistoryAdapter;
-import com.scnu.zhou.signer.component.bean.http.ResultResponse;
 import com.scnu.zhou.signer.component.bean.main.MainCourse;
-import com.scnu.zhou.signer.component.cache.ACache;
 import com.scnu.zhou.signer.component.cache.UserCache;
 import com.scnu.zhou.signer.component.util.density.DensityUtil;
 import com.scnu.zhou.signer.presenter.home.HomePresenter;
@@ -87,6 +83,34 @@ public class SearchActivity extends BaseSlideActivity implements IHomeView, View
 
 
     /**
+     * 检查是否数据为空
+     */
+    private void checkIsNoResult(){
+
+        if (results.size() == 0){
+            ll_no_result.setVisibility(View.VISIBLE);
+        }
+        else{
+            ll_no_result.setVisibility(View.GONE);
+        }
+    }
+
+
+    /**
+     * 检查网络连接
+     */
+    private void checkNetworkIsAvail(){
+
+        if (results.size() == 0){
+            ll_no_network.setVisibility(View.VISIBLE);
+        }
+        else{
+            ll_no_network.setVisibility(View.GONE);
+        }
+    }
+
+
+    /**
      * implementation for IHomeView
      */
     @Override
@@ -94,6 +118,8 @@ public class SearchActivity extends BaseSlideActivity implements IHomeView, View
 
         et_search.setOnKeyListener(this);
         plv_search_result.setOnPullToRefreshListener(this);
+
+        addFooterView();
     }
 
     @Override
@@ -107,51 +133,48 @@ public class SearchActivity extends BaseSlideActivity implements IHomeView, View
         resultAdapter = new MainCourseAdapter(this, results);
 
         showHistoryList();
+        hideResultList();
     }
 
     @Override
-    public void onGetRelatedCoursesSuccess(ResultResponse<List<MainCourse>> response) {
+    public void onGetRelatedCoursesSuccess(List<MainCourse> response) {
 
-        if (response.getCode().equals("200")){
+        dismissLoadingDialog();
 
-            dismissLoadingDialog();
+        page++;
 
-            page++;
+        if (state == STATE_REFRESH) {
+            results = response;
+            plv_search_result.onRefreshCompleted();
+        }
+        else {
+            results.addAll(response);
 
-            if (state == STATE_REFRESH) {
-                results = response.getData();
-                plv_search_result.onRefreshCompleted();
+            if (response.size() < limit){
+                plv_search_result.onLoadMoreAllCompleted();
             }
-            else {
-                results.addAll(response.getData());
-
-                if (response.getData().size() < limit){
-                    plv_search_result.onLoadMoreAllCompleted();
-                }
-                else{
-                    plv_search_result.onLoadMoreCompleted();
-                }
+            else{
+                plv_search_result.onLoadMoreCompleted();
             }
-
-            resultAdapter = new MainCourseAdapter(this, results);
-            plv_search_result.setAdapter(resultAdapter);
-        }
-        else{
-            dismissLoadingDialog();
-            String msg = response.getMsg();
-            ToastView toastView = new ToastView(this, msg);
-            toastView.setGravity(Gravity.CENTER, 0, 0);
-            toastView.show();
         }
 
+        resultAdapter = new MainCourseAdapter(this, results);
+        plv_search_result.setAdapter(resultAdapter);
 
-        if (results.size() == 0){
-            ll_no_result.setVisibility(View.VISIBLE);
-        }
-        else{
-            ll_no_result.setVisibility(View.GONE);
-        }
+        checkIsNoResult();
     }
+
+
+
+    @Override
+    public void onGetRelatedCoursesError(String msg) {
+
+        dismissLoadingDialog();
+        ToastView toastView = new ToastView(this, msg);
+        toastView.setGravity(Gravity.CENTER, 0, 0);
+        toastView.show();
+    }
+
 
     @Override
     public void onGetRelatedCoursesError(Throwable e) {
@@ -170,13 +193,7 @@ public class SearchActivity extends BaseSlideActivity implements IHomeView, View
             plv_search_result.onLoadMoreCompleted();
         }
 
-
-        if (results.size() == 0){
-            ll_no_network.setVisibility(View.VISIBLE);
-        }
-        else {
-            ll_no_network.setVisibility(View.GONE);
-        }
+        checkNetworkIsAvail();
     }
 
 
@@ -195,7 +212,7 @@ public class SearchActivity extends BaseSlideActivity implements IHomeView, View
     // 添加历史记录ListView底部View
     public void addFooterView(){
 
-        if (historys.size() != 0 && lv_search_history.getFooterViewsCount() == 0) {
+        //if (historys.size() != 0 && lv_search_history.getFooterViewsCount() == 0) {
             footerView = new TextView(this);
             AbsListView.LayoutParams parms = new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT,
                     DensityUtil.dip2px(this, 50));
@@ -208,7 +225,7 @@ public class SearchActivity extends BaseSlideActivity implements IHomeView, View
                 @Override
                 public void onClick(View v) {
 
-                    ACache.get(SearchActivity.this).put("history", "");
+                    presenter.clearSearchHistoryCache(SearchActivity.this);
                     historys.clear();
                     lv_search_history.removeFooterView(footerView);
                     showHistoryList();
@@ -216,7 +233,8 @@ public class SearchActivity extends BaseSlideActivity implements IHomeView, View
             });
 
             lv_search_history.addFooterView(footerView);
-        }
+            Log.e("add", "success");
+        //}
     }
 
     // 取消搜索
@@ -243,7 +261,7 @@ public class SearchActivity extends BaseSlideActivity implements IHomeView, View
     @Override
     public boolean onKey(View v, int keyCode, KeyEvent event) {
 
-        if (keyCode == event.KEYCODE_ENTER) {
+        if (keyCode == event.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_DOWN) {
             // 执行搜索动作
             Log.e("action", "search >>>>");
             dismissKeyBoard();
@@ -300,16 +318,19 @@ public class SearchActivity extends BaseSlideActivity implements IHomeView, View
     // 显示历史搜索
     public void showHistoryList(){
 
-        lv_search_history.setVisibility(View.VISIBLE);
-
         // 获得最近搜索
-        String array = ACache.get(this).getAsString("history");
-        if (!TextUtils.isEmpty(array) && !array.equals("null")) historys = new Gson().fromJson(array,
-                new TypeToken<List<String>>(){}.getType());
+        if (presenter.getSrearchHistoryCache(this) != null){
+            historys = presenter.getSrearchHistoryCache(this);
+        }
         historyAdapter = new SearchHistoryAdapter(this, historys);
         lv_search_history.setAdapter(historyAdapter);
 
-        addFooterView();
+        if (historys.size() == 0){
+            lv_search_history.setVisibility(View.GONE);
+        }
+        else{
+            lv_search_history.setVisibility(View.VISIBLE);
+        }
     }
 
     // 隐藏历史搜索
@@ -342,28 +363,32 @@ public class SearchActivity extends BaseSlideActivity implements IHomeView, View
     // 在数据库中保存搜索词
     public void insertKey(){
 
-        int pos = 0;
+        int i = 0;
         String key = et_search.getText().toString();
-        for (int i=0; i<historys.size(); i++){
 
-            if (key.equals(historys.get(i))){
-                pos = i;
-                break;
+        if (historys.size() > 0) {
+            for (; i < historys.size(); i++) {
+
+                if (key.equals(historys.get(i))) {
+                    break;
+                }
             }
+
+            if (i < historys.size()) {
+                historys.remove(i);
+            }
+
+            historys.add(historys.size(), historys.get(historys.size() - 1));
+            for (i = historys.size() - 1; i > 0; i--) {
+                historys.set(i, historys.get(i - 1));
+            }
+            historys.set(0, key);
+        }
+        else{
+            historys.add(key);
         }
 
-        if (pos < historys.size()){
-            historys.remove(pos);
-        }
-
-        for (int i=historys.size(); i>0; i--){
-            historys.add(i, historys.get(i-1));
-        }
-        historys.add(0, key);
-
-        String value = new Gson().toJson(historys);
-        Log.e("insert", value);
-        ACache.get(this).put("history", value);
+        presenter.setSearchHistoryCache(this, historys);
     }
 
 

@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -15,13 +14,9 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.scnu.zhou.signer.R;
 import com.scnu.zhou.signer.component.adapter.listview.MainCourseAdapter;
-import com.scnu.zhou.signer.component.bean.http.ResultResponse;
 import com.scnu.zhou.signer.component.bean.main.MainCourse;
-import com.scnu.zhou.signer.component.cache.ACache;
 import com.scnu.zhou.signer.component.cache.UserCache;
 import com.scnu.zhou.signer.presenter.home.HomePresenter;
 import com.scnu.zhou.signer.presenter.home.IHomePresenter;
@@ -96,13 +91,41 @@ public class HomeFragment extends Fragment implements IHomeView, PullToRefreshLi
 
         presenter = new HomePresenter(this);
 
-        String array = ACache.get(context).getAsString("course");
-        //Log.e("get-array", array);
-        if (!TextUtils.isEmpty(array) && !array.equals("null")) mData = new Gson().fromJson(array,
-                new TypeToken<List<MainCourse>>(){}.getType());
+        if (presenter.getCourseCache(context) != null){
+
+            mData = presenter.getCourseCache(context);
+        }
 
         adapter = new MainCourseAdapter(context, mData);
         plv_main.setAdapter(adapter);
+    }
+
+
+    /**
+     * 检查是否数据为空
+     */
+    private void checkIsNoCourse(){
+
+        if (mData.size() == 0){
+            ll_no_course.setVisibility(View.VISIBLE);
+        }
+        else{
+            ll_no_course.setVisibility(View.GONE);
+        }
+    }
+
+
+    /**
+     * 检查网络连接
+     */
+    private void checkNetworkIsAvail(){
+
+        if (mData.size() == 0){
+            ll_no_network.setVisibility(View.VISIBLE);
+        }
+        else{
+            ll_no_network.setVisibility(View.GONE);
+        }
     }
 
 
@@ -111,50 +134,45 @@ public class HomeFragment extends Fragment implements IHomeView, PullToRefreshLi
      * @param response
      */
     @Override
-    public void onGetRelatedCoursesSuccess(ResultResponse<List<MainCourse>> response) {
+    public void onGetRelatedCoursesSuccess(List<MainCourse> response) {
 
-        if (response.getCode().equals("200")){
+        page++;
 
-            //dismissLoadingDialog();
+        if (state == STATE_REFRESH) {
+            mData = response;
+            plv_main.onRefreshCompleted();
+        }
+        else {
+            mData.addAll(response);
 
-            page++;
-
-            if (state == STATE_REFRESH) {
-                mData = response.getData();
-                plv_main.onRefreshCompleted();
+            if (response.size() < limit){
+                plv_main.onLoadMoreAllCompleted();
             }
-            else {
-                mData.addAll(response.getData());
-
-                if (response.getData().size() < limit){
-                    plv_main.onLoadMoreAllCompleted();
-                }
-                else{
-                    plv_main.onLoadMoreCompleted();
-                }
+            else{
+                plv_main.onLoadMoreCompleted();
             }
-
-            adapter = new MainCourseAdapter(context, mData);
-            plv_main.setAdapter(adapter);
-        }
-        else{
-            //dismissLoadingDialog();
-            String msg = response.getMsg();
-            ToastView toastView = new ToastView(context, msg);
-            toastView.setGravity(Gravity.CENTER, 0, 0);
-            toastView.show();
         }
 
-        if (mData.size() == 0){
-            ll_no_course.setVisibility(View.VISIBLE);
-        }
-        else{
-            ll_no_course.setVisibility(View.GONE);
-        }
+        adapter = new MainCourseAdapter(context, mData);
+        plv_main.setAdapter(adapter);
 
-        String value = new Gson().toJson(mData);
-        //Log.e("put-array", value);
-        ACache.get(context).put("course", value);
+
+        checkIsNoCourse();
+
+        // 数据缓存
+        presenter.setCourseCache(context, mData);
+    }
+
+
+    /**
+     * 获取相关课程信息失败
+     * @param msg
+     */
+    @Override
+    public void onGetRelatedCoursesError(String msg) {
+        ToastView toastView = new ToastView(context, msg);
+        toastView.setGravity(Gravity.CENTER, 0, 0);
+        toastView.show();
     }
 
 
@@ -179,12 +197,7 @@ public class HomeFragment extends Fragment implements IHomeView, PullToRefreshLi
             plv_main.onLoadMoreCompleted();
         }
 
-        if (mData.size() == 0){
-            ll_no_network.setVisibility(View.VISIBLE);
-        }
-        else{
-            ll_no_network.setVisibility(View.GONE);
-        }
+        checkNetworkIsAvail();
     }
 
 

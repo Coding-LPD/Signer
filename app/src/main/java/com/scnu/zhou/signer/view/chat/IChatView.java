@@ -1,7 +1,6 @@
 package com.scnu.zhou.signer.view.chat;
 
 import com.scnu.zhou.signer.component.bean.chat.ChatMessage;
-import com.scnu.zhou.signer.component.bean.http.ResultResponse;
 
 import java.util.List;
 
@@ -14,7 +13,9 @@ public interface IChatView {
 
     void initData();
 
-    void onGetMessageListSuccess(ResultResponse<List<ChatMessage>> response);
+    void onGetMessageList(List<ChatMessage> response);
 
-    void onReceiveNewMessage(ResultResponse<ChatMessage> response);
+    void onReceiveNewMessage(ChatMessage response);
+
+    void onErrorMessageShow(String msg);
 }

@@ -34,7 +34,7 @@ public class ClearCache {
     }
 
 
-    public static void clearDataCache(Context context) {
+    public void clearDataCache(Context context) {
 
         // 清除数据缓存
         ACache.get(context).clear();

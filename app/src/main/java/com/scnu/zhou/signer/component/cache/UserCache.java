@@ -104,6 +104,9 @@ public class UserCache {
         editor.putString("name", "");
         editor.putString("password", "");
         editor.commit();
+
+        // 清除数据缓存
+        ClearCache.getInstance().clearDataCache(context);
     }
 
     public String getPhone(Context context){

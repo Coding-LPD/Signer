@@ -13,12 +13,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.scnu.zhou.signer.R;
-import com.scnu.zhou.signer.component.bean.http.ResultResponse;
 import com.scnu.zhou.signer.component.bean.login.LoginResult;
 import com.scnu.zhou.signer.component.bean.user.User;
 import com.scnu.zhou.signer.component.cache.UserCache;
 import com.scnu.zhou.signer.component.util.encrypt.RSAEncryptUtil;
-import com.scnu.zhou.signer.component.util.http.ResponseCode;
 import com.scnu.zhou.signer.component.util.image.ImageLoaderUtil;
 import com.scnu.zhou.signer.presenter.login.ILoginPresenter;
 import com.scnu.zhou.signer.presenter.login.LoginPresenter;
@@ -174,89 +172,66 @@ public class LoginActivity extends BaseActivity implements ILoginView, TextWatch
 
     // 获取公钥成功
     @Override
-    public void onGetPublicKeySuccess(ResultResponse<String> response) {
+    public void onGetPublicKeySuccess(String response) {
 
-        if (response.getCode().equals("200")) {
+        publicKey = response;
+        String key = RSAEncryptUtil.encryptData(et_password.getText().toString(), publicKey);
 
-            publicKey = response.getData();
-            String key = RSAEncryptUtil.encryptData(et_password.getText().toString(), publicKey);
-
-            Log.e("key", key);
-            if (isCache){
-                loginPresenter.login(user_phone, key);
-            }else {
-                loginPresenter.login(et_user.getText(), key);
-            }
+        //Log.e("key", key);
+        if (isCache){
+            loginPresenter.login(user_phone, key);
+        }else {
+            loginPresenter.login(et_user.getText(), key);
         }
-        else{
-
-            dismissLoadingDialog();
-            ToastView toastView = new ToastView(LoginActivity.this,
-                    ResponseCode.getInstance().getMessage(response.getCode()));
-            toastView.setGravity(Gravity.CENTER, 0, 0);
-            toastView.show();
-        }
-    }
-
-
-    // 获取公钥失败
-    @Override
-    public void onGetPublicKeyError(Throwable e) {
-
-        Log.e("error", "获取公钥： " + e.toString());
-
-        dismissLoadingDialog();
-        ToastView toastView = new ToastView(LoginActivity.this, "请检查您的网络连接");
-        toastView.setGravity(Gravity.CENTER, 0, 0);
-        toastView.show();
     }
 
 
     // 登录成功
     @Override
-    public void onPostLoginSuccess(ResultResponse<LoginResult> response) {
+    public void onPostLoginSuccess(LoginResult response) {
 
-        if (response.getCode().equals("200")){
+        dismissLoadingDialog();
 
-            dismissLoadingDialog();
-
-            User user = response.getData().getUser();
-            // 保存登录信息
-            if (isCache){
-                UserCache.getInstance().login(this, user_phone, et_password.getText(),
-                        user.getRole());
-            }
-            else {
-                UserCache.getInstance().login(this, et_user.getText(), et_password.getText(),
-                        user.getRole());
-            }
-            UserCache.getInstance().setId(this, response.getData().getPerson().get_id());
-
-            if (user.getRole().equals("0")) {   // 学生
-
-                // 记录学生用户
-                UserCache.getInstance().setNumber(this, response.getData().getPerson().getNumber());
-
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                startActivity(intent);
-                overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
-                finish();
-            }
-            else if (user.getRole().equals("1")){    // 教师
-
-                Intent intent = new Intent(LoginActivity.this, MainActivity02.class);
-                startActivity(intent);
-                overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
-                finish();
-            }
+        User user = response.getUser();
+        // 保存登录信息
+        if (isCache){
+            loginPresenter.setLoginCache(this, response.getPerson().get_id(), user_phone,
+                    et_password.getText(), user.getRole());
         }
-        else{
-            dismissLoadingDialog();
-            String msg = response.getMsg();
-            ToastView toastView = new ToastView(LoginActivity.this, msg);
-            toastView.setGravity(Gravity.CENTER, 0, 0);
-            toastView.show();
+        else {
+            loginPresenter.setLoginCache(this, response.getPerson().get_id(), et_user.getText(),
+                    et_password.getText(), user.getRole());
         }
+
+        if (user.getRole().equals("0")) {   // 学生
+
+            // 记录学生用户
+            loginPresenter.setNumberCache(this, response.getPerson().getNumber());
+
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            startActivity(intent);
+            overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+            finish();
+        }
+        else if (user.getRole().equals("1")){    // 教师
+
+            Intent intent = new Intent(LoginActivity.this, MainActivity02.class);
+            startActivity(intent);
+            overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+            finish();
+        }
+
+    }
+
+
+    // 登录失败
+    @Override
+    public void onPostLoginError(String msg) {
+
+        dismissLoadingDialog();
+        ToastView toastView = new ToastView(LoginActivity.this, msg);
+        toastView.setGravity(Gravity.CENTER, 0, 0);
+        toastView.show();
     }
 
 

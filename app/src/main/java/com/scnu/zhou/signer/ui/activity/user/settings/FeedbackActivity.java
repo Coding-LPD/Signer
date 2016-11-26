@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.scnu.zhou.signer.R;
 import com.scnu.zhou.signer.component.bean.feedback.Feedback;
-import com.scnu.zhou.signer.component.bean.http.ResultResponse;
 import com.scnu.zhou.signer.component.cache.UserCache;
 import com.scnu.zhou.signer.presenter.feedback.FeedbackPresenter;
 import com.scnu.zhou.signer.presenter.feedback.IFeedbackPresenter;
@@ -63,29 +62,29 @@ public class FeedbackActivity extends BaseSlideActivity implements IFeedbackView
     }
 
     @Override
-    public void onFeedbackSuccess(ResultResponse<Feedback> response) {
+    public void onFeedbackSuccess(Feedback response) {
 
         dismissLoadingDialog();
 
-        if (response.getCode().equals("200")){
+        final AlertDialog dialog = new AlertDialog(this);
+        dialog.setTitle("反馈提示");
+        dialog.setMessage("反馈成功, 非常感谢您的支持");
+        dialog.setButton("确定", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                finish();
+            }
+        });
+    }
 
-            final AlertDialog dialog = new AlertDialog(this);
-            dialog.setTitle("反馈提示");
-            dialog.setMessage("反馈成功, 非常感谢您的支持");
-            dialog.setButton("确定", new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    dialog.dismiss();
-                    finish();
-                }
-            });
-        }
-        else{
-            String data = response.getMsg();
-            ToastView toastView = new ToastView(FeedbackActivity.this, data);
-            toastView.setGravity(Gravity.CENTER, 0, 0);
-            toastView.show();
-        }
+    @Override
+    public void onFeedbackError(String msg) {
+
+        dismissLoadingDialog();
+        ToastView toastView = new ToastView(FeedbackActivity.this, msg);
+        toastView.setGravity(Gravity.CENTER, 0, 0);
+        toastView.show();
     }
 
     @Override

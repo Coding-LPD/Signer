@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -13,13 +12,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.scnu.zhou.signer.R;
 import com.scnu.zhou.signer.component.adapter.listview.NoticeAdapter;
-import com.scnu.zhou.signer.component.bean.http.ResultResponse;
 import com.scnu.zhou.signer.component.bean.notice.NoticeBean;
-import com.scnu.zhou.signer.component.cache.ACache;
 import com.scnu.zhou.signer.component.cache.NoticeCache;
 import com.scnu.zhou.signer.component.cache.UserCache;
 import com.scnu.zhou.signer.presenter.notice.INoticePresenter;
@@ -103,42 +98,11 @@ public class NoticeFragment extends Fragment implements INoticeView,
         notices = new ArrayList<>();
     }
 
-    @Override
-    public void onGetNoticeSuccess(ResultResponse<List<NoticeBean>> response) {
 
-
-        if (response.getCode().equals("200")){
-
-            //dismissLoadingDialog();
-
-            page++;
-
-            if (state == STATE_REFRESH) {
-                NoticeCache.getInstance().setNoticenNumber(context, 0);
-                notices = response.getData();
-                plv_notice.onRefreshCompleted();
-            }
-            else {
-                notices.addAll(response.getData());
-
-                if (response.getData().size() < limit){
-                    plv_notice.onLoadMoreAllCompleted();
-                }
-                else{
-                    plv_notice.onLoadMoreCompleted();
-                }
-            }
-
-            adapter = new NoticeAdapter(context, notices);
-            plv_notice.setAdapter(adapter);
-        }
-        else{
-            //dismissLoadingDialog();
-            String msg = response.getMsg();
-            ToastView toastView = new ToastView(context, msg);
-            toastView.setGravity(Gravity.CENTER, 0, 0);
-            toastView.show();
-        }
+    /**
+     * 检查是否通知为空
+     */
+    private void checkIsNoNotice(){
 
         if (notices.size() == 0){
             ll_no_notice.setVisibility(View.VISIBLE);
@@ -146,16 +110,66 @@ public class NoticeFragment extends Fragment implements INoticeView,
         else{
             ll_no_notice.setVisibility(View.GONE);
         }
+    }
 
-        String value = new Gson().toJson(notices);
-        //Log.e("notice", value);
-        if (segment == STATE_BEFORE){
-            ACache.get(context).put("notice_before", value);
+
+    /**
+     * 检查网络连接
+     */
+    private void checkNetworkIsAvail(){
+
+        if (notices.size() == 0){
+            ll_no_network.setVisibility(View.VISIBLE);
         }
         else{
-            ACache.get(context).put("notice_after", value);
+            ll_no_network.setVisibility(View.GONE);
         }
     }
+
+    @Override
+    public void onGetNoticeSuccess(List<NoticeBean> response) {
+
+        page++;
+
+        if (state == STATE_REFRESH) {
+            NoticeCache.getInstance().setNoticenNumber(context, 0);
+            notices = response;
+            plv_notice.onRefreshCompleted();
+        }
+        else {
+            notices.addAll(response);
+
+            if (response.size() < limit){
+                plv_notice.onLoadMoreAllCompleted();
+            }
+            else{
+                plv_notice.onLoadMoreCompleted();
+            }
+        }
+
+        adapter = new NoticeAdapter(context, notices);
+        plv_notice.setAdapter(adapter);
+
+        checkIsNoNotice();
+
+        // 数据缓存
+        if (segment == STATE_BEFORE){
+            presenter.setCache(context, "notice_before", notices);
+        }
+        else{
+            presenter.setCache(context, "notice_after", notices);
+        }
+    }
+
+
+    @Override
+    public void onGetNoticeError(String msg) {
+
+        ToastView toastView = new ToastView(context, msg);
+        toastView.setGravity(Gravity.CENTER, 0, 0);
+        toastView.show();
+    }
+
 
     @Override
     public void onGetNoticeError(Throwable e) {
@@ -175,14 +189,8 @@ public class NoticeFragment extends Fragment implements INoticeView,
             plv_notice.onLoadMoreCompleted();
         }
 
-        if (notices.size() == 0){
-            ll_no_network.setVisibility(View.VISIBLE);
-        }
-        else{
-            ll_no_network.setVisibility(View.GONE);
-        }
+        checkNetworkIsAvail();
     }
-
 
     /**
      * implmentation for PullToRefreshListener
@@ -219,10 +227,9 @@ public class NoticeFragment extends Fragment implements INoticeView,
     @Override
     public void onSelectLeft() {
 
-        String array = ACache.get(context).getAsString("notice_before");
-        //Log.e("get-array", array);
-        if (!TextUtils.isEmpty(array) && !array.equals("null")) notices = new Gson().fromJson(array,
-                new TypeToken<List<NoticeBean>>(){}.getType());
+        if (presenter.getCache(context, "notice_before") != null){
+            notices = presenter.getCache(context, "notice_before");
+        }
         adapter = new NoticeAdapter(context, notices);
         plv_notice.setAdapter(adapter);
 
@@ -235,10 +242,9 @@ public class NoticeFragment extends Fragment implements INoticeView,
     @Override
     public void onSelectRight() {
 
-        String array = ACache.get(context).getAsString("notice_after");
-        //Log.e("get-array", array);
-        if (!TextUtils.isEmpty(array) && !array.equals("null")) notices = new Gson().fromJson(array,
-                new TypeToken<List<NoticeBean>>(){}.getType());
+        if (presenter.getCache(context, "notice_after") != null){
+            notices = presenter.getCache(context, "notice_after");
+        }
         adapter = new NoticeAdapter(context, notices);
         plv_notice.setAdapter(adapter);
 

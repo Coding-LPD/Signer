@@ -35,7 +35,12 @@ public class SmsPresenter implements ISmsPresenter, SmsCallBack{
     @Override
     public void onSendSmsSuccess(ResultResponse<String> response) {
 
-        smsView.onSendSmsSuccess(response);
+        if (response.getCode().equals("200")) {
+            smsView.onSendSmsSuccess(response.getData());
+        }
+        else{
+            smsView.onSendSmsError(response.getMsg());
+        }
     }
 
     @Override
@@ -47,7 +52,12 @@ public class SmsPresenter implements ISmsPresenter, SmsCallBack{
     @Override
     public void onVerifySmsSuccess(ResultResponse<String> response) {
 
-        smsView.onVerifySmsSuccess(response);
+        if (response.getCode().equals("200")) {
+            smsView.onVerifySmsSuccess(response.getData());
+        }
+        else{
+            smsView.onVerifySmsError(response.getMsg());
+        }
     }
 
     @Override

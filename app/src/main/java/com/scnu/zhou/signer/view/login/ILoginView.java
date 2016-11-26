@@ -1,6 +1,5 @@
 package com.scnu.zhou.signer.view.login;
 
-import com.scnu.zhou.signer.component.bean.http.ResultResponse;
 import com.scnu.zhou.signer.component.bean.login.LoginResult;
 
 /**
@@ -11,9 +10,9 @@ public interface ILoginView {
     void initView();
     void initData();
 
-    void onGetPublicKeySuccess(ResultResponse<String> response);
-    void onGetPublicKeyError(Throwable e);
+    void onGetPublicKeySuccess(String response);
+    void onPostLoginSuccess(LoginResult response);
 
-    void onPostLoginSuccess(ResultResponse<LoginResult> response);
+    void onPostLoginError(String msg);
     void onPostLoginError(Throwable e);
 }

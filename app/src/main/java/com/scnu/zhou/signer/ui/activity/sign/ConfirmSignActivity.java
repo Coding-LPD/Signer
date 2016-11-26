@@ -16,12 +16,10 @@ import android.widget.TextView;
 
 import com.scnu.zhou.signer.R;
 import com.scnu.zhou.signer.component.adapter.gridview.SignerAdapter;
-import com.scnu.zhou.signer.component.bean.http.ResultResponse;
 import com.scnu.zhou.signer.component.bean.sign.ScanResult;
 import com.scnu.zhou.signer.component.bean.sign.SignRecord;
 import com.scnu.zhou.signer.component.bean.sign.Signer;
 import com.scnu.zhou.signer.component.cache.UserCache;
-import com.scnu.zhou.signer.component.util.http.ResponseCode;
 import com.scnu.zhou.signer.component.util.location.BaiduLocationClient;
 import com.scnu.zhou.signer.component.util.permission.UserPermission;
 import com.scnu.zhou.signer.presenter.sign.ISignPresenter;
@@ -106,68 +104,54 @@ public class ConfirmSignActivity extends BaseSlideActivity implements ISignView{
 
     /**
      * 获取扫描结果成功
-     * @param response
+     * @param result
      */
     @Override
-    public void onGetScanResultSuccess(ResultResponse<ScanResult> response) {
+    public void onGetScanResultSuccess(ScanResult result, String week, String session) {
 
         dismissLoadingDialog();
-        if (response.getCode().equals("200")) {
 
-            ScanResult result = response.getData();
+        signId = result.getSignId();
 
-            signId = result.getSignId();
+        tv_title.setText(result.getCourse().getName());
+        tv_name.setText(result.getCourse().getName());
+        tv_location.setText(result.getCourse().getLocation());
+        tv_teacher.setText(result.getCourse().getTeacherName());
 
-            if (result != null) {
+        tv_week.setText(week);
+        tv_session.setText(session);
 
-                tv_title.setText(result.getCourse().getName());
-                tv_name.setText(result.getCourse().getName());
-                tv_location.setText(result.getCourse().getLocation());
-                tv_teacher.setText(result.getCourse().getTeacherName());
-
-                //Log.e("data", result.getCourse().getTime());
-                //String time = "星期一 1节-3节,星期四 5节-8节";
-                String time = result.getCourse().getTime();
-                String[] sessions = time.split(",");   // 按逗号分开
-
-                String week = "";
-                String session = "";
-                for (String se : sessions) {
-                    String[] s = se.split("\\s+");    // 按空格分开
-                    if (week.equals("")) week += s[0];
-                    else week += ";" + s[0];
-                    if (session.equals("")) session += s[1];
-                    else session += ";" + s[1];
-                }
-
-                tv_week.setText(week);
-                tv_session.setText(session);
-
-                signers = result.getRecords();
-                adapter = new SignerAdapter(this, signers);
-                gv_signer.setAdapter(adapter);
-            }
-        }
-        else{
-
-            ToastView toastView = new ToastView(ConfirmSignActivity.this,
-                    ResponseCode.getInstance().getMessage(response.getCode()));
-            toastView.setGravity(Gravity.CENTER, 0, 0);
-            toastView.show();
-
-            if (response.getCode().equals("4000")){
-                finish();
-            }
-        }
+        signers = result.getRecords();
+        adapter = new SignerAdapter(this, signers);
+        gv_signer.setAdapter(adapter);
     }
 
 
     /**
-     * 获取扫描结果失败
+     * 签到成功
+     * @param response
+     */
+    @Override
+    public void onPostSignSuccess(SignRecord response) {
+
+        dismissLoadingDialog();
+
+        Intent intent = new Intent(this, SignSuccessActivity.class);
+        intent.putExtra("distance", response.getDistance());
+        intent.putExtra("battery", response.getBattery());
+        startActivity(intent);
+        overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+
+        finish();
+    }
+
+
+    /**
+     * 显示错误信息
      * @param e
      */
     @Override
-    public void onGetScanResultError(Throwable e) {
+    public void onShowError(Throwable e) {
 
         dismissLoadingDialog();
         ToastView toastView = new ToastView(ConfirmSignActivity.this, "请检查您的网络连接");
@@ -177,48 +161,25 @@ public class ConfirmSignActivity extends BaseSlideActivity implements ISignView{
 
 
     /**
-     * 签到成功
-     * @param response
+     * 无效签到码
      */
     @Override
-    public void onPostSignSuccess(ResultResponse<SignRecord> response) {
+    public void showUnavailCode() {
 
         dismissLoadingDialog();
+        ToastView toastView = new ToastView(ConfirmSignActivity.this, "签到码无效");
+        toastView.setGravity(Gravity.CENTER, 0, 0);
+        toastView.show();
 
-        if (response.getCode().equals("200")){
-
-            Intent intent = new Intent(this, SignSuccessActivity.class);
-            intent.putExtra("distance", response.getData().getDistance());
-            intent.putExtra("battery", response.getData().getBattery());
-            startActivity(intent);
-            overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
-
-            finish();
-        }
-        else if (response.getCode().equals("4005")){
-            showNoNumberDialog();
-        }
-        else if (response.getCode().equals("4006")){
-            showNoAdmittedDialog();
-        }
-        else{
-            String msg = response.getMsg();
-            ToastView toastView = new ToastView(ConfirmSignActivity.this, msg);
-            toastView.setGravity(Gravity.CENTER, 0, 0);
-            toastView.show();
-        }
+        finish();
     }
 
 
-    /**
-     * 签到失败
-     * @param e
-     */
     @Override
-    public void onPostSignError(Throwable e) {
+    public void onShowError(String msg) {
 
         dismissLoadingDialog();
-        ToastView toastView = new ToastView(ConfirmSignActivity.this, "签到失败");
+        ToastView toastView = new ToastView(ConfirmSignActivity.this, msg);
         toastView.setGravity(Gravity.CENTER, 0, 0);
         toastView.show();
     }
@@ -342,7 +303,10 @@ public class ConfirmSignActivity extends BaseSlideActivity implements ISignView{
     /**
      * 没有学号
      */
+    @Override
     public void showNoNumberDialog(){
+
+        dismissLoadingDialog();
 
         final AlertDialog dialog = new AlertDialog(this);
         dialog.setTitle("友情提示");
@@ -369,7 +333,10 @@ public class ConfirmSignActivity extends BaseSlideActivity implements ISignView{
     /**
      * 不属于该课程学生
      */
+    @Override
     public void showNoAdmittedDialog(){
+
+        dismissLoadingDialog();
 
         final AlertDialog dialog = new AlertDialog(this);
         dialog.setTitle("签到失败");

@@ -6,10 +6,12 @@ import com.scnu.zhou.signer.component.bean.mine.MyChat;
 import com.scnu.zhou.signer.component.bean.mine.MySign;
 import com.scnu.zhou.signer.model.mine.IMySignerModel;
 import com.scnu.zhou.signer.model.mine.MySignerModel;
-import com.scnu.zhou.signer.view.mine.IMyChatView;
-import com.scnu.zhou.signer.view.mine.IMySignView;
+import com.scnu.zhou.signer.view.mine.IMySignerView;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by zhou on 16/11/23.
@@ -17,21 +19,13 @@ import java.util.List;
 public class MySignerPresenter implements IMySignerPresenter, MySignerCallBack {
 
     private IMySignerModel mySignerModel;
-    private IMySignView mySignView;
-    private IMyChatView myChatView;
+    private IMySignerView mySignView;
 
-    public MySignerPresenter(IMySignView mySignView){
+    public MySignerPresenter(IMySignerView mySignView){
 
         this.mySignView = mySignView;
         this.mySignerModel = new MySignerModel();
     }
-
-    public MySignerPresenter(IMyChatView myChatView){
-
-        this.myChatView = myChatView;
-        this.mySignerModel = new MySignerModel();
-    }
-
 
     @Override
     public void getSignDays(String studentId, String date) {
@@ -64,48 +58,89 @@ public class MySignerPresenter implements IMySignerPresenter, MySignerCallBack {
     @Override
     public void onGetSignDaysSuccess(ResultResponse<List<String>> response) {
 
-        mySignView.onGetSignDaysSuccess(response);
+        if (response.getCode().equals("200")) {
+
+            List<String> days = response.getData();
+            Map<String, Boolean> note = new HashMap<>();
+            for (String d:days){
+                note.put(d, true);
+            }
+            mySignView.onGetDays(note);
+        }
+        else{
+            mySignView.onShowError(response.getMsg());
+        }
     }
 
     @Override
     public void onGetSignDaysError(Throwable e) {
 
-        mySignView.onGetSignDaysError(e);
+        mySignView.onShowError(e);
     }
 
     @Override
     public void onGetSignDaysDetailSuccess(ResultResponse<List<MySign>> response) {
 
-        mySignView.onGetSignDaysDetailSuccess(response);
+        if (response.getCode().equals("200")) {
+            List<String> data = new ArrayList<>();
+            for (MySign sign : response.getData()) {
+                data.add(sign.getConfirmAt().substring(11, 16) + "  " + sign.getCourseName());
+            }
+            mySignView.onGetDaysDetails(data);
+        }
+        else{
+            mySignView.onShowDetailError(response.getMsg());
+        }
     }
 
     @Override
     public void onGetSignDaysDetailError(Throwable e) {
 
-        mySignView.onGetSignDaysDetailError(e);
+        mySignView.onShowDetailError(e);
     }
 
     @Override
     public void onGetChatDaysSuccess(ResultResponse<List<String>> response) {
 
-        myChatView.onGetChatDaysSuccess(response);
+        if (response.getCode().equals("200")) {
+
+            List<String> days = response.getData();
+            Map<String, Boolean> note = new HashMap<>();
+            for (String d:days){
+                note.put(d, true);
+            }
+            mySignView.onGetDays(note);
+        }
+        else{
+            mySignView.onShowError(response.getMsg());
+        }
     }
 
     @Override
     public void onGetChatDaysError(Throwable e) {
 
-        myChatView.onGetChatDaysError(e);
+        mySignView.onShowError(e);
     }
 
     @Override
     public void onGetChatDaysDetailSuccess(ResultResponse<List<MyChat>> response) {
 
-        myChatView.onGetChatDaysDetailSuccess(response);
+        if (response.getCode().equals("200")) {
+            List<String> data = new ArrayList<>();
+            for (MyChat chat : response.getData()) {
+
+                data.add(chat.getCourseName() + "  " + chat.getMsgCount() + "条");
+            }
+            mySignView.onGetDaysDetails(data);
+        }
+        else{
+            mySignView.onShowDetailError(response.getMsg());
+        }
     }
 
     @Override
     public void onGetChatDaysDetailError(Throwable e) {
 
-        myChatView.onGetChatDaysDetailError(e);
+        mySignView.onShowDetailError(e);
     }
 }

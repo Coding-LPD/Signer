@@ -33,24 +33,34 @@ public class RegistPresenter implements IRegistPresenter, RegistCallBack {
     @Override
     public void onGetPublicKeySuccess(ResultResponse<String> response) {
 
-        registView.onGetPublicKeySuccess(response);
+        if (response.getCode().equals("200")) {
+            registView.onGetPublicKeySuccess(response.getData());
+        }
+        else{
+            registView.onShowError(response.getMsg());
+        }
     }
 
     @Override
     public void onGetPublicKeyError(Throwable e) {
 
-        registView.onGetPublicKeyError(e);
+        registView.onShowError(e);
     }
 
     @Override
     public void onPostRegistSuccess(ResultResponse<LoginResult> response) {
 
-        registView.onPostRegistSuccess(response);
+        if (response.getCode().equals("200")) {
+            registView.onPostRegistSuccess(response.getData());
+        }
+        else{
+            registView.onShowError(response.getMsg());
+        }
     }
 
     @Override
     public void onPostRegistError(Throwable e) {
 
-        registView.onPostRegistError(e);
+        registView.onShowError(e);
     }
 }

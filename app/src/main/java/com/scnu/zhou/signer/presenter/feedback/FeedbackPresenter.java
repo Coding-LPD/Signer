@@ -30,7 +30,14 @@ public class FeedbackPresenter implements IFeedbackPresenter, FeedbackCallBack {
     @Override
     public void onFeedbackSuccess(ResultResponse<Feedback> response) {
 
-        feedbackView.onFeedbackSuccess(response);
+        if (response.getCode().equals("200")) {
+
+            feedbackView.onFeedbackSuccess(response.getData());
+        }
+        else{
+
+            feedbackView.onFeedbackError(response.getMsg());
+        }
     }
 
     @Override

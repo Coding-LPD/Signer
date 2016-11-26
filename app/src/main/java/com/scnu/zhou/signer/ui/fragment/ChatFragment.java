@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -14,16 +13,11 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.scnu.zhou.signer.R;
 import com.scnu.zhou.signer.component.adapter.listview.ChatRoomAdapter;
 import com.scnu.zhou.signer.component.bean.chat.ChatMessage;
 import com.scnu.zhou.signer.component.bean.chat.ChatRoom;
-import com.scnu.zhou.signer.component.bean.http.ResultResponse;
-import com.scnu.zhou.signer.component.cache.ACache;
 import com.scnu.zhou.signer.component.cache.UserCache;
-import com.scnu.zhou.signer.component.util.time.RoomComparator;
 import com.scnu.zhou.signer.presenter.chat.IRoomPresenter;
 import com.scnu.zhou.signer.presenter.chat.RoomPresenter;
 import com.scnu.zhou.signer.ui.activity.chat.ChatActivity;
@@ -32,7 +26,6 @@ import com.scnu.zhou.signer.ui.widget.toast.ToastView;
 import com.scnu.zhou.signer.view.chat.IRoomView;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import butterknife.Bind;
@@ -95,6 +88,20 @@ public class ChatFragment extends Fragment implements IRoomView, PullToRefreshLi
 
 
     /**
+     * 检查是不是没有聊天
+     */
+    private void checkIsNoChat(){
+
+        if (mData.size() == 0){
+            ll_no_chat.setVisibility(View.VISIBLE);
+        }
+        else{
+            ll_no_chat.setVisibility(View.GONE);
+        }
+    }
+
+
+    /**
      * implmentation for PullToRefreshListener
      */
     @Override
@@ -148,61 +155,52 @@ public class ChatFragment extends Fragment implements IRoomView, PullToRefreshLi
      * @param response
      */
     @Override
-    public void onGetRoomListSuccess(final ResultResponse<List<ChatRoom>> response) {
+    public void onGetRoomList(final List<ChatRoom> response) {
 
         context.runOnUiThread(new Runnable() {
             @Override
             public void run() {
 
-                if (response.getCode().equals("200")){
+                mData = response;
+                adapter = new ChatRoomAdapter(context, mData);
+                plv_chat.setAdapter(adapter);
 
-                    //dismissLoadingDialog();
-
-                    mData = response.getData();
-                    Collections.sort(mData, new RoomComparator());
-                    adapter = new ChatRoomAdapter(context, mData);
-                    plv_chat.setAdapter(adapter);
-                }
-                else{
-                    //dismissLoadingDialog();
-                    String msg = response.getMsg();
-                    ToastView toastView = new ToastView(context, msg);
-                    toastView.setGravity(Gravity.CENTER, 0, 0);
-                    toastView.show();
-                }
-
-                if (mData.size() == 0){
-                    ll_no_chat.setVisibility(View.VISIBLE);
-                }
-                else{
-                    ll_no_chat.setVisibility(View.GONE);
-                }
+                checkIsNoChat();
 
                 plv_chat.onRefreshCompleted();
             }
         });
 
-        String value = new Gson().toJson(mData);
-        ACache.get(context).put("chat_room", value);
-
+        // 数据缓存
+        presenter.saveRoomListCache(mData);
     }
 
     @Override
-    public void onReceiveNewMessage(ResultResponse<ChatMessage> response) {
+    public void onReceiveNewMessage(ChatMessage response) {
 
         onRefresh();
     }
 
     @Override
+    public void onErrorMessageShow(String msg) {
+
+        ToastView toastView = new ToastView(context, msg);
+        toastView.setGravity(Gravity.CENTER, 0, 0);
+        toastView.show();
+
+        checkIsNoChat();
+    }
+
+
+    @Override
     public void onResume() {
         super.onResume();
 
-        String array = ACache.get(context).getAsString("chat_room");
-        //Log.e("get-array", array);
-        if (!TextUtils.isEmpty(array) && !array.equals("null")) mData = new Gson().fromJson(array,
-                new TypeToken<List<ChatRoom>>(){}.getType());
-        adapter = new ChatRoomAdapter(context, mData);
-        plv_chat.setAdapter(adapter);
+        if (presenter.getRoomListChache() != null){
+            mData = presenter.getRoomListChache();
+            adapter = new ChatRoomAdapter(context, mData);
+            plv_chat.setAdapter(adapter);
+        }
 
         onRefresh();
     }

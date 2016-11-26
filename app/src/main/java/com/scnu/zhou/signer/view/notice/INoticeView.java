@@ -1,6 +1,5 @@
 package com.scnu.zhou.signer.view.notice;
 
-import com.scnu.zhou.signer.component.bean.http.ResultResponse;
 import com.scnu.zhou.signer.component.bean.notice.NoticeBean;
 
 import java.util.List;
@@ -13,6 +12,7 @@ public interface INoticeView {
     void initView();
     void initData();
 
-    void onGetNoticeSuccess(ResultResponse<List<NoticeBean>> response);
+    void onGetNoticeSuccess(List<NoticeBean> response);
     void onGetNoticeError(Throwable e);
+    void onGetNoticeError(String msg);
 }
