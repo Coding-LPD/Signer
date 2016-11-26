@@ -14,6 +14,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>INTULocationManager.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>IQKeyboardManager.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -52,47 +57,52 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>02CDA5B0176033C2944C9B77B3846A1E</key>
+		<key>0CB96E9FCC6E2A7E03E0106FA21560C2</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>228FFC4E78F899B58C33C57F31513A8E</key>
+		<key>115FA0D867E07C04838493890DBD8D29</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>37C76CD246D637B8E4C586284A0D96B2</key>
+		<key>3CB2871C316DC6E605E47E8FE7E2CCA3</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>60C4AED2E205AEA6156AA2BB325B1CDF</key>
+		<key>718D1F5C0B6038E5BEBAC7F0E9D72D5D</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>79C040AFDDCE1BCBF6D8B5EB0B85887F</key>
+		<key>72155CAF795810814C7F695AB1543AE1</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>7F2BD8156CEB822E1C3BE1F614F76533</key>
+		<key>7E683DB16DC4643221505F9973C9BC36</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>B4DCA906CA453E85B16193262D4E8DE2</key>
+		<key>872009EC5E4F95E68C9EAAB43D59484A</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>C499833873CF8D2D22B003AEF6765A6D</key>
+		<key>88E9EC28B8B46C3631E6B242B50F4442</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>FFC96B5B97142D52977ABEA826E6399E</key>
+		<key>A45B1587C5F96A634638773413578D9E</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>C36CB2CB977A4E7D954935096D00A1ED</key>
 		<dict>
 			<key>primary</key>
 			<true/>
