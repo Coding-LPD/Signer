@@ -11,12 +11,15 @@ import Alamofire
 
 enum SignRouter: URLRequestConvertible
 {
-    case scanQRCode(code: String)       // 查询指定id的学生信息
+    case scanQRCode(code: String)       // 将6位签到码发送到服务器，服务器返回对应课程的相关信息
+    case sign(signId: String, phoneId: String, studentId: String, type: Int, battery: Float, longitude: Double, latitude: Double)   // 学生进行签到
     
     var method: HTTPMethod {
         switch self {
         case .scanQRCode:
             return .get
+        case .sign:
+            return .post
         }
     }
     
@@ -25,6 +28,8 @@ enum SignRouter: URLRequestConvertible
             switch self {
             case let .scanQRCode(code):
                 return ("/signs/scanning/\(code)", [:])
+            case let .sign(signId, phoneId, studentId, type, battery, longitude, latitude):
+                return ("/signRecords", ["signId": signId, "phoneId": phoneId, "studentId": studentId, "type": type, "battery": battery, "longitude": longitude, "latitude": latitude])
             }
         }()
         

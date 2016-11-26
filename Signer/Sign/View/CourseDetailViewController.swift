@@ -9,13 +9,9 @@
 import UIKit
 import Alamofire
 import SwiftyJSON
+import CoreLocation
 
-protocol dismissSignViewControllerDelegate
-{
-    func dismissSignVC()
-}
-
-class CourseDetailViewController: UIViewController
+class CourseDetailViewController: UIViewController, CLLocationManagerDelegate
 {
     var courseQRCode: String?
     
@@ -53,6 +49,7 @@ class CourseDetailViewController: UIViewController
     var avartarImageViewArray = [UIImageView]()
     var nameLabelArray = [UILabel]()
     
+    weak var weakSignVC: SignViewController?
     var dismissSignVCDelegate: dismissSignViewControllerDelegate?
     
     override func viewDidLoad()
@@ -76,7 +73,8 @@ class CourseDetailViewController: UIViewController
                     if json["code"] == "200" {
                         self.configureUIWith(json: json["data"])
                     } else {
-                        fatalError("获取课程详情失败")
+                        self.view.makeToast("课程不存在", duration: 1.0, position: .center)
+                        self.dismissSignVCDelegate?.dismissSignVC()
                     }
                 case .failure(_):
                     self.view.makeToast("获取课程详情失败，检查网络连接", duration: 1.0, position: .center)
@@ -88,18 +86,115 @@ class CourseDetailViewController: UIViewController
         nameLabelArray = [studentNameLabel1, studentNameLabel2, studentNameLabel3, studentNameLabel4, studentNameLabel5, studentNameLabel6, studentNameLabel7, studentNameLabel8, studentNameLabel9, studentNameLabel10]
     }
     
+    private let zeroLineOfStudentHeight: CGFloat = 43
+    private let oneLineOfStudentHeight: CGFloat = 130
+    
     func configureUIWith(json: JSON)
     {
-        courseLabel.text = json["course"]["name"].string
-        timeLabel.text = json["course"]["time"].string
+        self.signId = json["signId"].string
         
+        // 设置课程信息面板
+        courseLabel.text = json["course"]["name"].string
+        let stringTuple = handleStringFromService(stringFromService: json["course"]["time"].stringValue)
+        timeLabel.text = stringTuple.timeString
+        sectionLabel.text = stringTuple.sectionString
         classroomLabel.text = json["course"]["location"].string
         teacherLabel.text = json["course"]["teacherName"].string
-        
-        for (index, studentJson): (String, JSON) in json["records"] {
-            avartarImageViewArray[index].sd_setImage(with: URL(string: studentJson["avatar"].stringValue))
+
+        // 设置学生面板
+        let studentCount = json["records"].count
+        for (indexString, studentJson): (String, JSON) in json["records"] {
+            let index = Int(indexString)!
+            let avartarimageView = avartarImageViewArray[index]
+            avartarimageView.layer.cornerRadius = avartarimageView.frame.width / 2
+            avartarimageView.clipsToBounds = true
+            avartarimageView.sd_setImage(with: URL(string: studentJson["avatar"].stringValue))
             nameLabelArray[index].text = studentJson["name"].string
         }
+        
+        for index in studentCount..<10 {
+            avartarImageViewArray[index].alpha = 0
+            nameLabelArray[index].alpha = 0
+        }
+        
+        if studentCount == 0 {
+            studentPadHeight.constant = zeroLineOfStudentHeight
+        } else if studentCount < 6 {
+            studentPadHeight.constant = oneLineOfStudentHeight
+        }
+        
+    }
+    
+    var signId: String?
+    var signType: Int?  // 0-课前签到/1-课后签到
+    
+    lazy var locationManager: CLLocationManager = {
+        let locationManager = CLLocationManager()
+        locationManager.requestAlwaysAuthorization()
+        locationManager.requestWhenInUseAuthorization()
+        return locationManager
+    }()
+    
+    // 课前/课后签到
+    @IBAction func signAction(_ button: UIButton)
+    {
+        signType = button.tag
+        
+        if CLLocationManager.locationServicesEnabled() {
+            locationManager.delegate = self
+            locationManager.distanceFilter = 1000
+            locationManager.desiredAccuracy = kCLLocationAccuracyBest
+            locationManager.startUpdatingLocation()
+        } else {
+            fatalError("位置信息有误")
+        }
+    }
+    
+    var isSigning = false
+    var firstUpdateLocation = false
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation])
+    {
+        if isSigning == true {
+            return
+        }
+        isSigning = true
+        
+        guard let signId = signId, let signType = signType else {
+            return
+        }
+        
+        guard let locValue = manager.location?.coordinate else {
+            fatalError("更新位置出错")
+        }
+        print("经度\(locValue.longitude) 纬度\(locValue.latitude)")
+        
+        view.makeToastActivity(.center)
+
+        let student = Student()
+        UIDevice.current.isBatteryMonitoringEnabled = true
+        let battery = UIDevice.current.batteryLevel * 100
+        
+        Alamofire
+            .request(SignRouter.sign(signId: signId, phoneId: student.phone, studentId: student.id, type: signType, battery: battery, longitude: locValue.longitude, latitude: locValue.latitude))
+            .responseJSON { (response) in
+                self.view.hideToastActivity()
+                switch response.result {
+                case .success(let value):
+                    let json = JSON(value)
+                    print("学生签到: \(json)")
+                    if json["code"] == "200" {
+                        self.battery = json["data"]["battery"].int
+                        self.distance = json["data"]["distance"].int
+                        self.performSegue(withIdentifier: "signResult", sender: nil)
+                    } else {
+                        self.view.makeToast("签到失败，原因: \(json["msg"])", duration: 1.0, position: .center)
+                    }
+                case .failure(_):
+                    self.view.makeToast("签到失败，检查网络连接", duration: 1.0, position: .center)
+                }
+                self.isSigning = false
+            }
     }
     
     @IBAction func backAction(_ sender: UIBarButtonItem)
@@ -107,5 +202,37 @@ class CourseDetailViewController: UIViewController
         dismissSignVCDelegate?.dismissSignVC()
     }
     
+    var battery: Int?
+    var distance: Int?
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?)
+    {
+        super.prepare(for: segue, sender: sender)
+        
+        if segue.identifier == "signResult" {
+            if let desVC = segue.destination as? SignResultViewController {
+                desVC.battery = battery
+                desVC.distance = distance
+                desVC.dismissSignVCDelegate = weakSignVC
+            }
+        }
+    }
+
+    // MARK: - private
+    
+    // 将服务器返回的字符串"星期一 6节-7节,星期三 7节-8节"转为(timeString: "星期一 星期三", sectionString: "6节-7节 7节-8节")
+    private func handleStringFromService(stringFromService: String) -> (timeString: String, sectionString: String)
+    {
+        var timeString = ""
+        var sectionString = ""
+        
+        let stringArray = stringFromService.components(separatedBy: ",")
+        for oneString in stringArray {
+            let tempString = oneString.components(separatedBy: " ")
+            timeString = timeString.appending(tempString[0]+" ")
+            sectionString = sectionString.appending(tempString[1]+" ")
+        }
+        
+        return (timeString, sectionString)
+    }
 }

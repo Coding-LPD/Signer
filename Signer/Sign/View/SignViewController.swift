@@ -8,7 +8,10 @@
 
 import UIKit
 
-
+protocol dismissSignViewControllerDelegate
+{
+    func dismissSignVC()
+}
 
 class SignViewController: UIViewController, dismissSignViewControllerDelegate
 {
@@ -69,6 +72,12 @@ class SignViewController: UIViewController, dismissSignViewControllerDelegate
         if segue.identifier == "showCourseDetail" {
             if let desVC = segue.destination as? CourseDetailViewController {
                 desVC.courseQRCode = courseQRCode
+                desVC.dismissSignVCDelegate = self
+                desVC.weakSignVC = self
+            }
+        } else if segue.identifier == "inputCode" {
+            if let desVC = segue.destination as? InputCodeViewController {
+                desVC.weakSignVC = self
                 desVC.dismissSignVCDelegate = self
             }
         }
