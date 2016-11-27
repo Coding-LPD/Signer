@@ -11,6 +11,7 @@ export class SocketService {
   private socket: SocketIOClient.Socket;
   private events = {
     // sign
+    teacherIn: 'teacher-in',
     sign: 'sign',
 
     // chatroom
@@ -45,6 +46,13 @@ export class SocketService {
       this.socket.on(this.events.newMsg,    (data: any) => this.newMsgSource.next(data));            
     }
     return this;
+  }
+
+  /**
+   * 为教师提供对应签到的提醒
+   */
+  setTeacherIn(signId: string) {
+    this.socket.emit(this.events.teacherIn, signId);
   }
 
   /**

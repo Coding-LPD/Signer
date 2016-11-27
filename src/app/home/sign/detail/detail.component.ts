@@ -40,7 +40,7 @@ export class DetailComponent implements OnInit, OnDestroy {
   // 用户选择的位置，不一定显示在地图中心
   changedPosition: any;
 
-  sub: Subscription;
+  sub = new Subscription();
 
   constructor(
     private _route: ActivatedRoute,
@@ -90,11 +90,11 @@ export class DetailComponent implements OnInit, OnDestroy {
               console.log(`body: ${JSON.stringify(body)}`);
             }
           });  
-      });        
-    });
+      });   
 
-    this._socketService.connect('sign');
-    this.sub = this._socketService.sign$.subscribe(body => this.onSign(body));
+      this._socketService.connect('sign').setTeacherIn(signId);
+      this.sub = this._socketService.sign$.subscribe(body => this.onSign(body));     
+    });
   }
 
   ngOnDestroy() {
@@ -118,10 +118,12 @@ export class DetailComponent implements OnInit, OnDestroy {
    * 监听sign事件
    */
   onSign(body: any) {
-    if (+body.code == 200) {
-      var index = !this.radiosInactive[0] ? 0 : 1;
-      if (body.data.type == index) {
-        this.records.push(body.data);
+    var data = body.data;   
+    var index = !this.radiosInactive[0] ? 0 : 1; 
+    if (+body.code == 200) {     
+      // 是当前页面，且为指定类型的签到记录才显示 
+      if (data.signId === this.sign._id && data.type == index) {
+        this.records.push(data);
       }
     } else {
       this.popup.show(body.msg);

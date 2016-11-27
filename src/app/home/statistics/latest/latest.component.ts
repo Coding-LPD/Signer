@@ -14,7 +14,7 @@ import { StatisticsService } from '../statistics.service';
 export class LatestComponent implements OnInit, OnDestroy {
 
   // 没有数据时的提示语
-  tip = '请选择课程';
+  tip = '请在右上角选择课程';
 
   // 图例
   signInLabels = ['未签', '已签'];
@@ -84,7 +84,7 @@ export class LatestComponent implements OnInit, OnDestroy {
         if (!course) {
           return Observable.of<any>({
             code: 600,
-            msg: '请选择课程'
+            msg: '请在右上角选择课程'
           });
         }
         return this._courseService.getLatestStatistics(course._id);

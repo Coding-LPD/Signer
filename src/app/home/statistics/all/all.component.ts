@@ -15,7 +15,7 @@ import { StatisticsService } from '../statistics.service';
 export class AllComponent implements OnInit, OnDestroy {
 
   // 没有数据时的提示语
-  tip = '请选择课程';
+  tip = '请在右上角选择课程';
 
   // 图例
   signInRatioLabels = ['10-03','10-10','10-17','10-24','10-31','11-7','11-14'];
@@ -62,7 +62,7 @@ export class AllComponent implements OnInit, OnDestroy {
         if (!course) {
           return Observable.of<any>({
             code: 600,
-            msg: '请选择课程'
+            msg: '请在右上角选择课程'
           });
         }
         return this._courseService.getAllStatistics(course._id);
