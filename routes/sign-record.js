@@ -7,7 +7,7 @@ var sendInfo = require('../services/error-handler').sendInfo;
 var wrapData = require('../services/error-handler').wrapData;
 var errorCodes = require('../services/error-codes').errorCodes;
 var common = require('../services/common');
-var signSocket = require('../sockets/sign');
+var socket = require('../sockets/sign');
 
 var Student = require('../services/mongo').Student;
 var Teacher = require('../services/mongo').Teacher;
@@ -31,7 +31,7 @@ router.post('/', function (req, res) {
   var battery = +req.body.battery;
   var type = +req.body.type;
   var phoneId = req.body.phoneId;
-  var student, sign, promises = [];
+  var student, sign, record, promises = [];  
 
   // 查询相应学生和签到信息
   promises.push(Student.findById(studentId));
@@ -109,18 +109,17 @@ router.post('/', function (req, res) {
       signRecord.set('studentAvatar', student.get('avatar'));
       signRecord.set('createdAt', moment().format('YYYY-MM-DD HH:mm:ss'));
 
-      return signRecord.save();
-    })
-    .then(function (savedData) {
-      // 响应http
-      sendInfo(errorCodes.Success, res, savedData);
-      // 推送数据给浏览器
-      signSocket.send(signSocket.events.sign, wrapData(errorCodes.Success, savedData));
-    
+      // 保存签到记录
       // 查询课程对应的老师，将教师头像作为聊天室头像
-      return Teacher.findById(sign.get('teacherId'));
+      promises = [];
+      promises.push(signRecord.save());      
+      promises.push(Teacher.findById(sign.get('teacherId')));
+      return Promise.all(promises);
     })
-    .then(function (findedTeacher) {
+    .then(function (results) {
+      record = results[0];
+      var findedTeacher = results[1];
+
       // 将该学生加入聊天室，聊天室不存在则创建
       return ChatRoom
         .findOneAndUpdate(
@@ -128,6 +127,13 @@ router.post('/', function (req, res) {
           { name: sign.get('courseName'), avatar: findedTeacher.get('avatar'), $addToSet: { studentIds: studentId } },
           { new: true, upsert: true }
         );
+    })
+    .then(function () {
+      // 响应http
+      sendInfo(errorCodes.Success, res, record);
+      // 推送数据给浏览器
+      // socket.send(socket.events.sign, wrapData(errorCodes.Success, record));
+      socket.noticeTeacher(studentId, signId, wrapData(errorCodes.Success, record));
     })
     .catch(function (err) {
       if (err.code) {
@@ -241,10 +247,10 @@ router.post('/addition', function (req, res) {
       sendInfo(errorCodes.Success, res, {});
 
       // 推送数据给手机客户端
-      signSocket.noticeStudent(student._id, '');
+      socket.noticeStudent(student._id, '');
       // 若无指定type，则补签课前课后两次，所以要再通知一次
       if (!type) {
-        signSocket.noticeStudent(student._id, '');
+        socket.noticeStudent(student._id, '');
       }
     })
     .catch(function (err) {
@@ -275,7 +281,7 @@ function confirm(req, res, state) {
       sendInfo(errorCodes.Success, res, { signIn: updatedSign.getSignIn(type) });
       
       // 推送数据给手机客户端
-      signSocket.noticeStudent(record.get('studentId'), '');
+      socket.noticeStudent(record.get('studentId'), '');
     })
     .catch(function (err) {
       if (err.code) {
@@ -310,7 +316,7 @@ function confirmAll(req, res, state) {
     
     // 推送数据给手机客户端
     records.forEach(function (record) {
-      signSocket.noticeStudent(record.get('studentId'), '');
+      socket.noticeStudent(record.get('studentId'), '');
     });
   })
   .catch(function (err) {

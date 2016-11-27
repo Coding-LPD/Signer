@@ -7,6 +7,7 @@ var events = {
   // sign
   studentIn: 'student-in',
   studentOut: 'student-out',
+  teacherIn: 'teacher-in',
   sign: 'sign',
   notice: 'notice',
 
@@ -30,16 +31,17 @@ function setSocket(io) {
 
 function listen(client) {
   client.on('disconnect', disconnect);
-  client.on('error', handleError);
+  client.on('error',      handleError);
 
   // sign
-  client.on(events.studentIn, onStudentIn(client));
-  client.on(events.studentOut, onStudentOut(client));
+  client.on(events.studentIn,   onStudentIn(client));
+  client.on(events.studentOut,  onStudentOut(client));
+  client.on(events.teacherIn,   onTeacherIn(client));
 
   // chatroom
-  client.on(events.roomList, onRoomList(client));
-  client.on(events.msgList, onMsgList(client));
-  client.on(events.newMsg, onNewMsg(client));
+  client.on(events.roomList,  onRoomList(client));
+  client.on(events.msgList,   onMsgList(client));
+  client.on(events.newMsg,    onNewMsg(client));
 }
 
 function disconnect() {
@@ -51,14 +53,21 @@ function handleError(err) {
 }
 
 function onStudentIn(client) {
-  return function (data) {
-    students[data] = client;
+  return function (studentId) {
+    students[studentId] = client;
   }
 }
 
 function onStudentOut(client) {
-  return function (data) {
-    students[data] = client;
+  return function (studentId) {
+    delete students[studentId];    
+  }
+}
+
+function onTeacherIn(client) {  
+  return function (signId) {
+    console.log('teacher in');
+    client.join(signId);
   }
 }
 
@@ -108,8 +117,12 @@ function noticeStudent(id, data) {
   id = id || '';
   if (students[id]) {
     students[id].emit(events.notice, data);    
-  } else {
-    send(events.notice, data);
+  }
+}
+
+function noticeTeacher(studentId, signId, data) {
+  if (students[studentId]) {
+    students[studentId].to(signId).emit(events.sign, data);
   }
 }
 
@@ -117,3 +130,4 @@ exports.setSocket = setSocket;
 exports.events = events;
 exports.send = send;
 exports.noticeStudent = noticeStudent;
+exports.noticeTeacher = noticeTeacher;
