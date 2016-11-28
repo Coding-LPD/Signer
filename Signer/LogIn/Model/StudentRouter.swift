@@ -10,9 +10,10 @@ import Alamofire
 
 enum StudentRouter: URLRequestConvertible
 {
-    case queryStudent(id: String)       // 查询指定id的学生信息
-    case uploadAvatar
-    case modifyStudent(id: String, parameters: Parameters)     // 修改指定id的学生信息
+    case queryStudent(id: String)                               // 查询指定id的学生信息
+    case uploadAvatar                                           // 上传头像
+    case modifyStudent(id: String, parameters: Parameters)      // 修改指定id的学生信息
+    case requestSignedCourses(phone: String)                    // 学生的所有签到的课程
     
     var method: HTTPMethod {
         switch self {
@@ -22,6 +23,8 @@ enum StudentRouter: URLRequestConvertible
             return .post
         case .modifyStudent:
             return .put
+        case .requestSignedCourses:
+            return .get
         }
     }
     
@@ -34,6 +37,9 @@ enum StudentRouter: URLRequestConvertible
                 return ("/students", [:])
             case let .modifyStudent(id, parameters):
                 return ("/students/\(id)", parameters)
+            case let .requestSignedCourses(phone):
+                return ("/students/\(phone)/relatedCourses", ["limit": 1000, "page": 0])
+                
             }
         }()
         

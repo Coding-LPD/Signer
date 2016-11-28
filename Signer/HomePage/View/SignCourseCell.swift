@@ -16,3 +16,11 @@ class SignCourseCell: UITableViewCell
     static let cellHeight: CGFloat = 138
 
 }
+
+extension SignCourseCell
+{
+    func configureWith(course: Course)
+    {
+        signCourseView.configureWith(course: course)
+    }
+}

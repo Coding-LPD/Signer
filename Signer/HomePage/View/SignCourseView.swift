@@ -10,6 +10,10 @@ import UIKit
 
 @IBDesignable class SignCourseView: UIView
 {
+    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var numberLabel: UILabel!
+    @IBOutlet weak var avatarStackView: UIStackView!
+    
     override init(frame: CGRect)
     {
         super.init(frame: frame)
@@ -34,4 +38,21 @@ import UIKit
         addSubview(view)
     }
 
+}
+
+extension SignCourseView
+{
+    func configureWith(course: Course)
+    {
+        
+        nameLabel.text = course.name
+        numberLabel.text = "\(course.signedNumber)人参与签到"
+        for index in 0..<course.avatarUrls.count {
+            let imageView = avatarStackView.arrangedSubviews[index] as! UIImageView
+            imageView.sd_setImage(with: URL(string: course.avatarUrls[index])!)
+        }
+        for index in course.avatarUrls.count..<6 {
+            avatarStackView.arrangedSubviews[index].isHidden = true
+        }
+    }
 }

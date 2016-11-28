@@ -9,6 +9,7 @@ target 'Signer' do
     pod 'SwiftyJSON', '~> 3.1.1'
     pod 'SDWebImage', '~>3.8'
 
+    pod 'DZNEmptyDataSet'
     pod 'Toast-Swift', '~> 2.0.0'
     pod 'IQKeyboardManager', '~> 4.0.5'
     pod 'AlamofireNetworkActivityIndicator', '~> 2.0'

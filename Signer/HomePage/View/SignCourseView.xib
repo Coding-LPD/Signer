@@ -6,38 +6,110 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SignCourseView" customModule="华师小签" customModuleProvider="target"/>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SignCourseView" customModule="华师小签" customModuleProvider="target">
+            <connections>
+                <outlet property="avatarStackView" destination="fed-J8-UVW" id="9SU-YC-9bS"/>
+                <outlet property="nameLabel" destination="CoH-cQ-2M3" id="vRY-Hr-nig"/>
+                <outlet property="numberLabel" destination="lAK-eC-e6h" id="xpj-CR-dUw"/>
+            </connections>
+        </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="iN0-l3-epB">
             <rect key="frame" x="0.0" y="0.0" width="354" height="126"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="课程名" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CoH-cQ-2M3">
-                    <rect key="frame" x="149" y="24" width="56" height="22"/>
+                    <rect key="frame" x="149.5" y="24" width="55.5" height="21.5"/>
                     <fontDescription key="fontDescription" type="system" pointSize="18"/>
                     <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="签到人数" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lAK-eC-e6h">
-                    <rect key="frame" x="152" y="53" width="50" height="15"/>
+                    <rect key="frame" x="152.5" y="52.5" width="49.5" height="14.5"/>
                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                     <color key="textColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <stackView opaque="NO" contentMode="scaleToFill" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="fed-J8-UVW">
+                    <rect key="frame" x="41" y="77" width="272" height="32"/>
+                    <subviews>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="default_avatar_1" translatesAutoresizingMaskIntoConstraints="NO" id="kd3-ze-TVT">
+                            <rect key="frame" x="0.0" y="0.0" width="32" height="32"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="32" id="dKX-X8-iBm"/>
+                                <constraint firstAttribute="width" secondItem="kd3-ze-TVT" secondAttribute="height" multiplier="1:1" id="doC-Cp-jKu"/>
+                            </constraints>
+                        </imageView>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="default_avatar_1" translatesAutoresizingMaskIntoConstraints="NO" id="UyA-iN-kMW">
+                            <rect key="frame" x="48" y="0.0" width="32" height="32"/>
+                            <constraints>
+                                <constraint firstAttribute="width" secondItem="UyA-iN-kMW" secondAttribute="height" multiplier="1:1" id="9Kg-MU-VCX"/>
+                                <constraint firstAttribute="height" constant="32" id="FkN-aw-GiV"/>
+                            </constraints>
+                        </imageView>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="default_avatar_1" translatesAutoresizingMaskIntoConstraints="NO" id="wp9-4l-ZQq">
+                            <rect key="frame" x="96" y="0.0" width="32" height="32"/>
+                            <constraints>
+                                <constraint firstAttribute="width" secondItem="wp9-4l-ZQq" secondAttribute="height" multiplier="1:1" id="ZkO-gA-8IS"/>
+                                <constraint firstAttribute="height" constant="32" id="iDW-XW-WhV"/>
+                            </constraints>
+                        </imageView>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="default_avatar_1" translatesAutoresizingMaskIntoConstraints="NO" id="CxX-bE-rZK">
+                            <rect key="frame" x="144" y="0.0" width="32" height="32"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="32" id="Uo1-Ol-fbM"/>
+                                <constraint firstAttribute="width" secondItem="CxX-bE-rZK" secondAttribute="height" multiplier="1:1" id="sXA-ku-Qz5"/>
+                            </constraints>
+                        </imageView>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="default_avatar_1" translatesAutoresizingMaskIntoConstraints="NO" id="IjQ-Tg-MgK">
+                            <rect key="frame" x="192" y="0.0" width="32" height="32"/>
+                            <constraints>
+                                <constraint firstAttribute="width" secondItem="IjQ-Tg-MgK" secondAttribute="height" multiplier="1:1" id="eCF-y1-m0e"/>
+                                <constraint firstAttribute="height" constant="32" id="nLx-2n-JhP"/>
+                            </constraints>
+                        </imageView>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="default_avatar_1" translatesAutoresizingMaskIntoConstraints="NO" id="2uI-iW-OTZ">
+                            <rect key="frame" x="240" y="0.0" width="32" height="32"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="32" id="7i9-6w-agj"/>
+                                <constraint firstAttribute="width" secondItem="2uI-iW-OTZ" secondAttribute="height" multiplier="1:1" id="bj4-p8-spO"/>
+                            </constraints>
+                        </imageView>
+                    </subviews>
+                    <constraints>
+                        <constraint firstItem="wp9-4l-ZQq" firstAttribute="width" secondItem="wp9-4l-ZQq" secondAttribute="height" multiplier="1:1" id="4S2-0a-tqv"/>
+                        <constraint firstItem="2uI-iW-OTZ" firstAttribute="width" secondItem="2uI-iW-OTZ" secondAttribute="height" multiplier="1:1" id="awe-0m-Lpy"/>
+                        <constraint firstItem="IjQ-Tg-MgK" firstAttribute="width" secondItem="IjQ-Tg-MgK" secondAttribute="height" multiplier="1:1" id="cOR-OT-VKq"/>
+                        <constraint firstAttribute="height" constant="32" id="iI7-4p-PHY"/>
+                        <constraint firstItem="UyA-iN-kMW" firstAttribute="width" secondItem="UyA-iN-kMW" secondAttribute="height" multiplier="1:1" id="nCZ-mI-IYE"/>
+                        <constraint firstItem="CxX-bE-rZK" firstAttribute="width" secondItem="CxX-bE-rZK" secondAttribute="height" multiplier="1:1" id="pIX-gh-h3w"/>
+                    </constraints>
+                </stackView>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
+                <constraint firstItem="fed-J8-UVW" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="HpF-Vl-8Jv"/>
                 <constraint firstItem="lAK-eC-e6h" firstAttribute="top" secondItem="CoH-cQ-2M3" secondAttribute="bottom" constant="7" id="MQt-oX-und"/>
                 <constraint firstItem="CoH-cQ-2M3" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="Ugx-07-IoV"/>
                 <constraint firstItem="CoH-cQ-2M3" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="24" id="cOE-xy-4Lu"/>
                 <constraint firstItem="lAK-eC-e6h" firstAttribute="centerX" secondItem="CoH-cQ-2M3" secondAttribute="centerX" id="e9f-zI-TGk"/>
+                <constraint firstItem="fed-J8-UVW" firstAttribute="top" secondItem="lAK-eC-e6h" secondAttribute="bottom" constant="10" id="gDG-F0-84g"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <userDefinedRuntimeAttributes>
+                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                    <integer key="value" value="4"/>
+                </userDefinedRuntimeAttribute>
+            </userDefinedRuntimeAttributes>
             <point key="canvasLocation" x="-453" y="-13"/>
         </view>
     </objects>
+    <resources>
+        <image name="default_avatar_1" width="200" height="200"/>
+    </resources>
 </document>

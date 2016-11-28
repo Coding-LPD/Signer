@@ -50,6 +50,7 @@
 		AD75AA981DEBDEDC0056DED8 /* libstdc++.6.0.9.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = AD75AA971DEBDEDC0056DED8 /* libstdc++.6.0.9.tbd */; };
 		AD771B771DD1712A0082BCB3 /* LoadingButton.xib in Resources */ = {isa = PBXBuildFile; fileRef = AD771B761DD1712A0082BCB3 /* LoadingButton.xib */; };
 		AD771B791DD171410082BCB3 /* LoadingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD771B781DD171410082BCB3 /* LoadingButton.swift */; };
+		AD8F4BFA1DEC242000F53B18 /* Course.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD8F4BF91DEC242000F53B18 /* Course.swift */; };
 		ADA257DE1DE2E4A000470B07 /* MineAvatarCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = ADA257DD1DE2E4A000470B07 /* MineAvatarCell.xib */; };
 		ADA257E01DE2E4D000470B07 /* MineAvatarCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA257DF1DE2E4D000470B07 /* MineAvatarCell.swift */; };
 		ADABF3AF1DD8498600226D86 /* StudentRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADABF3AE1DD8498600226D86 /* StudentRouter.swift */; };
@@ -128,6 +129,7 @@
 		AD75AA971DEBDEDC0056DED8 /* libstdc++.6.0.9.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.6.0.9.tbd"; path = "usr/lib/libstdc++.6.0.9.tbd"; sourceTree = SDKROOT; };
 		AD771B761DD1712A0082BCB3 /* LoadingButton.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoadingButton.xib; sourceTree = "<group>"; };
 		AD771B781DD171410082BCB3 /* LoadingButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingButton.swift; sourceTree = "<group>"; };
+		AD8F4BF91DEC242000F53B18 /* Course.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Course.swift; sourceTree = "<group>"; };
 		ADA257DD1DE2E4A000470B07 /* MineAvatarCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MineAvatarCell.xib; sourceTree = "<group>"; };
 		ADA257DF1DE2E4D000470B07 /* MineAvatarCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MineAvatarCell.swift; sourceTree = "<group>"; };
 		ADABF3AE1DD8498600226D86 /* StudentRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudentRouter.swift; sourceTree = "<group>"; };
@@ -186,6 +188,7 @@
 		0747349D1D86C3850005D58C /* HomePage */ = {
 			isa = PBXGroup;
 			children = (
+				AD8F4BF81DEC23ED00F53B18 /* Model */,
 				074734A01D86C3B00005D58C /* View */,
 			);
 			path = HomePage;
@@ -407,6 +410,14 @@
 				AD771B781DD171410082BCB3 /* LoadingButton.swift */,
 			);
 			path = LoadingButton;
+			sourceTree = "<group>";
+		};
+		AD8F4BF81DEC23ED00F53B18 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				AD8F4BF91DEC242000F53B18 /* Course.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		ADCCAC361DE6AB9B00757525 /* Reachability */ = {
@@ -714,6 +725,7 @@
 				AD63C2961DD1B5FF00BA1276 /* ChatRoomViewController.swift in Sources */,
 				AD5899831DE4276400A2F8AE /* AbstractActionSheetPicker.m in Sources */,
 				AD34AFA51DDC207F0085F21B /* MineViewController.swift in Sources */,
+				AD8F4BFA1DEC242000F53B18 /* Course.swift in Sources */,
 				ADEF11F91D869EB6001F9C19 /* SignUpStep1ViewController.swift in Sources */,
 				ADF238941DE9772100D68325 /* SignResultViewController.swift in Sources */,
 				AD3D20F41DE804AA0017D19B /* MTBBarcodeScanner.m in Sources */,
