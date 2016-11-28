@@ -9,9 +9,8 @@
 import UIKit
 import Alamofire
 import SwiftyJSON
-import INTULocationManager
 
-class CourseDetailViewController: UIViewController
+class CourseDetailViewController: UIViewController, BMKLocationServiceDelegate
 {
     var courseQRCode: String?
     
@@ -73,12 +72,21 @@ class CourseDetailViewController: UIViewController
                     if json["code"] == "200" {
                         self.configureUIWith(json: json["data"])
                     } else {
-                        self.view.makeToast("课程不存在", duration: 1.0, position: .center)
-                        self.dismissSignVCDelegate?.dismissSignVC()
+                        let alert = UIAlertController(title: "课程不存在", message: nil, preferredStyle: .alert)
+                        let doneAction = UIAlertAction(title: "确定", style: .cancel, handler: { (_) in
+                            self.dismissSignVCDelegate?.dismissSignVC()
+                        })
+                        alert.addAction(doneAction)
+                        self.present(alert, animated: true, completion: nil)
                     }
                 case .failure(_):
-                    self.view.makeToast("获取课程详情失败，检查网络连接", duration: 1.0, position: .center)
-                    self.dismissSignVCDelegate?.dismissSignVC()
+                    let alert = UIAlertController(title: "获取课程详情失败，检查网络连接", message: nil, preferredStyle: .alert)
+                    let doneAction = UIAlertAction(title: "确定", style: .cancel, handler: { (_) in
+                        self.dismissSignVCDelegate?.dismissSignVC()
+                    })
+                    alert.addAction(doneAction)
+                    self.present(alert, animated: true, completion: nil)
+                    
                 }
             }
         
@@ -126,32 +134,34 @@ class CourseDetailViewController: UIViewController
     }
     
     var signId: String?
+    var signType: Int?      // 签到类别: 0-课前签到/1-课后签到
+    
+    lazy var locService: BMKLocationService = {
+       let locService = BMKLocationService()
+        locService.delegate = self
+        return locService
+    }()
     
     // 课前/课后签到(signType: 0-课前签到/1-课后签到)
     @IBAction func signAction(_ button: UIButton)
     {
         view.makeToastActivity(.center)
 
-        let locationManager = INTULocationManager.sharedInstance()
-        locationManager.requestLocation(withDesiredAccuracy: .room, timeout: 10.0, block: { [weak self] currentLocation, achievedAccuracy, status in
-            if status == .success {
-                guard let longitude = currentLocation?.coordinate.longitude, let latitude = currentLocation?.coordinate.latitude else {
-                    fatalError("经纬度为空")
-                }
-                self?.view.makeToast("获取位置成功，经度：\(longitude) 纬度：\(latitude)", duration: 1.0, position: .center)
-                self?.signWith(signType: button.tag, longitude: longitude, latitude: latitude)
-            } else if status == .timedOut {
-                fatal Error("获取位置信息超时！")
-            } else {
-                fatalError("获取位置信息失败！")
-            }
-        })
+        signType = button.tag
+        locService.startUserLocationService()
     }
     
-    func signWith(signType: Int, longitude: Double, latitude: Double)
+    func didUpdate(_ userLocation: BMKUserLocation!)
     {
-        guard let signId = signId else {
-            return
+        locService.stopUserLocationService()
+        print("获取位置成功，经度：\(userLocation.location.coordinate.longitude) 纬度：\(userLocation.location.coordinate.latitude)")
+        signWith(signType: signType, longitude: userLocation.location.coordinate.longitude, latitude: userLocation.location.coordinate.latitude)
+    }
+    
+    func signWith(signType: Int?, longitude: Double, latitude: Double)
+    {
+        guard let signId = signId, let signType = signType else {
+            fatalError("CourseDetailViewController signWith初始值为空")
         }
 
         let student = Student()
@@ -179,45 +189,6 @@ class CourseDetailViewController: UIViewController
         }
     }
 
-//    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation])
-//    {
-//
-//        guard let signId = signId, let signType = signType else {
-//            return
-//        }
-//
-//        guard let locValue = manager.location?.coordinate else {
-//            fatalError("更新位置出错")
-//        }
-//        print("经度\(locValue.longitude) 纬度\(locValue.latitude)")
-//        
-//        view.makeToastActivity(.center)
-//
-//        let student = Student()
-//        UIDevice.current.isBatteryMonitoringEnabled = true
-//        let battery = UIDevice.current.batteryLevel * 100
-//        
-//        Alamofire
-//            .request(SignRouter.sign(signId: signId, phoneId: student.phone, studentId: student.id, type: signType, battery: battery, longitude: locValue.longitude, latitude: locValue.latitude))
-//            .responseJSON { (response) in
-//                self.view.hideToastActivity()
-//                switch response.result {
-//                case .success(let value):
-//                    let json = JSON(value)
-//                    print("学生签到: \(json)")
-//                    if json["code"] == "200" {
-//                        self.battery = json["data"]["battery"].int
-//                        self.distance = json["data"]["distance"].int
-//                        self.performSegue(withIdentifier: "signResult", sender: nil)
-//                    } else {
-//                        self.view.makeToast("签到失败，原因: \(json["msg"])", duration: 1.0, position: .center)
-//                    }
-//                case .failure(_):
-//                    self.view.makeToast("签到失败，检查网络连接", duration: 1.0, position: .center)
-//                }
-//            }
-//    }
-    
     @IBAction func backAction(_ sender: UIBarButtonItem)
     {
         dismissSignVCDelegate?.dismissSignVC()

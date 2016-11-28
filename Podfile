@@ -11,7 +11,6 @@ target 'Signer' do
 
     pod 'Toast-Swift', '~> 2.0.0'
     pod 'IQKeyboardManager', '~> 4.0.5'
-    pod 'INTULocationManager'
     pod 'AlamofireNetworkActivityIndicator', '~> 2.0'
 
 end

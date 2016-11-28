@@ -48,6 +48,11 @@ class SignViewController: UIViewController, dismissSignViewControllerDelegate
                         self?.scanner?.stopScanning()
                     }
                 }, error: nil)
+            } else {
+                let alert = UIAlertController(title: "没有相机权限", message: "前往设置打开应用相机权限或者点击右上角输入手动输入签到码", preferredStyle: .alert)
+                let doneAction = UIAlertAction(title: "确定", style: .cancel, handler: nil)
+                alert.addAction(doneAction)
+                self?.present(alert, animated: true, completion: nil)
             }
         }
     }

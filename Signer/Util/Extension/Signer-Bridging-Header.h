@@ -11,3 +11,5 @@
 #import "Reachability.h"
 
 #import "MTBBarcodeScanner.h"
+
+#import <BaiduMapAPI_Location/BMKLocationComponent.h>

@@ -38,6 +38,16 @@
 		AD58998D1DE43D5600A2F8AE /* PreviewAvatarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD58998C1DE43D5600A2F8AE /* PreviewAvatarViewController.swift */; };
 		AD63C2961DD1B5FF00BA1276 /* ChatRoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD63C2951DD1B5FF00BA1276 /* ChatRoomViewController.swift */; };
 		AD63C2BE1DD1CF0A00BA1276 /* RSA.m in Sources */ = {isa = PBXBuildFile; fileRef = AD63C2BD1DD1CF0A00BA1276 /* RSA.m */; };
+		AD75AA871DEBDDAE0056DED8 /* BaiduMapAPI_Base.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD75AA851DEBDDAE0056DED8 /* BaiduMapAPI_Base.framework */; };
+		AD75AA881DEBDDAE0056DED8 /* BaiduMapAPI_Location.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD75AA861DEBDDAE0056DED8 /* BaiduMapAPI_Location.framework */; };
+		AD75AA8A1DEBDE7E0056DED8 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD75AA891DEBDE7E0056DED8 /* CoreLocation.framework */; };
+		AD75AA8C1DEBDE890056DED8 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD75AA8B1DEBDE890056DED8 /* QuartzCore.framework */; };
+		AD75AA8E1DEBDE910056DED8 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD75AA8D1DEBDE910056DED8 /* OpenGLES.framework */; };
+		AD75AA901DEBDEA60056DED8 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD75AA8F1DEBDEA60056DED8 /* CoreGraphics.framework */; };
+		AD75AA921DEBDEAF0056DED8 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD75AA911DEBDEAE0056DED8 /* Security.framework */; };
+		AD75AA941DEBDEC10056DED8 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = AD75AA931DEBDEC10056DED8 /* libsqlite3.0.tbd */; };
+		AD75AA961DEBDECA0056DED8 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD75AA951DEBDECA0056DED8 /* CoreTelephony.framework */; };
+		AD75AA981DEBDEDC0056DED8 /* libstdc++.6.0.9.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = AD75AA971DEBDEDC0056DED8 /* libstdc++.6.0.9.tbd */; };
 		AD771B771DD1712A0082BCB3 /* LoadingButton.xib in Resources */ = {isa = PBXBuildFile; fileRef = AD771B761DD1712A0082BCB3 /* LoadingButton.xib */; };
 		AD771B791DD171410082BCB3 /* LoadingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD771B781DD171410082BCB3 /* LoadingButton.swift */; };
 		ADA257DE1DE2E4A000470B07 /* MineAvatarCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = ADA257DD1DE2E4A000470B07 /* MineAvatarCell.xib */; };
@@ -106,6 +116,16 @@
 		AD63C2BC1DD1CF0A00BA1276 /* RSA.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSA.h; sourceTree = "<group>"; };
 		AD63C2BD1DD1CF0A00BA1276 /* RSA.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSA.m; sourceTree = "<group>"; };
 		AD63C2C21DD1D30700BA1276 /* 华师小签.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "华师小签.entitlements"; sourceTree = "<group>"; };
+		AD75AA851DEBDDAE0056DED8 /* BaiduMapAPI_Base.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BaiduMapAPI_Base.framework; path = Signer/frameworks/BaiduMapAPI_Base.framework; sourceTree = "<group>"; };
+		AD75AA861DEBDDAE0056DED8 /* BaiduMapAPI_Location.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BaiduMapAPI_Location.framework; path = Signer/frameworks/BaiduMapAPI_Location.framework; sourceTree = "<group>"; };
+		AD75AA891DEBDE7E0056DED8 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		AD75AA8B1DEBDE890056DED8 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		AD75AA8D1DEBDE910056DED8 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
+		AD75AA8F1DEBDEA60056DED8 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		AD75AA911DEBDEAE0056DED8 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		AD75AA931DEBDEC10056DED8 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
+		AD75AA951DEBDECA0056DED8 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		AD75AA971DEBDEDC0056DED8 /* libstdc++.6.0.9.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.6.0.9.tbd"; path = "usr/lib/libstdc++.6.0.9.tbd"; sourceTree = SDKROOT; };
 		AD771B761DD1712A0082BCB3 /* LoadingButton.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoadingButton.xib; sourceTree = "<group>"; };
 		AD771B781DD171410082BCB3 /* LoadingButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingButton.swift; sourceTree = "<group>"; };
 		ADA257DD1DE2E4A000470B07 /* MineAvatarCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MineAvatarCell.xib; sourceTree = "<group>"; };
@@ -144,7 +164,17 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AD75AA981DEBDEDC0056DED8 /* libstdc++.6.0.9.tbd in Frameworks */,
+				AD75AA961DEBDECA0056DED8 /* CoreTelephony.framework in Frameworks */,
+				AD75AA941DEBDEC10056DED8 /* libsqlite3.0.tbd in Frameworks */,
+				AD75AA921DEBDEAF0056DED8 /* Security.framework in Frameworks */,
+				AD75AA901DEBDEA60056DED8 /* CoreGraphics.framework in Frameworks */,
 				ADCCAC3B1DE6ABE700757525 /* SystemConfiguration.framework in Frameworks */,
+				AD75AA8E1DEBDE910056DED8 /* OpenGLES.framework in Frameworks */,
+				AD75AA8C1DEBDE890056DED8 /* QuartzCore.framework in Frameworks */,
+				AD75AA8A1DEBDE7E0056DED8 /* CoreLocation.framework in Frameworks */,
+				AD75AA871DEBDDAE0056DED8 /* BaiduMapAPI_Base.framework in Frameworks */,
+				AD75AA881DEBDDAE0056DED8 /* BaiduMapAPI_Location.framework in Frameworks */,
 				4289AA9668495BCDD69083EB /* Pods_Signer.framework in Frameworks */,
 				ADD87F201DE3E5060093A25F /* Reveal.framework in Frameworks */,
 			);
@@ -214,6 +244,16 @@
 		63BB714A2E03054C3FE51A59 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				AD75AA971DEBDEDC0056DED8 /* libstdc++.6.0.9.tbd */,
+				AD75AA951DEBDECA0056DED8 /* CoreTelephony.framework */,
+				AD75AA931DEBDEC10056DED8 /* libsqlite3.0.tbd */,
+				AD75AA911DEBDEAE0056DED8 /* Security.framework */,
+				AD75AA8F1DEBDEA60056DED8 /* CoreGraphics.framework */,
+				AD75AA8D1DEBDE910056DED8 /* OpenGLES.framework */,
+				AD75AA8B1DEBDE890056DED8 /* QuartzCore.framework */,
+				AD75AA891DEBDE7E0056DED8 /* CoreLocation.framework */,
+				AD75AA851DEBDDAE0056DED8 /* BaiduMapAPI_Base.framework */,
+				AD75AA861DEBDDAE0056DED8 /* BaiduMapAPI_Location.framework */,
 				ADCCAC3A1DE6ABE700757525 /* SystemConfiguration.framework */,
 				ADD87F1F1DE3E5060093A25F /* Reveal.framework */,
 				FEB9F7DA29CDEF2318471B66 /* Pods_Signer.framework */,
@@ -824,6 +864,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Signer/frameworks",
 				);
 				INFOPLIST_FILE = Signer/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -873,6 +914,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Signer/frameworks",
 				);
 				INFOPLIST_FILE = Signer/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
