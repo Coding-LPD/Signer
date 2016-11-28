@@ -31,6 +31,7 @@ import com.scnu.zhou.signer.ui.widget.toast.ToastView;
 import com.scnu.zhou.signer.view.home.IHomeView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.Bind;
@@ -336,7 +337,7 @@ public class SearchActivity extends BaseSlideActivity implements IHomeView, View
     // 隐藏历史搜索
     public void hideHistoryList(){
 
-        historys.clear();
+        //historys.clear();
         historyAdapter.notifyDataSetChanged();
         lv_search_history.setVisibility(View.GONE);
     }
@@ -366,27 +367,18 @@ public class SearchActivity extends BaseSlideActivity implements IHomeView, View
         int i = 0;
         String key = et_search.getText().toString();
 
-        if (historys.size() > 0) {
-            for (; i < historys.size(); i++) {
+        for (; i<historys.size(); i++){
 
-                if (key.equals(historys.get(i))) {
-                    break;
-                }
-            }
-
-            if (i < historys.size()) {
-                historys.remove(i);
-            }
-
-            historys.add(historys.size(), historys.get(historys.size() - 1));
-            for (i = historys.size() - 1; i > 0; i--) {
-                historys.set(i, historys.get(i - 1));
-            }
-            historys.set(0, key);
+            if (historys.get(i).equals(key)) break;
         }
-        else{
-            historys.add(key);
+
+        if (i != historys.size()){
+            historys.remove(i);
         }
+
+        Collections.reverse(historys);
+        historys.add(key);
+        Collections.reverse(historys);
 
         presenter.setSearchHistoryCache(this, historys);
     }
