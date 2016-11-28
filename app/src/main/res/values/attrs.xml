@@ -58,4 +58,9 @@
         <attr name="emojiSize" format="dimension" />
     </declare-styleable>
 
+    <declare-styleable name="SearchIcon">
+        <attr name="color" format="color"/>
+        <attr name="duration" format="integer"/>
+    </declare-styleable>
+
 </resources>

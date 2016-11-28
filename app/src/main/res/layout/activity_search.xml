@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorActivityBackground">
 
@@ -72,7 +73,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginTop="51dp">
 
         <com.scnu.zhou.signer.ui.widget.listview.PullToRefreshListView
             android:id="@+id/plv_search_result"
@@ -90,8 +92,18 @@
         </ListView>
 
         <include layout="@layout/layout_no_result"/>
-        <include layout="@layout/layout_no_network"/>
+
+        <com.scnu.zhou.signer.ui.widget.animation.SearchIcon
+            android:id="@+id/icon_searching"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_centerInParent="true"
+            android:visibility="gone"
+            app:color="#ccc"
+            app:duration="1000" />
 
     </RelativeLayout>
 
-</LinearLayout>
+    <include layout="@layout/layout_no_network"/>
+
+</RelativeLayout>

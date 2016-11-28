@@ -3,6 +3,7 @@ package com.scnu.zhou.signer.ui.activity.course;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -26,6 +27,7 @@ import com.scnu.zhou.signer.component.util.density.DensityUtil;
 import com.scnu.zhou.signer.presenter.home.HomePresenter;
 import com.scnu.zhou.signer.presenter.home.IHomePresenter;
 import com.scnu.zhou.signer.ui.activity.base.BaseSlideActivity;
+import com.scnu.zhou.signer.ui.widget.animation.SearchIcon;
 import com.scnu.zhou.signer.ui.widget.listview.PullToRefreshListView;
 import com.scnu.zhou.signer.ui.widget.toast.ToastView;
 import com.scnu.zhou.signer.view.home.IHomeView;
@@ -52,6 +54,8 @@ public class SearchActivity extends BaseSlideActivity implements IHomeView, View
 
     @Bind(R.id.ll_no_result) LinearLayout ll_no_result;
     @Bind(R.id.ll_no_network) LinearLayout ll_no_network;
+
+    @Bind(R.id.icon_searching) SearchIcon icon_searching;
 
     private SearchHistoryAdapter historyAdapter;
     private List<String> historys;
@@ -140,8 +144,8 @@ public class SearchActivity extends BaseSlideActivity implements IHomeView, View
     @Override
     public void onGetRelatedCoursesSuccess(List<MainCourse> response) {
 
-        dismissLoadingDialog();
-
+        //dismissLoadingDialog();
+        endSearch();
         page++;
 
         if (state == STATE_REFRESH) {
@@ -170,7 +174,8 @@ public class SearchActivity extends BaseSlideActivity implements IHomeView, View
     @Override
     public void onGetRelatedCoursesError(String msg) {
 
-        dismissLoadingDialog();
+        //dismissLoadingDialog();
+        endSearch();
         ToastView toastView = new ToastView(this, msg);
         toastView.setGravity(Gravity.CENTER, 0, 0);
         toastView.show();
@@ -182,7 +187,8 @@ public class SearchActivity extends BaseSlideActivity implements IHomeView, View
 
         Log.e("error", e.toString());
 
-        dismissLoadingDialog();
+        //dismissLoadingDialog();
+        endSearch();
         ToastView toastView = new ToastView(this, "请检查您的网络连接");
         toastView.setGravity(Gravity.CENTER, 0, 0);
         toastView.show();
@@ -266,7 +272,8 @@ public class SearchActivity extends BaseSlideActivity implements IHomeView, View
             // 执行搜索动作
             Log.e("action", "search >>>>");
             dismissKeyBoard();
-            showLoadingDialog("搜索中");
+            //showLoadingDialog("搜索中");
+            startSearching();
             insertKey();
 
             hideHistoryList();
@@ -334,6 +341,31 @@ public class SearchActivity extends BaseSlideActivity implements IHomeView, View
         }
     }
 
+    // 开始搜索
+    public void startSearching(){
+
+        ll_no_result.setVisibility(View.GONE);
+        ll_no_network.setVisibility(View.GONE);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            icon_searching.setVisibility(View.VISIBLE);
+        }
+        else{
+            showLoadingDialog("加载中");
+        }
+    }
+
+    // 结束搜索
+    public void endSearch(){
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            icon_searching.setVisibility(View.GONE);
+        }
+        else{
+            dismissKeyBoard();
+        }
+    }
+
     // 隐藏历史搜索
     public void hideHistoryList(){
 
@@ -393,7 +425,8 @@ public class SearchActivity extends BaseSlideActivity implements IHomeView, View
 
         Log.e("action", "search >>>>");
         dismissKeyBoard();
-        showLoadingDialog("搜索中");
+        //showLoadingDialog("搜索中");
+        startSearching();
         et_search.setText(historys.get(position));
         insertKey();
 
