@@ -17,6 +17,7 @@ class SignViewController: UIViewController, dismissSignViewControllerDelegate
 {
     
     @IBOutlet weak var scanView: UIView!
+    @IBOutlet weak var scanRect: UIImageView!
     @IBOutlet weak var inputBarButton: UIBarButtonItem!
     
     lazy var scanner: MTBBarcodeScanner? = {
@@ -41,7 +42,7 @@ class SignViewController: UIViewController, dismissSignViewControllerDelegate
         
         MTBBarcodeScanner.requestCameraPermission { [weak self] (isSuccess) in
             if isSuccess {
-                self?.scanner?.startScanning(resultBlock: { codes in
+                    self?.scanner?.startScanning(resultBlock: { codes in
                     if let code = (codes as! [AVMetadataMachineReadableCodeObject]?)?.first {
                         self?.courseQRCode = code.stringValue
                         self?.performSegue(withIdentifier: "showCourseDetail", sender: nil)

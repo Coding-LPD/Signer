@@ -1077,7 +1077,21 @@
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2jz-gJ-pla">
                                 <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="scanRectangle" translatesAutoresizingMaskIntoConstraints="NO" id="aFg-nk-L7z">
+                                        <rect key="frame" x="87" y="201" width="200" height="200"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="200" id="PpQ-po-f7P"/>
+                                            <constraint firstAttribute="width" secondItem="aFg-nk-L7z" secondAttribute="height" multiplier="1:1" id="e5c-2G-Z2p"/>
+                                        </constraints>
+                                    </imageView>
+                                </subviews>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="aFg-nk-L7z" firstAttribute="centerX" secondItem="2jz-gJ-pla" secondAttribute="centerX" id="hTE-X2-fbD"/>
+                                    <constraint firstItem="aFg-nk-L7z" firstAttribute="centerY" secondItem="2jz-gJ-pla" secondAttribute="centerY" id="r8u-8B-FUD"/>
+                                </constraints>
                             </view>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1104,6 +1118,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="inputBarButton" destination="CkL-YA-cwr" id="6TZ-fg-jbS"/>
+                        <outlet property="scanRect" destination="aFg-nk-L7z" id="Cu4-Yq-EU5"/>
                         <outlet property="scanView" destination="2jz-gJ-pla" id="CwN-qM-wsC"/>
                         <segue destination="QeH-7g-wqh" kind="show" identifier="showCourseDetail" id="QMe-lt-sGt"/>
                     </connections>
@@ -2137,6 +2152,7 @@
         <image name="dismiss" width="21" height="22"/>
         <image name="location" width="17" height="19"/>
         <image name="person" width="17" height="17"/>
+        <image name="scanRectangle" width="200" height="200"/>
         <image name="sign" width="21" height="22"/>
         <image name="success" width="96" height="96"/>
         <image name="tab_chatRoom" width="24" height="24"/>
@@ -2147,6 +2163,6 @@
     <inferredMetricsTieBreakers>
         <segue reference="oTD-Ta-0bd"/>
         <segue reference="ytQ-N9-pZ9"/>
-        <segue reference="hcD-SV-TCu"/>
+        <segue reference="QMe-lt-sGt"/>
     </inferredMetricsTieBreakers>
 </document>
