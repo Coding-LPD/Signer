@@ -57,8 +57,8 @@
   </div>
 
   <!-- 签到记录列表 -->
-  <ul class="sign-in-list">
-    <li *ngFor="let r of records">
+  <ul class="sign-in-list" *ngIf="records">
+    <li *ngFor="let r of records; trackBy: trackByFn">
       <img class="avatar" [src]="r.studentAvatar" onerror="javascript:this.src='/public/images/default.png'" />
       <div>{{r.studentName}}</div>
       <div [class]="r.distance <= 100 ? 'green-font' : 'red-font'">{{r.distance}}m</div>

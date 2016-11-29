@@ -123,7 +123,8 @@ export class DetailComponent implements OnInit, OnDestroy {
     if (+body.code == 200) {     
       // 是当前页面，且为指定类型的签到记录才显示 
       if (data.signId === this.sign._id && data.type == index) {
-        this.records.push(data);
+        var last = this.records.findIndex(this.insertPos(data));
+        this.records.splice(last, 0, data);
       }
     } else {
       this.popup.show(body.msg);
@@ -237,17 +238,45 @@ export class DetailComponent implements OnInit, OnDestroy {
       })
   }
 
+  /**
+   * 签到记录的跟踪函数，使angular跟踪id
+   */
+  trackByFn(index: number, record: SignRecord) {
+    return record._id;
+  }
+
   private refreshRecords(signId: string, type: number) {
     this._signRecordService.search({ signId, type })
       .subscribe(body => {
         this.signIn = 0;
         if (+body.code == 200) {
-          this.records = body.data;
+          this.records = body.data.sort(this.sortRecord);
           this.signIn = this.records.length - this.getNotSignInRecordIndexs().length;          
         } else {
           this.popup.show(body.msg);
         }
       });
-  }  
+  }
+
+  /**
+   * 未批准签到排在最前
+   * 同样批准状态的签到则按距离从大到小排序
+   */
+  private sortRecord(a: SignRecord, b: SignRecord) {    
+    var stateDiff = a.state - b.state;
+    var distanceDiff = a.distance - b.distance;
+    return stateDiff == 0 ? -distanceDiff : stateDiff;
+  }
+
+  /**
+   * 寻找新签到记录的插入位置
+   */
+  private insertPos(data: SignRecord) {
+    return (val: SignRecord) => {
+      var stateDiff = data.state - val.state;
+      var distanceDiff = data.distance - val.distance;
+      return stateDiff == 0 ? (distanceDiff >= 0 ? true : false) : true;  
+    };
+  }
 
 }
