@@ -11,16 +11,15 @@ import Alamofire
 import SwiftyJSON
 import DZNEmptyDataSet
 
-class HomePageViewController: UIViewController, UISearchBarDelegate
+class HomePageViewController: UIViewController
 {
     var reach: Reachability?
-    
-    @IBOutlet weak var searchBar: UISearchBar!
+
     @IBOutlet weak var tableView: UITableView!
     
     var courses = [Course]()
     
-    var isReachableNet = true {
+    var isReachableNet = false {
         didSet {
             tableView.reloadEmptyDataSet()
         }
@@ -36,9 +35,31 @@ class HomePageViewController: UIViewController, UISearchBarDelegate
         
         initUI()
         
+        refreshCourses()
+    }
+    
+    lazy var refreshControl: UIRefreshControl = {
+       let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(refreshCourses), for: .valueChanged)
+        return refreshControl
+    }()
+
+    func initUI()
+    {
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.emptyDataSetSource = self
+        tableView.emptyDataSetDelegate = self
+        tableView.backgroundColor = UIColor(netHex: 0xf5f5f5)
+        tableView.addSubview(refreshControl)
+    }
+    
+    func refreshCourses()
+    {
         Alamofire
             .request(StudentRouter.requestSignedCourses(phone: Student().phone))
             .responseJSON { (response) in
+                self.refreshControl.endRefreshing()
                 switch response.result {
                 case .success(let value):
                     let json = JSON(value)
@@ -54,16 +75,6 @@ class HomePageViewController: UIViewController, UISearchBarDelegate
             }
     }
     
-    func initUI()
-    {
-        tableView.dataSource = self
-        tableView.delegate = self
-        tableView.emptyDataSetSource = self
-        tableView.backgroundColor = UIColor(netHex: 0xf5f5f5)
-        
-        searchBar.delegate = self
-    }
-    
     func configureUIWith(json: JSON)
     {
         self.courses = []
@@ -71,12 +82,12 @@ class HomePageViewController: UIViewController, UISearchBarDelegate
         for (_, courseJSON) in json {
             let name = courseJSON["name"].stringValue
             let number = courseJSON["number"].intValue
+            let courseId = courseJSON["courseId"].stringValue
             var avatarUrls = [String]()
             for (_, avatarUrl) in courseJSON["avatars"] {
                 avatarUrls.append(avatarUrl.stringValue)
             }
-            let course = Course(name: name, signedNumber: number, avatarUrls: avatarUrls)
-            print("课程: \(name)-\(number)-\(avatarUrls)")
+            let course = Course(name: name, signedNumber: number, courseId: courseId, avatarUrls: avatarUrls)
             self.courses.append(course)
         }
         
@@ -86,13 +97,20 @@ class HomePageViewController: UIViewController, UISearchBarDelegate
     func reachabilityChanged(notification: NSNotification)
     {
         if self.reach!.isReachableViaWiFi() || self.reach!.isReachableViaWWAN() {
-            print("Service avalaible!!!")
+            view.makeToast("网络已经恢复", duration: 1.0, position: .center)
+            isReachableNet = true
+            refreshCourses()
         } else {
             print("No service avalaible!!!")
+            view.makeToast("网络好像出了问题", duration: 1.0, position: .center)
+            isReachableNet = false
         }
+        
+        tableView.reloadEmptyDataSet()
     }
     
-    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar)
+    
+    @IBAction func clickSearchBarAction(_ sender: UIButton)
     {
         performSegue(withIdentifier: "searchCourseResult", sender: nil)
     }
@@ -119,11 +137,22 @@ extension HomePageViewController: UITableViewDataSource, UITableViewDelegate
     {
         return SignCourseCell.cellHeight
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
+    {
+        if let courseDetailVC = storyboard?.instantiateViewController(withIdentifier: "CourseDetailViewController") as? CourseDetailViewController {
+            let navigationController = UINavigationController(rootViewController: courseDetailVC)
+            navigationController.navigationBar.tintColor = UIColor(netHex: 0x666666)
+            courseDetailVC.courseId = courses[indexPath.row].courseId
+            present(navigationController, animated: true, completion: nil)
+        }
+    }
+    
 }
 
 // MARK: - empty table
 
-extension HomePageViewController: DZNEmptyDataSetSource
+extension HomePageViewController: DZNEmptyDataSetSource, DZNEmptyDataSetDelegate
 {
     func image(forEmptyDataSet scrollView: UIScrollView!) -> UIImage!
     {
@@ -144,5 +173,10 @@ extension HomePageViewController: DZNEmptyDataSetSource
         } else {
             return NSAttributedString(string: "好像梦见断网了. . .", attributes: attributes)
         }
+    }
+    
+    func emptyDataSetShouldAllowScroll(_ scrollView: UIScrollView!) -> Bool
+    {
+        return true
     }
 }

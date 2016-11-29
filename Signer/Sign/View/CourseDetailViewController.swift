@@ -13,6 +13,7 @@ import SwiftyJSON
 class CourseDetailViewController: UIViewController, BMKLocationServiceDelegate
 {
     var courseQRCode: String?
+    var courseId: String?           // 可以通过两种方式获取课程详情(1：courseQRCode，2：courseId)，哪个参数不为空就用哪种方式
     
     @IBOutlet weak var courseLabel: UILabel!
     @IBOutlet weak var timeLabel: UILabel!
@@ -42,6 +43,10 @@ class CourseDetailViewController: UIViewController, BMKLocationServiceDelegate
     @IBOutlet weak var studentNameLabel9: UILabel!
     @IBOutlet weak var studentNameLabel10: UILabel!
     
+    @IBOutlet weak var beforeSignButton: UIButton!
+    @IBOutlet weak var afterSignButton: UIButton!
+    @IBOutlet weak var signNumberButton: UIButton!
+    
     @IBOutlet weak var studentPadHeight: NSLayoutConstraint!
     @IBOutlet weak var scrollViewHeight: NSLayoutConstraint!
     
@@ -54,11 +59,29 @@ class CourseDetailViewController: UIViewController, BMKLocationServiceDelegate
     override func viewDidLoad()
     {
         super.viewDidLoad()
-
-        guard let courseQRCode = courseQRCode else {
+        
+        if let courseQRCode = courseQRCode {
+            requestCourseDetailWith(courseQRCode: courseQRCode)
+            beforeSignButton.isHidden = false
+            afterSignButton.isHidden = false
+            signNumberButton.isHidden = true
+        } else if let courseId = courseId {
+            requestCourseDetailWith(courseId: courseId)
+            beforeSignButton.isHidden = true
+            afterSignButton.isHidden = true
+            signNumberButton.isHidden = false
+            let backBarButton = UIBarButtonItem(image: UIImage(named: "Back"), style: .plain, target: self, action: #selector(dismissAction))
+            navigationItem.leftBarButtonItem = backBarButton
+        } else {
             fatalError("CourseDetailViewController courseQRCode没有初始值")
         }
-        
+
+        avartarImageViewArray = [avatarImageView1, avatarImageView2, avatarImageView3, avatarImageView4, avatarImageView5, avatarImageView6, avatarImageView7, avatarImageView8, avatarImageView9, avatarImageView10]
+        nameLabelArray = [studentNameLabel1, studentNameLabel2, studentNameLabel3, studentNameLabel4, studentNameLabel5, studentNameLabel6, studentNameLabel7, studentNameLabel8, studentNameLabel9, studentNameLabel10]
+    }
+    
+    func requestCourseDetailWith(courseQRCode: String)
+    {
         view.makeToastActivity(.center)
         
         Alamofire
@@ -72,26 +95,47 @@ class CourseDetailViewController: UIViewController, BMKLocationServiceDelegate
                     if json["code"] == "200" {
                         self.configureUIWith(json: json["data"])
                     } else {
-                        let alert = UIAlertController(title: "课程不存在", message: nil, preferredStyle: .alert)
-                        let doneAction = UIAlertAction(title: "确定", style: .cancel, handler: { (_) in
+                        let alert = UIAlertController.showOnlySureAlertController(title: "课程不存在", message: nil, sureButtonTitle: "确定", sureHandler: { 
                             self.dismissSignVCDelegate?.dismissSignVC()
                         })
-                        alert.addAction(doneAction)
                         self.present(alert, animated: true, completion: nil)
                     }
                 case .failure(_):
-                    let alert = UIAlertController(title: "获取课程详情失败，检查网络连接", message: nil, preferredStyle: .alert)
-                    let doneAction = UIAlertAction(title: "确定", style: .cancel, handler: { (_) in
+                    let alert = UIAlertController.showOnlySureAlertController(title: "获取课程详情失败，检查网络连接", message: nil, sureButtonTitle: "确定", sureHandler: {
                         self.dismissSignVCDelegate?.dismissSignVC()
                     })
-                    alert.addAction(doneAction)
                     self.present(alert, animated: true, completion: nil)
-                    
                 }
             }
+    }
+    
+    func requestCourseDetailWith(courseId: String)
+    {
+        view.makeToastActivity(.center)
         
-        avartarImageViewArray = [avatarImageView1, avatarImageView2, avatarImageView3, avatarImageView4, avatarImageView5, avatarImageView6, avatarImageView7, avatarImageView8, avatarImageView9, avatarImageView10]
-        nameLabelArray = [studentNameLabel1, studentNameLabel2, studentNameLabel3, studentNameLabel4, studentNameLabel5, studentNameLabel6, studentNameLabel7, studentNameLabel8, studentNameLabel9, studentNameLabel10]
+        Alamofire
+            .request(CourseRouter.requestCourseDetail(courseId: courseId))
+            .responseJSON { (response) in
+                self.view.hideToastActivity()
+                switch response.result {
+                case .success(let value):
+                    let json = JSON(value)
+                    print("获取课程详情: \(json)")
+                    if json["code"] == "200" {
+                        self.configureUIWith(json: json["data"])
+                    } else {
+                        let alert = UIAlertController.showOnlySureAlertController(title: "课程不存在", message: nil, sureButtonTitle: "确定", sureHandler: {
+                            self.dismissSignVCDelegate?.dismissSignVC()
+                        })
+                        self.present(alert, animated: true, completion: nil)
+                    }
+                case .failure(_):
+                    let alert = UIAlertController.showOnlySureAlertController(title: "获取课程详情失败，检查网络连接", message: nil, sureButtonTitle: "确定", sureHandler: {
+                        self.dismissSignVCDelegate?.dismissSignVC()
+                    })
+                    self.present(alert, animated: true, completion: nil)
+                }
+            }
     }
     
     private let zeroLineOfStudentHeight: CGFloat = 43
@@ -99,7 +143,11 @@ class CourseDetailViewController: UIViewController, BMKLocationServiceDelegate
     
     func configureUIWith(json: JSON)
     {
-        self.signId = json["signId"].string
+        if let signId = json["signId"].string {
+            self.signId = signId
+        } else if let signNum = json["signNum"].int {
+            signNumberButton.setTitle("共有\(signNum)次签到", for: .normal)
+        }
         
         // 设置课程信息面板
         courseLabel.text = json["course"]["name"].string
@@ -192,6 +240,11 @@ class CourseDetailViewController: UIViewController, BMKLocationServiceDelegate
     @IBAction func backAction(_ sender: UIBarButtonItem)
     {
         dismissSignVCDelegate?.dismissSignVC()
+    }
+    
+    func dismissAction()
+    {
+        dismiss(animated: true, completion: nil)
     }
     
     var battery: Int?

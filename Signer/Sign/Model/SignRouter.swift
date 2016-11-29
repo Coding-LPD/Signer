@@ -6,7 +6,6 @@
 //  Copyright © 2016年 Vernon. All rights reserved.
 //
 
-
 import Alamofire
 
 enum SignRouter: URLRequestConvertible

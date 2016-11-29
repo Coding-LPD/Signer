@@ -10,6 +10,6 @@ struct Course
 {
     var name: String
     var signedNumber: Int
+    var courseId: String
     var avatarUrls: [String]
-    
 }
