@@ -111,7 +111,7 @@
  * @apiVersion 1.0.0
  * @apiName GetCourseLatestSignRecord
  * @apiGroup Course
- * @apiDescription 查询指定id的课程的最近签到记录，返回课程信息和最多20个最近签到者头像
+ * @apiDescription 查询指定id的课程的最近签到记录，返回课程信息和最多10个最近签到者头像
  * 
  * @apiSuccessExample 成功：
  *    HTTP/1.1 200 OK

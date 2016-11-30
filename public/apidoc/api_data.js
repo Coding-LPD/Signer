@@ -63,7 +63,7 @@ define({ "api": [
     "version": "1.0.0",
     "name": "GetCourseLatestSignRecord",
     "group": "Course",
-    "description": "<p>查询指定id的课程的最近签到记录，返回课程信息和最多20个最近签到者头像</p>",
+    "description": "<p>查询指定id的课程的最近签到记录，返回课程信息和最多10个最近签到者头像</p>",
     "success": {
       "examples": [
         {

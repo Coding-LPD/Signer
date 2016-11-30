@@ -51,3 +51,57 @@
 4012    |   相应课程没有导入该学生信息
 6000    |   缺少发言者Id
 7000    |   反馈内容不能为空
+
+## 实时通讯
+1. 建立连接 url: http://linkdust.xicp.net:50843/sign
+2. 客户端监听事件（签到）
+    + notice 
+3. 客户端触发事件（签到）
+    + student-in
+    + student-out
+4. 客户端监听事件（聊天室）
+    + room-list
+    + msg-list
+    + new-msg   
+5. 客户端触发事件（聊天室）
+    + room-list
+    + msg-list
+    + new-msg
+  
+## 事件描述
+1. notice
+    + 每当学生的签到被教师处理时，会触发该事件
+    + 参数：空字符串
+2. student-in 
+    + 客户端只有触发了该事件，才能接收到notice事件
+    + 参数：studentId
+3. student-out
+    + 客户端触发了该事件，则不会再收到notice事件
+    + 参数：studentId
+4. room-list
+    + 客户端触发该事件后，可以监听该事件，以获得相关聊天室信息
+    + 触发参数：studentId, teacherId（选择其中一个参数进行设置，另一个参数为空字符串即可）
+    + 接收参数：code, data, msg（与http返回结果一致，data则为聊天室信息）
+    + data 结构：
+        + courseId 课程id
+        + name 聊天室名字（即课程名）
+        + avatar 聊天室头像（暂时为教师头像）
+        + count 参与聊天室的人数
+        + msg 最近一条信息（参考下述信息对象结构）
+5. msg-list
+    + 客户端触发该事件后，可以监听该事件，以获得特定聊天室的信息列表
+    + 触发参数：courseId, page, limit（page默认0，limit默认18）
+    + 接收参数：code, data, msg（与http返回结果一致，data则为信息列表）
+    + data 结构：信息对象数组，参考下述信息对象结构        
+6. new-msg
+    + 客户端想要发送信息，则触发该事件，监听该事件时则会实时获得他人发送的新信息，但不会接收到自己发送的新信息
+    + 触发参数：courseId, studentId, content, teacherId（studentId, teacherId选择一个进行设置，另一个则为空字符串）
+    + 接收参数：code, data, msg（与http返回结果一致，data则为新信息）
+    + data 结构：信息对象
+        + courseId 课程id
+        + studentId 不为空，代表学生发送
+        + teacherId 不为空，代表教师发送
+        + content 信息内容
+        + avatar 信息发送者头像
+        + name 信息发送者姓名
+        + createdAt 信息发送时间
