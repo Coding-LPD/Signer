@@ -99,7 +99,7 @@ router.post('/search', function (req, res) {
 
 // 课程最近一次签到
 router.get('/:id/latestSignRecords', function (req, res) {
-  var maxAvatarNum = 20;
+  var maxAvatarNum = 10;
   var course, teacher, signNum, promises;
 
   Course.findById(req.params['id'], 'name time location teacherId')
@@ -221,7 +221,7 @@ router.get('/:id/statistics/latest', function (req, res) {
   var sign, batteryCostData, top10BatteryCost, last10BatteryCost;
 
   // 查找课程最近一次签到
-  Sign.findOne({ courseId: courseId }, null, { $sort: '-createdAt' })
+  Sign.findOne({ courseId: courseId }, null, { sort: '-createdAt' })
     .then(function (findedSign) {
       if (!findedSign) {
         return Promise.reject({ code: errorCodes.NoRelatedSign });
