@@ -15,7 +15,8 @@
 <div class="chat-list-container" *ngIf="!tip">
 
   <!-- 聊天室界面 -->
-  <ul class="chat-list" #msgList>
+  <ul class="chat-list" #msgList (scroll)="scrollMsg($event)">
+    <li><loading [isShow]="isLoading" [showLoading]="!isLoadAll" [text]="completeText"></loading></li>
     <li class="wrap" *ngFor="let m of msgs" [ngClass]="msgClass(m)">
       <img class="avatar" [src]="m.avatar" onerror="javascript:this.src='/public/images/default.png'" />
       <div class="caret"></div>
@@ -39,3 +40,5 @@
 
 <!-- 提示 -->
 <div class="tip" *ngIf="tip">{{tip}}</div>
+
+<pop-up></pop-up>

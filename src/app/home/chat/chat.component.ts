@@ -2,7 +2,7 @@ import { Component, ViewChild, ElementRef, OnInit, OnDestroy, AfterViewChecked }
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription'
 
-import { Teacher, Course, ChatRoom, ChatMsg, SocketService } from '../../shared';
+import { Teacher, Course, ChatRoom, ChatMsg, SocketService, LoadingComponent, PopUpComponent } from '../../shared';
 import { LoginService } from '../../login';
 
 @Component({
@@ -13,15 +13,26 @@ import { LoginService } from '../../login';
 export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   @ViewChild('msgList') msgListElem: ElementRef;
+  @ViewChild(LoadingComponent) loading: LoadingComponent; 
+  @ViewChild(PopUpComponent) popup: PopUpComponent;
 
-  msgs: ChatMsg[];
+  // 通用
   rooms: ChatRoom[];
   teacher: Teacher;
-  selectedRoom: ChatRoom;
   isOpenSelect = false;
-  tip = '请在右上角选择聊天室';  
-  content = '';                   // 要发送的内容 
-  isLoadMore = false;             // 是否正在加载更多
+  tip = '请在右上角选择聊天室';
+  isLoading = true;
+  completeText = '已加载完所有信息';
+
+  // 当前聊天室
+  msgs: ChatMsg[] = [];
+  selectedRoom: ChatRoom;  
+  content = '';                   // 要发送的内容   
+  page = 0;                       // 第几页消息  
+  isToBottom = false;             // 是否滚动到内容底部
+  isKeepPos = false;              // 是否保持当前位置
+  lastScrollHeight = -1;          // 加载新信息前，记录当前可滚动高度
+  isLoadAll = false;              // 是否加载完所有信息  
 
   sub = new Subscription();
 
@@ -47,10 +58,11 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   ngAfterViewChecked() {
-    if (this.isLoadMore) {
-      this.isLoadMore = false;      
-    } else {
+    if (this.isToBottom) {
       this.scrollToBottom();
+    } else if (this.isKeepPos) {
+      this.msgListElem.nativeElement.scrollTop = this.msgListElem.nativeElement.scrollHeight - this.lastScrollHeight;
+      this.isKeepPos = false;
     }
   }
 
@@ -63,15 +75,22 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   selectRoom(room: ChatRoom) {
-    this.selectedRoom = room;
     this.isOpenSelect = false;
+    // 初始化聊天室
+    this.msgs = [];
+    this.selectedRoom = room;
+    this.content = '';
+    this.page = 0;
+    this.isToBottom = false;
+    this.isKeepPos = false;
+    this.lastScrollHeight = -1;
+    this.isLoadAll = false;    
     if (room) {
       this.tip = '';
-      this._socketService.getMsgList(this.selectedRoom.courseId, 0);
+      this._socketService.getMsgList(this.selectedRoom.courseId, this.page, 9);
     } else {
-      this.tip = '请在右上角选择聊天室';
-      this.msgs = [];
-    }
+      this.tip = '请在右上角选择聊天室';      
+    }    
   }
 
   sendMsg() {
@@ -96,8 +115,20 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
    * msg-list响应
    */
   onMsgList(body: any) {
-    if (+body.code == 200) {
-      this.msgs = body.data.reverse();
+    if (+body.code == 200) {                        
+      // 加载了所有信息，则显示加载完毕
+      // 还有新信息，则停止在当前位置
+      if (body.data.length <= 0) {        
+        this.isLoadAll = true;
+      } else {
+        this.isKeepPos = true;
+      }
+      // 默认加载第一页时，滚动到底部
+      if (this.page == 0) {
+        this.isToBottom = true;
+      }
+      this.msgs = body.data.reverse().concat(this.msgs);
+      this.page++;
     } else {
       alert(body.msg);
     }
@@ -109,6 +140,13 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   onNewMsg(body: any) {
     if (+body.code == 200) {
       this.msgs.push(body.data);
+      // 当前位置靠近底部，则有新信息时跳到底部
+      // 否则有新信息时，则只是提示下
+      if (this.msgListElem.nativeElement.scrollHeight - this.msgListElem.nativeElement.scrollTop <= 440) {
+        this.isToBottom = true;
+      } else {
+        this.popup.show('有新消息');
+      }
     } else {
       alert(body.msg);
     }
@@ -124,6 +162,17 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   scrollToBottom() {
     if (this.msgListElem) {
       this.msgListElem.nativeElement.scrollTop = this.msgListElem.nativeElement.scrollHeight;      
+    }
+    this.isToBottom = false;
+  }
+
+  /**
+   * 用户滚动信息列表
+   */
+  scrollMsg($event: any) {
+    if ($event.target.scrollTop <= 10 && !this.isLoadAll) {
+      this._socketService.getMsgList(this.selectedRoom.courseId, this.page, 9);
+      this.lastScrollHeight = this.msgListElem.nativeElement.scrollHeight;
     }
   }
 
