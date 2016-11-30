@@ -150,6 +150,9 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
    */
   onNewMsg(body: any) {
     if (+body.code == 200) {
+      // 不是当前聊天室的信息，则不添加
+      if (body.data.courseId !== this.selectedRoom.courseId) return;
+      
       this.msgs.push(body.data);
       // 当前位置靠近底部，则有新信息时跳到底部
       // 否则有新信息时，则只是提示下
