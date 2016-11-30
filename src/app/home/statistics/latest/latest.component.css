@@ -41,6 +41,11 @@
   width: 90%;
 }
 
+.toggle-name-btn {
+  width: 10%;
+  margin-left: 1.5%;
+}
+
 .tip {
   padding: 90px 0;
   text-align: center;

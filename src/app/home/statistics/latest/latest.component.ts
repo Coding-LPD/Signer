@@ -21,6 +21,8 @@ export class LatestComponent implements OnInit, OnDestroy {
   batteryLabels = ['-100~0%', '0~30%', '30~50%', '50~70%', '70~90%', '90~100%'];
   top10BatteryLabels = ['ID1', 'ID2', 'ID3', 'ID4', 'ID5', 'ID6', 'ID7', 'ID8', 'ID9', 'ID10'];
   last10BatteryLabels = ['ID1', 'ID2', 'ID3', 'ID4', 'ID5', 'ID6', 'ID7', 'ID8', 'ID9', 'ID10'];
+  top10BatteryNameLabels: string[] = [];
+  last10BatteryNameLabels: string[] = [];
 
   // 图的数据
   beforeSignInData = [10, 40];
@@ -112,18 +114,34 @@ export class LatestComponent implements OnInit, OnDestroy {
     this.batteryData = JSON.parse(JSON.stringify(this.batteryData));
     // 电量消耗前十
     this.top10BatteryLabels = [];
+    this.top10BatteryNameLabels = [];
     this.top10BatteryData[0].data = [];
     data.top10BatteryCost.forEach((val: any) => {
       this.top10BatteryLabels.push(val.studentId);
+      this.top10BatteryNameLabels.push(val.name);
       this.top10BatteryData[0].data.push(val.batteryCost);
     });
     // 电量消耗后十
     this.last10BatteryLabels = [];
+    this.last10BatteryNameLabels = [];
     this.last10BatteryData[0].data = [];
     data.last10BatteryCost.forEach((val: any) => {
       this.last10BatteryLabels.push(val.studentId);
+      this.last10BatteryNameLabels.push(val.name);
       this.last10BatteryData[0].data.push(val.batteryCost);
     });
+  }
+
+  toggleIdAndName() {
+    var temp: any[] = [];
+
+    temp = this.top10BatteryLabels;
+    this.top10BatteryLabels = this.top10BatteryNameLabels;
+    this.top10BatteryNameLabels = temp;
+
+    temp = this.last10BatteryLabels;
+    this.last10BatteryLabels = this.last10BatteryNameLabels;
+    this.last10BatteryNameLabels = temp;
   }
 
 }
