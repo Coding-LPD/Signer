@@ -94,10 +94,21 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   sendMsg() {
+    if (!this.content.trim()) {
+      this.popup.show('待发送的内容不能为空');
+      return;
+    }
     this._socketService.sendMsg(this.selectedRoom.courseId, this.teacher._id, this.content);
     this.msgs.push(new ChatMsg('', this.selectedRoom.courseId, this.teacher._id, '', this.content, 
                               this.teacher.avatar, this.teacher.name, new Date().toString()));
-    this.content = '';
+    this.isToBottom = true;
+    this.content = '';    
+  }
+
+  contentKeyUp($event: any) {
+    if ($event.ctrlKey && $event.keyCode == 13) {
+      this.sendMsg();
+    }
   }
 
   /**
@@ -159,6 +170,9 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     return msg.teacherId == this.teacher._id ? 'right' : 'left';
   }
 
+  /**
+   * 滚动到信息列表底部
+   */
   scrollToBottom() {
     if (this.msgListElem) {
       this.msgListElem.nativeElement.scrollTop = this.msgListElem.nativeElement.scrollHeight;      

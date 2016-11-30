@@ -29,7 +29,7 @@
 
   <!-- 发送消息 -->
   <div class="send-msg-container wrap">
-    <textarea class="send-msg" rows="3" [(ngModel)]="content"></textarea>
+    <textarea class="send-msg" rows="3" [(ngModel)]="content" (keyup)="contentKeyUp($event)"></textarea>
     <div class="send-msg-footer wrap">
       <button type="button" class="send-msg-btn blue" (click)="sendMsg()">发送</button>
       <div class="short-cut">按 ctrl+enter 发送</div>
