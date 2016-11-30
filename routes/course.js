@@ -233,8 +233,8 @@ router.get('/:id/statistics/latest', function (req, res) {
       return SignRecord.aggregate()
         .match({ signId: '' + sign._id, courseId: courseId })
         .sort('type')
-        .project('signId studentId battery')        
-        .group({ _id: { signId: '$signId', studentId: '$studentId' }, battery: { $push: '$battery' } })
+        .project('signId studentId studentName battery')        
+        .group({ _id: { signId: '$signId', studentId: '$studentId', studentName: '$studentName' }, battery: { $push: '$battery' } })
         .exec();
     })
     .then(function (results) {
@@ -244,7 +244,8 @@ router.get('/:id/statistics/latest', function (req, res) {
         if (r.battery.length == 2) {
           batterys.push({
             studentId: r._id.studentId,
-            batteryCost: r.battery[1] - r.battery[0]
+            name: r._id.studentName,
+            batteryCost: r.battery[0] - r.battery[1]
           });
         }
       });
