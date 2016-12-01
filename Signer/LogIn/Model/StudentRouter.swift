@@ -14,6 +14,7 @@ enum StudentRouter: URLRequestConvertible
     case uploadAvatar                                           // 上传头像
     case modifyStudent(id: String, parameters: Parameters)      // 修改指定id的学生信息
     case requestSignedCourses(phone: String)                    // 学生的所有签到的课程
+    case searchCourse(phone: String, courseName: String)        // 根据指定课程名查询课程
     
     var method: HTTPMethod {
         switch self {
@@ -24,6 +25,8 @@ enum StudentRouter: URLRequestConvertible
         case .modifyStudent:
             return .put
         case .requestSignedCourses:
+            return .get
+        case .searchCourse:
             return .get
         }
     }
@@ -39,7 +42,8 @@ enum StudentRouter: URLRequestConvertible
                 return ("/students/\(id)", parameters)
             case let .requestSignedCourses(phone):
                 return ("/students/\(phone)/relatedCourses", ["limit": 1000, "page": 0])
-                
+            case let .searchCourse(phone, courseName):
+                return ("/students/\(phone)/relatedCourses", ["limit": 1000, "page": 0, "keyword": courseName])
             }
         }()
         

@@ -43,6 +43,10 @@
 		AD63C2BE1DD1CF0A00BA1276 /* RSA.m in Sources */ = {isa = PBXBuildFile; fileRef = AD63C2BD1DD1CF0A00BA1276 /* RSA.m */; };
 		AD67512F1DED41E8006FFB76 /* UIAlertController+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD67512E1DED41E8006FFB76 /* UIAlertController+extension.swift */; };
 		AD6751311DED454B006FFB76 /* CourseRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD6751301DED454B006FFB76 /* CourseRouter.swift */; };
+		AD708EAD1DEFE178003C89A4 /* SearchCourseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD708EAC1DEFE178003C89A4 /* SearchCourseViewController.swift */; };
+		AD708EAF1DEFE575003C89A4 /* SearchHistoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD708EAE1DEFE575003C89A4 /* SearchHistoryCell.swift */; };
+		AD708EB11DEFFD37003C89A4 /* SearchResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD708EB01DEFFD37003C89A4 /* SearchResultViewController.swift */; };
+		AD708EB31DEFFD8B003C89A4 /* SearchResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD708EB21DEFFD8B003C89A4 /* SearchResultCell.swift */; };
 		AD75AA871DEBDDAE0056DED8 /* BaiduMapAPI_Base.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD75AA851DEBDDAE0056DED8 /* BaiduMapAPI_Base.framework */; };
 		AD75AA881DEBDDAE0056DED8 /* BaiduMapAPI_Location.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD75AA861DEBDDAE0056DED8 /* BaiduMapAPI_Location.framework */; };
 		AD75AA8A1DEBDE7E0056DED8 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD75AA891DEBDE7E0056DED8 /* CoreLocation.framework */; };
@@ -127,6 +131,10 @@
 		AD63C2C21DD1D30700BA1276 /* 华师小签.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "华师小签.entitlements"; sourceTree = "<group>"; };
 		AD67512E1DED41E8006FFB76 /* UIAlertController+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIAlertController+extension.swift"; sourceTree = "<group>"; };
 		AD6751301DED454B006FFB76 /* CourseRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseRouter.swift; sourceTree = "<group>"; };
+		AD708EAC1DEFE178003C89A4 /* SearchCourseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchCourseViewController.swift; sourceTree = "<group>"; };
+		AD708EAE1DEFE575003C89A4 /* SearchHistoryCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchHistoryCell.swift; sourceTree = "<group>"; };
+		AD708EB01DEFFD37003C89A4 /* SearchResultViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchResultViewController.swift; sourceTree = "<group>"; };
+		AD708EB21DEFFD8B003C89A4 /* SearchResultCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchResultCell.swift; sourceTree = "<group>"; };
 		AD75AA851DEBDDAE0056DED8 /* BaiduMapAPI_Base.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BaiduMapAPI_Base.framework; path = Signer/frameworks/BaiduMapAPI_Base.framework; sourceTree = "<group>"; };
 		AD75AA861DEBDDAE0056DED8 /* BaiduMapAPI_Location.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BaiduMapAPI_Location.framework; path = Signer/frameworks/BaiduMapAPI_Location.framework; sourceTree = "<group>"; };
 		AD75AA891DEBDE7E0056DED8 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
@@ -233,6 +241,10 @@
 				AD01BF8A1DED6C0400044F61 /* CalendarView.xib */,
 				AD01BF881DED6BEC00044F61 /* CalendarView.swift */,
 				AD01BF811DED5DCB00044F61 /* SignRecordCalendarViewController.swift */,
+				AD708EAE1DEFE575003C89A4 /* SearchHistoryCell.swift */,
+				AD708EAC1DEFE178003C89A4 /* SearchCourseViewController.swift */,
+				AD708EB21DEFFD8B003C89A4 /* SearchResultCell.swift */,
+				AD708EB01DEFFD37003C89A4 /* SearchResultViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -721,6 +733,7 @@
 			files = (
 				AD5899841DE4276400A2F8AE /* ActionSheetStringPicker.m in Sources */,
 				ADCCAC411DE6C64200757525 /* SignCourseCell.swift in Sources */,
+				AD708EB11DEFFD37003C89A4 /* SearchResultViewController.swift in Sources */,
 				AD34AFAF1DDC208D0085F21B /* SettingViewController.swift in Sources */,
 				AD5899871DE427B700A2F8AE /* SWActionSheet.m in Sources */,
 				AD771B791DD171410082BCB3 /* LoadingButton.swift in Sources */,
@@ -752,9 +765,12 @@
 				AD01BF891DED6BEC00044F61 /* CalendarView.swift in Sources */,
 				ADABF3AF1DD8498600226D86 /* StudentRouter.swift in Sources */,
 				AD34AFAE1DDC208D0085F21B /* SettingCell.swift in Sources */,
+				AD708EB31DEFFD8B003C89A4 /* SearchResultCell.swift in Sources */,
 				AD45D9C21DD059E40031FF9E /* SignUpRouter.swift in Sources */,
+				AD708EAF1DEFE575003C89A4 /* SearchHistoryCell.swift in Sources */,
 				AD5899891DE432C500A2F8AE /* ChangeAvatarViewController.swift in Sources */,
 				ADA257E01DE2E4D000470B07 /* MineAvatarCell.swift in Sources */,
+				AD708EAD1DEFE178003C89A4 /* SearchCourseViewController.swift in Sources */,
 				ADEF12091D869F6B001F9C19 /* Color.swift in Sources */,
 				AD01BF821DED5DCB00044F61 /* SignRecordCalendarViewController.swift in Sources */,
 				ADEF11FB1D869EB6001F9C19 /* SignUpStep3ViewController.swift in Sources */,

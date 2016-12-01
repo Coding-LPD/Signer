@@ -141,6 +141,8 @@ class CourseDetailViewController: UIViewController, BMKLocationServiceDelegate
     private let zeroLineOfStudentHeight: CGFloat = 43
     private let oneLineOfStudentHeight: CGFloat = 130
     
+    var courseName: String?
+    
     func configureUIWith(json: JSON)
     {
         if let signId = json["signId"].string {
@@ -151,6 +153,7 @@ class CourseDetailViewController: UIViewController, BMKLocationServiceDelegate
         
         // 设置课程信息面板
         courseLabel.text = json["course"]["name"].string
+        courseName = json["course"]["name"].string
         let stringTuple = handleStringFromService(stringFromService: json["course"]["time"].stringValue)
         timeLabel.text = stringTuple.timeString
         sectionLabel.text = stringTuple.sectionString
@@ -198,6 +201,18 @@ class CourseDetailViewController: UIViewController, BMKLocationServiceDelegate
         signType = button.tag
         locService.startUserLocationService()
     }
+    
+    @IBAction func signRecordAction(_ sender: UIButton)
+    {
+        if let signRecordVC = storyboard?.instantiateViewController(withIdentifier: "SignRecordCalendarViewController") as? SignRecordCalendarViewController {
+            let navigationController = UINavigationController(rootViewController: signRecordVC)
+            navigationController.navigationBar.tintColor = UIColor(netHex: 0x666666)
+            signRecordVC.title = courseName
+            signRecordVC.courseId = courseId
+            present(navigationController, animated: true, completion: nil)
+        }
+    }
+    
     
     func didUpdate(_ userLocation: BMKUserLocation!)
     {

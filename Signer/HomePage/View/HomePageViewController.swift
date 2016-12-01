@@ -29,12 +29,30 @@ class HomePageViewController: UIViewController
     {
         super.viewDidLoad()
 
-        reach = Reachability.forInternetConnection()
-        NotificationCenter.default.addObserver(self, selector: #selector(reachabilityChanged), name: NSNotification.Name.reachabilityChanged, object: nil)
-        reach!.startNotifier()
-        
         initUI()
         
+        reach = Reachability.forInternetConnection()
+        isReachableNet = reach!.isReachable()
+        
+        reach!.reachableBlock = { _ in
+            DispatchQueue.main.async {
+                self.view.makeToast("网络已恢复", duration: 1.0, position: .center)
+                self.isReachableNet = true
+                self.refreshCourses()
+                self.tableView.reloadEmptyDataSet()
+            }
+        }
+
+        reach!.unreachableBlock = { _ in
+            DispatchQueue.main.async {
+                self.view.makeToast("网络好像出了问题", duration: 1.0, position: .center)
+                self.isReachableNet = false
+                self.tableView.reloadEmptyDataSet()
+            }
+        }
+
+        reach!.startNotifier()
+
         refreshCourses()
     }
     
@@ -94,22 +112,6 @@ class HomePageViewController: UIViewController
         tableView.reloadData()
     }
     
-    func reachabilityChanged(notification: NSNotification)
-    {
-        if self.reach!.isReachableViaWiFi() || self.reach!.isReachableViaWWAN() {
-            view.makeToast("网络已经恢复", duration: 1.0, position: .center)
-            isReachableNet = true
-            refreshCourses()
-        } else {
-            print("No service avalaible!!!")
-            view.makeToast("网络好像出了问题", duration: 1.0, position: .center)
-            isReachableNet = false
-        }
-        
-        tableView.reloadEmptyDataSet()
-    }
-    
-    
     @IBAction func clickSearchBarAction(_ sender: UIButton)
     {
         performSegue(withIdentifier: "searchCourseResult", sender: nil)
@@ -135,7 +137,7 @@ extension HomePageViewController: UITableViewDataSource, UITableViewDelegate
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat
     {
-        return SignCourseCell.cellHeight
+        return courses[indexPath.row].avatarUrls.count > 0 ? SignCourseCell.heightForHaveAvatar : SignCourseCell.heightForEmptyAvatar
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)

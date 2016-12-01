@@ -11,7 +11,7 @@ import SwiftyJSON
 
 enum SignUpRouter: URLRequestConvertible
 {
-    static let baseURLString = "http://linkdust.xicp.net:50843/api"
+    static let baseURLString = "http://120.25.65.207:3000/api"
     static let publicKey = "-----BEGIN PUBLIC KEY-----\nMFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAIeiKZeAhYhsNgMrCNEonJA+YdbWsAC9\nDGz0WsU/zKSPVqggI9G+P//Ip4W9U9zZNiwL22E+ZK5Py/fCxzbvk6sCAwEAAQ==\n-----END PUBLIC KEY-----"
 
     case requestVerifyCode(String)                                  // 发送验证码到指定手机号码
