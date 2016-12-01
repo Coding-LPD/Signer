@@ -362,7 +362,7 @@ public class SearchActivity extends BaseSlideActivity implements IHomeView, View
             icon_searching.setVisibility(View.GONE);
         }
         else{
-            dismissKeyBoard();
+            dismissLoadingDialog();
         }
     }
 

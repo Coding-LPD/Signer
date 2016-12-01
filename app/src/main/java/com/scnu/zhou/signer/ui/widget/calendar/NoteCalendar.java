@@ -315,14 +315,14 @@ public class NoteCalendar extends LinearLayout {
             cal.set(Calendar.DAY_OF_MONTH, days.get(position));
 
             String key = df.format(cal.getTime());
-            if (note01 != null){
-                if (note01.get(key) != null){
+            if (days.get(position) != 0 && note01 != null){
+                if (note01.get(key) != null && note01.get(key) == true){
                     item.setTextColor(Color.parseColor("#FFFFFF"));
                     item.setBackgroundResource(R.drawable.calendar_note01);
                 }
             }
-            if (note02 != null){
-                if (note02.get(key) != null){
+            if (days.get(position) != 0 && note02 != null){
+                if (note02.get(key) != null && note02.get(key) == true){
                     item.setTextColor(Color.parseColor("#FFFFFF"));
                     item.setBackgroundResource(R.drawable.calendar_note02);
                 }

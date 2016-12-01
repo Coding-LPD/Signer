@@ -98,8 +98,8 @@ public class ChatRoomAdapter extends BaseAdapter {
         }
         else{
             viewholder.tv_chat_content.setText("还没有人发言哦");
-            ImageLoaderUtil.getInstance().displayHeaderImage(viewholder.civ_avatar,
-                    mData.get(position).getAvatar());
+            //ImageLoaderUtil.getInstance().displayHeaderImage(viewholder.civ_avatar,
+                    //mData.get(position).getAvatar());
         }
 
         return convertView;
