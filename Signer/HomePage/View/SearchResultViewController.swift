@@ -9,6 +9,7 @@
 import UIKit
 import Alamofire
 import SwiftyJSON
+import DZNEmptyDataSet
 
 class SearchResultViewController: UIViewController
 {
@@ -24,6 +25,7 @@ class SearchResultViewController: UIViewController
         tableView.backgroundColor = UIColor(netHex: 0xf5f5f5)
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.emptyDataSetSource = self
     }
     
     func searchCourseBy(courseName: String)
@@ -102,4 +104,22 @@ extension SearchResultViewController: UITableViewDataSource, UITableViewDelegate
         }
     }
     
+}
+
+// MARK: - empty table
+
+extension SearchResultViewController: DZNEmptyDataSetSource
+{
+    func image(forEmptyDataSet scrollView: UIScrollView!) -> UIImage!
+    {
+        return UIImage(named: "emptyRecord")
+    }
+    
+    func title(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString!
+    {
+        let attributes = [NSFontAttributeName: UIFont.boldSystemFont(ofSize: 14.0),
+                          NSForegroundColorAttributeName: UIColor(netHex: 0xbbbbbb)]
+        return NSAttributedString(string: "暂时还木有记录. . ", attributes: attributes)
+    }
+
 }

@@ -62,6 +62,9 @@
 		AD8F4BFA1DEC242000F53B18 /* Course.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD8F4BF91DEC242000F53B18 /* Course.swift */; };
 		ADA257DE1DE2E4A000470B07 /* MineAvatarCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = ADA257DD1DE2E4A000470B07 /* MineAvatarCell.xib */; };
 		ADA257E01DE2E4D000470B07 /* MineAvatarCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA257DF1DE2E4D000470B07 /* MineAvatarCell.swift */; };
+		ADA6826E1DF1446900C6D841 /* NoticeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA6826D1DF1446900C6D841 /* NoticeCell.swift */; };
+		ADA682711DF15AAE00C6D841 /* Notice.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA682701DF15AAE00C6D841 /* Notice.swift */; };
+		ADA682731DF160C800C6D841 /* Date+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA682721DF160C800C6D841 /* Date+extension.swift */; };
 		ADABF3AF1DD8498600226D86 /* StudentRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADABF3AE1DD8498600226D86 /* StudentRouter.swift */; };
 		ADBB2D321DE57D8600F1A251 /* CALayer+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADBB2D311DE57D8600F1A251 /* CALayer+extension.swift */; };
 		ADC806241DDC250A0006F0E5 /* MineInfoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = ADC806231DDC250A0006F0E5 /* MineInfoCell.xib */; };
@@ -150,6 +153,9 @@
 		AD8F4BF91DEC242000F53B18 /* Course.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Course.swift; sourceTree = "<group>"; };
 		ADA257DD1DE2E4A000470B07 /* MineAvatarCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MineAvatarCell.xib; sourceTree = "<group>"; };
 		ADA257DF1DE2E4D000470B07 /* MineAvatarCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MineAvatarCell.swift; sourceTree = "<group>"; };
+		ADA6826D1DF1446900C6D841 /* NoticeCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoticeCell.swift; sourceTree = "<group>"; };
+		ADA682701DF15AAE00C6D841 /* Notice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Notice.swift; sourceTree = "<group>"; };
+		ADA682721DF160C800C6D841 /* Date+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+extension.swift"; sourceTree = "<group>"; };
 		ADABF3AE1DD8498600226D86 /* StudentRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudentRouter.swift; sourceTree = "<group>"; };
 		ADBB2D311DE57D8600F1A251 /* CALayer+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CALayer+extension.swift"; sourceTree = "<group>"; };
 		ADC806231DDC250A0006F0E5 /* MineInfoCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MineInfoCell.xib; sourceTree = "<group>"; };
@@ -367,6 +373,7 @@
 		AD3E738C1D87AEA7005DE560 /* Notice */ = {
 			isa = PBXGroup;
 			children = (
+				ADA6826F1DF15A8800C6D841 /* Model */,
 				AD3E738D1D87AEAE005DE560 /* View */,
 			);
 			path = Notice;
@@ -375,6 +382,7 @@
 		AD3E738D1D87AEAE005DE560 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				ADA6826D1DF1446900C6D841 /* NoticeCell.swift */,
 				AD3E73901D87AF1C005DE560 /* NoticeViewController.swift */,
 			);
 			path = View;
@@ -442,6 +450,14 @@
 			children = (
 				AD8F4BF91DEC242000F53B18 /* Course.swift */,
 				AD6751301DED454B006FFB76 /* CourseRouter.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		ADA6826F1DF15A8800C6D841 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				ADA682701DF15AAE00C6D841 /* Notice.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -562,6 +578,7 @@
 				AD58998A1DE433F500A2F8AE /* UIView+extension.swift */,
 				ADBB2D311DE57D8600F1A251 /* CALayer+extension.swift */,
 				AD67512E1DED41E8006FFB76 /* UIAlertController+extension.swift */,
+				ADA682721DF160C800C6D841 /* Date+extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -748,8 +765,10 @@
 				ADEF12061D869F51001F9C19 /* CountdownUnderlineTextField.swift in Sources */,
 				AD58998D1DE43D5600A2F8AE /* PreviewAvatarViewController.swift in Sources */,
 				AD6751311DED454B006FFB76 /* CourseRouter.swift in Sources */,
+				ADA682711DF15AAE00C6D841 /* Notice.swift in Sources */,
 				ADEF120C1D869F7A001F9C19 /* UnderlineTextField.swift in Sources */,
 				AD34AFAB1DDC20870085F21B /* ModifyInformationViewController.swift in Sources */,
+				ADA6826E1DF1446900C6D841 /* NoticeCell.swift in Sources */,
 				ADEF11FA1D869EB6001F9C19 /* SignUpStep2ViewController.swift in Sources */,
 				AD63C2BE1DD1CF0A00BA1276 /* RSA.m in Sources */,
 				AD63C2961DD1B5FF00BA1276 /* ChatRoomViewController.swift in Sources */,
@@ -763,6 +782,7 @@
 				074734AA1D86C5080005D58C /* SignViewController.swift in Sources */,
 				ADF238901DE92B7D00D68325 /* InputCodeViewController.swift in Sources */,
 				AD01BF891DED6BEC00044F61 /* CalendarView.swift in Sources */,
+				ADA682731DF160C800C6D841 /* Date+extension.swift in Sources */,
 				ADABF3AF1DD8498600226D86 /* StudentRouter.swift in Sources */,
 				AD34AFAE1DDC208D0085F21B /* SettingCell.swift in Sources */,
 				AD708EB31DEFFD8B003C89A4 /* SearchResultCell.swift in Sources */,

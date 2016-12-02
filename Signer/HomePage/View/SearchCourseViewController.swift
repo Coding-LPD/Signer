@@ -8,14 +8,19 @@
 
 import UIKit
 
-class SearchCourseViewController: UITableViewController
+class SearchCourseViewController: UIViewController, UITableViewDataSource, UITableViewDelegate
 {
+    
+    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var searchTextField: UITextField!
+    
     var historys: [String]?
     
     lazy var clearButton: UIButton = {
         let clearButton = UIButton(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 50))
         clearButton.setTitle("清空消息记录", for: .normal)
         clearButton.titleLabel?.textAlignment = .center
+        clearButton.titleLabel?.font = UIFont.systemFont(ofSize: 14.0)
         clearButton.setTitleColor(UIColor(netHex: 0x666666), for: .normal)
         clearButton.addTarget(self, action: #selector(clearHistory), for: .touchUpInside)
         return clearButton
@@ -26,27 +31,26 @@ class SearchCourseViewController: UITableViewController
         return searchResultVC
     }()
     
-    lazy var searchController: UISearchController = {
-        let searchController = UISearchController(searchResultsController: self.searchResultVC)
-        searchController.searchBar.placeholder = "搜索与你相关的课程"
-        searchController.searchBar.delegate = self
-        searchController.obscuresBackgroundDuringPresentation = true
-        return searchController
-    }()
-    
     override func viewDidLoad()
     {
         super.viewDidLoad()
 
+        searchTextField.delegate = self
+        searchTextField.enablesReturnKeyAutomatically = true
+        
+        tableView.dataSource = self
+        tableView.delegate = self
         tableView.tableFooterView = clearButton
-        tableView.tableHeaderView = searchController.searchBar
-        
-        searchController.searchBar.tintColor = UIColor(netHex: 0x97cc00)
-        searchController.searchBar.barTintColor = UIColor(netHex: 0xf5f5f5)
-//        searchController.searchBar.setValue("取消", forKey:"_cancelButtonText")
-        
+
         let userDefaults = UserDefaults.standard
         historys = userDefaults.object(forKey: "historys") as? [String] ?? [String]()
+    }
+    
+    override func viewDidAppear(_ animated: Bool)
+    {
+        super.viewDidAppear(animated)
+        
+        searchTextField.becomeFirstResponder()
     }
     
     override func viewWillDisappear(_ animated: Bool)
@@ -64,37 +68,75 @@ class SearchCourseViewController: UITableViewController
         tableView.reloadData()
     }
     
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
-        return historys?.count ?? 0
+        let count = historys?.count ?? 0
+        if count == 0 {
+            clearButton.isHidden = true
+        } else {
+            clearButton.isHidden = false
+        }
+        return count
     }
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
         let cell = tableView.dequeueReusableCell(withIdentifier: "SearchHistoryCell", for: indexPath) as! SearchHistoryCell
         cell.historyLabel.text = historys?[indexPath.row]
         return cell
     }
     
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
     {
         if let searchText = historys?[indexPath.row] {
+            searchTextField.text = searchText
+            searchTextField.resignFirstResponder()
+            addSearchHistory(name: searchText)
             searchResultVC.searchCourseBy(courseName: searchText)
+            tableView.addSubview(searchResultVC.view)
         }
     }
-}
-
-extension SearchCourseViewController: UISearchBarDelegate
-{
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar)
+    
+    @IBAction func cancelAction(_ sender: UIButton)
     {
-        searchResultVC.searchCourseBy(courseName: searchBar.text!)
-        historys?.append(searchBar.text!)
+        searchTextField.resignFirstResponder()
+        dismiss(animated: true, completion: nil)
     }
     
-    func searchBarCancelButtonClicked(_ searchBar: UISearchBar)
+    func addSearchHistory(name: String)
     {
-        dismiss(animated: true, completion: nil)
+        for index in 0..<historys!.count {
+            if historys![index] == name {
+                historys?.remove(at: index)
+                break
+            }
+        }
+        historys?.insert(name, at: 0)
+        tableView.reloadData()
+    }
+    
+}
+
+extension SearchCourseViewController: UITextFieldDelegate
+{
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool
+    {
+        let text = textField.text ?? ""
+        if text.length > 0 {
+            addSearchHistory(name: text)
+            searchResultVC.searchCourseBy(courseName: text)
+            tableView.addSubview(searchResultVC.view)
+            searchTextField.resignFirstResponder()
+        }
+        return true
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField)
+    {
+        let text = textField.text ?? ""
+        if text.length == 0 {
+            searchResultVC.view.removeFromSuperview()
+        }
     }
 
 }

@@ -13,7 +13,7 @@ class SearchResultCell: UITableViewCell
     
     @IBOutlet weak var courseView: SignCourseView!
 
-    static let heightForEmptyAvatar: CGFloat = 85
+    static let heightForEmptyAvatar: CGFloat = 100
     static let heightForHaveAvatar: CGFloat = 138
 }
 

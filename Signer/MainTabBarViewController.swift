@@ -29,7 +29,7 @@ class MainTabBarViewController: UITabBarController
         // 签到
         addCenterButton(imageName: "tab_sign")
         // 通知
-        addChildVC("NoticeViewController", title: "通知", image: "tab_notice")
+        addChildVC("NoticeNavigation", title: "通知", image: "tab_notice")
         // 我的
         addChildVC("MineNavigation", title: "我的", image: "tab_mine")
     }

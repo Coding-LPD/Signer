@@ -13,7 +13,7 @@ class SignCourseCell: UITableViewCell
     
     @IBOutlet weak var signCourseView: SignCourseView!
     
-    static let heightForEmptyAvatar: CGFloat = 85
+    static let heightForEmptyAvatar: CGFloat = 100
     static let heightForHaveAvatar: CGFloat = 138
 }
 
