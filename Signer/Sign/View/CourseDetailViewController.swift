@@ -161,9 +161,11 @@ class CourseDetailViewController: UIViewController, BMKLocationServiceDelegate
         teacherLabel.text = json["course"]["teacherName"].string
 
         // 设置学生面板
-        let studentCount = json["records"].count
         for (indexString, studentJson): (String, JSON) in json["records"] {
             let index = Int(indexString)!
+            if index >= 10 {
+                break
+            }
             let avartarimageView = avartarImageViewArray[index]
             avartarimageView.layer.cornerRadius = avartarimageView.frame.width / 2
             avartarimageView.clipsToBounds = true
@@ -171,7 +173,9 @@ class CourseDetailViewController: UIViewController, BMKLocationServiceDelegate
             nameLabelArray[index].text = studentJson["name"].string
         }
         
-        for index in studentCount..<10 {
+        let studentCount = json["records"].count
+
+        for index in stride(from: studentCount, to: 10, by: 1) {
             avartarImageViewArray[index].alpha = 0
             nameLabelArray[index].alpha = 0
         }

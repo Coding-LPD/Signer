@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import SocketIO
+import CocoaAsyncSocket
 import AlamofireNetworkActivityIndicator
 
 @UIApplicationMain
@@ -23,6 +25,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate
         if checkLoggedStatus() {
             showHomePage()
         }
+        
+        connectToServer()
         
         return true
     }
@@ -41,6 +45,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate
         if let mainTabBarVC = storyboard.instantiateViewController(withIdentifier: "MainTabBarViewController") as? MainTabBarViewController {
             window?.rootViewController = mainTabBarVC
         }
+    }
+    
+    let socket = SocketIOClient(socketURL: URL(string: "http://120.25.65.207:3000/sign:3000")!, config: [.log(false), .forceNew(true), .reconnects(true), .forcePolling(true)])
+    
+    func connectToServer()
+    {
+        socket.on("connect") {data, ack in
+            print("------------socket connected")
+            
+            self.socket.emit("student-in", Student().id)
+        }
+        
+        socket.on("notice") {data, ack in
+            print("------------notice")
+        }
+        
+        socket.connect()
+        
     }
 
 }

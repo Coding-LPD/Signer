@@ -14,6 +14,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>CocoaAsyncSocket.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>DZNEmptyDataSet.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -44,6 +49,16 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>SVPullToRefresh.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Socket.IO-Client-Swift.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>SwiftyJSON.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -62,27 +77,22 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>166D5039A5F28A850EA6BD21F23CEA37</key>
+		<key>146462715B96CA498D5FEAF1D0D760EF</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>1D8A4E7049D95ACC1A966530956C40BD</key>
+		<key>15E27035752C84DC45D8E553FE922E3C</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>2B2131030D25C6B60B84721BAD3138F8</key>
+		<key>396BB9175050C3B20369E92F5E907E4E</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>66EBEBA2AB33D4B3DB896B100F39FD20</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>76E40B0240D629BBAC7FDBC9B7EAC6B8</key>
+		<key>878D460F699275BC73703E566AB67C74</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -92,7 +102,22 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>A64DAC6C6DCEC1D35E567CF0AB9ACD17</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>AC0D2D2B4EE7C873431AB3502859CA60</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>C36CB2CB977A4E7D954935096D00A1ED</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D0616E7F36A21C18564C3FC503311FCF</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -102,7 +127,12 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>DEB54AB452A60712DA406BE01D60071F</key>
+		<key>EF669F1FE2C857FE05948CB247F7457B</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>F450265ECD2527B0B59C915908CF6BBA</key>
 		<dict>
 			<key>primary</key>
 			<true/>

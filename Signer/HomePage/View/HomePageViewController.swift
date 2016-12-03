@@ -81,7 +81,7 @@ class HomePageViewController: UIViewController
                 switch response.result {
                 case .success(let value):
                     let json = JSON(value)
-                    print("获取学生相关签到课程信息: \(json)")
+//                    print("获取学生相关签到课程信息: \(json)")
                     if json["code"] == "200" {
                         self.configureUIWith(json: json["data"])
                     } else {

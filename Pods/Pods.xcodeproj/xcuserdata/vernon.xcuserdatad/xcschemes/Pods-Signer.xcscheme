@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0810"
+   LastUpgradeVersion = "0700"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "DEB54AB452A60712DA406BE01D60071F"
+               BlueprintIdentifier = "F450265ECD2527B0B59C915908CF6BBA"
                BuildableName = "Pods_Signer.framework"
                BlueprintName = "Pods-Signer"
                ReferencedContainer = "container:Pods.xcodeproj">
@@ -45,7 +45,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "DEB54AB452A60712DA406BE01D60071F"
+            BlueprintIdentifier = "F450265ECD2527B0B59C915908CF6BBA"
             BuildableName = "Pods_Signer.framework"
             BlueprintName = "Pods-Signer"
             ReferencedContainer = "container:Pods.xcodeproj">

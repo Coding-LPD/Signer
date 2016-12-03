@@ -2,6 +2,9 @@ PODS:
   - Alamofire (4.0.1)
   - AlamofireNetworkActivityIndicator (2.0.1):
     - Alamofire (~> 4.0)
+  - CocoaAsyncSocket (7.5.1):
+    - CocoaAsyncSocket/GCD (= 7.5.1)
+  - CocoaAsyncSocket/GCD (7.5.1)
   - DZNEmptyDataSet (1.8.1)
   - IQKeyboardManager (4.0.5)
   - RxCocoa (3.0.0):
@@ -10,31 +13,39 @@ PODS:
   - SDWebImage (3.8.2):
     - SDWebImage/Core (= 3.8.2)
   - SDWebImage/Core (3.8.2)
+  - Socket.IO-Client-Swift (8.1.2)
+  - SVPullToRefresh (0.4.1)
   - SwiftyJSON (3.1.1)
   - Toast-Swift (2.0.0)
 
 DEPENDENCIES:
   - Alamofire (~> 4.0)
   - AlamofireNetworkActivityIndicator (~> 2.0)
+  - CocoaAsyncSocket
   - DZNEmptyDataSet
   - IQKeyboardManager (~> 4.0.5)
   - RxCocoa (~> 3.0)
   - RxSwift (~> 3.0)
   - SDWebImage (~> 3.8)
+  - Socket.IO-Client-Swift (~> 8.1.2)
+  - SVPullToRefresh
   - SwiftyJSON (~> 3.1.1)
   - Toast-Swift (~> 2.0.0)
 
 SPEC CHECKSUMS:
   Alamofire: 7682d43245de14874acd142ec137b144aa1dd335
   AlamofireNetworkActivityIndicator: 3e55069ada3e1ff7703665156429eedcdfea0bc1
+  CocoaAsyncSocket: e0a7e93b2ffa411592ff87e58524fbbc9b95b4fa
   DZNEmptyDataSet: 9525833b9e68ac21c30253e1d3d7076cc828eaa7
   IQKeyboardManager: 50b62c0603308968256f8208886e206c1dcce607
   RxCocoa: 0a2f3ae381cf16f4021a4cee7a4420f83058a965
   RxSwift: a930cd662f5b4a7ca9dc3518585dba91dadf497c
   SDWebImage: 098e97e6176540799c27e804c96653ee0833d13c
+  Socket.IO-Client-Swift: 542d82e6708f9901b3f6c1d134fb60fa0d09d4d1
+  SVPullToRefresh: ba2e718695a43253d8bea6852d2960097dc15d8c
   SwiftyJSON: f0be2e604f83e8405a624e9f891898bf6ed4e019
   Toast-Swift: 5b2f8f720f7e78e48511f693df1f9c9a6e38a25a
 
-PODFILE CHECKSUM: 7addcf9bff120b86c5841cf01d40afde91d416d6
+PODFILE CHECKSUM: d5463e2b9848b5c8f5fb7eaf3ee6365477b7bb68
 
 COCOAPODS: 1.1.1

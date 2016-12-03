@@ -6,7 +6,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
-        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -34,70 +33,62 @@
                     <color key="textColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <stackView opaque="NO" contentMode="scaleToFill" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="fed-J8-UVW">
+                <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="fed-J8-UVW">
                     <rect key="frame" x="41" y="77" width="272" height="32"/>
                     <subviews>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="default_avatar_1" translatesAutoresizingMaskIntoConstraints="NO" id="kd3-ze-TVT">
                             <rect key="frame" x="0.0" y="0.0" width="32" height="32"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="32" id="dKX-X8-iBm"/>
-                                <constraint firstAttribute="width" secondItem="kd3-ze-TVT" secondAttribute="height" multiplier="1:1" id="doC-Cp-jKu"/>
+                                <constraint firstAttribute="width" constant="32" id="Sps-uh-8qP"/>
+                                <constraint firstAttribute="height" constant="32" id="nGH-0f-4eg"/>
                             </constraints>
                         </imageView>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="default_avatar_1" translatesAutoresizingMaskIntoConstraints="NO" id="UyA-iN-kMW">
                             <rect key="frame" x="48" y="0.0" width="32" height="32"/>
                             <constraints>
-                                <constraint firstAttribute="width" secondItem="UyA-iN-kMW" secondAttribute="height" multiplier="1:1" id="9Kg-MU-VCX"/>
-                                <constraint firstAttribute="height" constant="32" id="FkN-aw-GiV"/>
+                                <constraint firstAttribute="width" constant="32" id="2l8-kx-Wdn"/>
+                                <constraint firstAttribute="height" constant="32" id="WD5-7k-ctl"/>
                             </constraints>
                         </imageView>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="default_avatar_1" translatesAutoresizingMaskIntoConstraints="NO" id="wp9-4l-ZQq">
                             <rect key="frame" x="96" y="0.0" width="32" height="32"/>
                             <constraints>
-                                <constraint firstAttribute="width" secondItem="wp9-4l-ZQq" secondAttribute="height" multiplier="1:1" id="ZkO-gA-8IS"/>
-                                <constraint firstAttribute="height" constant="32" id="iDW-XW-WhV"/>
+                                <constraint firstAttribute="height" constant="32" id="2qS-qK-j8h"/>
+                                <constraint firstAttribute="width" constant="32" id="tlY-lr-ws1"/>
                             </constraints>
                         </imageView>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="default_avatar_1" translatesAutoresizingMaskIntoConstraints="NO" id="CxX-bE-rZK">
                             <rect key="frame" x="144" y="0.0" width="32" height="32"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="32" id="Uo1-Ol-fbM"/>
-                                <constraint firstAttribute="width" secondItem="CxX-bE-rZK" secondAttribute="height" multiplier="1:1" id="sXA-ku-Qz5"/>
+                                <constraint firstAttribute="width" constant="32" id="Qsi-uX-1JV"/>
+                                <constraint firstAttribute="height" constant="32" id="cie-TJ-YcY"/>
                             </constraints>
                         </imageView>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="default_avatar_1" translatesAutoresizingMaskIntoConstraints="NO" id="IjQ-Tg-MgK">
                             <rect key="frame" x="192" y="0.0" width="32" height="32"/>
                             <constraints>
-                                <constraint firstAttribute="width" secondItem="IjQ-Tg-MgK" secondAttribute="height" multiplier="1:1" id="eCF-y1-m0e"/>
-                                <constraint firstAttribute="height" constant="32" id="nLx-2n-JhP"/>
+                                <constraint firstAttribute="height" constant="32" id="46X-zL-EcB"/>
+                                <constraint firstAttribute="width" constant="32" id="K7v-rr-2e1"/>
                             </constraints>
                         </imageView>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="default_avatar_1" translatesAutoresizingMaskIntoConstraints="NO" id="2uI-iW-OTZ">
                             <rect key="frame" x="240" y="0.0" width="32" height="32"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="32" id="7i9-6w-agj"/>
-                                <constraint firstAttribute="width" secondItem="2uI-iW-OTZ" secondAttribute="height" multiplier="1:1" id="bj4-p8-spO"/>
+                                <constraint firstAttribute="height" constant="32" id="38A-Zk-9ph"/>
+                                <constraint firstAttribute="width" constant="32" id="VtT-KQ-2vp"/>
                             </constraints>
                         </imageView>
                     </subviews>
-                    <constraints>
-                        <constraint firstItem="wp9-4l-ZQq" firstAttribute="width" secondItem="wp9-4l-ZQq" secondAttribute="height" multiplier="1:1" id="4S2-0a-tqv"/>
-                        <constraint firstItem="2uI-iW-OTZ" firstAttribute="width" secondItem="2uI-iW-OTZ" secondAttribute="height" multiplier="1:1" id="awe-0m-Lpy"/>
-                        <constraint firstItem="IjQ-Tg-MgK" firstAttribute="width" secondItem="IjQ-Tg-MgK" secondAttribute="height" multiplier="1:1" id="cOR-OT-VKq"/>
-                        <constraint firstAttribute="height" constant="32" id="iI7-4p-PHY"/>
-                        <constraint firstItem="UyA-iN-kMW" firstAttribute="width" secondItem="UyA-iN-kMW" secondAttribute="height" multiplier="1:1" id="nCZ-mI-IYE"/>
-                        <constraint firstItem="CxX-bE-rZK" firstAttribute="width" secondItem="CxX-bE-rZK" secondAttribute="height" multiplier="1:1" id="pIX-gh-h3w"/>
-                    </constraints>
                 </stackView>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstItem="fed-J8-UVW" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="HpF-Vl-8Jv"/>
+                <constraint firstItem="fed-J8-UVW" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="53E-ef-wWs"/>
+                <constraint firstItem="fed-J8-UVW" firstAttribute="top" secondItem="lAK-eC-e6h" secondAttribute="bottom" constant="10" id="ADJ-GG-rIc"/>
                 <constraint firstItem="lAK-eC-e6h" firstAttribute="top" secondItem="CoH-cQ-2M3" secondAttribute="bottom" constant="7" id="MQt-oX-und"/>
                 <constraint firstItem="CoH-cQ-2M3" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="Ugx-07-IoV"/>
                 <constraint firstItem="CoH-cQ-2M3" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="24" id="cOE-xy-4Lu"/>
                 <constraint firstItem="lAK-eC-e6h" firstAttribute="centerX" secondItem="CoH-cQ-2M3" secondAttribute="centerX" id="e9f-zI-TGk"/>
-                <constraint firstItem="fed-J8-UVW" firstAttribute="top" secondItem="lAK-eC-e6h" secondAttribute="bottom" constant="10" id="gDG-F0-84g"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>

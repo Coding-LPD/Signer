@@ -57,6 +57,7 @@ class InputCodeViewController: UIViewController
         if segue.identifier == "showCourseDetail" {
             if let desVC = segue.destination as? CourseDetailViewController {
                 desVC.courseQRCode = sixNumbers
+                desVC.weakSignVC = weakSignVC
                 desVC.dismissSignVCDelegate = weakSignVC
             }
         }
