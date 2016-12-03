@@ -216,10 +216,10 @@ router.get('/:phone/notice', function (req, res) {
       return SignRecord.aggregate()
         .match({ studentId: '' + student._id, type: type, state: { $gt: 0 } })
         .sort('-confirmAt')
-        .project('state distance createdAt confirmAt signId')
-        .group({ _id: '$signId', records: { $push: '$$ROOT' } })
         .skip(page * limit)
         .limit(limit)
+        .project('state distance createdAt confirmAt signId')
+        .group({ _id: '$signId', records: { $push: '$$ROOT' } })
         .exec();
     })
     .then(function (results) {
