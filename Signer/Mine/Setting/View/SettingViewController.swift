@@ -33,7 +33,7 @@ extension SettingViewController: UITableViewDataSource, UITableViewDelegate
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
         if section == 0 {
-            return 2
+            return 1
         } else if section == 1 {
             return 2
         } else if section == 2 {
@@ -54,8 +54,6 @@ extension SettingViewController: UITableViewDataSource, UITableViewDelegate
     {
         if indexPath.section == 0 && indexPath.row == 0 {
             cell.configureCell(contentText: "修改密码", isLineHidden: false)
-        } else if indexPath.section == 0 && indexPath.row == 1 {
-            cell.configureCell(contentText: "隐私设置", isLineHidden: true)
         } else if indexPath.section == 1 && indexPath.row == 0 {
             cell.configureCell(contentText: "关于Signer", isLineHidden: false)
         } else if indexPath.section == 1 && indexPath.row == 1 {
@@ -74,7 +72,11 @@ extension SettingViewController: UITableViewDataSource, UITableViewDelegate
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
     {
-        if indexPath.section == 3 && indexPath.row == 0 {
+        if indexPath.section == 0 && indexPath.row == 0 {
+            performSegue(withIdentifier: "modifyPassword", sender: nil)
+        } else if indexPath.section == 1 && indexPath.row == 1 {
+            performSegue(withIdentifier: "feedback", sender: nil)
+        } else if indexPath.section == 3 && indexPath.row == 0 {
             let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
             let logOutAction = UIAlertAction(title: "退出登录", style: .destructive, handler: { (action) in
                 let userDefaults = UserDefaults.standard

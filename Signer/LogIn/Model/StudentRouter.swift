@@ -16,6 +16,7 @@ enum StudentRouter: URLRequestConvertible
     case requestSignedCourses(phone: String)                    // 学生的所有签到的课程
     case searchCourse(phone: String, courseName: String)        // 根据指定课程名查询课程
     case requestNotice(phone: String, type: Int, page: Int)     // 获取学生相关通知信息
+    case requestSignAndMsgCount(studentId: String)              // 获取学生的签到数和发言数
     
     var method: HTTPMethod {
         switch self {
@@ -30,6 +31,8 @@ enum StudentRouter: URLRequestConvertible
         case .searchCourse:
             return .get
         case .requestNotice:
+            return .get
+        case .requestSignAndMsgCount:
             return .get
         }
     }
@@ -49,6 +52,8 @@ enum StudentRouter: URLRequestConvertible
                 return ("/students/\(phone)/relatedCourses", ["limit": 1000, "page": 0, "keyword": courseName])
             case let .requestNotice(phone, type, page):
                 return ("/students/\(phone)/notice", ["type": type, "page": page, "limit": 10])
+            case let .requestSignAndMsgCount(studentId):
+                return ("/students/\(studentId)/activeInfo", [:])
             }
         }()
         

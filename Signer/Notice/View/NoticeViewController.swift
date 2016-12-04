@@ -59,6 +59,12 @@ class NoticeViewController: UIViewController
         loadNoticesFor(type: .beforeClass, page: 0)
         loadNoticesFor(type: .afterClass, page: 0)
         
+        // 下拉刷新
+        tableView.addPullToRefresh { [unowned self] in
+            self.refreshNoticeFromServiceFor(type: self.noticeType)
+        }
+        
+        // 上拉加载
         tableView.addInfiniteScrolling { [unowned self] in
             if self.noticeType == .beforeClass {
                 self.loadNoticesFor(type: self.noticeType, page: self.totalBeforeNoticePage)
@@ -93,6 +99,57 @@ class NoticeViewController: UIViewController
         reach!.startNotifier()
     }
     
+    // MARK: - pull to refresh
+    
+    // 下拉刷新响应事件
+    func refreshNoticeFromServiceFor(type: NoticeType)
+    {
+        Alamofire
+            .request(StudentRouter.requestNotice(phone: Student().phone, type: type.rawValue, page: 0))
+            .responseJSON { (response) in
+                switch response.result {
+                case .success(let value):
+                    let json = JSON(value)
+                    if json["code"] == "200" {
+                        DispatchQueue.global().async {
+                            self.refreshNoticesFor(type: type, newNotices: self.convertJsonToNotices(json: json["data"]))
+                        }
+                    } else {
+                        fatalError("获取通知出错")
+                    }
+                case .failure(_):
+                    self.tableView.pullToRefreshView.stopAnimating()
+                }
+            }
+    }
+    
+    func refreshNoticesFor(type: NoticeType, newNotices notices: [Notice])
+    {
+        if notices.count > 0 {
+            if noticeType == .beforeClass {
+                beforeNotices.removeAll()
+                beforeNotices.append(contentsOf: notices)
+                totalBeforeNoticePage = 1
+            } else if noticeType == .afterClass {
+                afterNotices.removeAll()
+                afterNotices.append(contentsOf: notices)
+                totalAfterNoticePage = 1
+            }
+            
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+                self.tableView.reloadEmptyDataSet()
+                self.tableView.pullToRefreshView.stopAnimating()
+            }
+        } else {
+            DispatchQueue.main.async {
+                self.tableView.pullToRefreshView.stopAnimating()
+            }
+        }
+    }
+    
+    // MARK: - pull up to load
+    
     // 从服务器获取第page页的通知
     func loadNoticesFor(type: NoticeType, page: Int)
     {
@@ -104,7 +161,9 @@ class NoticeViewController: UIViewController
                     let json = JSON(value)
 //                    print("获取通知: \(json)")
                     if json["code"] == "200" {
-                        self.addNotices(newNotices: self.convertJsonToNotices(json: json["data"]), noticeType: type, page: page)
+                        DispatchQueue.global().async {
+                            self.addNotices(newNotices: self.convertJsonToNotices(json: json["data"]), noticeType: type, page: page)
+                        }
                     } else {
                         fatalError("获取通知出错")
                     }
@@ -124,18 +183,17 @@ class NoticeViewController: UIViewController
     func convertJsonToNotices(json: JSON) -> [Notice]
     {
         var tempNotices = [Notice]()
-        DispatchQueue.global().async {
-            for (_, noticeJson) in json {
-                let courseName = noticeJson["courseName"].stringValue
-                let signNumber = noticeJson["signNumber"].intValue
-                let signState = SignState(num: noticeJson["signState"].intValue)!
-                let distance = noticeJson["signDistance"].intValue
-                let signDate = self.dateFormatter.date(from: noticeJson["signAt"].stringValue)!
-                let confirmDate = self.dateFormatter.date(from: noticeJson["confirmAt"].stringValue)!
-                
-                let notice = Notice(courseName: courseName, signNumber: signNumber, signState: signState, distance: distance, signDate: signDate, confirmDate: confirmDate)
-                tempNotices.append(notice)
-            }
+
+        for (_, noticeJson) in json {
+            let courseName = noticeJson["courseName"].stringValue
+            let signNumber = noticeJson["signNumber"].intValue
+            let signState = SignState(num: noticeJson["signState"].intValue)!
+            let distance = noticeJson["signDistance"].intValue
+            let signDate = self.dateFormatter.date(from: noticeJson["signAt"].stringValue)!
+            let confirmDate = self.dateFormatter.date(from: noticeJson["confirmAt"].stringValue)!
+            
+            let notice = Notice(courseName: courseName, signNumber: signNumber, signState: signState, distance: distance, signDate: signDate, confirmDate: confirmDate)
+            tempNotices.append(notice)
         }
 
         return tempNotices
@@ -167,7 +225,9 @@ class NoticeViewController: UIViewController
                 self.tableView.infiniteScrollingView.stopAnimating()
             }
         } else {
-            tableView.infiniteScrollingView.stopAnimating()
+            DispatchQueue.main.async {
+                self.tableView.infiniteScrollingView.stopAnimating()
+            }
         }
     }
 

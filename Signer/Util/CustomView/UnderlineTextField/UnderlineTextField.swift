@@ -44,7 +44,12 @@ import UIKit
     }
     
     var text: String? {
-        return textField.text
+        get {
+            return textField.text
+        }
+        set {
+            textField.text = newValue
+        }
     }
     
     override init(frame: CGRect)

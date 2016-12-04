@@ -45,7 +45,7 @@ extension MineViewController: UITableViewDataSource, UITableViewDelegate
         if section == 0 {
             return 1
         } else if section == 1 {
-            return 3
+            return 2
         } else {
             return 1
         }
@@ -71,8 +71,6 @@ extension MineViewController: UITableViewDataSource, UITableViewDelegate
             cell.configureCell(imageName: "sign", text: "我的签到", isLineHidden: false)
         } else if indexPath.section == 1 && indexPath.row == 1 {
             cell.configureCell(imageName: "speak", text: "我的发言", isLineHidden: false)
-        } else if indexPath.section == 1 && indexPath.row == 2 {
-            cell.configureCell(imageName: "table", text: "我的圆桌", isLineHidden: true)
         } else if indexPath.section == 2 && indexPath.row == 0 {
             cell.configureCell(imageName: "setting", text: "设置", isLineHidden: true)
         }

@@ -512,7 +512,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="tsJ-7b-V7q">
-                                <rect key="frame" x="0.0" y="64" width="375" height="554"/>
+                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="SettingCell" id="Zvy-CS-oha" customClass="SettingCell" customModule="华师小签" customModuleProvider="target">
@@ -564,20 +564,150 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="tsJ-7b-V7q" secondAttribute="trailing" id="IQd-Fh-OrG"/>
-                            <constraint firstItem="tsJ-7b-V7q" firstAttribute="top" secondItem="cJx-oc-THL" secondAttribute="bottom" id="LHr-Dk-QgZ"/>
-                            <constraint firstItem="tsJ-7b-V7q" firstAttribute="leading" secondItem="Ema-1Q-uFr" secondAttribute="leading" id="nAz-Qh-wW6"/>
-                            <constraint firstItem="tsJ-7b-V7q" firstAttribute="bottom" secondItem="ih2-qu-g5b" secondAttribute="top" id="ubL-g8-s1h"/>
+                            <constraint firstAttribute="bottom" secondItem="tsJ-7b-V7q" secondAttribute="bottom" id="5gs-LG-Kbr"/>
+                            <constraint firstItem="tsJ-7b-V7q" firstAttribute="top" secondItem="cJx-oc-THL" secondAttribute="bottom" id="6L7-kr-j5E"/>
+                            <constraint firstItem="tsJ-7b-V7q" firstAttribute="leading" secondItem="Ema-1Q-uFr" secondAttribute="leading" id="k99-5i-hEV"/>
+                            <constraint firstAttribute="trailing" secondItem="tsJ-7b-V7q" secondAttribute="trailing" id="ve4-pD-DXf"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="设置" id="Npb-7m-W8E"/>
                     <connections>
                         <outlet property="tableView" destination="tsJ-7b-V7q" id="aiM-EW-U8f"/>
+                        <segue destination="5zP-Fo-HdU" kind="show" identifier="feedback" id="0ra-jb-EjE"/>
+                        <segue destination="T0z-BK-d12" kind="show" identifier="modifyPassword" id="Sp7-yO-fXK"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CCw-lL-9Af" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3336.8000000000002" y="572.56371814092961"/>
+        </scene>
+        <!--修改密码-->
+        <scene sceneID="hRp-d5-dn8">
+            <objects>
+                <viewController hidesBottomBarWhenPushed="YES" id="T0z-BK-d12" customClass="ModifyPasswordViewController" customModule="华师小签" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="XRI-MG-wuJ"/>
+                        <viewControllerLayoutGuide type="bottom" id="pgS-9F-Rci"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="lec-zs-opm">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UJY-RT-mwX" customClass="UnderlineTextField" customModule="华师小签" customModuleProvider="target">
+                                <rect key="frame" x="16" y="94" width="343" height="30"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="b4s-bX-ClV"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="leftText" value="原密码"/>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="placeHolder" value="请输入原先的密码"/>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1af-WJ-K7s" customClass="UnderlineTextField" customModule="华师小签" customModuleProvider="target">
+                                <rect key="frame" x="16" y="140" width="343" height="30"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="rhV-Dw-CVQ"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="leftText" value="新密码"/>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="placeHolder" value="请输入新的密码"/>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MAn-qr-o9s" customClass="UnderlineTextField" customModule="华师小签" customModuleProvider="target">
+                                <rect key="frame" x="16" y="186" width="343" height="30"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="nwB-ad-Klt"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="leftText" value="确认"/>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="placeHolder" value="请确认密码"/>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="w9E-zA-u9A" customClass="LoadingButton" customModule="华师小签" customModuleProvider="target">
+                                <rect key="frame" x="16" y="246" width="343" height="40"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="yKm-yc-OLc"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="buttonText" value="修改密码"/>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="UJY-RT-mwX" firstAttribute="top" secondItem="XRI-MG-wuJ" secondAttribute="bottom" constant="30" id="9vh-sa-Pcd"/>
+                            <constraint firstItem="1af-WJ-K7s" firstAttribute="leading" secondItem="UJY-RT-mwX" secondAttribute="leading" id="BeF-xN-R0T"/>
+                            <constraint firstItem="1af-WJ-K7s" firstAttribute="trailing" secondItem="UJY-RT-mwX" secondAttribute="trailing" id="CsU-EQ-Viv"/>
+                            <constraint firstItem="MAn-qr-o9s" firstAttribute="leading" secondItem="1af-WJ-K7s" secondAttribute="leading" id="JTh-Bn-21X"/>
+                            <constraint firstItem="w9E-zA-u9A" firstAttribute="trailing" secondItem="MAn-qr-o9s" secondAttribute="trailing" id="LhC-0N-P8g"/>
+                            <constraint firstItem="w9E-zA-u9A" firstAttribute="top" secondItem="MAn-qr-o9s" secondAttribute="bottom" constant="30" id="NUo-j6-NDS"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="UJY-RT-mwX" secondAttribute="leading" id="TO2-6K-AS0"/>
+                            <constraint firstItem="w9E-zA-u9A" firstAttribute="leading" secondItem="MAn-qr-o9s" secondAttribute="leading" id="hfm-jK-in5"/>
+                            <constraint firstItem="1af-WJ-K7s" firstAttribute="top" secondItem="UJY-RT-mwX" secondAttribute="bottom" constant="16" id="qTC-Qs-bcb"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="UJY-RT-mwX" secondAttribute="trailing" id="rMN-jr-V8d"/>
+                            <constraint firstItem="MAn-qr-o9s" firstAttribute="top" secondItem="1af-WJ-K7s" secondAttribute="bottom" constant="16" id="vAC-0X-3aE"/>
+                            <constraint firstItem="MAn-qr-o9s" firstAttribute="trailing" secondItem="1af-WJ-K7s" secondAttribute="trailing" id="ytX-GK-oLh"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="修改密码" id="NdL-LF-exF"/>
+                    <connections>
+                        <outlet property="confirmPasswordTextField" destination="MAn-qr-o9s" id="1PA-2n-WLk"/>
+                        <outlet property="modifyButton" destination="w9E-zA-u9A" id="Twx-ul-4bS"/>
+                        <outlet property="newPasswordTextField" destination="1af-WJ-K7s" id="0NX-ip-2pt"/>
+                        <outlet property="oldPasswordTextField" destination="UJY-RT-mwX" id="A91-LL-aoT"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="JdZ-xh-T8w" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4094" y="218"/>
+        </scene>
+        <!--意见反馈-->
+        <scene sceneID="Qof-Zr-zPZ">
+            <objects>
+                <viewController automaticallyAdjustsScrollViewInsets="NO" hidesBottomBarWhenPushed="YES" id="5zP-Fo-HdU" customClass="FeedBackViewController" customModule="华师小签" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="bzI-Ch-FBY"/>
+                        <viewControllerLayoutGuide type="bottom" id="4Y3-9y-XrM"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="aqv-4e-Poq">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="6Qd-sR-spF">
+                                <rect key="frame" x="16" y="72" width="343" height="575"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="6Qd-sR-spF" firstAttribute="leading" secondItem="aqv-4e-Poq" secondAttribute="leadingMargin" id="6wV-nV-nx9"/>
+                            <constraint firstItem="6Qd-sR-spF" firstAttribute="trailing" secondItem="aqv-4e-Poq" secondAttribute="trailingMargin" id="Qwj-Pg-Om3"/>
+                            <constraint firstItem="6Qd-sR-spF" firstAttribute="top" secondItem="bzI-Ch-FBY" secondAttribute="bottom" constant="8" symbolic="YES" id="qxl-Kz-AEC"/>
+                            <constraint firstAttribute="bottom" secondItem="6Qd-sR-spF" secondAttribute="bottom" constant="20" symbolic="YES" id="sjR-tz-6kw"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="意见反馈" id="gzA-T7-nZn">
+                        <barButtonItem key="rightBarButtonItem" title="发送" id="B7d-mo-5D7">
+                            <connections>
+                                <action selector="sendAction:" destination="5zP-Fo-HdU" id="lWa-sr-1gK"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="contentTextView" destination="6Qd-sR-spF" id="qoz-YJ-8dZ"/>
+                        <outlet property="sendBarButton" destination="B7d-mo-5D7" id="1Xk-wd-PNP"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="H7p-Uu-Jzh" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4094" y="869"/>
         </scene>
         <!--修改头像-->
         <scene sceneID="vgV-Pm-jBX">
@@ -886,7 +1016,7 @@
                                                     <userDefinedRuntimeAttributes>
                                                         <userDefinedRuntimeAttribute type="image" keyPath="avatarImage" value="default_avatar_1"/>
                                                         <userDefinedRuntimeAttribute type="string" keyPath="nameText" value="用户名"/>
-                                                        <userDefinedRuntimeAttribute type="string" keyPath="descriptionText" value="10签到/0发言"/>
+                                                        <userDefinedRuntimeAttribute type="string" keyPath="descriptionText" value="0签到/0发言"/>
                                                     </userDefinedRuntimeAttributes>
                                                 </view>
                                             </subviews>
@@ -2498,8 +2628,8 @@
                                     <constraint firstAttribute="height" constant="30" id="bjM-QJ-o9i"/>
                                 </constraints>
                                 <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="string" keyPath="leftText" value="密码"/>
-                                    <userDefinedRuntimeAttribute type="string" keyPath="placeHolder" value="请输入登录密码"/>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="leftText" value="确认"/>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="placeHolder" value="请确认登录密码"/>
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="l96-bq-NnI" customClass="LoadingButton" customModule="华师小签" customModuleProvider="target">

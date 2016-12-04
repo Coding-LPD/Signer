@@ -70,6 +70,29 @@ class MineInfoViewController: UITableViewController
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
 
         view.makeToastActivity(.center)
+        
+        setMsgAndSignCountDescription()
+    }
+    
+    // 从服务器中获取学生的签到数signCount和发言数msgCount，设置字符串形如"\(signCount)签到/\(msgCount)发言"到描述信息上
+    func setMsgAndSignCountDescription()
+    {
+        Alamofire
+            .request(StudentRouter.requestSignAndMsgCount(studentId: Student().id))
+            .responseJSON { (response) in
+                switch response.result {
+                case .success(let value):
+                    let json = JSON(value)
+                    print("获取学生签到数和发言数: \(json)")
+                    if json["code"] == "200" {
+                        let signCount = json["data"]["signCount"].intValue
+                        let msgCount = json["data"]["msgCount"].intValue
+                        self.mineAvatarView.descriptionText = "\(signCount)签到/\(msgCount)发言"
+                    }
+                case .failure:
+                    break
+                }
+            }
     }
     
     func configureUIWith(json: JSON)

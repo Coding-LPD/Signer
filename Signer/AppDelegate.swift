@@ -19,6 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool
     {
         UITextField.appearance().tintColor = ThemeGreenColor
+        UITextView.appearance().tintColor = ThemeGreenColor
         
         NetworkActivityIndicatorManager.shared.isEnabled = true
         

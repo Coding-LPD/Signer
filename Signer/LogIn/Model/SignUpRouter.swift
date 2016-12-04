@@ -18,6 +18,16 @@ enum SignUpRouter: URLRequestConvertible
     case validatePhoneAndCode(String, String)                       // 验证手机号码和验证码的一致性
     case signUpStudent(String, String)                              // 注册学生
     case logInStudent(phone: String, encryptedPassword: String)     // 学生登录
+    case modifyPassword(phone: String, encryptedPassword: String)   // 修改密码
+    
+    var method: HTTPMethod {
+        switch self {
+        case .requestVerifyCode, .validatePhoneAndCode, .signUpStudent, .logInStudent:
+            return .post
+        case .modifyPassword:
+            return .put
+        }
+    }
     
     func asURLRequest() throws -> URLRequest {
         let result: (path: String, parameters: Parameters) = {
@@ -30,12 +40,14 @@ enum SignUpRouter: URLRequestConvertible
                 return ("/users", ["phone": phone, "password": encryptedPassword, "role": "0"])
             case let .logInStudent(phone, encryptedPassword):
                 return ("/users/login", ["phone": phone, "password": encryptedPassword])
+            case let .modifyPassword(phone, encryptedPassword):
+                return ("/users/\(phone)", ["password": encryptedPassword])
             }
         }()
         
         let url = try SignUpRouter.baseURLString.asURL()
         var urlRequest = URLRequest(url: url.appendingPathComponent(result.path))
-        urlRequest.httpMethod = HTTPMethod.post.rawValue
+        urlRequest.httpMethod = method.rawValue
         
         return try URLEncoding.default.encode(urlRequest, with: result.parameters)
     }
