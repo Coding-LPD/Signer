@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SocketIO
 
 class MainTabBarViewController: UITabBarController
 {
@@ -18,6 +19,22 @@ class MainTabBarViewController: UITabBarController
         
         tabBar.tintColor = ThemeGreenColor
         addAllChildViewController()
+        
+        connectToServer()
+    }
+    
+    override func viewDidAppear(_ animated: Bool)
+    {
+        super.viewDidAppear(animated)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(clearNoticeCountHandler), name: NSNotification.Name(rawValue: "ClearNoticeCountNotification"), object: nil)
+    }
+    
+    override func viewDidDisappear(_ animated: Bool)
+    {
+        super.viewDidDisappear(animated)
+        
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: "ClearNoticeCountNotification"), object: nil)
     }
     
     func addAllChildViewController()
@@ -25,7 +42,7 @@ class MainTabBarViewController: UITabBarController
         // 首页
         addChildVC("HomePageViewController", title: "签到", image: "tab_homePage")
         // 聊天室
-        addChildVC("ChatRoomViewController", title: "聊天室", image: "tab_chatRoom")
+        addChildVC("ChatRoomNavigation", title: "聊天室", image: "tab_chatRoom")
         // 签到
         addCenterButton(imageName: "tab_sign")
         // 通知
@@ -39,7 +56,7 @@ class MainTabBarViewController: UITabBarController
         if let childVC = storyboard?.instantiateViewController(withIdentifier: identifier) {
             childVC.tabBarItem.title = title
             childVC.tabBarItem.image = UIImage(named: image)
-            
+
             addChildViewController(childVC)
         }
     }
@@ -79,6 +96,37 @@ class MainTabBarViewController: UITabBarController
         }
         
         present(signNavigation, animated: true, completion: nil)
+    }
+    
+    lazy var socket: SocketIOClient = {
+        let socket = SocketIOClient(socketURL: URL(string: "http://120.25.65.207:3000")!, config: [.log(false), .nsp("/sign"), .forceNew(true), .reconnects(true)])
+        return socket
+    }()
+
+    var newNoticeCount = 0 {
+        didSet {
+            self.tabBar.items?[3].badgeValue = newNoticeCount == 0 ? nil : "\(newNoticeCount)"
+        }
+    }
+    
+    func clearNoticeCountHandler()
+    {
+        newNoticeCount = 0
+    }
+    
+    func connectToServer()
+    {
+        socket.on("connect") {data, ack in
+            self.socket.emit("student-in", Student().id)        // 触发此事件才能接收到通知
+        }
+        
+        socket.on("notice") {data, ack in
+            print("------------notice")
+            self.newNoticeCount += 1
+            
+        }
+
+        socket.connect()
     }
     
 }

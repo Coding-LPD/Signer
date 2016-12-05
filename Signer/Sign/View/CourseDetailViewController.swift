@@ -91,7 +91,7 @@ class CourseDetailViewController: UIViewController, BMKLocationServiceDelegate
                 switch response.result {
                 case .success(let value):
                     let json = JSON(value)
-                    print("获取课程详情: \(json)")
+             //       print("获取课程详情: \(json)")
                     if json["code"] == "200" {
                         self.configureUIWith(json: json["data"])
                     } else {
@@ -120,7 +120,7 @@ class CourseDetailViewController: UIViewController, BMKLocationServiceDelegate
                 switch response.result {
                 case .success(let value):
                     let json = JSON(value)
-                    print("获取课程详情: \(json)")
+          //          print("获取课程详情: \(json)")
                     if json["code"] == "200" {
                         self.configureUIWith(json: json["data"])
                     } else {
@@ -221,7 +221,7 @@ class CourseDetailViewController: UIViewController, BMKLocationServiceDelegate
     func didUpdate(_ userLocation: BMKUserLocation!)
     {
         locService.stopUserLocationService()
-        print("获取位置成功，经度：\(userLocation.location.coordinate.longitude) 纬度：\(userLocation.location.coordinate.latitude)")
+    //    print("获取位置成功，经度：\(userLocation.location.coordinate.longitude) 纬度：\(userLocation.location.coordinate.latitude)")
         signWith(signType: signType, longitude: userLocation.location.coordinate.longitude, latitude: userLocation.location.coordinate.latitude)
     }
     
@@ -242,7 +242,7 @@ class CourseDetailViewController: UIViewController, BMKLocationServiceDelegate
                 switch response.result {
                 case .success(let value):
                     let json = JSON(value)
-                    print("学生签到: \(json)")
+          //          print("学生签到: \(json)")
                     if json["code"] == "200" {
                         self.battery = json["data"]["battery"].int
                         self.distance = json["data"]["distance"].int

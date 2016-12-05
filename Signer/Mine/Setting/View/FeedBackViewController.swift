@@ -23,7 +23,7 @@ class FeedBackViewController: UIViewController
         super.viewDidLoad()
 
         sendBarButton.setTitleTextAttributes([NSForegroundColorAttributeName: UIColor(netHex: 0x97cc00)], for: .normal)
-        sendBarButton.setTitleTextAttributes([NSForegroundColorAttributeName: UIColor(netHex: 0x999999)], for: .disabled)
+        sendBarButton.setTitleTextAttributes([NSForegroundColorAttributeName: UIColor(netHex: 0x999999).withAlphaComponent(0.5)], for: .disabled)
         
         contentTextView.rx.text.subscribe(onNext: { content in
             self.sendBarButton.isEnabled = content!.length > 0

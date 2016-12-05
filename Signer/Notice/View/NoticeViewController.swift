@@ -23,6 +23,10 @@ class NoticeViewController: UIViewController
 {
     @IBOutlet weak var tableView: UITableView!
     
+    weak var mainTabBarVC: MainTabBarViewController?
+    
+    let noticesNumberPerPage = 10
+    
     var reach: Reachability?
     var isReachableNet = false {
         didSet {
@@ -41,9 +45,11 @@ class NoticeViewController: UIViewController
     
     var beforeNotices = [Notice]()      // 课前通知
     var totalBeforeNoticePage = 0
-    
+    var isLoadAllBeforeNotices = false  // 所有课前通知都已经加载完
+
     var afterNotices = [Notice]()       // 课后通知
     var totalAfterNoticePage = 0
+    var isLoadAllAfterNotices = false
 
     override func viewDidLoad()
     {
@@ -55,23 +61,42 @@ class NoticeViewController: UIViewController
         tableView.dataSource = self
         tableView.emptyDataSetSource = self
         tableView.emptyDataSetDelegate = self
-        
+    
         loadNoticesFor(type: .beforeClass, page: 0)
         loadNoticesFor(type: .afterClass, page: 0)
         
         // 下拉刷新
         tableView.addPullToRefresh { [unowned self] in
-            self.refreshNoticeFromServiceFor(type: self.noticeType)
+            self.refreshNoticesFromServiceFor(type: self.noticeType)
         }
+        tableView.pullToRefreshView.setTitle("下拉刷新通知", forState: 0)
+        tableView.pullToRefreshView.setTitle("释放更新通知", forState: 1)
         
         // 上拉加载
         tableView.addInfiniteScrolling { [unowned self] in
             if self.noticeType == .beforeClass {
-                self.loadNoticesFor(type: self.noticeType, page: self.totalBeforeNoticePage)
+                if self.isLoadAllBeforeNotices {
+                    self.view.makeToast("无更多通知", duration: 0.3, position: .bottom)
+                    self.tableView.infiniteScrollingView.stopAnimating()
+                } else {
+                   self.loadNoticesFor(type: self.noticeType, page: self.totalBeforeNoticePage)
+                }
             } else if self.noticeType == .afterClass {
-                self.loadNoticesFor(type: self.noticeType, page: self.totalAfterNoticePage)
+                if self.isLoadAllAfterNotices {
+                    self.view.makeToast("无更多通知", duration: 0.3, position: .bottom)
+                    self.tableView.infiniteScrollingView.stopAnimating()
+                } else {
+                    self.loadNoticesFor(type: self.noticeType, page: self.totalAfterNoticePage)
+                }
             }
         }
+    }
+    
+    override func viewDidAppear(_ animated: Bool)
+    {
+        super.viewDidAppear(animated)
+
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ClearNoticeCountNotification"), object: nil)
     }
     
     // 监测网络状态变化
@@ -102,7 +127,7 @@ class NoticeViewController: UIViewController
     // MARK: - pull to refresh
     
     // 下拉刷新响应事件
-    func refreshNoticeFromServiceFor(type: NoticeType)
+    func refreshNoticesFromServiceFor(type: NoticeType)
     {
         Alamofire
             .request(StudentRouter.requestNotice(phone: Student().phone, type: type.rawValue, page: 0))
@@ -125,26 +150,22 @@ class NoticeViewController: UIViewController
     
     func refreshNoticesFor(type: NoticeType, newNotices notices: [Notice])
     {
-        if notices.count > 0 {
-            if noticeType == .beforeClass {
-                beforeNotices.removeAll()
-                beforeNotices.append(contentsOf: notices)
-                totalBeforeNoticePage = 1
-            } else if noticeType == .afterClass {
-                afterNotices.removeAll()
-                afterNotices.append(contentsOf: notices)
-                totalAfterNoticePage = 1
-            }
-            
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-                self.tableView.reloadEmptyDataSet()
-                self.tableView.pullToRefreshView.stopAnimating()
-            }
-        } else {
-            DispatchQueue.main.async {
-                self.tableView.pullToRefreshView.stopAnimating()
-            }
+        if noticeType == .beforeClass {
+            beforeNotices.removeAll()
+            beforeNotices.append(contentsOf: notices)
+            totalBeforeNoticePage = 1
+            isLoadAllBeforeNotices = (notices.count<10 ? true : false)
+        } else if noticeType == .afterClass {
+            afterNotices.removeAll()
+            afterNotices.append(contentsOf: notices)
+            totalAfterNoticePage = 1
+            isLoadAllAfterNotices = (notices.count<10 ? true : false)
+        }
+        
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+            self.tableView.reloadEmptyDataSet()
+            self.tableView.pullToRefreshView.stopAnimating()
         }
     }
     
@@ -203,31 +224,20 @@ class NoticeViewController: UIViewController
     func addNotices(newNotices: [Notice], noticeType: NoticeType, page: Int)
     {
         print("新加载\(newNotices.count)条通知")
-        if newNotices.count > 0 {
-            if noticeType == .beforeClass {
-                beforeNotices.append(contentsOf: newNotices)
-                totalBeforeNoticePage = page + 1
-                
-            } else if noticeType == .afterClass {
-                afterNotices.append(contentsOf: newNotices)
-                totalAfterNoticePage = page + 1
-            }
-            
-            DispatchQueue.main.async {
-                self.tableView.beginUpdates()
-                var insertIndexPaths = [IndexPath]()
-                for index in 0..<newNotices.count {
-                    insertIndexPaths.append(IndexPath(row: page * 10 + index, section: 0))
-                }
-                self.tableView.insertRows(at: insertIndexPaths, with: .top)
-                self.tableView.endUpdates()
-                
-                self.tableView.infiniteScrollingView.stopAnimating()
-            }
-        } else {
-            DispatchQueue.main.async {
-                self.tableView.infiniteScrollingView.stopAnimating()
-            }
+
+        if noticeType == .beforeClass {
+            beforeNotices.append(contentsOf: newNotices)
+            totalBeforeNoticePage = page + 1
+            isLoadAllBeforeNotices = (newNotices.count<10 ? true : false)
+        } else if noticeType == .afterClass {
+            afterNotices.append(contentsOf: newNotices)
+            totalAfterNoticePage = page + 1
+            isLoadAllAfterNotices = (newNotices.count<10 ? true : false)
+        }
+        
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+            self.tableView.infiniteScrollingView.stopAnimating()
         }
     }
 

@@ -27,6 +27,8 @@
 		AD34AFAB1DDC20870085F21B /* ModifyInformationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD34AFA81DDC20870085F21B /* ModifyInformationViewController.swift */; };
 		AD34AFAE1DDC208D0085F21B /* SettingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD34AFAC1DDC208D0085F21B /* SettingCell.swift */; };
 		AD34AFAF1DDC208D0085F21B /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD34AFAD1DDC208D0085F21B /* SettingViewController.swift */; };
+		AD3AF7ED1DF5252F003874D2 /* ChatCourseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD3AF7EC1DF5252F003874D2 /* ChatCourseCell.swift */; };
+		AD3AF7F01DF564FA003874D2 /* ChatRoom.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD3AF7EF1DF564FA003874D2 /* ChatRoom.swift */; };
 		AD3B5C551D86A42000CEB9DE /* UnderlineTextField.xib in Resources */ = {isa = PBXBuildFile; fileRef = AD3B5C541D86A42000CEB9DE /* UnderlineTextField.xib */; };
 		AD3B5C571D86A5CA00CEB9DE /* CountdownUnderlineTextField.xib in Resources */ = {isa = PBXBuildFile; fileRef = AD3B5C561D86A5CA00CEB9DE /* CountdownUnderlineTextField.xib */; };
 		AD3D20F41DE804AA0017D19B /* MTBBarcodeScanner.m in Sources */ = {isa = PBXBuildFile; fileRef = AD3D20F31DE804A90017D19B /* MTBBarcodeScanner.m */; };
@@ -115,6 +117,8 @@
 		AD34AFA81DDC20870085F21B /* ModifyInformationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModifyInformationViewController.swift; sourceTree = "<group>"; };
 		AD34AFAC1DDC208D0085F21B /* SettingCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingCell.swift; sourceTree = "<group>"; };
 		AD34AFAD1DDC208D0085F21B /* SettingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
+		AD3AF7EC1DF5252F003874D2 /* ChatCourseCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatCourseCell.swift; sourceTree = "<group>"; };
+		AD3AF7EF1DF564FA003874D2 /* ChatRoom.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatRoom.swift; sourceTree = "<group>"; };
 		AD3B5C541D86A42000CEB9DE /* UnderlineTextField.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UnderlineTextField.xib; sourceTree = "<group>"; };
 		AD3B5C561D86A5CA00CEB9DE /* CountdownUnderlineTextField.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CountdownUnderlineTextField.xib; sourceTree = "<group>"; };
 		AD3D20F21DE804A90017D19B /* MTBBarcodeScanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTBBarcodeScanner.h; sourceTree = "<group>"; };
@@ -370,6 +374,14 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		AD3AF7EE1DF564B6003874D2 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				AD3AF7EF1DF564FA003874D2 /* ChatRoom.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		AD3D20F11DE804890017D19B /* QRCodeScanners */ = {
 			isa = PBXGroup;
 			children = (
@@ -431,6 +443,7 @@
 		AD63C2931DD1B5D000BA1276 /* ChatRoom */ = {
 			isa = PBXGroup;
 			children = (
+				AD3AF7EE1DF564B6003874D2 /* Model */,
 				AD63C2941DD1B5E100BA1276 /* View */,
 			);
 			path = ChatRoom;
@@ -439,6 +452,7 @@
 		AD63C2941DD1B5E100BA1276 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				AD3AF7EC1DF5252F003874D2 /* ChatCourseCell.swift */,
 				AD63C2951DD1B5FF00BA1276 /* ChatRoomViewController.swift */,
 			);
 			path = View;
@@ -801,6 +815,7 @@
 				074734AA1D86C5080005D58C /* SignViewController.swift in Sources */,
 				ADF238901DE92B7D00D68325 /* InputCodeViewController.swift in Sources */,
 				AD22DD391DF408AA00AD0CA1 /* ModifyPasswordViewController.swift in Sources */,
+				AD3AF7ED1DF5252F003874D2 /* ChatCourseCell.swift in Sources */,
 				AD01BF891DED6BEC00044F61 /* CalendarView.swift in Sources */,
 				ADA682731DF160C800C6D841 /* Date+extension.swift in Sources */,
 				ADABF3AF1DD8498600226D86 /* StudentRouter.swift in Sources */,
@@ -822,6 +837,7 @@
 				AD3D20F91DE81DBF0017D19B /* SignRouter.swift in Sources */,
 				ADCCAC3F1DE6C29200757525 /* SignCourseView.swift in Sources */,
 				AD08D8341D86A0DC007C7ECD /* UIColor+extension.swift in Sources */,
+				AD3AF7F01DF564FA003874D2 /* ChatRoom.swift in Sources */,
 				ADEF11DB1D869D99001F9C19 /* AppDelegate.swift in Sources */,
 				AD08D8321D86A0DC007C7ECD /* String+extension.swift in Sources */,
 				AD34AFA91DDC20870085F21B /* MineInfoCell.swift in Sources */,

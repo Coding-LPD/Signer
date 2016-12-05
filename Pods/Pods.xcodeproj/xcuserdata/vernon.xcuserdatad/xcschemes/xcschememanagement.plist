@@ -14,11 +14,6 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>CocoaAsyncSocket.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
 		<key>DZNEmptyDataSet.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -72,27 +67,32 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>06D6F45F2BDDDEB2C5C489DF6FEA25A6</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>115FA0D867E07C04838493890DBD8D29</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>146462715B96CA498D5FEAF1D0D760EF</key>
+		<key>11C52D19DA2D43E98C6A128E0F9A14BA</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>15E27035752C84DC45D8E553FE922E3C</key>
+		<key>47DA144B8F0A329C6B2EBDBAB373A5C1</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>396BB9175050C3B20369E92F5E907E4E</key>
+		<key>55165AB7A712EF91FA16953680FAFB47</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>878D460F699275BC73703E566AB67C74</key>
+		<key>574AD078500300C075FB5F0967C068C4</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -102,12 +102,7 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>A64DAC6C6DCEC1D35E567CF0AB9ACD17</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>AC0D2D2B4EE7C873431AB3502859CA60</key>
+		<key>8DE356A4F0060445E235317A456073CC</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -117,22 +112,17 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>D0616E7F36A21C18564C3FC503311FCF</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
 		<key>D386C75EFD4F03725E4EFB866B600B9A</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>EF669F1FE2C857FE05948CB247F7457B</key>
+		<key>DD705466704C0DAD8E60EAB5C679DFF6</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>F450265ECD2527B0B59C915908CF6BBA</key>
+		<key>FAC09FCBE53900D6F0388010E8DEC22C</key>
 		<dict>
 			<key>primary</key>
 			<true/>

@@ -42,6 +42,12 @@
                                 <constraint firstAttribute="width" constant="32" id="Sps-uh-8qP"/>
                                 <constraint firstAttribute="height" constant="32" id="nGH-0f-4eg"/>
                             </constraints>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                    <integer key="value" value="16"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
                         </imageView>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="default_avatar_1" translatesAutoresizingMaskIntoConstraints="NO" id="UyA-iN-kMW">
                             <rect key="frame" x="48" y="0.0" width="32" height="32"/>
@@ -49,6 +55,12 @@
                                 <constraint firstAttribute="width" constant="32" id="2l8-kx-Wdn"/>
                                 <constraint firstAttribute="height" constant="32" id="WD5-7k-ctl"/>
                             </constraints>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                    <integer key="value" value="16"/>
+                                </userDefinedRuntimeAttribute>
+                                <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                            </userDefinedRuntimeAttributes>
                         </imageView>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="default_avatar_1" translatesAutoresizingMaskIntoConstraints="NO" id="wp9-4l-ZQq">
                             <rect key="frame" x="96" y="0.0" width="32" height="32"/>
@@ -56,6 +68,12 @@
                                 <constraint firstAttribute="height" constant="32" id="2qS-qK-j8h"/>
                                 <constraint firstAttribute="width" constant="32" id="tlY-lr-ws1"/>
                             </constraints>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                    <integer key="value" value="16"/>
+                                </userDefinedRuntimeAttribute>
+                                <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                            </userDefinedRuntimeAttributes>
                         </imageView>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="default_avatar_1" translatesAutoresizingMaskIntoConstraints="NO" id="CxX-bE-rZK">
                             <rect key="frame" x="144" y="0.0" width="32" height="32"/>
@@ -63,6 +81,12 @@
                                 <constraint firstAttribute="width" constant="32" id="Qsi-uX-1JV"/>
                                 <constraint firstAttribute="height" constant="32" id="cie-TJ-YcY"/>
                             </constraints>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                    <integer key="value" value="16"/>
+                                </userDefinedRuntimeAttribute>
+                                <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                            </userDefinedRuntimeAttributes>
                         </imageView>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="default_avatar_1" translatesAutoresizingMaskIntoConstraints="NO" id="IjQ-Tg-MgK">
                             <rect key="frame" x="192" y="0.0" width="32" height="32"/>
@@ -70,6 +94,12 @@
                                 <constraint firstAttribute="height" constant="32" id="46X-zL-EcB"/>
                                 <constraint firstAttribute="width" constant="32" id="K7v-rr-2e1"/>
                             </constraints>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                    <integer key="value" value="16"/>
+                                </userDefinedRuntimeAttribute>
+                                <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                            </userDefinedRuntimeAttributes>
                         </imageView>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="default_avatar_1" translatesAutoresizingMaskIntoConstraints="NO" id="2uI-iW-OTZ">
                             <rect key="frame" x="240" y="0.0" width="32" height="32"/>
@@ -77,6 +107,12 @@
                                 <constraint firstAttribute="height" constant="32" id="38A-Zk-9ph"/>
                                 <constraint firstAttribute="width" constant="32" id="VtT-KQ-2vp"/>
                             </constraints>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                    <integer key="value" value="16"/>
+                                </userDefinedRuntimeAttribute>
+                                <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                            </userDefinedRuntimeAttributes>
                         </imageView>
                     </subviews>
                 </stackView>

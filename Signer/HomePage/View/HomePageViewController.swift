@@ -171,7 +171,7 @@ extension HomePageViewController: DZNEmptyDataSetSource, DZNEmptyDataSetDelegate
                           NSForegroundColorAttributeName: UIColor(netHex: 0xbbbbbb)]
         
         if isReachableNet {
-            return NSAttributedString(string: "暂时还木有记录. . ", attributes: attributes)
+            return NSAttributedString(string: "暂时还木有记录. . .", attributes: attributes)
         } else {
             return NSAttributedString(string: "好像梦见断网了. . .", attributes: attributes)
         }
