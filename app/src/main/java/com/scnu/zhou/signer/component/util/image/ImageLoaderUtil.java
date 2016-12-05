@@ -43,6 +43,7 @@ public class ImageLoaderUtil {
 		// 显示图片的配置
 		DisplayImageOptions options = new DisplayImageOptions.Builder()
 				.showImageOnFail(R.drawable.default_header_male)
+				.showImageForEmptyUri(R.drawable.default_header_male)
 				.cacheInMemory(true).cacheOnDisc(true)
 				.bitmapConfig(Bitmap.Config.RGB_565).build();
 
