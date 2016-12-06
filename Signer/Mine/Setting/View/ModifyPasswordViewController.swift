@@ -29,6 +29,8 @@ class ModifyPasswordViewController: UIViewController, LoadingButtonDelegate
     
     func initUI()
     {
+        
+        
         oldPasswordTextField.isSecureTextEntry = true
         newPasswordTextField.isSecureTextEntry = true
         confirmPasswordTextField.isSecureTextEntry = true

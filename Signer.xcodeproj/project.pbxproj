@@ -44,7 +44,7 @@
 		AD5899891DE432C500A2F8AE /* ChangeAvatarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5899881DE432C500A2F8AE /* ChangeAvatarViewController.swift */; };
 		AD58998B1DE433F500A2F8AE /* UIView+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD58998A1DE433F500A2F8AE /* UIView+extension.swift */; };
 		AD58998D1DE43D5600A2F8AE /* PreviewAvatarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD58998C1DE43D5600A2F8AE /* PreviewAvatarViewController.swift */; };
-		AD63C2961DD1B5FF00BA1276 /* ChatRoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD63C2951DD1B5FF00BA1276 /* ChatRoomViewController.swift */; };
+		AD63C2961DD1B5FF00BA1276 /* ChatRoomListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD63C2951DD1B5FF00BA1276 /* ChatRoomListViewController.swift */; };
 		AD63C2BE1DD1CF0A00BA1276 /* RSA.m in Sources */ = {isa = PBXBuildFile; fileRef = AD63C2BD1DD1CF0A00BA1276 /* RSA.m */; };
 		AD67512F1DED41E8006FFB76 /* UIAlertController+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD67512E1DED41E8006FFB76 /* UIAlertController+extension.swift */; };
 		AD6751311DED454B006FFB76 /* CourseRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD6751301DED454B006FFB76 /* CourseRouter.swift */; };
@@ -71,6 +71,11 @@
 		ADA682711DF15AAE00C6D841 /* Notice.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA682701DF15AAE00C6D841 /* Notice.swift */; };
 		ADA682731DF160C800C6D841 /* Date+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA682721DF160C800C6D841 /* Date+extension.swift */; };
 		ADABF3AF1DD8498600226D86 /* StudentRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADABF3AE1DD8498600226D86 /* StudentRouter.swift */; };
+		ADB2996A1DF6526800297842 /* ChatRoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADB299691DF6526800297842 /* ChatRoomViewController.swift */; };
+		ADB2998E1DF685F600297842 /* SocketManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADB2998D1DF685F600297842 /* SocketManager.swift */; };
+		ADB299901DF6948900297842 /* MessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADB2998F1DF6948900297842 /* MessageCell.swift */; };
+		ADB299921DF69D7700297842 /* MessageInputView.xib in Resources */ = {isa = PBXBuildFile; fileRef = ADB299911DF69D7700297842 /* MessageInputView.xib */; };
+		ADB299941DF69D9B00297842 /* MessageInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADB299931DF69D9B00297842 /* MessageInputView.swift */; };
 		ADBB2D321DE57D8600F1A251 /* CALayer+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADBB2D311DE57D8600F1A251 /* CALayer+extension.swift */; };
 		ADC806241DDC250A0006F0E5 /* MineInfoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = ADC806231DDC250A0006F0E5 /* MineInfoCell.xib */; };
 		ADCCAC391DE6ABB600757525 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = ADCCAC381DE6ABB600757525 /* Reachability.m */; };
@@ -138,7 +143,7 @@
 		AD5899881DE432C500A2F8AE /* ChangeAvatarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangeAvatarViewController.swift; sourceTree = "<group>"; };
 		AD58998A1DE433F500A2F8AE /* UIView+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+extension.swift"; sourceTree = "<group>"; };
 		AD58998C1DE43D5600A2F8AE /* PreviewAvatarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewAvatarViewController.swift; sourceTree = "<group>"; };
-		AD63C2951DD1B5FF00BA1276 /* ChatRoomViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatRoomViewController.swift; sourceTree = "<group>"; };
+		AD63C2951DD1B5FF00BA1276 /* ChatRoomListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatRoomListViewController.swift; sourceTree = "<group>"; };
 		AD63C2BC1DD1CF0A00BA1276 /* RSA.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSA.h; sourceTree = "<group>"; };
 		AD63C2BD1DD1CF0A00BA1276 /* RSA.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSA.m; sourceTree = "<group>"; };
 		AD63C2C21DD1D30700BA1276 /* 华师小签.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "华师小签.entitlements"; sourceTree = "<group>"; };
@@ -167,6 +172,11 @@
 		ADA682701DF15AAE00C6D841 /* Notice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Notice.swift; sourceTree = "<group>"; };
 		ADA682721DF160C800C6D841 /* Date+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+extension.swift"; sourceTree = "<group>"; };
 		ADABF3AE1DD8498600226D86 /* StudentRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudentRouter.swift; sourceTree = "<group>"; };
+		ADB299691DF6526800297842 /* ChatRoomViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatRoomViewController.swift; sourceTree = "<group>"; };
+		ADB2998D1DF685F600297842 /* SocketManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketManager.swift; sourceTree = "<group>"; };
+		ADB2998F1DF6948900297842 /* MessageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageCell.swift; sourceTree = "<group>"; };
+		ADB299911DF69D7700297842 /* MessageInputView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MessageInputView.xib; sourceTree = "<group>"; };
+		ADB299931DF69D9B00297842 /* MessageInputView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageInputView.swift; sourceTree = "<group>"; };
 		ADBB2D311DE57D8600F1A251 /* CALayer+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CALayer+extension.swift"; sourceTree = "<group>"; };
 		ADC806231DDC250A0006F0E5 /* MineInfoCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MineInfoCell.xib; sourceTree = "<group>"; };
 		ADCCAC371DE6ABB600757525 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
@@ -453,7 +463,11 @@
 			isa = PBXGroup;
 			children = (
 				AD3AF7EC1DF5252F003874D2 /* ChatCourseCell.swift */,
-				AD63C2951DD1B5FF00BA1276 /* ChatRoomViewController.swift */,
+				AD63C2951DD1B5FF00BA1276 /* ChatRoomListViewController.swift */,
+				ADB2998F1DF6948900297842 /* MessageCell.swift */,
+				ADB299911DF69D7700297842 /* MessageInputView.xib */,
+				ADB299931DF69D9B00297842 /* MessageInputView.swift */,
+				ADB299691DF6526800297842 /* ChatRoomViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -481,6 +495,7 @@
 			children = (
 				AD8F4BF91DEC242000F53B18 /* Course.swift */,
 				AD6751301DED454B006FFB76 /* CourseRouter.swift */,
+				ADB2998D1DF685F600297842 /* SocketManager.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -680,6 +695,7 @@
 						CreatedOnToolsVersion = 7.3;
 						DevelopmentTeam = R6964LXMCM;
 						LastSwiftMigration = 0810;
+						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.Keychain = {
 								enabled = 1;
@@ -721,6 +737,7 @@
 				AD771B771DD1712A0082BCB3 /* LoadingButton.xib in Resources */,
 				ADCCAC3D1DE6C25900757525 /* SignCourseView.xib in Resources */,
 				ADEF11E21D869D99001F9C19 /* Main.storyboard in Resources */,
+				ADB299921DF69D7700297842 /* MessageInputView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -797,13 +814,14 @@
 				AD58998D1DE43D5600A2F8AE /* PreviewAvatarViewController.swift in Sources */,
 				AD6751311DED454B006FFB76 /* CourseRouter.swift in Sources */,
 				ADA682711DF15AAE00C6D841 /* Notice.swift in Sources */,
+				ADB2998E1DF685F600297842 /* SocketManager.swift in Sources */,
 				ADEF120C1D869F7A001F9C19 /* UnderlineTextField.swift in Sources */,
 				AD34AFAB1DDC20870085F21B /* ModifyInformationViewController.swift in Sources */,
 				AD22DD371DF3FD2E00AD0CA1 /* FeedBackViewController.swift in Sources */,
 				ADA6826E1DF1446900C6D841 /* NoticeCell.swift in Sources */,
 				ADEF11FA1D869EB6001F9C19 /* SignUpStep2ViewController.swift in Sources */,
 				AD63C2BE1DD1CF0A00BA1276 /* RSA.m in Sources */,
-				AD63C2961DD1B5FF00BA1276 /* ChatRoomViewController.swift in Sources */,
+				AD63C2961DD1B5FF00BA1276 /* ChatRoomListViewController.swift in Sources */,
 				AD5899831DE4276400A2F8AE /* AbstractActionSheetPicker.m in Sources */,
 				AD22DD351DF3FB4600AD0CA1 /* FeedBackRouter.swift in Sources */,
 				AD34AFA51DDC207F0085F21B /* MineViewController.swift in Sources */,
@@ -814,6 +832,7 @@
 				AD34AFA41DDC207F0085F21B /* MineLeftImageCell.swift in Sources */,
 				074734AA1D86C5080005D58C /* SignViewController.swift in Sources */,
 				ADF238901DE92B7D00D68325 /* InputCodeViewController.swift in Sources */,
+				ADB2996A1DF6526800297842 /* ChatRoomViewController.swift in Sources */,
 				AD22DD391DF408AA00AD0CA1 /* ModifyPasswordViewController.swift in Sources */,
 				AD3AF7ED1DF5252F003874D2 /* ChatCourseCell.swift in Sources */,
 				AD01BF891DED6BEC00044F61 /* CalendarView.swift in Sources */,
@@ -830,9 +849,11 @@
 				AD01BF821DED5DCB00044F61 /* SignRecordCalendarViewController.swift in Sources */,
 				ADEF11FB1D869EB6001F9C19 /* SignUpStep3ViewController.swift in Sources */,
 				AD67512F1DED41E8006FFB76 /* UIAlertController+extension.swift in Sources */,
+				ADB299941DF69D9B00297842 /* MessageInputView.swift in Sources */,
 				ADBB2D321DE57D8600F1A251 /* CALayer+extension.swift in Sources */,
 				AD3D20F61DE81B9C0017D19B /* CourseDetailViewController.swift in Sources */,
 				AD3E73911D87AF1C005DE560 /* NoticeViewController.swift in Sources */,
+				ADB299901DF6948900297842 /* MessageCell.swift in Sources */,
 				074734A41D86C3EC0005D58C /* HomePageViewController.swift in Sources */,
 				AD3D20F91DE81DBF0017D19B /* SignRouter.swift in Sources */,
 				ADCCAC3F1DE6C29200757525 /* SignCourseView.swift in Sources */,
@@ -962,7 +983,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "Signer/华师小签.entitlements";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: 15603005850@163.com (2833NPFN9P)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = R6964LXMCM;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1012,7 +1033,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "Signer/华师小签.entitlements";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: 15603005850@163.com (2833NPFN9P)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = R6964LXMCM;
 				FRAMEWORK_SEARCH_PATHS = (

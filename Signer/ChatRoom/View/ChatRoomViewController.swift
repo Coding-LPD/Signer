@@ -2,116 +2,51 @@
 //  ChatRoomViewController.swift
 //  Signer
 //
-//  Created by Vernon on 2016/11/8.
+//  Created by Vernon on 2016/12/6.
 //  Copyright © 2016年 Vernon. All rights reserved.
 //
 
 import UIKit
 import SocketIO
 import SwiftyJSON
-import DZNEmptyDataSet
 
 class ChatRoomViewController: UIViewController
 {
-    @IBOutlet weak var tableView: UITableView!
-
-    var chatRooms = [ChatRoom]()
+    weak var socket: SocketIOClient?
     
-    lazy var socket: SocketIOClient = {
-        let socket = SocketIOClient(socketURL: URL(string: "http://120.25.65.207:3000")!, config: [.log(false), .nsp("/sign"), .forceNew(true), .reconnects(true)])
-        return socket
-    }()
+    var courseId: String?
+
+    let limitOfMsg = 18
+    
+    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var messageInputView: MessageInputView!
+    @IBOutlet weak var messageInputViewHeightConstraint: NSLayoutConstraint!
     
     override func viewDidLoad()
     {
         super.viewDidLoad()
-        
-        tableView.dataSource = self
-        tableView.delegate = self
-        tableView.emptyDataSetSource = self
-        tableView.emptyDataSetDelegate = self
 
-        socket.on("connect") {data, ack in
-            self.socket.emit("room-list", Student().id)
+        guard let courseId = courseId, let socket = socket else {
+            fatalError("ChatRoomViewController初始值为空")
         }
         
-        socket.on("room-list") {data, ack in
-//            print("------------room list: \(data)")
-            self.configureUIWith(json: JSON(data[0]))
+        _ = messageInputView.rx.observeWeakly(CGFloat.self, "viewHeight").subscribe(onNext: { viewHeight in
+            self.messageInputViewHeightConstraint.constant = viewHeight ?? 55
+        })
+        
+        // 请求指定courseId聊天室的消息列表
+        socket.emit("msg-list", courseId, 0, limitOfMsg)
+        socket.on("msg-list") { data, ack in
+         //   print("-------------msg-list: \(JSON(data))")
         }
         
-        socket.connect()
-    }
-    
-    lazy var dateFormatter: DateFormatter = {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        return dateFormatter
-    }()
-
-    func configureUIWith(json: JSON)
-    {
-        print("json: \(json)")
-        
-        if json["code"] == "200" {
-            for (_, chatRoomJson) in json["data"] {
-                let courseId = chatRoomJson["courseId"].stringValue
-                let avatarUrl = chatRoomJson["msg"]["avatar"].stringValue
-                let name = chatRoomJson["name"].stringValue
-                let count = chatRoomJson["count"].intValue
-                let newestMsg = chatRoomJson["msg"]["content"].stringValue
-                let newestMsgDate = dateFormatter.date(from: chatRoomJson["msg"]["createdAt"].stringValue)!
-                
-                let chatRoom = ChatRoom(courseId: courseId, avatarUrl: avatarUrl, name: name, count: count, newestMsg: newestMsg, newestMsgDate: newestMsgDate)
-                chatRooms.append(chatRoom)
-                tableView.reloadData()
-            }
-        } else {
-            view.makeToast("加载聊天室失败", duration: 1.0, position: .center)
+        // 监听新的聊天信息的事件
+        socket.emit("new-msg", courseId, Student().id, "", "")
+        socket.on("new-msg") { data, ack in
+          //  print("-------------new-msg: \(JSON(data))")
         }
-    }
-    
-}
 
-extension ChatRoomViewController: UITableViewDataSource, UITableViewDelegate
-{
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
-    {
-        return chatRooms.count
+        //courseId, studentId, content, teacherId（studentId, teacherId选择一个进行设置，另一个则为空字符串）
     }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
-    {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ChatCourseCell", for: indexPath) as! ChatCourseCell
-        cell.configureWith(chatRoom: chatRooms[indexPath.row])
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat
-    {
-        return ChatCourseCell.cellHeight
-    }
-}
 
-// MARK: - empty table
-
-extension ChatRoomViewController: DZNEmptyDataSetSource, DZNEmptyDataSetDelegate
-{
-    func image(forEmptyDataSet scrollView: UIScrollView!) -> UIImage!
-    {
-        return UIImage(named: "emptyRecord")
-    }
-    
-    func title(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString!
-    {
-        let attributes = [NSFontAttributeName: UIFont.boldSystemFont(ofSize: 14.0),
-                          NSForegroundColorAttributeName: UIColor(netHex: 0xbbbbbb)]
-
-        return NSAttributedString(string: "暂时还木有记录. . .", attributes: attributes)
-    }
-    
-    func emptyDataSetShouldAllowScroll(_ scrollView: UIScrollView!) -> Bool
-    {
-        return true
-    }
 }

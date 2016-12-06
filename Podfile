@@ -10,6 +10,7 @@ target 'Signer' do
     pod 'SDWebImage', '~>3.8'
     pod 'Socket.IO-Client-Swift', '~> 8.1.2'
 
+    pod 'SnapKit', '~> 3.0.2'
     pod 'DZNEmptyDataSet'
     pod 'SVPullToRefresh'
     pod 'Toast-Swift', '~> 2.0.0'

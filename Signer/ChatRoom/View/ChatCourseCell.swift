@@ -31,7 +31,11 @@ extension ChatCourseCell
 {
     func configureWith(chatRoom: ChatRoom)
     {
-        avatarImageView.sd_setImage(with: URL(string: chatRoom.avatarUrl)!)
+        if let avatarUrl = chatRoom.avatarUrl {
+            if avatarUrl.length > 0 {
+                avatarImageView.sd_setImage(with: URL(string: avatarUrl)!)
+            }
+        }
         nameLabel.text = chatRoom.name
         countLabel.text = "\(chatRoom.count)"
         newestMsgLabel.text = chatRoom.newestMsg

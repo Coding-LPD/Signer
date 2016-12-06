@@ -9,9 +9,10 @@
 struct ChatRoom
 {
     var courseId: String
-    var avatarUrl: String
     var name: String
     var count: Int
-    var newestMsg: String
-    var newestMsgDate: Date
+    // 聊天室没有记录
+    var avatarUrl: String?
+    var newestMsg: String?
+    var newestMsgDate: Date?
 }

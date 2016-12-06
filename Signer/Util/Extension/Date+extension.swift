@@ -8,8 +8,12 @@
 
 extension Date
 {
-    func getTimeIntervalDescriptionTo(date toDate: Date) -> String
+    func getTimeIntervalDescriptionTo(date toDate: Date?) -> String?
     {
+        guard let toDate = toDate else {
+            return nil
+        }
+        
         let fromMillSeconds = self.timeIntervalSince1970
         let toMillSeconds = toDate.timeIntervalSince1970
         let millSecondDuration = fromMillSeconds - toMillSeconds

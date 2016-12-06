@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import IQKeyboardManager
 import AlamofireNetworkActivityIndicator
 
 @UIApplicationMain
@@ -20,6 +21,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate
         UITextView.appearance().tintColor = ThemeGreenColor
         
         NetworkActivityIndicatorManager.shared.isEnabled = true
+        
+        IQKeyboardManager.shared().isEnableAutoToolbar = false
+        IQKeyboardManager.shared().shouldResignOnTouchOutside = true
         
         if checkLoggedStatus() {
             showHomePage()

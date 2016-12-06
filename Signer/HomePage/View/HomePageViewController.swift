@@ -58,6 +58,7 @@ class HomePageViewController: UIViewController
     
     lazy var refreshControl: UIRefreshControl = {
        let refreshControl = UIRefreshControl()
+        refreshControl.tintColor = UIColor(netHex: 0x97cc00)
         refreshControl.addTarget(self, action: #selector(refreshCourses), for: .valueChanged)
         return refreshControl
     }()

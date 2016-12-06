@@ -51,6 +51,13 @@ class NoticeViewController: UIViewController
     var totalAfterNoticePage = 0
     var isLoadAllAfterNotices = false
 
+    lazy var refreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.tintColor = UIColor(netHex: 0x97cc00)
+        refreshControl.addTarget(self, action: #selector(refreshNoticesFromService), for: .valueChanged)
+        return refreshControl
+    }()
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -61,16 +68,17 @@ class NoticeViewController: UIViewController
         tableView.dataSource = self
         tableView.emptyDataSetSource = self
         tableView.emptyDataSetDelegate = self
+        tableView.addSubview(refreshControl)
     
         loadNoticesFor(type: .beforeClass, page: 0)
         loadNoticesFor(type: .afterClass, page: 0)
         
         // 下拉刷新
-        tableView.addPullToRefresh { [unowned self] in
-            self.refreshNoticesFromServiceFor(type: self.noticeType)
-        }
-        tableView.pullToRefreshView.setTitle("下拉刷新通知", forState: 0)
-        tableView.pullToRefreshView.setTitle("释放更新通知", forState: 1)
+//        tableView.addPullToRefresh { [unowned self] in
+//            self.refreshNoticesFromServiceFor(type: self.noticeType)
+//        }
+//        tableView.pullToRefreshView.setTitle("下拉刷新通知", forState: 0)
+//        tableView.pullToRefreshView.setTitle("释放更新通知", forState: 1)
         
         // 上拉加载
         tableView.addInfiniteScrolling { [unowned self] in
@@ -127,29 +135,31 @@ class NoticeViewController: UIViewController
     // MARK: - pull to refresh
     
     // 下拉刷新响应事件
-    func refreshNoticesFromServiceFor(type: NoticeType)
+    func refreshNoticesFromService()
     {
         Alamofire
-            .request(StudentRouter.requestNotice(phone: Student().phone, type: type.rawValue, page: 0))
+            .request(StudentRouter.requestNotice(phone: Student().phone, type: noticeType.rawValue, page: 0))
             .responseJSON { (response) in
                 switch response.result {
                 case .success(let value):
                     let json = JSON(value)
                     if json["code"] == "200" {
                         DispatchQueue.global().async {
-                            self.refreshNoticesFor(type: type, newNotices: self.convertJsonToNotices(json: json["data"]))
+                            self.refreshNoticesFor(type: self.noticeType, newNotices: self.convertJsonToNotices(json: json["data"]))
                         }
                     } else {
                         fatalError("获取通知出错")
                     }
                 case .failure(_):
-                    self.tableView.pullToRefreshView.stopAnimating()
+                    self.refreshControl.endRefreshing()
                 }
             }
     }
     
     func refreshNoticesFor(type: NoticeType, newNotices notices: [Notice])
     {
+        print("刷新\(notices.count)条通知")
+        
         if noticeType == .beforeClass {
             beforeNotices.removeAll()
             beforeNotices.append(contentsOf: notices)
@@ -165,7 +175,7 @@ class NoticeViewController: UIViewController
         DispatchQueue.main.async {
             self.tableView.reloadData()
             self.tableView.reloadEmptyDataSet()
-            self.tableView.pullToRefreshView.stopAnimating()
+            self.refreshControl.endRefreshing()
         }
     }
     
