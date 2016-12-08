@@ -18,7 +18,7 @@ class ChatRoomListViewController: UIViewController
     var chatRooms = [ChatRoom]()
     
     lazy var socket: SocketIOClient = {
-        let socket = SocketIOClient(socketURL: URL(string: SignUpRouter.socketBaseUrl)!, config: [.log(false), .nsp("/sign"), .forceNew(true), .reconnects(true)])
+        let socket = SocketIOClient(socketURL: URL(string: SignUpRouter.baseSocketUrl)!, config: [.log(false), .nsp("/sign"), .forceNew(true), .reconnects(true)])
         return socket
     }()
     
@@ -69,7 +69,7 @@ class ChatRoomListViewController: UIViewController
 
     func configureUIWith(json: JSON)
     {
-        print("json: \(json)")
+      //  print("json: \(json)")
         
         chatRooms.removeAll()
         

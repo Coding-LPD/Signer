@@ -22,6 +22,8 @@ class ChatRoomViewController: UIViewController
     @IBOutlet weak var messageInputView: MessageInputView!
     @IBOutlet weak var messageInputViewHeightConstraint: NSLayoutConstraint!
     
+    var messages = [Message]()
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -29,24 +31,88 @@ class ChatRoomViewController: UIViewController
         guard let courseId = courseId, let socket = socket else {
             fatalError("ChatRoomViewController初始值为空")
         }
-        
-        _ = messageInputView.rx.observeWeakly(CGFloat.self, "viewHeight").subscribe(onNext: { viewHeight in
-            self.messageInputViewHeightConstraint.constant = viewHeight ?? 55
-        })
-        
+
         // 请求指定courseId聊天室的消息列表
         socket.emit("msg-list", courseId, 0, limitOfMsg)
         socket.on("msg-list") { data, ack in
-         //   print("-------------msg-list: \(JSON(data))")
+            self.convertJSONToMessages(json: JSON(data))
         }
-        
+
         // 监听新的聊天信息的事件
         socket.emit("new-msg", courseId, Student().id, "", "")
         socket.on("new-msg") { data, ack in
-          //  print("-------------new-msg: \(JSON(data))")
+            print("-------------有消息: \(JSON(data))")
         }
+        
+        tableView.dataSource = self
+        messageInputView.delegate = self
+    }
+    
+    lazy var dateFormatter: DateFormatter = {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        return dateFormatter
+    }()
+    
+    func convertJSONToMessages(json: JSON)
+    {
+        print("-------------消息列表: \(json)")
+        
+        messages.removeAll()
+        for (_, msgJSON) in json[0]["data"] {
+            let avatarUrl = msgJSON["avatar"].stringValue
+            let content = msgJSON["content"].stringValue
+            let name = msgJSON["name"].stringValue
+            let createdDate = dateFormatter.date(from: msgJSON["createdAt"].stringValue)!
+            
+            let msg = Message(avatarUrl: avatarUrl, content: content, name: name, createdDate: createdDate)
+            messages.insert(msg, at: 0)
+        }
+        
+        tableView.reloadData()
+    }
 
-        //courseId, studentId, content, teacherId（studentId, teacherId选择一个进行设置，另一个则为空字符串）
+}
+
+extension ChatRoomViewController: UITableViewDataSource
+{
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
+    {
+        return messages.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
+    {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "MessageCell", for: indexPath)
+        
+        let msg = messages[indexPath.row]
+//        if msg.avatarUrl.length > 0 {
+//            cell.imageView?.sd_setImage(with: URL(string: msg.avatarUrl)!, placeholderImage: UIImage(named: Constant.defaultAvatar1Url))
+//        }
+        cell.textLabel?.text = msg.content
+        cell.detailTextLabel?.text = msg.name + " - " + dateFormatter.string(from: msg.createdDate)
+        
+        return cell
+    }
+}
+
+extension ChatRoomViewController: MessageInputDelegate
+{
+    func messageInputView(messageInputView: MessageInputView, clickSendButtonWith inputText: String)
+    {
+        socket!.emit("new-msg", courseId!, Student().id, inputText, "")
+        
+        messageInputView.setText(newText: "")
+        
+        let student = Student()
+        let msg = Message(avatarUrl: student.avatarUrl, content: inputText, name: student.name, createdDate: Date())
+        messages.append(msg)
+        tableView.reloadData()
+    }
+
+    func messageInputView(messageInputView: MessageInputView, heightDidChangeTo viewHeight: CGFloat)
+    {
+        messageInputViewHeightConstraint.constant = viewHeight
     }
 
 }

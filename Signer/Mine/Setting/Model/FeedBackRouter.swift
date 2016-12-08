@@ -27,7 +27,7 @@ enum FeedBackRouter: URLRequestConvertible
             }
         }()
         
-        let url = try SignUpRouter.baseURLString.asURL()
+        let url = try SignUpRouter.baseAPIURL.asURL()
         var urlRequest = URLRequest(url: url.appendingPathComponent(result.path))
         urlRequest.httpMethod = method.rawValue
         

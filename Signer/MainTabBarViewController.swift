@@ -99,7 +99,7 @@ class MainTabBarViewController: UITabBarController
     }
 
     lazy var socket: SocketIOClient = {
-        let socket = SocketIOClient(socketURL: URL(string: SignUpRouter.socketBaseUrl)!, config: [.log(false), .nsp("/sign"), .forceNew(true), .reconnects(true)])
+        let socket = SocketIOClient(socketURL: URL(string: SignUpRouter.baseSocketUrl)!, config: [.log(false), .nsp("/sign"), .forceNew(true), .reconnects(true)])
         return socket
     }()
 

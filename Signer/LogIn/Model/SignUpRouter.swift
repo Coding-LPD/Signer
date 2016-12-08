@@ -11,11 +11,9 @@ import SwiftyJSON
 
 enum SignUpRouter: URLRequestConvertible
 {
-    // http://120.25.65.207:3000/api
-    // http://linkdust.xicp.net:50843/api
-    
-    static let socketBaseUrl = "http://120.25.65.207:3000"
-    static let baseURLString = "http://120.25.65.207:3000/api"
+
+    static let baseSocketUrl = Constant.baseSocketUrl
+    static let baseAPIURL = Constant.baseAPIUrl
     static let publicKey = "-----BEGIN PUBLIC KEY-----\nMFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAIeiKZeAhYhsNgMrCNEonJA+YdbWsAC9\nDGz0WsU/zKSPVqggI9G+P//Ip4W9U9zZNiwL22E+ZK5Py/fCxzbvk6sCAwEAAQ==\n-----END PUBLIC KEY-----"
 
     case requestVerifyCode(String)                                  // 发送验证码到指定手机号码
@@ -49,7 +47,7 @@ enum SignUpRouter: URLRequestConvertible
             }
         }()
         
-        let url = try SignUpRouter.baseURLString.asURL()
+        let url = try SignUpRouter.baseAPIURL.asURL()
         var urlRequest = URLRequest(url: url.appendingPathComponent(result.path))
         urlRequest.httpMethod = method.rawValue
         

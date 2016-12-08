@@ -9,11 +9,19 @@
 import UIKit
 import RxSwift
 
+protocol MessageInputDelegate
+{
+    func messageInputView(messageInputView: MessageInputView, heightDidChangeTo viewHeight: CGFloat)
+    func messageInputView(messageInputView: MessageInputView, clickSendButtonWith inputText: String)
+}
+
 @IBDesignable class MessageInputView: UIView
 {
     @IBOutlet weak var textView: UITextView!
     @IBOutlet weak var textViewHeightConstraint: NSLayoutConstraint!
 
+    var delegate: MessageInputDelegate?
+    
     @IBOutlet weak var sendButton: UIButton!
 
     private let disposeBag = DisposeBag()
@@ -24,9 +32,7 @@ import RxSwift
         
         loadViewFromNib()
     }
-    
-    dynamic var viewHeight: CGFloat = 55
-    
+        
     required init?(coder aDecoder: NSCoder)
     {
         super.init(coder: aDecoder)
@@ -44,10 +50,10 @@ import RxSwift
         addSubview(view)
         
         textView.scrollsToTop = false
-        _ = rx.observeWeakly(CGSize.self, "textView.contentSize").subscribe ( onNext: { (contentSize) in
+        rx.observeWeakly(CGSize.self, "textView.contentSize").subscribe ( onNext: { (contentSize) in
             self.textViewHeightConstraint.constant = contentSize!.height
-            self.viewHeight = contentSize!.height + 14
-        })
+            self.delegate?.messageInputView(messageInputView: self, heightDidChangeTo: contentSize!.height+14)
+        }).addDisposableTo(disposeBag)
         
         
         textView.rx.text.subscribe(onNext: { content in
@@ -58,7 +64,12 @@ import RxSwift
     
     @IBAction func sendAction(_ sender: UIButton)
     {
-        
+        delegate?.messageInputView(messageInputView: self, clickSendButtonWith: textView.text)
+    }
+    
+    func setText(newText text: String)
+    {
+        textView.text = text
     }
     
 }

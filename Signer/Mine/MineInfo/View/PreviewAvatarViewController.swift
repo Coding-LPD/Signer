@@ -43,7 +43,7 @@ class PreviewAvatarViewController: UIViewController
                 if let imageData = UIImageJPEGRepresentation(self.image!, 1) {
                     multipartFormData.append(imageData, withName: "avatar", fileName: "avatar.png", mimeType: "image/png")
                 }},
-            to: SignUpRouter.baseURLString.appending("/students/images"),
+            to: SignUpRouter.baseAPIURL.appending("/students/images"),
             method: .post,
             headers: ["Content-Type": "multipart/form-data"],
             encodingCompletion: { encodingResult in
