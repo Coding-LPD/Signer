@@ -9,43 +9,44 @@
 import UIKit
 import SocketIO
 import SwiftyJSON
+import JSQMessagesViewController
 
-class ChatRoomViewController: UIViewController
+class ChatRoomViewController: JSQMessagesViewController
 {
     weak var socket: SocketIOClient?
     
     var courseId: String?
 
     let limitOfMsg = 18
-    
-    @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var messageInputView: MessageInputView!
-    @IBOutlet weak var messageInputViewHeightConstraint: NSLayoutConstraint!
-    
+
     var messages = [Message]()
     
     override func viewDidLoad()
     {
         super.viewDidLoad()
 
-        guard let courseId = courseId, let socket = socket else {
-            fatalError("ChatRoomViewController初始值为空")
-        }
-
-        // 请求指定courseId聊天室的消息列表
-        socket.emit("msg-list", courseId, 0, limitOfMsg)
-        socket.on("msg-list") { data, ack in
-            self.convertJSONToMessages(json: JSON(data))
-        }
-
-        // 监听新的聊天信息的事件
-        socket.emit("new-msg", courseId, Student().id, "", "")
-        socket.on("new-msg") { data, ack in
-            print("-------------有消息: \(JSON(data))")
-        }
+        senderId = Student().id
+        senderDisplayName = Student().name
         
-        tableView.dataSource = self
-        messageInputView.delegate = self
+        showLoadEarlierMessagesHeader = true
+        inputToolbar.contentView.leftBarButtonItem = nil
+        
+//        guard let courseId = courseId, let socket = socket else {
+//            fatalError("ChatRoomViewController初始值为空")
+//        }
+//
+//        // 请求指定courseId聊天室的消息列表
+//        socket.emit("msg-list", courseId, 0, limitOfMsg)
+//        socket.on("msg-list") { data, ack in
+//            self.convertJSONToMessages(json: JSON(data))
+//        }
+//
+//        // 监听新的聊天信息的事件
+//        socket.emit("new-msg", courseId, Student().id, "", "")
+//        socket.on("new-msg") { data, ack in
+//            print("-------------有消息: \(JSON(data))")
+//        }
+
     }
     
     lazy var dateFormatter: DateFormatter = {
@@ -68,51 +69,58 @@ class ChatRoomViewController: UIViewController
             let msg = Message(avatarUrl: avatarUrl, content: content, name: name, createdDate: createdDate)
             messages.insert(msg, at: 0)
         }
-        
-        tableView.reloadData()
+
     }
 
 }
 
-extension ChatRoomViewController: UITableViewDataSource
+extension ChatRoomViewController
 {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
+    // MARK: - UICollectionView DataSource
+    
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
     {
         return messages.count
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell
     {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "MessageCell", for: indexPath)
-        
-        let msg = messages[indexPath.row]
-//        if msg.avatarUrl.length > 0 {
-//            cell.imageView?.sd_setImage(with: URL(string: msg.avatarUrl)!, placeholderImage: UIImage(named: Constant.defaultAvatar1Url))
-//        }
-        cell.textLabel?.text = msg.content
-        cell.detailTextLabel?.text = msg.name + " - " + dateFormatter.string(from: msg.createdDate)
-        
+        let cell = super.collectionView.cellForItem(at: indexPath) as! JSQMessagesCollectionViewCell
         return cell
     }
+    
+    //MARK: - JSQMessagesViewController method overrides
+    
+    override func didPressSend(_ button: UIButton!, withMessageText text: String!, senderId: String!, senderDisplayName: String!, date: Date!)
+    {
+        JSQSystemSoundPlayer.jsq_playMessageSentSound()
+        
+    }
+    
+//    - (void)didPressSendButton:(UIButton *)button
+//    withMessageText:(NSString *)text
+//    senderId:(NSString *)senderId
+//    senderDisplayName:(NSString *)senderDisplayName
+//    date:(NSDate *)date
+//    {
+//    /**
+//     *  Sending a message. Your implementation of this method should do *at least* the following:
+//     *
+//     *  1. Play sound (optional)
+//     *  2. Add new id<JSQMessageData> object to your data source
+//     *  3. Call `finishSendingMessage`
+//     */
+//    [JSQSystemSoundPlayer jsq_playMessageSentSound];
+//    
+//    JSQMessage *message = [[JSQMessage alloc] initWithSenderId:senderId
+//    senderDisplayName:senderDisplayName
+//    date:date
+//    text:text];
+//    
+//    [self.demoData.messages addObject:message];
+//    
+//    [self finishSendingMessageAnimated:YES];
+//    }
+
 }
 
-extension ChatRoomViewController: MessageInputDelegate
-{
-    func messageInputView(messageInputView: MessageInputView, clickSendButtonWith inputText: String)
-    {
-        socket!.emit("new-msg", courseId!, Student().id, inputText, "")
-        
-        messageInputView.setText(newText: "")
-        
-        let student = Student()
-        let msg = Message(avatarUrl: student.avatarUrl, content: inputText, name: student.name, createdDate: Date())
-        messages.append(msg)
-        tableView.reloadData()
-    }
-
-    func messageInputView(messageInputView: MessageInputView, heightDidChangeTo viewHeight: CGFloat)
-    {
-        messageInputViewHeightConstraint.constant = viewHeight
-    }
-
-}

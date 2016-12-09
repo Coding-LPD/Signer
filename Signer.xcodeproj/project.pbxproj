@@ -75,9 +75,6 @@
 		ADB19E9A1DF951B300D8B46A /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADB19E991DF951B300D8B46A /* Constant.swift */; };
 		ADB2996A1DF6526800297842 /* ChatRoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADB299691DF6526800297842 /* ChatRoomViewController.swift */; };
 		ADB2998E1DF685F600297842 /* SocketManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADB2998D1DF685F600297842 /* SocketManager.swift */; };
-		ADB299901DF6948900297842 /* MessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADB2998F1DF6948900297842 /* MessageCell.swift */; };
-		ADB299921DF69D7700297842 /* MessageInputView.xib in Resources */ = {isa = PBXBuildFile; fileRef = ADB299911DF69D7700297842 /* MessageInputView.xib */; };
-		ADB299941DF69D9B00297842 /* MessageInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADB299931DF69D9B00297842 /* MessageInputView.swift */; };
 		ADBB2D321DE57D8600F1A251 /* CALayer+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADBB2D311DE57D8600F1A251 /* CALayer+extension.swift */; };
 		ADC806241DDC250A0006F0E5 /* MineInfoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = ADC806231DDC250A0006F0E5 /* MineInfoCell.xib */; };
 		ADCCAC391DE6ABB600757525 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = ADCCAC381DE6ABB600757525 /* Reachability.m */; };
@@ -178,9 +175,6 @@
 		ADB19E991DF951B300D8B46A /* Constant.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 		ADB299691DF6526800297842 /* ChatRoomViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatRoomViewController.swift; sourceTree = "<group>"; };
 		ADB2998D1DF685F600297842 /* SocketManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketManager.swift; sourceTree = "<group>"; };
-		ADB2998F1DF6948900297842 /* MessageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageCell.swift; sourceTree = "<group>"; };
-		ADB299911DF69D7700297842 /* MessageInputView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MessageInputView.xib; sourceTree = "<group>"; };
-		ADB299931DF69D9B00297842 /* MessageInputView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageInputView.swift; sourceTree = "<group>"; };
 		ADBB2D311DE57D8600F1A251 /* CALayer+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CALayer+extension.swift"; sourceTree = "<group>"; };
 		ADC806231DDC250A0006F0E5 /* MineInfoCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MineInfoCell.xib; sourceTree = "<group>"; };
 		ADCCAC371DE6ABB600757525 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
@@ -469,9 +463,6 @@
 			children = (
 				AD3AF7EC1DF5252F003874D2 /* ChatCourseCell.swift */,
 				AD63C2951DD1B5FF00BA1276 /* ChatRoomListViewController.swift */,
-				ADB2998F1DF6948900297842 /* MessageCell.swift */,
-				ADB299911DF69D7700297842 /* MessageInputView.xib */,
-				ADB299931DF69D9B00297842 /* MessageInputView.swift */,
 				ADB299691DF6526800297842 /* ChatRoomViewController.swift */,
 			);
 			path = View;
@@ -743,7 +734,6 @@
 				AD771B771DD1712A0082BCB3 /* LoadingButton.xib in Resources */,
 				ADCCAC3D1DE6C25900757525 /* SignCourseView.xib in Resources */,
 				ADEF11E21D869D99001F9C19 /* Main.storyboard in Resources */,
-				ADB299921DF69D7700297842 /* MessageInputView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -856,12 +846,10 @@
 				AD01BF821DED5DCB00044F61 /* SignRecordCalendarViewController.swift in Sources */,
 				ADEF11FB1D869EB6001F9C19 /* SignUpStep3ViewController.swift in Sources */,
 				AD67512F1DED41E8006FFB76 /* UIAlertController+extension.swift in Sources */,
-				ADB299941DF69D9B00297842 /* MessageInputView.swift in Sources */,
 				ADB19E981DF94A3800D8B46A /* Message.swift in Sources */,
 				ADBB2D321DE57D8600F1A251 /* CALayer+extension.swift in Sources */,
 				AD3D20F61DE81B9C0017D19B /* CourseDetailViewController.swift in Sources */,
 				AD3E73911D87AF1C005DE560 /* NoticeViewController.swift in Sources */,
-				ADB299901DF6948900297842 /* MessageCell.swift in Sources */,
 				074734A41D86C3EC0005D58C /* HomePageViewController.swift in Sources */,
 				AD3D20F91DE81DBF0017D19B /* SignRouter.swift in Sources */,
 				ADCCAC3F1DE6C29200757525 /* SignCourseView.swift in Sources */,

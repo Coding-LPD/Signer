@@ -9,7 +9,8 @@ target 'Signer' do
     pod 'SwiftyJSON', '~> 3.1.1'
     pod 'SDWebImage', '~>3.8'
     pod 'Socket.IO-Client-Swift', '~> 8.1.2'
-
+    
+    pod 'JSQMessagesViewController'
     pod 'SnapKit', '~> 3.0.2'
     pod 'DZNEmptyDataSet'
     pod 'SVPullToRefresh'
