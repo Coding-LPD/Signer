@@ -54,8 +54,9 @@ export class StudentComponent implements OnInit {
   }
 
   selectCourse(courseId: string) {
+    this.uploadOptions.data.courseId = courseId;
     if (!courseId) {
-      this.students = [];
+      this.students = [];      
       return;
     }
     this._studentService.search({courseId})
@@ -65,8 +66,7 @@ export class StudentComponent implements OnInit {
         } else {
           alert(body.msg);
         }
-      });
-    this.uploadOptions.data.courseId = courseId;
+      });    
   }
 
   importStudent(fileInput: any) {
