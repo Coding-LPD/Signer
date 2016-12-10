@@ -12,19 +12,25 @@ import com.scnu.zhou.signer.R;
  */
 public class TabBarManager{
 
-    private Activity activity;
-
     private ImageView[] icons;
     private TextView[] titles;
 
     private int pos = 0;
 
-    public TabBarManager(Activity activity){
-        this.activity = activity;
-        initView();
+    private TabBarManager(){
     }
 
-    private void initView(){
+    public static TabBarManager getInstacne() {
+
+        return TabBarManagerHolder.instance;
+    }
+
+    private static class TabBarManagerHolder{
+
+        private static final TabBarManager instance = new TabBarManager();
+    }
+
+    public void initView(Activity activity){
 
         icons = new ImageView[4];
         titles = new TextView[4];
@@ -71,5 +77,10 @@ public class TabBarManager{
                 titles[pos].setTextColor(Color.parseColor("#97cc00"));
                 break;
         }
+    }
+
+    public int getCurrentPos(){
+
+        return pos;
     }
 }

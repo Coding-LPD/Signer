@@ -17,6 +17,7 @@ import com.scnu.zhou.signer.component.adapter.listview.NoticeAdapter;
 import com.scnu.zhou.signer.component.bean.notice.NoticeBean;
 import com.scnu.zhou.signer.component.cache.NoticeCache;
 import com.scnu.zhou.signer.component.cache.UserCache;
+import com.scnu.zhou.signer.component.util.tabbar.TabBarManager;
 import com.scnu.zhou.signer.presenter.notice.INoticePresenter;
 import com.scnu.zhou.signer.presenter.notice.NoticePresenter;
 import com.scnu.zhou.signer.ui.widget.listview.PullToRefreshListView;
@@ -132,12 +133,18 @@ public class NoticeFragment extends Fragment implements INoticeView,
         page++;
 
         if (state == STATE_REFRESH) {
-            NoticeCache.getInstance().setNoticenNumber(context, 0);
+
+            if (TabBarManager.getInstacne().getCurrentPos() == 2){
+                NoticeCache.getInstance().setNoticenNumber(context, 0);
+            }
             notices = response;
             plv_notice.onRefreshCompleted();
         }
         else {
-            notices.addAll(response);
+            //notices.addAll(response);
+            for (NoticeBean bean: response){
+                notices.add(bean);
+            }
 
             if (response.size() < limit){
                 plv_notice.onLoadMoreAllCompleted();
@@ -227,6 +234,7 @@ public class NoticeFragment extends Fragment implements INoticeView,
     @Override
     public void onSelectLeft() {
 
+        plv_notice.resetState();
         if (presenter.getCache(context, "notice_before") != null){
             notices = presenter.getCache(context, "notice_before");
         }
@@ -242,6 +250,7 @@ public class NoticeFragment extends Fragment implements INoticeView,
     @Override
     public void onSelectRight() {
 
+        plv_notice.resetState();
         if (presenter.getCache(context, "notice_after") != null){
             notices = presenter.getCache(context, "notice_after");
         }

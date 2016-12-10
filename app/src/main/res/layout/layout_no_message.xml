@@ -3,7 +3,6 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
-    android:layout_marginTop="51dp"
     android:id="@+id/ll_no_message"
     android:visibility="gone">
 

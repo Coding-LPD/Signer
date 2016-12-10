@@ -63,7 +63,8 @@ public class MainActivity extends BaseFragmentActivity{
 
         ButterKnife.bind(this);
 
-        manager = new TabBarManager(this);
+        manager = TabBarManager.getInstacne();
+        manager.initView(this);
         manager.setSelect(0);
         initViewPager();
 
@@ -171,6 +172,7 @@ public class MainActivity extends BaseFragmentActivity{
     // Pager滑动监听
     @OnPageChange(R.id.vp_main)
     public void onPageSelected(int position){
+
         manager.setSelect(position);
     }
 

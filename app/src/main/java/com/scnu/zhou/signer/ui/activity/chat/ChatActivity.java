@@ -206,6 +206,10 @@ public class ChatActivity extends BaseSlideActivity implements IChatView, AbsLis
                     et_content.getText().toString().trim());
 
             et_content.setText("");
+
+            if (ll_no_message.getVisibility() == View.VISIBLE){
+                ll_no_message.setVisibility(View.GONE);
+            }
         }
     }
 
@@ -213,7 +217,7 @@ public class ChatActivity extends BaseSlideActivity implements IChatView, AbsLis
     /**
      * 检查是不是没有消息
      */
-    private void checkIsNoMesage(){
+    private void  checkIsNoMesage(){
 
         if (mData.size() == 0){
             ll_no_message.setVisibility(View.VISIBLE);
@@ -285,6 +289,8 @@ public class ChatActivity extends BaseSlideActivity implements IChatView, AbsLis
                 mData.add(response);
                 adapter.notifyDataSetChanged();
                 lv_chat.setSelection(lv_chat.getBottom());
+
+                checkIsNoMesage();
             }
         });
     }
