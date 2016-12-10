@@ -15,7 +15,6 @@ export class SignComponent implements OnInit {
 
   signs: Sign[];
   selectedCourseName = '';
-  // selectedDate = moment().format('YYYY-MM-DD');
   selectedDate: string;
   // list组件配置
   operationOption: OperationOption = { hasDelete: true, canClick: true };

@@ -41,11 +41,12 @@ export class CreateComponent {
           this._signService.sign = body.data;
           alert('创建成功');
           this.complete = true;
-          this._router.navigate(['/home/sign/create/complete']);
+          // this._router.navigate(['/home/sign/create/complete']);
+          this._router.navigate(['/home/sign', this._signService.sign._id, 'detail']);
         } else {
           alert(body.msg);
         }
-      })    
+      })
   }
 
 }
