@@ -17,6 +17,7 @@ var sign = require('./routes/sign');
 var signRecord = require('./routes/sign-record');
 var position = require('./routes/position');
 var feedback = require('./routes/feedback');
+var ip = require('./routes/ip');
 
 var app = express();
 
@@ -54,6 +55,7 @@ app.use('/api/signs', sign);
 app.use('/api/signRecords', signRecord);
 app.use('/api/positions', position);
 app.use('/api/feedbacks', feedback);
+app.use('/api/ip', ip);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
