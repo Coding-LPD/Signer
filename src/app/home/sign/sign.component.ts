@@ -45,7 +45,7 @@ export class SignComponent implements OnInit {
   ngOnInit() {
     this._loginService.getTeacherInfo().subscribe(body => {
       if (+body.code == 200) {
-        this._signService.search({ teacherId: body.data[0]._id }).subscribe(body => {
+        this._signService.search({ teacherId: body.data[0]._id }, 'createdAt', -1).subscribe(body => {
           if (+body.code ==200) {
             this.signs = body.data;
           } else {

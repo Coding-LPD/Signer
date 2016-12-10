@@ -38,8 +38,9 @@ export class SignService extends BaseService {
       .catch(this.handleError);
   }
 
-  search(condition: Object) {
-    return this._http.post(API.domain + API.signSearch, condition, this.options)
+  search(condition: Object, sortby?: string, order?: number) {
+    var url = `${API.domain}${API.signSearch}?sortby=${sortby}&order=${order}`;
+    return this._http.post(url, condition, this.options)
       .map(this.extractData)
       .catch(this.handleError);
   }
