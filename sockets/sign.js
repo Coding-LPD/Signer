@@ -1,5 +1,6 @@
 var ChatRoom = require('../routes/chat-room');
 var ChatMsg = require('../routes/chat-msg');
+var errorCodes = require('../services/error-codes').errorCodes;
 
 var nsp;
 var namespace = '/sign';
@@ -104,7 +105,9 @@ function onNewMsg(client) {
       console.log('new-msg');
       ChatMsg.saveMsg(courseId, studentId, content, teacherId)
         .then(function (results) {
-          client.to(courseId).emit(events.newMsg, results);
+          if (results.code != errorCodes.MsgContentIsEmpty) {
+            client.to(courseId).emit(events.newMsg, results);
+          }
         });
     }
 }

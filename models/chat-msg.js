@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var errorCodes = require('../services/error-codes').errorCodes;
 
 var ChatMsg = {
   courseId: {
@@ -15,7 +16,7 @@ var ChatMsg = {
   },
   content: {
     type: String,
-    required: true
+    required: errorCodes.MsgContentIsEmpty
   },
   avatar: {
     type: String,

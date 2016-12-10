@@ -244,6 +244,7 @@ router.get('/:phone/notice', function (req, res) {
           });
         });
       });
+      retData.sort(function (a, b) { return a.confirmAt < b.confirmAt; });
       sendInfo(errorCodes.Success, res, retData);
     })
     .catch(function (err) {

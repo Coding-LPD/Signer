@@ -31,7 +31,6 @@ function saveMsg(courseId, studentId, content, teacherId) {
   courseId = courseId;
   studentId = studentId || '';
   teacherId = teacherId || '';
-  content = content;
   
   return Promise.resolve()
     .then(function () {
