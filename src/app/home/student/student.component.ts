@@ -44,7 +44,7 @@ export class StudentComponent implements OnInit {
     this._loginService.getTeacherInfo().subscribe(body => {
       if (+body.code == 200) {
         var teacherId = body.data[0]._id;
-        this._courseService.search({teacherId}).subscribe(body => {
+        this._courseService.search({teacherId}, 'createdAt', 0).subscribe(body => {
           if (+body.code == 200) {
             this.courses = body.data;
           }
@@ -56,7 +56,7 @@ export class StudentComponent implements OnInit {
   selectCourse(courseId: string) {
     this.uploadOptions.data.courseId = courseId;
     if (!courseId) {
-      this.students = [];      
+      this.students = [];
       return;
     }
     this._studentService.search({courseId})

@@ -28,8 +28,9 @@ export class CourseService extends BaseService {
       .catch(this.handleError);
   }
 
-  search(conditions: Object) {
-    return this._http.post(API.domain + API.courseSearch, conditions, { withCredentials: true })
+  search(conditions: Object, sortby?: string, order?: number) {
+    var url = `${API.domain}${API.courseSearch}?sortby=${sortby}&order=${order}`;
+    return this._http.post(url, conditions, { withCredentials: true })
       .map(this.extractData)
       .catch(this.handleError);
   }

@@ -36,7 +36,7 @@ export class CourseComponent implements OnInit {
     this._loginService.getTeacherInfo().subscribe(body => {
       if (+body.code == 200) {
         var teacherId = body.data[0]._id;
-        this._courseService.search({teacherId}).subscribe(body => {
+        this._courseService.search({teacherId}, 'createdAt', -1).subscribe(body => {
           if (+body.code == 200) {
             this.courses = body.data;
           } else {
