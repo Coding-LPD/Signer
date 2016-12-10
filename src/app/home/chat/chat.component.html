@@ -16,7 +16,7 @@
 
   <!-- 聊天室界面 -->
   <ul class="chat-list" #msgList (scroll)="scrollMsg($event)">
-    <li><loading [isShow]="isLoading" [showLoading]="!isLoadAll" [text]="completeText"></loading></li>
+    <li><loading [isShow]="isLoading && msgs.length > 5" [showLoading]="!isLoadAll" [text]="completeText"></loading></li>
     <li class="wrap" *ngFor="let m of msgs" [ngClass]="msgClass(m)">
       <img class="avatar" [src]="m.avatar" onerror="javascript:this.src='/public/images/default.png'" />
       <div class="caret"></div>
