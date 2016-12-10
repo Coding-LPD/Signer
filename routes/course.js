@@ -27,6 +27,7 @@ router.get('/', function (req, res) {
 
 router.post('/', function (req, res) {
   var newCourse = new Course(req.body);
+  newCourse.set('createdAt', moment().format('YYYY-MM-DD HH:mm:ss'))
   newCourse.save(function (err, savedCourse) {
     if (!err) {
       sendInfo(errorCodes.Success, res, savedCourse);
@@ -83,12 +84,19 @@ router.delete('/:id', function (req, res) {
 });
 
 router.post('/search', function (req, res) {
+  var sortby = req.query['sortby'] || '';
+  var order = req.query['order'] || 1;
+  var options = null;
+  if (sortby) {
+    var sort = (order == 1 ? '' : '-') + sortby;
+    options = { sort: sort };
+  }
   // 必须要有查询条件
   if (common.isEmptyObject(req.body)) {
     sendInfo(errorCodes.SearchEmpty, res);
     return;
   }
-  Course.find(req.body, function (err, courses) {
+  Course.find(req.body, null, options, function (err, courses) {
     if (!err) {
       sendInfo(errorCodes.Success, res, courses);
     } else {

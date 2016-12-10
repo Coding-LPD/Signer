@@ -28,6 +28,10 @@ var Course = {
   signCount: {
     type: Number,
     default: 0
+  },
+  createdAt: {
+    type: String,
+    default: ''    
   }
 };
 
