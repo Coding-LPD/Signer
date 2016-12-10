@@ -145,12 +145,19 @@ router.delete('/:id', function (req, res) {
 });
 
 router.post('/search', function (req, res) {
+  var sortby = req.query['sortby'] || '';
+  var order = req.query['order'] || 1;
+  var options = null;
+  if (sortby) {
+    var sort = (order == 1 ? '' : '-') + sortby;
+    options = { sort: sort };
+  }
   // 必须要有查询条件
   if (common.isEmptyObject(req.body)) {
     sendInfo(errorCodes.SearchEmpty, res, []);
     return;
   }
-  Sign.find(req.body, function (err, signs) {
+  Sign.find(req.body, null, options, function (err, signs) {
     if (!err) {
       sendInfo(errorCodes.Success, res, signs);
     } else {
