@@ -59,7 +59,7 @@ public class InputCodeActivity extends BaseSlideActivity implements ISmsView{
         MyHandler.postDelayed(MyRunnable, 1000);
 
         // 发送短信验证码
-        smsPresenter.sendSmsCode(phone);
+        //smsPresenter.sendSmsCode(phone);
     }
 
     private Handler MyHandler = new Handler();
@@ -182,7 +182,8 @@ public class InputCodeActivity extends BaseSlideActivity implements ISmsView{
     @OnClick(R.id.btn_next)
     public void next(){
         showLoadingDialog("验证中");
-        smsPresenter.verifySmsCode(phone, smsCode);
+        //smsPresenter.verifySmsCode(phone, smsCode);
+        onVerifySmsSuccess("1001");
     }
 
 
