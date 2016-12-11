@@ -19,22 +19,30 @@ export class SignComponent implements OnInit {
   // list组件配置
   operationOption: OperationOption = { hasDelete: true, canClick: true };
   headerOptions: HeaderOption[] = [
-    { name: '所属课程' }, { name: '起始时间', width: '130px' }, { name: '终止时间', width: '130px' },
-    { name: '已签', width: '70px' }, { name: '总数', width: '70px' }, { name: '签到状态' }, 
+    { name: '所属课程' },
+    { name: '起始时间',   width: '130px' },
+    { name: '终止时间',   width: '130px' },
+    { name: '已签',       width: '70px' },
+    { name: '总数',       width: '70px' },
+    { name: '签到状态' }, 
     { name: '创建时间' }
   ];
   cellOptions: CellOption[] = [
-    { prop: 'courseName' }, { prop: 'startTime' }, { prop: 'endTime' },
-    { prop: 'beforeSignIn', mainStyles: { color: '#97CC00' } }, { prop: 'studentCount' }, 
+    { prop: 'courseName',   default: '无' }, 
+    { prop: 'startTime',    default: '无' }, 
+    { prop: 'endTime',      default: '无' },
+    { prop: 'beforeSignIn', default: 0,   mainStyles: { color: '#97CC00' }, }, 
+    { prop: 'studentCount', default: 0 }, 
     { 
       prop: 'state',
       valueEnum: {
         '0': { value: '未开始' },
         '1': { value: '进行中', style: { color: '#97CC00' } },
         '2': { value: '已结束', style: { color: '#FF6C60' } }
-      }
+      },
+      default: '无'
     },
-    { prop: 'createdAt' }
+    { prop: 'createdAt',    default: '无' }
   ]; 
 
   constructor(

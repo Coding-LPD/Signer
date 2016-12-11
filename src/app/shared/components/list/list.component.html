@@ -25,15 +25,15 @@
       <td *ngFor="let c of cellOptions; let i = index" [ngStyle]="c.mainStyles">
 
         <!-- 非枚举值模板 -->
-        <div *ngIf="!c.valueEnum" [title]="d.data[c.prop] || c.default || '暂无'"
+        <div *ngIf="!c.valueEnum" [title]="d.data[c.prop] || c.default"
             [style.width]="headerOptions[i].width || '118px'">
-          {{d.data[c.prop] || c.default || '暂无'}}
+          {{d.data[c.prop] || c.default}}
         </div>
 
         <!-- 枚举值模板 -->
-        <div *ngIf="c.valueEnum" [title]="c.valueEnum[d.data[c.prop]].value || '暂无'" 
+        <div *ngIf="c.valueEnum" [title]="c.valueEnum[d.data[c.prop]].value || c.default" 
             [style.width]="headerOptions[i].width || ''" [ngStyle]="c.valueEnum[d.data[c.prop]].style">
-          {{c.valueEnum[d.data[c.prop]].value || '暂无'}}
+          {{c.valueEnum[d.data[c.prop]].value || c.default}}
         </div>
 
       </td>

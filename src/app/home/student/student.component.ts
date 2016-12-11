@@ -26,17 +26,23 @@ export class StudentComponent implements OnInit {
   // list组件的配置
   operationOption: OperationOption = { hasCheck: true, hasEdit: true, hasDelete: true };
   headerOptions: HeaderOption[] = [
-    { name: '学号' }, { name: '姓名' }, { name: '联系方式' }, { name: '专业' },
-    { 
+    { name: '学号' },
+    { name: '姓名' },
+    { name: '联系方式' },
+    { name: '专业' },
+    {
       name: '加入时间',
       width: '80px'      
     }
   ];
   cellOptions: CellOption[] = [
-    { prop: 'number' }, { prop: 'name' }, { prop: 'phone' }, { prop: 'major' }, { prop: 'createdAt' } 
+    { prop: 'number',     default: '无' },
+    { prop: 'name',       default: '无' },
+    { prop: 'phone',      default: '无' },
+    { prop: 'major',      default: '无' },
+    { prop: 'createdAt',  default: '无' } 
   ];
   
-
   constructor(
     private _studentService: StudentService,
     private _loginService: LoginService,

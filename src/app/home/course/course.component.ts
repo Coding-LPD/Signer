@@ -18,12 +18,18 @@ export class CourseComponent implements OnInit {
   // list组件的配置  
   operationOption: OperationOption = { hasEdit:true, hasDelete: true };
   headerOptions: HeaderOption[] = [
-    { name: '课程名称' }, { name: '上课时间', width: '200px' }, { name: '学生数量' }, 
-    { name: '签到次数' }, { name: '上课地点', width: '80px' }
+    { name: '课程名称' },
+    { name: '上课时间', width: '200px' },
+    { name: '学生数量' },
+    { name: '签到次数' },
+    { name: '上课地点', width: '80px' }
   ];
   cellOptions: CellOption[] = [
-    { prop: 'name' },    { prop: 'time' }, { prop: 'studentCount', default: '0' }, 
-    { prop: 'signCount', default: '0' },   { prop: 'location' },
+    { prop: 'name',         default: '无' },
+    { prop: 'time',         default: '无' },
+    { prop: 'studentCount', default: '0'  },
+    { prop: 'signCount',    default: '0'  },
+    { prop: 'location',     default: '无' }
   ];
 
   constructor(
