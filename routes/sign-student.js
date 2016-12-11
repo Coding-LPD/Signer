@@ -25,7 +25,7 @@ router.get('/', function (req, res) {
 });
 
 router.delete('/:id', function (req, res) {
-  var student,  course;
+  var student;
   var promises = [];
 
   SignStudent.findByIdAndRemove(req.params['id'])
@@ -33,17 +33,43 @@ router.delete('/:id', function (req, res) {
       student = deletedStudent;
 
       // 课程的学生数量减1
-      return Course.findByIdAndUpdate(student.get('courseId'), { $inc: { studentCount: -1 } }, { new: true });      
+      return Course.findByIdAndUpdate(student.get('courseId'), { $inc: { studentCount: -1 } }, { new: true });
     })
     .then(function (updatedCourse) {
-      course = updatedCourse;
-
       // 课程相关的签到的学生数量都要同步
-      return Sign.update({ $or: [ { courseId: updatedCourse._id }, { relatedId: updatedCourse._id } ] }, { studentCount: course.get('studentCount') }, { multi: true });
+      return Sign.update({ $or: [ { courseId: updatedCourse._id }, { relatedId: updatedCourse._id } ] }, { studentCount: updatedCourse.get('studentCount') }, { multi: true });
     })
     .then(function (updatedSigns) {            
       sendInfo(errorCodes.Success, res, student);
     }) 
+    .catch(function (err) {
+      if (err.code) {
+        sendInfo(err.code, res, {});
+      } else {
+        handleErrors(err, res, {});
+      }      
+    });
+});
+
+router.post('/mutil/remove', function (req, res) {
+  var courseId = req.body.courseId;
+  var ids = req.body.ids;
+
+  SignStudent.remove({ _id: { $in: ids } })
+    .then(function (result) {
+      // 删除成功的数目
+      var successNum = result.result.n;
+
+      // 课程学生数量减少相应数目
+      return Course.findByIdAndUpdate(courseId, { $inc: { studentCount: -successNum } }, { new: true });
+    })
+    .then(function (updatedCourse) {
+      // 课程相关的签到的学生数量都要同步
+      return Sign.update({ $or: [ { courseId: updatedCourse._id }, { relatedId: updatedCourse._id } ] }, { studentCount: updatedCourse.get('studentCount') }, { multi: true });
+    })
+    .then(function (updatedSigns) {
+      sendInfo(errorCodes.Success, res);
+    })
     .catch(function (err) {
       if (err.code) {
         sendInfo(err.code, res, {});
@@ -70,14 +96,19 @@ router.post('/search', function (req, res) {
 
 router.post('/import', multipartMiddleware, function (req, res) {
   var courseId = req.body.courseId;
-
+  var file = req.files.fieldNameHere || req.files.file;
   var promises = [];
-  var file = req.files.fieldNameHere || req.files.file;  
-  var workbook = xlsx.readFile(file.path);
-  var worksheet = workbook.Sheets[workbook.SheetNames[0]];  
-  var courseExtra = readHeader(worksheet);
-  var signStudents = readBody(worksheet);
-  Course.findById(courseId)
+  var courseExtra, signStudents;    
+
+  Promise.resolve()
+    .then(function () {            
+      var workbook = xlsx.readFile(file.path);
+      var worksheet = workbook.Sheets[workbook.SheetNames[0]];  
+      courseExtra = readHeader(worksheet);
+      signStudents = readBody(worksheet);
+
+      return Course.findById(courseId);
+    })
     .then(function (course) {
       // 课程不存在
       if (!course) {
@@ -117,7 +148,7 @@ router.post('/import', multipartMiddleware, function (req, res) {
       } else {
         handleErrors(err, res, []);
       }      
-    }); 
+    });
 });
 
 function readHeader(worksheet) { 
