@@ -16,6 +16,8 @@ export class StudentComponent implements OnInit {
   courses: Course[];
   // 某课程下所有学生数据
   students: SignStudent[];
+  // 当前选中的学生
+  checkedStudents: SignStudent[] = [];
   // 文件上传指令的基本配置
   uploadOptions = {
     url: this._studentService.getUploadUrl(),
@@ -51,7 +53,7 @@ export class StudentComponent implements OnInit {
         })
       }
     });
-  }
+  }  
 
   selectCourse(courseId: string) {
     this.uploadOptions.data.courseId = courseId;
@@ -59,14 +61,7 @@ export class StudentComponent implements OnInit {
       this.students = [];
       return;
     }
-    this._studentService.search({courseId})
-      .subscribe(body => {
-        if (+body.code == 200) {         
-          this.students = body.data;
-        } else {
-          alert(body.msg);
-        }
-      });    
+    this.getStudent(courseId);
   }
 
   importStudent(fileInput: any) {
@@ -92,7 +87,7 @@ export class StudentComponent implements OnInit {
   }
 
   receiveCheckedStudents(students: SignStudent[]) {
-    console.log(students);
+    this.checkedStudents = students;
   }
 
   removeStudent(student: SignStudent) {
@@ -108,7 +103,38 @@ export class StudentComponent implements OnInit {
         } else {
           alert(body.msg);
         }
+      });
+  }
+
+  removeSelected() {
+    if (this.checkedStudents.length <= 0) {
+      alert('请先选择要删除的学生');
+      return;
+    }
+    if (!confirm('确定删除这些学生？')) {
+      return;
+    }
+    var courseId = this.checkedStudents[0].courseId;
+    var ids = this.checkedStudents.map(student => student._id);
+    this._studentService.removeMulti(courseId, ids)
+      .subscribe(body => {
+        if (body.code == 200) {
+          this.getStudent(courseId);
+        } else {
+          alert(body.msg);
+        }
       })
+  }
+
+  private getStudent(courseId: string) {
+    this._studentService.search({courseId})
+      .subscribe(body => {
+        if (+body.code == 200) {         
+          this.students = body.data;
+        } else {
+          alert(body.msg);
+        }
+      });
   }
 
 }

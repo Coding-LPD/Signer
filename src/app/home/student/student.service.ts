@@ -26,6 +26,12 @@ export class StudentService extends BaseService {
       .catch(this.handleError);
   }
 
+  removeMulti(courseId: string, ids: string[]) {
+    return this._http.post(API.domain + API.signStudentMutilRemove, { courseId, ids },  this.options)
+      .map(this.extractData)
+      .catch(this.handleError);
+  }
+
   search(conditions: any) {
     return this._http.post(API.domain + API.signStudentSearch, conditions, this.options)
       .map(this.extractData)
