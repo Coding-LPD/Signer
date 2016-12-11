@@ -65,7 +65,12 @@ public class BaiduLocationClient {
             Log.e("BaiduLocationApiDem", sb.toString());
 
             if (listener != null){
-                listener.onGetLocation(location.getLatitude(), location.getLongitude());
+                if (location.getLocType() == 61 || location.getLocType() == 161) {
+                    listener.onGetLocationSuccess(location.getLatitude(), location.getLongitude());
+                }
+                else{
+                    listener.onGetLocationError(location.getLocType());
+                }
             }
 
             mLocationClient.stop();
@@ -79,6 +84,7 @@ public class BaiduLocationClient {
 
     public interface OnGetLocationListener{
 
-        void onGetLocation(double latitude, double longitude);
+        void onGetLocationSuccess(double latitude, double longitude);
+        void onGetLocationError(int code);
     }
 }

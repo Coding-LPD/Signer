@@ -269,8 +269,23 @@ public class ConfirmSignActivity extends BaseSlideActivity implements ISignView{
 
         client.setOnGetLocationListener(new BaiduLocationClient.OnGetLocationListener() {
             @Override
-            public void onGetLocation(double latitude, double longitude) {
+            public void onGetLocationSuccess(double latitude, double longitude) {
                 sign(latitude, longitude);
+            }
+
+            @Override
+            public void onGetLocationError(int code) {
+
+                dismissLoadingDialog();
+                final AlertDialog dialog = new AlertDialog(ConfirmSignActivity.this);
+                dialog.setTitle("友情提示");
+                dialog.setMessage("定位失败，请重启应用\n再进行签到");
+                dialog.setButton("知道了", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
             }
         });
         client.start();
