@@ -105,7 +105,9 @@ class MainTabBarViewController: UITabBarController
 
     var newNoticeCount = 0 {
         didSet {
-            self.tabBar.items?[3].badgeValue = newNoticeCount == 0 ? nil : "\(newNoticeCount)"
+            DispatchQueue.main.async {
+                self.tabBar.items?[3].badgeValue = self.newNoticeCount == 0 ? nil : "\(self.newNoticeCount)"
+            }
         }
     }
     

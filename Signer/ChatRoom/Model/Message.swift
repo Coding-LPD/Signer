@@ -6,10 +6,19 @@
 //  Copyright © 2016年 Vernon. All rights reserved.
 //
 
-struct Message
+import JSQMessagesViewController
+
+class Message: JSQMessage
 {
-    var avatarUrl: String
-    var content: String
-    var name: String
-    var createdDate: Date
+    var avatarUrl: String?
+
+    init(senderId: String, senderDisplayName: String, avatarUrl: String?, text: String, date: Date)
+    {
+        super.init(senderId: senderId, senderDisplayName: senderDisplayName, date: date, text: text)
+        self.avatarUrl = avatarUrl
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 }

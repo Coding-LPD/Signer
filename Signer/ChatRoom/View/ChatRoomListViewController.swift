@@ -50,6 +50,10 @@ class ChatRoomListViewController: UIViewController
             self.configureUIWith(json: JSON(data[0]))
         }
         
+        socket.on("new-msg") { data, ack in
+            self.socket.emit("room-list", Student().id)
+        }
+        
         socket.connect()
     }
     
@@ -69,7 +73,7 @@ class ChatRoomListViewController: UIViewController
 
     func configureUIWith(json: JSON)
     {
-      //  print("json: \(json)")
+        print("json: \(json)")
         
         chatRooms.removeAll()
         
@@ -101,7 +105,9 @@ class ChatRoomListViewController: UIViewController
         if segue.identifier == "ChatRoom" {
             if let desVC = segue.destination as? ChatRoomViewController {
                 desVC.socket = self.socket
-                desVC.courseId = chatRooms[tableView.indexPathForSelectedRow!.row].courseId
+                let chatRoom = chatRooms[tableView.indexPathForSelectedRow!.row]
+                desVC.courseId = chatRoom.courseId
+                desVC.title = chatRoom.name + "(\(chatRoom.count)人)"
             }
         }
     }

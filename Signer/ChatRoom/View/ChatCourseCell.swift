@@ -38,8 +38,20 @@ extension ChatCourseCell
         }
         nameLabel.text = chatRoom.name
         countLabel.text = "\(chatRoom.count)"
-        newestMsgLabel.text = chatRoom.newestMsg
+        newestMsgLabel.text = chatRoom.newestMsg != nil ? chatRoom.newestMsg : "没有人发言"
+        newestMsgLabel.textColor = chatRoom.newestMsg != nil ? UIColor(netHex: 0x666666) : UIColor(netHex: 0x999999)
         timeIntervalLabel.text = Date().getTimeIntervalDescriptionTo(date: chatRoom.newestMsgDate)
+        
+        if let chatRoomTimeStampDict = UserDefaults.standard.dictionary(forKey: "chatRoomTimeStampDict"), let finalDate = chatRoomTimeStampDict[chatRoom.courseId] as? Date, let newestMsgDate = chatRoom.newestMsgDate {
+            if newestMsgDate > finalDate {
+                hasUpdateLabel.isHidden = false
+            } else {
+                hasUpdateLabel.isHidden = true
+            }
+        } else {
+            hasUpdateLabel.isHidden = false
+        }
+        
     }
 }
 

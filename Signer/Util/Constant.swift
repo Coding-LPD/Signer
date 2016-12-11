@@ -15,6 +15,6 @@ struct Constant
     static let baseSocketUrl = "http://120.25.65.207:3000"
     
     // 默认头像Url
-    static let defaultAvatar1Url = Constant.baseAPIUrl + "/user/1.png"
+    static let defaultAvatar1Url = Constant.baseImageUrl + "/user/1.png"
 }
 

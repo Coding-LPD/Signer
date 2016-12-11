@@ -164,12 +164,12 @@ class NoticeViewController: UIViewController
             beforeNotices.removeAll()
             beforeNotices.append(contentsOf: notices)
             totalBeforeNoticePage = 1
-            isLoadAllBeforeNotices = (notices.count<10 ? true : false)
+            isLoadAllBeforeNotices = (notices.count<noticesNumberPerPage ? true : false)
         } else if noticeType == .afterClass {
             afterNotices.removeAll()
             afterNotices.append(contentsOf: notices)
             totalAfterNoticePage = 1
-            isLoadAllAfterNotices = (notices.count<10 ? true : false)
+            isLoadAllAfterNotices = (notices.count<noticesNumberPerPage ? true : false)
         }
         
         DispatchQueue.main.async {
@@ -238,11 +238,11 @@ class NoticeViewController: UIViewController
         if noticeType == .beforeClass {
             beforeNotices.append(contentsOf: newNotices)
             totalBeforeNoticePage = page + 1
-            isLoadAllBeforeNotices = (newNotices.count<10 ? true : false)
+            isLoadAllBeforeNotices = (newNotices.count<noticesNumberPerPage ? true : false)
         } else if noticeType == .afterClass {
             afterNotices.append(contentsOf: newNotices)
             totalAfterNoticePage = page + 1
-            isLoadAllAfterNotices = (newNotices.count<10 ? true : false)
+            isLoadAllAfterNotices = (newNotices.count<noticesNumberPerPage ? true : false)
         }
         
         DispatchQueue.main.async {

@@ -26,7 +26,7 @@ class SignResultViewController: UIViewController
             fatalError("SignResultViewController没有初始值")
         }
         
-        distanceLabel.text = "\(distance)米"
+        distanceLabel.text = "\(distance)m"
         batteryLabel.text = "\(battery)%"
     }
 

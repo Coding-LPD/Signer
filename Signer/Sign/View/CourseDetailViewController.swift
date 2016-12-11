@@ -168,7 +168,7 @@ class CourseDetailViewController: UIViewController, BMKLocationServiceDelegate
             }
             let avartarimageView = avartarImageViewArray[index]
             avartarimageView.layer.cornerRadius = avartarimageView.frame.width / 2
-            avartarimageView.clipsToBounds = true
+            avartarimageView.layer.masksToBounds = true
             avartarimageView.sd_setImage(with: URL(string: studentJson["avatar"].stringValue))
             nameLabelArray[index].text = studentJson["name"].string
         }
