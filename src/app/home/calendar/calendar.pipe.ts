@@ -17,8 +17,8 @@ export class CalendarPipe implements PipeTransform {
     for (var i=1; i<=days; i++) {
       date.setDate(i);      
       var col = date.getDay();
-      // 填满一周，则换下一周
-      if (col % 7 == 0) {
+      // 填满一周，则换下一周，遇到第一天是星期天时，则不预留空间给上个月最后一个星期
+      if (col == 0 && result[row]) {
         row++;
       }
       // 遇到未初始化的数组，则先初始化
