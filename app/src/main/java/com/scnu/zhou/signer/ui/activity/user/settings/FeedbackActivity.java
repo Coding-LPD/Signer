@@ -45,6 +45,9 @@ public class FeedbackActivity extends BaseSlideActivity implements IFeedbackView
         ButterKnife.bind(this);
         initView();
         initData();
+
+        // 打开输入法
+        toggleInputMethod();
     }
 
     @Override

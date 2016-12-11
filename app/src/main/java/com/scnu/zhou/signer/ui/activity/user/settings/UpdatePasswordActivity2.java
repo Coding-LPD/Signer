@@ -49,8 +49,6 @@ public class UpdatePasswordActivity2 extends BaseSlideActivity implements IUserP
 
     private String phone;
 
-    public static UpdatePasswordActivity2 instance;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,7 +59,8 @@ public class UpdatePasswordActivity2 extends BaseSlideActivity implements IUserP
         initView();
         initData();
 
-        instance = this;
+        // 打开输入法
+        toggleInputMethod();
     }
 
 
@@ -81,12 +80,6 @@ public class UpdatePasswordActivity2 extends BaseSlideActivity implements IUserP
 
         presenter = new UserPresenter(this);
         phone = UserCache.getInstance().getPhone(this);
-    }
-
-
-    public static UpdatePasswordActivity2 getInstance(){
-
-        return instance;
     }
 
     // 获取公钥成功

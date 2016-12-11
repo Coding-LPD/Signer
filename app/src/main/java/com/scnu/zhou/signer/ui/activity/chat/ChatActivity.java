@@ -96,6 +96,9 @@ public class ChatActivity extends BaseSlideActivity implements IChatView, AbsLis
 
         initView();
         initData();
+
+        // 打开输入法
+        toggleInputMethod();
     }
 
 
@@ -383,17 +386,6 @@ public class ChatActivity extends BaseSlideActivity implements IChatView, AbsLis
     @OnClick(R.id.ll_return)
     public void back(){
         finish();
-    }
-
-
-    // 打开软键盘
-    public void showKeyBoard(){
-
-        InputMethodManager imm =  (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-        if(imm != null) {
-
-            imm.showSoftInput(et_content,InputMethodManager.SHOW_FORCED);
-        }
     }
 
 

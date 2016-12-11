@@ -55,6 +55,9 @@ public class InputPasswordActivity extends BaseSlideActivity implements IRegistV
         ButterKnife.bind(this);
         initView();
         initData();
+
+        // 打开输入法
+        toggleInputMethod();
     }
 
     @Override

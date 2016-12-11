@@ -43,6 +43,9 @@ public class InputPhoneActivity extends BaseSlideActivity{
         ButterKnife.bind(this);
         initView();
         initData();
+
+        // 打开输入法
+        toggleInputMethod();
     }
 
     public void initView() {

@@ -140,4 +140,13 @@ public class TextClearableEditText extends LinearLayout{
     public void addTextChangedListener(TextWatcher watcher){
         et_text.addTextChangedListener(watcher);
     }
+
+    /**
+     * 将光标移动到末尾
+     */
+    public void setSelectionAtEnd(){
+
+        et_text.setSelection(et_text.getText().length());
+
+    }
 }

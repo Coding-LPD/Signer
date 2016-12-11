@@ -57,6 +57,9 @@ public class UpdatePasswordActivity extends BaseSlideActivity implements IUserPa
         ButterKnife.bind(this);
         initView();
         initData();
+
+        // 打开输入法
+        toggleInputMethod();
     }
 
 

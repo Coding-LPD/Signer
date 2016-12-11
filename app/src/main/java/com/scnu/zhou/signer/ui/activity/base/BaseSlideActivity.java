@@ -1,12 +1,15 @@
 package com.scnu.zhou.signer.ui.activity.base;
 
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 
 import com.scnu.zhou.signer.R;
 import com.scnu.zhou.signer.component.cache.UserCache;
@@ -76,6 +79,21 @@ public class BaseSlideActivity extends SlideBackActivity {
     public void dismissLoadingDialog(){
 
         if (dialog.isShowing()) dialog.dismiss();
+    }
+
+    /**
+     * 打开或取消键盘
+     */
+    public void toggleInputMethod(){
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                // 打开输入法
+                InputMethodManager m = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                m.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+            }
+        }, 500);
     }
 
     /**

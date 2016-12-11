@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
@@ -84,6 +85,9 @@ public class SearchActivity extends BaseSlideActivity implements IHomeView, View
 
         initView();
         initData();
+
+        // 打开输入法
+        toggleInputMethod();
     }
 
 

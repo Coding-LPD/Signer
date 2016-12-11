@@ -51,6 +51,9 @@ public class EditInfoActivity extends BaseSlideActivity implements IUserUpdateVi
         context = this;
         initData();
         initView();
+
+        // 打开输入法
+        toggleInputMethod();
     }
 
     @Override
@@ -64,6 +67,7 @@ public class EditInfoActivity extends BaseSlideActivity implements IUserUpdateVi
         et_info = (WhiteClearableEditText) findViewById(R.id.et_info);
         et_info.setText(text);
         et_info.setHint("请输入" + title);
+        et_info.setSelectionAtEnd();
     }
 
     @Override
