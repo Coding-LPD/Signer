@@ -14,7 +14,7 @@ function getMsgList(courseId, page, limit) {
   page = page || 0;
   limit = limit || 18;
 
-  return ChatMsg.find({ courseId: courseId }, null, { sort: '-createdAt', limit: 18, skip: page*limit })
+  return ChatMsg.find({ courseId: courseId }, null, { sort: '-createdAt', limit: limit, skip: page*limit })
     .then(function (findedMsg) {
       return wrapData(errorCodes.Success, findedMsg);
     })
