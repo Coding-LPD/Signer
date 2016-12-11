@@ -87,7 +87,7 @@ export class ListComponent implements OnChanges {
       val.checked = this.allSelected;
     });    
     if (this.allSelected) {
-      this.onSelect.emit(this.showDatas);
+      this.onSelect.emit(this.getCheckedData(this.showDatas));
     } else {
       this.onSelect.emit([]);
     }
