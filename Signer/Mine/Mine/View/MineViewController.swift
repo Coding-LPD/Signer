@@ -30,6 +30,17 @@ class MineViewController: UIViewController
         super.viewWillAppear(animated)
         tableView.reloadSections([0], with: .automatic)
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?)
+    {
+        if let desVC = segue.destination as? RecordViewController {
+            if segue.identifier == "SignRecord" {
+                desVC.recordType = .sign
+            } else if segue.identifier == "ChatRecord" {
+                desVC.recordType = .chat
+            }
+        }
+    }
 
 }
 
@@ -92,7 +103,11 @@ extension MineViewController: UITableViewDataSource, UITableViewDelegate
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
     {
-        if indexPath.section == 2 && indexPath.row == 0 {
+        if indexPath.section == 1 && indexPath.row == 0 {
+            performSegue(withIdentifier: "SignRecord", sender: nil)
+        } else if indexPath.section == 1 && indexPath.row == 1 {
+            performSegue(withIdentifier: "ChatRecord", sender: nil)
+        } else if indexPath.section == 2 && indexPath.row == 0 {
             performSegue(withIdentifier: "Setting", sender: nil)
         }
     }

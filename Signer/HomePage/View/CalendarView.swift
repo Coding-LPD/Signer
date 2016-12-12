@@ -9,6 +9,13 @@
 import UIKit
 import RxSwift
 
+@objc protocol CalendarViewDelegate
+{
+    func calendarViewHeightChange(height: CGFloat)
+    @objc optional func calendarViewDidClickDate(day: Int, month: Int, year: Int)
+    @objc optional func calendarViewChangeDateTo(month: Int, year: Int)
+}
+
 @IBDesignable class CalendarView: UIView
 {
     @IBOutlet weak var yearLabel: UILabel!
@@ -21,6 +28,8 @@ import RxSwift
     @IBOutlet weak var stackView4: UIStackView!
     @IBOutlet weak var stackView5: UIStackView!
     
+    var delegate: CalendarViewDelegate?
+    
     var signedDates = [String]()
     var unsignedDates = [String]()
     
@@ -31,10 +40,9 @@ import RxSwift
     var month: Int = 11 {
         didSet {
             configureUI()
+            delegate?.calendarViewChangeDateTo?(month: month, year: year)
         }
     }
-    
-    var viewHeight: Variable<CGFloat> = Variable(400)
     
     override init(frame: CGRect)
     {
@@ -68,6 +76,8 @@ import RxSwift
                 dayLabels.append(label)
                 label.clipsToBounds = true
                 label.layer.cornerRadius = 16
+                let tapGesture = UITapGestureRecognizer(target: self, action: #selector(clickDate))
+                label.addGestureRecognizer(tapGesture)
             }
         }
         
@@ -101,25 +111,31 @@ import RxSwift
         let daysOfMonth = getDaysAt(year: year, month: month)   // 这个月有多少天
         let daysOfLastMonth = getLastMonthDaysAt(year: year, month: month)  // 上个月有多少天
         
+        // 上个月
         for index in 0..<weekOfMonth {
             dayLabels[index].text = "\(daysOfLastMonth-weekOfMonth+index+1)"
             dayLabels[index].textColor = UIColor(netHex: 0xB0B0B0)
             dayLabels[index].backgroundColor = UIColor.clear
+            dayLabels[index].isUserInteractionEnabled = false
         }
         
+        // 这个月
         var temp = 1
         for index in weekOfMonth..<daysOfMonth+weekOfMonth {
             dayLabels[index].text = "\(temp)"
             dayLabels[index].textColor = UIColor(netHex: 0x333333)
             dayLabels[index].backgroundColor = UIColor.clear
+            dayLabels[index].isUserInteractionEnabled = true
             temp += 1
         }
         
+        // 下个月
         temp = 1
         for index in daysOfMonth+weekOfMonth..<42 {
             dayLabels[index].text = "\(temp)"
             dayLabels[index].textColor = UIColor(netHex: 0xB0B0B0)
             dayLabels[index].backgroundColor = UIColor.clear
+            dayLabels[index].isUserInteractionEnabled = false
             temp += 1
         }
         
@@ -139,10 +155,10 @@ import RxSwift
         }
         
         if weekOfMonth + daysOfMonth > 35 {
-            viewHeight.value = 390
+            delegate?.calendarViewHeightChange(height: 390.0)
             stackView5.isHidden = false
         } else {
-            viewHeight.value = 350
+            delegate?.calendarViewHeightChange(height: 350.0)
             stackView5.isHidden = true
         }
     }
@@ -157,6 +173,12 @@ import RxSwift
     {
         year = month == 12 ? year + 1 : year
         month = month == 12 ? 1 : month + 1
+    }
+    
+    func clickDate(tapGesture: UITapGestureRecognizer)
+    {
+        let label = dayLabels[tapGesture.view!.tag]
+        delegate?.calendarViewDidClickDate?(day: Int(label.text!)!, month: month, year: year)
     }
     
     lazy var calendar: Calendar = {

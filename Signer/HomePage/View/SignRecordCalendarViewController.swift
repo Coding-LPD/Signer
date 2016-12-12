@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import RxSwift
 import Alamofire
 import SwiftyJSON
 
@@ -23,9 +22,7 @@ class SignRecordCalendarViewController: UIViewController
     
     var signedDates = [String]()
     var unsignedDates = [String]()
-    
-    let disposeBag = DisposeBag()
-    
+        
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -56,9 +53,7 @@ class SignRecordCalendarViewController: UIViewController
 
         let components = NSCalendar.current.dateComponents([.month , .year], from: Date())
         calendarView.set(year: components.year!, month: components.month!)
-        calendarView.viewHeight.asObservable().subscribe(onNext: { (viewHeight) in
-            self.calendarViewHeight.constant = viewHeight
-        }, onError: nil, onCompleted: nil, onDisposed: nil).addDisposableTo(disposeBag)
+        calendarView.delegate = self
     }
     
     func getRecordFrom(json: JSON)
@@ -81,5 +76,12 @@ class SignRecordCalendarViewController: UIViewController
     {
         dismiss(animated: true, completion: nil)
     }
+}
 
+extension SignRecordCalendarViewController: CalendarViewDelegate
+{
+    func calendarViewHeightChange(height: CGFloat)
+    {
+        calendarViewHeight.constant = height
+    }
 }

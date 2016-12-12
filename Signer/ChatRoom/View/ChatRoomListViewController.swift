@@ -57,6 +57,20 @@ class ChatRoomListViewController: UIViewController
         socket.connect()
     }
     
+    override func viewDidAppear(_ animated: Bool)
+    {
+        super.viewDidAppear(animated)
+        
+        self.socket.emit("room-list", Student().id)
+    }
+    
+    override func viewDidDisappear(_ animated: Bool)
+    {
+        super.viewDidDisappear(animated)
+        
+        refreshControl.endRefreshing()
+    }
+    
     func refreshChatRoom()
     {
         self.socket.emit("room-list", Student().id)
@@ -108,6 +122,8 @@ class ChatRoomListViewController: UIViewController
                 let chatRoom = chatRooms[tableView.indexPathForSelectedRow!.row]
                 desVC.courseId = chatRoom.courseId
                 desVC.title = chatRoom.name + "(\(chatRoom.count)人)"
+                let cell = tableView.cellForRow(at: IndexPath(row: tableView.indexPathForSelectedRow!.row, section: 0)) as! ChatCourseCell
+                cell.hasUpdateLabel.isHidden = true
             }
         }
     }

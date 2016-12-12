@@ -17,6 +17,10 @@ enum StudentRouter: URLRequestConvertible
     case searchCourse(phone: String, courseName: String)        // 根据指定课程名查询课程
     case requestNotice(phone: String, type: Int, page: Int)     // 获取学生相关通知信息
     case requestSignAndMsgCount(studentId: String)              // 获取学生的签到数和发言数
+    case requestSignDatesInMonth(id: String, date: String)      // 获取指定id学生的指定月份的完成签到的日期，date格式为2016-10（必须指定）
+    case requestSignInDate(id: String, date: String)            // 获取指定id学生的某天完成的签到，date格式为2016-10-22（必须指定）
+    case requestChatDatesInMonth(id: String, date: String)      // 获取指定id学生的指定月份的完成签到的日期，date格式为2016-10（必须指定）
+    case requestChatInDate(id: String, date: String)            // 获取指定id学生的某天的发言，date格式为2016-10-22（必须指定）
     
     var method: HTTPMethod {
         switch self {
@@ -33,6 +37,14 @@ enum StudentRouter: URLRequestConvertible
         case .requestNotice:
             return .get
         case .requestSignAndMsgCount:
+            return .get
+        case .requestSignDatesInMonth:
+            return .get
+        case .requestSignInDate:
+            return .get
+        case .requestChatDatesInMonth:
+            return .get
+        case .requestChatInDate:
             return .get
         }
     }
@@ -54,6 +66,14 @@ enum StudentRouter: URLRequestConvertible
                 return ("/students/\(phone)/notice", ["type": type, "page": page, "limit": 10])
             case let .requestSignAndMsgCount(studentId):
                 return ("/students/\(studentId)/activeInfo", [:])
+            case let .requestSignDatesInMonth(studentId, dateString):
+                return ("/students/\(studentId)/signInDays", ["date": dateString])
+            case let .requestSignInDate(studentId, dateString):
+                return ("/students/\(studentId)/signInDays/detail", ["date": dateString])
+            case let .requestChatDatesInMonth(studentId, dateString):
+                return ("/students/\(studentId)/chatDays", ["date": dateString])
+            case let .requestChatInDate(studentId, dateString):
+                return ("/students/\(studentId)/chatDays/detail", ["date": dateString])
             }
         }()
         

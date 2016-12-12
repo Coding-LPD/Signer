@@ -82,6 +82,8 @@
 		ADCCAC3D1DE6C25900757525 /* SignCourseView.xib in Resources */ = {isa = PBXBuildFile; fileRef = ADCCAC3C1DE6C25900757525 /* SignCourseView.xib */; };
 		ADCCAC3F1DE6C29200757525 /* SignCourseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADCCAC3E1DE6C29200757525 /* SignCourseView.swift */; };
 		ADCCAC411DE6C64200757525 /* SignCourseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADCCAC401DE6C64200757525 /* SignCourseCell.swift */; };
+		ADD643401DFEAD080019102B /* RecordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADD6433F1DFEAD080019102B /* RecordViewController.swift */; };
+		ADD643421DFEAD3B0019102B /* RecordCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADD643411DFEAD3B0019102B /* RecordCell.swift */; };
 		ADD87F201DE3E5060093A25F /* Reveal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ADD87F1F1DE3E5060093A25F /* Reveal.framework */; };
 		ADEF11DB1D869D99001F9C19 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADEF11DA1D869D99001F9C19 /* AppDelegate.swift */; };
 		ADEF11E21D869D99001F9C19 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ADEF11E01D869D99001F9C19 /* Main.storyboard */; };
@@ -183,6 +185,8 @@
 		ADCCAC3C1DE6C25900757525 /* SignCourseView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SignCourseView.xib; sourceTree = "<group>"; };
 		ADCCAC3E1DE6C29200757525 /* SignCourseView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignCourseView.swift; sourceTree = "<group>"; };
 		ADCCAC401DE6C64200757525 /* SignCourseCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignCourseCell.swift; sourceTree = "<group>"; };
+		ADD6433F1DFEAD080019102B /* RecordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordViewController.swift; sourceTree = "<group>"; };
+		ADD643411DFEAD3B0019102B /* RecordCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordCell.swift; sourceTree = "<group>"; };
 		ADD87F1F1DE3E5060093A25F /* Reveal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Reveal.framework; sourceTree = "<group>"; };
 		ADEF11D71D869D99001F9C19 /* 华师小签.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "华师小签.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADEF11DA1D869D99001F9C19 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -352,6 +356,8 @@
 				AD34AFA01DDC207F0085F21B /* LeftAvatarCell.swift */,
 				AD34AFA11DDC207F0085F21B /* MineLeftImageCell.swift */,
 				AD34AFA21DDC207F0085F21B /* MineViewController.swift */,
+				ADD643411DFEAD3B0019102B /* RecordCell.swift */,
+				ADD6433F1DFEAD080019102B /* RecordViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -794,6 +800,7 @@
 			files = (
 				AD5899841DE4276400A2F8AE /* ActionSheetStringPicker.m in Sources */,
 				ADCCAC411DE6C64200757525 /* SignCourseCell.swift in Sources */,
+				ADD643401DFEAD080019102B /* RecordViewController.swift in Sources */,
 				AD708EB11DEFFD37003C89A4 /* SearchResultViewController.swift in Sources */,
 				AD34AFAF1DDC208D0085F21B /* SettingViewController.swift in Sources */,
 				AD5899871DE427B700A2F8AE /* SWActionSheet.m in Sources */,
@@ -837,6 +844,7 @@
 				ADABF3AF1DD8498600226D86 /* StudentRouter.swift in Sources */,
 				AD34AFAE1DDC208D0085F21B /* SettingCell.swift in Sources */,
 				AD708EB31DEFFD8B003C89A4 /* SearchResultCell.swift in Sources */,
+				ADD643421DFEAD3B0019102B /* RecordCell.swift in Sources */,
 				AD45D9C21DD059E40031FF9E /* SignUpRouter.swift in Sources */,
 				AD708EAF1DEFE575003C89A4 /* SearchHistoryCell.swift in Sources */,
 				AD5899891DE432C500A2F8AE /* ChangeAvatarViewController.swift in Sources */,

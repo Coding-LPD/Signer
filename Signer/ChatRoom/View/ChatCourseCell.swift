@@ -49,7 +49,7 @@ extension ChatCourseCell
                 hasUpdateLabel.isHidden = true
             }
         } else {
-            hasUpdateLabel.isHidden = false
+            hasUpdateLabel.isHidden = true
         }
         
     }

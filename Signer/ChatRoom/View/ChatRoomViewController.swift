@@ -10,12 +10,14 @@ import UIKit
 import SocketIO
 import SwiftyJSON
 import SDWebImage
+import Toast_Swift
+import SVPullToRefresh
+import IQKeyboardManager
 import JSQMessagesViewController
 
 class ChatRoomViewController: JSQMessagesViewController
 {
     weak var socket: SocketIOClient?
-    
     var courseId: String?
 
     var totalPageOfMessage = 0      // 总共加载了多少页消息
@@ -28,87 +30,129 @@ class ChatRoomViewController: JSQMessagesViewController
     {
         super.viewDidLoad()
 
+        guard let _ = courseId, let _ = socket else {
+            fatalError("ChatRoomViewController初始值为空")
+        }
+        
         senderId = Student().id
         senderDisplayName = Student().name
 
+        initUI()
+        
+        monitorChatRoomNotication()
+        
+        // 下拉加载更多消息
+        collectionView.addInfiniteScrolling( actionHandler: { () -> Void in
+            self.loadMessageFromService()
+        }, direction: UInt(SVInfiniteScrollingDirectionTop))
+    }
+    
+    func initUI()
+    {
+        // 聊天界面属性设置
         showLoadEarlierMessagesHeader = false
         inputToolbar.contentView.leftBarButtonItem = nil
         inputToolbar.contentView.rightBarButtonItem.setTitle("发送", for: .normal)
         inputToolbar.contentView.rightBarButtonItem.setTitleColor(UIColor(netHex: 0x97cc00), for: .normal)
+        inputToolbar.contentView.rightBarButtonItem.setTitleColor(UIColor(netHex: 0x97cc00), for: .highlighted)
         inputToolbar.contentView.rightBarButtonItem.setTitle("发送", for: .disabled)
         inputToolbar.contentView.textView.placeHolder = ""
         
-        collectionView.addPullToRefresh { [unowned self] in
-            self.loadMessageFromService()
-        }
-        collectionView.pullToRefreshView.setTitle("", forState: 0)
-        collectionView.pullToRefreshView.setTitle("", forState: 1)
-        
-        guard let courseId = courseId, let socket = socket else {
-            fatalError("ChatRoomViewController初始值为空")
-        }
-
         loadMessageFromService()      // 加载第0页的消息
-
-        // 监听新的聊天信息的事件
-        socket.emit("new-msg", courseId, Student().id, "", "")
-        socket.on("new-msg") { data, ack in
-            self.receiveNewMessage(messageJSON: JSON(data))
+        view.makeToastActivity(.center)
+    }
+    
+    // 监听聊天室的通知
+    func monitorChatRoomNotication()
+    {
+        // 监听服务器返回聊天记录
+        socket!.on("msg-list") { data, ack in
+            self.receiveMessageList(messageListJSON: JSON(data))
         }
         
-        socket.on("msg-list") { data, ack in
-            self.receiveMessageList(messageListJSON: JSON(data))
+        // 监听新的聊天信息的事件
+        socket!.emit("new-msg", courseId!, Student().id, "", "")
+        socket!.on("new-msg") { data, ack in
+            self.receiveNewMessage(messageJSON: JSON(data))
         }
     }
     
-    override func viewDidDisappear(_ animated: Bool)
+    override func viewWillAppear(_ animated: Bool)
     {
-        super.viewDidDisappear(animated)
+        super.viewDidAppear(animated)
         
-        var chatRoomTimeStampDict: [String: Date]!
-        if let dict = UserDefaults.standard.dictionary(forKey: "chatRoomTimeStampDict") as? [String: Date] {
-            chatRoomTimeStampDict = dict
-        } else {
-            chatRoomTimeStampDict = [String: Date]()
-        }
-        chatRoomTimeStampDict[courseId!] = Date()
+        IQKeyboardManager.shared().isEnabled = false
+    }
+    
+    override func viewWillDisappear(_ animated: Bool)
+    {
+        super.viewWillDisappear(animated)
         
-        UserDefaults.standard.set(chatRoomTimeStampDict, forKey: "chatRoomTimeStampDict")
+        IQKeyboardManager.shared().isEnabled = false
     }
 
     // 分页加载从服务器获取第page页的消息，每页limitOfMsg条消息
     func loadMessageFromService()
     {
         if isLoadAllMessage {
-            
+            collectionView.infiniteScrollingView.stopAnimating()
+            view.makeToast("无更多聊天消息", duration: 0.3, position: .center)
         } else {
-            socket!.emit("msg-list", courseId!, totalPageOfMessage, limitOfMsg)
+            socket!.emit("msg-list", courseId!, totalPageOfMessage, limitOfMsg)     // 获取第totalPageOfMessage页的聊天记录
         }
     }
-
+    
+    // 从服务器获取到limitOfMsg条聊天记录messageListJSON
     func receiveMessageList(messageListJSON json: JSON)
     {
-        print("-------------消息列表: \(json)")
-        
-        collectionView.pullToRefreshView.stopAnimating()
+        totalPageOfMessage += 1
         
         var newMessages = [Message]()
         for (_, messageJSON) in json[0]["data"] {
             let message = convertJSONToMessage(messageJSON: messageJSON)
             newMessages.insert(message, at: 0)
         }
-        
-        totalPageOfMessage += 1
         if newMessages.count < limitOfMsg {
             isLoadAllMessage = true
             collectionView.showsPullToRefresh = false
         }
         
-        messages.insert(contentsOf: newMessages, at: 0)
-        collectionView.reloadData()
+        if !newMessages.isEmpty {
+            CATransaction.begin()
+            CATransaction.setDisableActions(true)
+            
+            let oldBottomOffset = self.collectionView.contentSize.height - self.collectionView.contentOffset.y
+            
+            collectionView.performBatchUpdates({
+                var indexPaths = [IndexPath]()
+                for index in 0 ..< newMessages.count {
+                    indexPaths.append(IndexPath(item: index, section: 0))
+                }
+                self.messages.insert(contentsOf: newMessages, at: 0)
+                self.collectionView.insertItems(at: indexPaths)
+                
+                // invalidate layout
+                self.collectionView.collectionViewLayout.invalidateLayout(with: JSQMessagesCollectionViewFlowLayoutInvalidationContext())
+            }, completion: { (_) in
+                // scroll back to current position
+                if self.totalPageOfMessage == 1 {
+                    self.scrollToBottom(animated: true)
+                } else {
+                    self.finishReceivingMessage(animated: false)
+                    self.collectionView.layoutIfNeeded()
+                    self.collectionView.contentOffset = CGPoint(x: 0, y: self.collectionView.contentSize.height - oldBottomOffset)
+                }
+                
+                CATransaction.commit()
+                
+                self.collectionView.infiniteScrollingView.stopAnimating()
+
+            })
+        } else {
+            collectionView.infiniteScrollingView.stopAnimating()
+        }
         
-        let item = collectionView.numberOfItems(inSection: 0) - (totalPageOfMessage - 1) * limitOfMsg - 1
-        scroll(to: IndexPath(item: item, section: 0), animated: false)
+        view.hideToastActivity()
     }
     
     func receiveNewMessage(messageJSON json: JSON)
@@ -149,6 +193,21 @@ class ChatRoomViewController: JSQMessagesViewController
         return bubbleFactory
     }()
     
+    override func viewDidDisappear(_ animated: Bool)
+    {
+        super.viewDidDisappear(animated)
+        
+        // 将本聊天室最后访问时间写入硬盘
+        var chatRoomTimeStampDict: [String: Date]!
+        if let dict = UserDefaults.standard.dictionary(forKey: "chatRoomTimeStampDict") as? [String: Date] {
+            chatRoomTimeStampDict = dict
+        } else {
+            chatRoomTimeStampDict = [String: Date]()
+        }
+        chatRoomTimeStampDict[courseId!] = Date()
+        UserDefaults.standard.set(chatRoomTimeStampDict, forKey: "chatRoomTimeStampDict")
+        UserDefaults.standard.synchronize()
+    }
 }
 
 extension ChatRoomViewController
@@ -275,6 +334,11 @@ extension ChatRoomViewController
         messages.append(message)
         sendMessage(text: text)
         finishSendingMessage(animated: true)
+    }
+    
+    override func collectionView(_ collectionView: JSQMessagesCollectionView!, header headerView: JSQMessagesLoadEarlierHeaderView!, didTapLoadEarlierMessagesButton sender: UIButton!)
+    {
+        loadMessageFromService()
     }
 }
 
