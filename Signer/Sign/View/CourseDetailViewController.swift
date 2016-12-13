@@ -221,7 +221,6 @@ class CourseDetailViewController: UIViewController, BMKLocationServiceDelegate
     func didUpdate(_ userLocation: BMKUserLocation!)
     {
         locService.stopUserLocationService()
-    //    print("获取位置成功，经度：\(userLocation.location.coordinate.longitude) 纬度：\(userLocation.location.coordinate.latitude)")
         signWith(signType: signType, longitude: userLocation.location.coordinate.longitude, latitude: userLocation.location.coordinate.latitude)
     }
     
@@ -234,9 +233,10 @@ class CourseDetailViewController: UIViewController, BMKLocationServiceDelegate
         let student = Student()
         UIDevice.current.isBatteryMonitoringEnabled = true
         let battery = UIDevice.current.batteryLevel * 100
+        let phoneId = UIDevice.current.identifierForVendor!.uuidString
         
         Alamofire
-            .request(SignRouter.sign(signId: signId, phoneId: student.phone, studentId: student.id, type: signType, battery: battery, longitude: longitude, latitude: latitude))
+            .request(SignRouter.sign(signId: signId, phoneId: phoneId, studentId: student.id, type: signType, battery: battery, longitude: longitude, latitude: latitude))
             .responseJSON { (response) in
                 self.view.hideToastActivity()
                 switch response.result {

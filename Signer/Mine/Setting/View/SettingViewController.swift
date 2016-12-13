@@ -22,7 +22,17 @@ class SettingViewController: UIViewController
         tableView.backgroundColor = UIColor(netHex: 0xf5f5f5)
         
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-    } 
+    }
+    
+    func clearCache()
+    {
+        view.makeToastActivity(.center)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+            self.view.hideToastActivity()
+            self.view.makeToast("清除成功", duration: 0.3, position: .center)
+        }
+    }
 }
 
 extension SettingViewController: UITableViewDataSource, UITableViewDelegate
@@ -76,8 +86,12 @@ extension SettingViewController: UITableViewDataSource, UITableViewDelegate
     {
         if indexPath.section == 0 && indexPath.row == 0 {
             performSegue(withIdentifier: "modifyPassword", sender: nil)
+        } else if indexPath.section == 1 && indexPath.row == 0 {
+            performSegue(withIdentifier: "About", sender: nil)
         } else if indexPath.section == 1 && indexPath.row == 1 {
             performSegue(withIdentifier: "feedback", sender: nil)
+        } else if indexPath.section == 2 && indexPath.row == 0 {
+            clearCache()
         } else if indexPath.section == 3 && indexPath.row == 0 {
             let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
             let logOutAction = UIAlertAction(title: "退出登录", style: .destructive, handler: { (action) in

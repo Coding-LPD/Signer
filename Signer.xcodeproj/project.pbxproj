@@ -85,6 +85,7 @@
 		ADD643401DFEAD080019102B /* RecordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADD6433F1DFEAD080019102B /* RecordViewController.swift */; };
 		ADD643421DFEAD3B0019102B /* RecordCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADD643411DFEAD3B0019102B /* RecordCell.swift */; };
 		ADD87F201DE3E5060093A25F /* Reveal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ADD87F1F1DE3E5060093A25F /* Reveal.framework */; };
+		ADDEC3651DFF949500E2EC77 /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADDEC3641DFF949500E2EC77 /* AboutViewController.swift */; };
 		ADEF11DB1D869D99001F9C19 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADEF11DA1D869D99001F9C19 /* AppDelegate.swift */; };
 		ADEF11E21D869D99001F9C19 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ADEF11E01D869D99001F9C19 /* Main.storyboard */; };
 		ADEF11E41D869D99001F9C19 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ADEF11E31D869D99001F9C19 /* Assets.xcassets */; };
@@ -188,6 +189,7 @@
 		ADD6433F1DFEAD080019102B /* RecordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordViewController.swift; sourceTree = "<group>"; };
 		ADD643411DFEAD3B0019102B /* RecordCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordCell.swift; sourceTree = "<group>"; };
 		ADD87F1F1DE3E5060093A25F /* Reveal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Reveal.framework; sourceTree = "<group>"; };
+		ADDEC3641DFF949500E2EC77 /* AboutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
 		ADEF11D71D869D99001F9C19 /* 华师小签.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "华师小签.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADEF11DA1D869D99001F9C19 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		ADEF11E11D869D99001F9C19 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -384,6 +386,7 @@
 				AD34AFAD1DDC208D0085F21B /* SettingViewController.swift */,
 				AD22DD361DF3FD2E00AD0CA1 /* FeedBackViewController.swift */,
 				AD22DD381DF408AA00AD0CA1 /* ModifyPasswordViewController.swift */,
+				ADDEC3641DFF949500E2EC77 /* AboutViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -843,6 +846,7 @@
 				ADA682731DF160C800C6D841 /* Date+extension.swift in Sources */,
 				ADABF3AF1DD8498600226D86 /* StudentRouter.swift in Sources */,
 				AD34AFAE1DDC208D0085F21B /* SettingCell.swift in Sources */,
+				ADDEC3651DFF949500E2EC77 /* AboutViewController.swift in Sources */,
 				AD708EB31DEFFD8B003C89A4 /* SearchResultCell.swift in Sources */,
 				ADD643421DFEAD3B0019102B /* RecordCell.swift in Sources */,
 				AD45D9C21DD059E40031FF9E /* SignUpRouter.swift in Sources */,
