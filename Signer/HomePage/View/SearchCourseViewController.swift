@@ -13,6 +13,7 @@ class SearchCourseViewController: UIViewController, UITableViewDataSource, UITab
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var searchTextField: UITextField!
+    @IBOutlet weak var cancelBarButton: UIBarButtonItem!
     
     var historys: [String]?
     
@@ -28,6 +29,7 @@ class SearchCourseViewController: UIViewController, UITableViewDataSource, UITab
 
     lazy var searchResultVC: SearchResultViewController = {
        let searchResultVC = self.storyboard?.instantiateViewController(withIdentifier: "SearchResultViewController") as! SearchResultViewController
+        searchResultVC.delegate = self
         return searchResultVC
     }()
     
@@ -35,6 +37,8 @@ class SearchCourseViewController: UIViewController, UITableViewDataSource, UITab
     {
         super.viewDidLoad()
 
+        cancelBarButton.setTitleTextAttributes([NSForegroundColorAttributeName: UIColor(netHex: 0x97cc00)], for: .normal)
+        
         searchTextField.delegate = self
         searchTextField.enablesReturnKeyAutomatically = true
         
@@ -97,10 +101,10 @@ class SearchCourseViewController: UIViewController, UITableViewDataSource, UITab
         }
     }
     
-    @IBAction func cancelAction(_ sender: UIButton)
+    @IBAction func cancelAction(_ sender: UIBarButtonItem)
     {
         searchTextField.resignFirstResponder()
-        dismiss(animated: true, completion: nil)
+        dismiss(animated: false, completion: nil)
     }
     
     func addSearchHistory(name: String)
@@ -115,6 +119,22 @@ class SearchCourseViewController: UIViewController, UITableViewDataSource, UITab
         tableView.reloadData()
     }
     
+    @IBAction func textFieldEditingChangedAction(_ textField: UITextField)
+    {
+        let text = textField.text ?? ""
+        if text.length == 0 {
+            searchResultVC.view.removeFromSuperview()
+        }
+    }
+}
+
+extension SearchCourseViewController: SearchResultViewControllerDelegate
+{
+    func searchResultViewControllerDidClickResult(courseDetailVC: CourseDetailViewController)
+    {
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        navigationController?.pushViewController(courseDetailVC, animated: true)
+    }
 }
 
 extension SearchCourseViewController: UITextFieldDelegate
@@ -129,14 +149,6 @@ extension SearchCourseViewController: UITextFieldDelegate
             searchTextField.resignFirstResponder()
         }
         return true
-    }
-    
-    func textFieldDidEndEditing(_ textField: UITextField)
-    {
-        let text = textField.text ?? ""
-        if text.length == 0 {
-            searchResultVC.view.removeFromSuperview()
-        }
     }
 
 }

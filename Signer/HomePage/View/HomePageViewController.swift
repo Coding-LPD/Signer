@@ -147,7 +147,7 @@ extension HomePageViewController: UITableViewDataSource, UITableViewDelegate
             let navigationController = UINavigationController(rootViewController: courseDetailVC)
             navigationController.navigationBar.tintColor = UIColor(netHex: 0x666666)
             courseDetailVC.courseId = courses[indexPath.row].courseId
-            present(navigationController, animated: true, completion: nil)
+            present(navigationController, animated: false, completion: nil)
         }
     }
     

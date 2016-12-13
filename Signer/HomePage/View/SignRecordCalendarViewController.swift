@@ -74,7 +74,7 @@ class SignRecordCalendarViewController: UIViewController
     
     func dismissAction()
     {
-        dismiss(animated: true, completion: nil)
+        dismiss(animated: false, completion: nil)
     }
 }
 

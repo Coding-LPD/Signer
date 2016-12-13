@@ -22,24 +22,6 @@ class ChangeAvatarViewController: UIViewController, UINavigationControllerDelega
 
     @IBAction func selectFromPhotoAlbumAction(_ sender: UIButton)
     {
-//        UIImagePickerController *picker = [[UIImagePickerController alloc] init];
-//        picker.delegate = self;
-//        picker.allowsEditing = YES;//设置可编辑
-//        
-//        if (buttonIndex == 0) {
-//            //        拍照
-//            if (![Helper checkCameraAuthorizationStatus]) {
-//                return;
-//            }
-//            picker.sourceType = UIImagePickerControllerSourceTypeCamera;
-//        }else if (buttonIndex == 1){
-//            //        相册
-//            if (![Helper checkPhotoLibraryAuthorizationStatus]) {
-//                return;
-//            }
-//            picker.sourceType = UIImagePickerControllerSourceTypeSavedPhotosAlbum;
-//        }
-//        [self presentViewController:picker animated:YES completion:nil];//进入照相界面
         let imagePicker = UIImagePickerController()
         imagePicker.delegate = self
         imagePicker.sourceType = .savedPhotosAlbum

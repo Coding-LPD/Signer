@@ -11,12 +11,20 @@ import Alamofire
 import SwiftyJSON
 import DZNEmptyDataSet
 
+protocol SearchResultViewControllerDelegate
+{
+    func searchResultViewControllerDidClickResult(courseDetailVC: CourseDetailViewController)
+}
+
 class SearchResultViewController: UIViewController
 {
     
     @IBOutlet weak var tableView: UITableView!
 
     var courses = [Course]()
+    
+    
+    var delegate: SearchResultViewControllerDelegate?
     
     override func viewDidLoad()
     {
@@ -97,10 +105,9 @@ extension SearchResultViewController: UITableViewDataSource, UITableViewDelegate
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
     {
         if let courseDetailVC = storyboard?.instantiateViewController(withIdentifier: "CourseDetailViewController") as? CourseDetailViewController {
-            let navigationController = UINavigationController(rootViewController: courseDetailVC)
-            navigationController.navigationBar.tintColor = UIColor(netHex: 0x666666)
+            courseDetailVC.isShowBackButton = false
             courseDetailVC.courseId = courses[indexPath.row].courseId
-            present(navigationController, animated: true, completion: nil)
+            delegate?.searchResultViewControllerDidClickResult(courseDetailVC: courseDetailVC)
         }
     }
     

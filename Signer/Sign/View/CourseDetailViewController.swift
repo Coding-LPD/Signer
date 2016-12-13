@@ -55,6 +55,8 @@ class CourseDetailViewController: UIViewController, BMKLocationServiceDelegate
     
     weak var weakSignVC: SignViewController?
     var dismissSignVCDelegate: dismissSignViewControllerDelegate?
+
+    var isShowBackButton = true
     
     override func viewDidLoad()
     {
@@ -70,10 +72,13 @@ class CourseDetailViewController: UIViewController, BMKLocationServiceDelegate
             beforeSignButton.isHidden = true
             afterSignButton.isHidden = true
             signNumberButton.isHidden = false
-            let backBarButton = UIBarButtonItem(image: UIImage(named: "Back"), style: .plain, target: self, action: #selector(dismissAction))
-            navigationItem.leftBarButtonItem = backBarButton
         } else {
             fatalError("CourseDetailViewController courseQRCode没有初始值")
+        }
+        
+        if isShowBackButton {
+            let backBarButton = UIBarButtonItem(image: UIImage(named: "Back"), style: .plain, target: self, action: #selector(backAction))
+            navigationItem.leftBarButtonItem = backBarButton
         }
 
         avartarImageViewArray = [avatarImageView1, avatarImageView2, avatarImageView3, avatarImageView4, avatarImageView5, avatarImageView6, avatarImageView7, avatarImageView8, avatarImageView9, avatarImageView10]
@@ -213,7 +218,7 @@ class CourseDetailViewController: UIViewController, BMKLocationServiceDelegate
             navigationController.navigationBar.tintColor = UIColor(netHex: 0x666666)
             signRecordVC.title = courseName
             signRecordVC.courseId = courseId
-            present(navigationController, animated: true, completion: nil)
+            present(navigationController, animated: false, completion: nil)
         }
     }
     
@@ -258,12 +263,8 @@ class CourseDetailViewController: UIViewController, BMKLocationServiceDelegate
 
     @IBAction func backAction(_ sender: UIBarButtonItem)
     {
+        dismiss(animated: false, completion: nil)
         dismissSignVCDelegate?.dismissSignVC()
-    }
-    
-    func dismissAction()
-    {
-        dismiss(animated: true, completion: nil)
     }
     
     var battery: Int?
