@@ -2,6 +2,7 @@ package com.scnu.zhou.signer.component.util.image;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -101,9 +102,11 @@ public class ImagePicker {
 		intent.putExtra("aspectX", 1);
 		intent.putExtra("aspectY", 1);
 		// outputX outputY 是裁剪图片宽高
-		intent.putExtra("outputX", 150);
-		intent.putExtra("outputY", 150);
+		intent.putExtra("outputX", 200);
+		intent.putExtra("outputY", 200);
 		intent.putExtra("return-data", true);
+		intent.putExtra("scale", true);
+		intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
 		activity.startActivityForResult(intent, STATE_CROP);
 	}
 	

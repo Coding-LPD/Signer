@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -16,8 +17,10 @@ import com.scnu.zhou.signer.R;
 import com.scnu.zhou.signer.component.bean.http.ResultResponse;
 import com.scnu.zhou.signer.component.bean.user.Student;
 import com.scnu.zhou.signer.component.cache.UserCache;
+import com.scnu.zhou.signer.component.config.AppConfig;
 import com.scnu.zhou.signer.component.util.image.FileUtils;
 import com.scnu.zhou.signer.component.util.image.ImagePicker;
+import com.scnu.zhou.signer.component.util.image.PhotoUtil;
 import com.scnu.zhou.signer.presenter.user.UserPresenter;
 import com.scnu.zhou.signer.ui.activity.base.BaseSlideActivity;
 import com.scnu.zhou.signer.ui.widget.image.CircleImageView;
@@ -25,6 +28,8 @@ import com.scnu.zhou.signer.ui.widget.toast.ToastView;
 import com.scnu.zhou.signer.view.user.IUserHeaderView;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -39,6 +44,7 @@ public class EditHeaderActivity extends BaseSlideActivity implements IUserHeader
     @Bind(R.id.tv_title) TextView tv_title;
 
     private File file;
+    private String path;
 
     private String userid = "";
     private Uri headerUri;
@@ -151,7 +157,7 @@ public class EditHeaderActivity extends BaseSlideActivity implements IUserHeader
 
         switch (pos){
             case 0:
-                ImageLoader.getInstance().displayImage(headerUri.toString(), civ_preview_header);
+                //ImageLoader.getInstance().displayImage(headerUri.toString(), civ_preview_header);
                 break;
             case 1:
                 civ_preview_header.setImageResource(R.drawable.default_header_male);
@@ -186,7 +192,8 @@ public class EditHeaderActivity extends BaseSlideActivity implements IUserHeader
         switch (preview_pos){
             case 0:
                 showLoadingDialog("提交中");
-                file = new File(FileUtils.getFilePathFromUri(context, headerUri));
+                //file = new File(FileUtils.getFilePathFromUri(context, headerUri));
+                file = new File(path);
                 userPresenter.uploadStudentAvatar(file);
                 break;
             case 1:
@@ -211,21 +218,52 @@ public class EditHeaderActivity extends BaseSlideActivity implements IUserHeader
         }
         else if (requestCode == ImagePicker.STATE_CROP){
 
+            if (resultCode == RESULT_OK) {
+                if (data != null) {
+                    Bundle extras = data.getExtras();
+                    Bitmap head = extras.getParcelable("data");
+                    if (head != null) {
 
-            if (data != null) {
-                Bundle extras = data.getExtras();
-                Bitmap head = extras.getParcelable("data");
-                if (head != null) {
-
-                    //headerUri = Uri.parse(MediaStore.Images.Media.insertImage(getContentResolver(), head, null,null));
-                    headerUri = ImagePicker.getInstance().getPictureUri();
-                    openPreview(0);
+                        //headerUri = Uri.parse(MediaStore.Images.Media.insertImage(getContentResolver(), head, null,null));
+                        //headerUri = ImagePicker.getInstance().getPictureUri();
+                        saveCropAvator(PhotoUtil.compressImage(head));
+                        openPreview(0);
+                    }
                 }
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+    /**
+     * 保存裁剪的头像
+     *
+     * @param bitmap
+     */
+    private void saveCropAvator(Bitmap bitmap) {
+        if (bitmap != null) {
+            if (bitmap != null) {
+                /*
+                bitmap = PhotoUtil.toRoundCorner(bitmap, 10);
+                if (isFromCamera && degree != 0) {
+                    bitmap = PhotoUtil.rotaingImageView(degree, bitmap);
+                }*/
+                civ_preview_header.setImageBitmap(bitmap);
+                // 保存图片
+                String filename = new SimpleDateFormat("yyMMddHHmmss")
+                        .format(new Date()) + ".jpg";        /************/
+                path = AppConfig.PhotoDir + filename;
+
+                Log.e("PhotoPath",path);
+                PhotoUtil.saveBitmap(AppConfig.PhotoDir, filename,
+                        bitmap, true);
+                // 上传头像
+                if (bitmap != null && bitmap.isRecycled()) {
+                    bitmap.recycle();
+                }
+            }
+        }
+    }
 
     // 获取默认头像成功
     @Override
@@ -267,6 +305,7 @@ public class EditHeaderActivity extends BaseSlideActivity implements IUserHeader
 
         if (response.getCode().equals("200")){
 
+            Log.e("avatar", response.getData().getAvatar());
             ToastView toastView = new ToastView(context, "修改成功");
             toastView.setGravity(Gravity.CENTER, 0, 0);
             toastView.show();

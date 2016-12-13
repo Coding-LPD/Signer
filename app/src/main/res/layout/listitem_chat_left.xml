@@ -4,17 +4,33 @@
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <com.scnu.zhou.signer.ui.widget.image.CircleImageView
-        android:id="@+id/iv_avatar"
-        android:layout_width="38dp"
-        android:layout_height="38dp"
-        android:src="@drawable/default_header_male"
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:layout_marginLeft="12dp"
         android:layout_marginTop="12dp"
-        android:layout_marginBottom="12dp"
         android:layout_marginRight="5dp"
-        app:border_color="#ffffff"
-        app:border_width="0dp"/>
+        android:layout_marginBottom="12dp">
+
+        <com.scnu.zhou.signer.ui.widget.image.CircleImageView
+            android:id="@+id/iv_avatar"
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:src="@drawable/default_header_male"
+            app:border_color="#ffffff"
+            app:border_width="0dp"/>
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#666"
+            android:textSize="10sp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="5dp"/>
+
+    </LinearLayout>
 
     <FrameLayout
         android:layout_width="wrap_content"

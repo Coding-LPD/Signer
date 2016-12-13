@@ -54,10 +54,14 @@ public class ChatMessageAdapter extends BaseAdapter {
 
         View view;
 
+        TextView tv_name;
+
         if (role.equals("0")) {
             if (!mData.get(position).getStudentId().equals(UserCache.getInstance().getId(context))) {
                 // 他人的消息
                 view = LayoutInflater.from(context).inflate(R.layout.listitem_chat_left, null);
+                tv_name = (TextView) view.findViewById(R.id.tv_name);
+                tv_name.setText(mData.get(position).getName());
             } else {   // 自己的消息
                 view = LayoutInflater.from(context).inflate(R.layout.listitem_chat_right, null);
             }
@@ -66,6 +70,8 @@ public class ChatMessageAdapter extends BaseAdapter {
             if (!mData.get(position).getTeacherId().equals(UserCache.getInstance().getId(context))) {
                 // 他人的消息
                 view = LayoutInflater.from(context).inflate(R.layout.listitem_chat_left, null);
+                tv_name = (TextView) view.findViewById(R.id.tv_name);
+                tv_name.setText(mData.get(position).getName());
             } else {   // 自己的消息
                 view = LayoutInflater.from(context).inflate(R.layout.listitem_chat_right, null);
             }
