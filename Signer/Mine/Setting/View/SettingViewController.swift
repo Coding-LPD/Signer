@@ -95,9 +95,9 @@ extension SettingViewController: UITableViewDataSource, UITableViewDelegate
         } else if indexPath.section == 3 && indexPath.row == 0 {
             let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
             let logOutAction = UIAlertAction(title: "退出登录", style: .destructive, handler: { (action) in
-                let userDefaults = UserDefaults.standard
-                userDefaults.set(false, forKey: "isLogged")
-                userDefaults.synchronize()
+                if let bundle = Bundle.main.bundleIdentifier {
+                    UserDefaults.standard.removePersistentDomain(forName: bundle)
+                }
                 if let logInVC = self.storyboard?.instantiateViewController(withIdentifier: "LogInViewController") as? LogInViewController {
                     self.present(logInVC, animated: true, completion: nil)
                 }
@@ -105,7 +105,9 @@ extension SettingViewController: UITableViewDataSource, UITableViewDelegate
             let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
             actionSheet.addAction(logOutAction)
             actionSheet.addAction(cancelAction)
-            present(actionSheet, animated: true, completion: nil)
+            DispatchQueue.main.async {
+                self.present(actionSheet, animated: true, completion: nil)
+            }
         }
     }
 }

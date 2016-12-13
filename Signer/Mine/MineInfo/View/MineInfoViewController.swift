@@ -97,7 +97,7 @@ class MineInfoViewController: UITableViewController
     
     func configureUIWith(json: JSON)
     {
-        LogInViewController.writeLogInStatus(isLogged: true, id: student.id, phone: student.phone, name: json["name"].stringValue, avatarUrl: json["avatar"].stringValue)
+        LogInViewController.writeLogInStatus(isLogged: true, isStudent: true, id: student.id, phone: student.phone, name: json["name"].stringValue, avatarUrl: json["avatar"].stringValue)
         
         mineAvatarView.avatarImageView.sd_setImage(with: URL(string: json["avatar"].stringValue))
         mineAvatarView.nameText = json["name"].stringValue

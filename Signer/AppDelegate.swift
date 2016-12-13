@@ -25,22 +25,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate
         IQKeyboardManager.shared().isEnableAutoToolbar = false
         IQKeyboardManager.shared().shouldResignOnTouchOutside = true
         
-        if checkLoggedStatus() {
-            showHomePage()
+        let isLogIn = UserDefaults.standard.bool(forKey: "isLogged")
+        let isStudent = UserDefaults.standard.bool(forKey: "isStudent")
+        
+        if isLogIn && isStudent {
+            showStudentHomePage()
+        } else if isLogIn && !isStudent {
+            showTeacherHomePage()
         }
 
         return true
     }
 
-    // 检查是否已经登录
-    func checkLoggedStatus() -> Bool
+    // 显示学生主界面
+    func showStudentHomePage()
     {
-        let userDefaults = UserDefaults.standard
-        return userDefaults.bool(forKey: "isLogged")
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        if let mainTabBarVC = storyboard.instantiateViewController(withIdentifier: "MainTabBarViewController") as? MainTabBarViewController {
+            window?.rootViewController = mainTabBarVC
+        }
     }
     
-    // 显示主界面
-    func showHomePage()
+    // 显示教师主界面
+    func showTeacherHomePage()
     {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         if let mainTabBarVC = storyboard.instantiateViewController(withIdentifier: "MainTabBarViewController") as? MainTabBarViewController {
