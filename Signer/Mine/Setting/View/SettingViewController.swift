@@ -16,12 +16,15 @@ class SettingViewController: UIViewController
     {
         super.viewDidLoad()
         
+        title = "设置"
+        
         tableView.dataSource = self
         tableView.delegate = self
         tableView.separatorStyle = .none
         tableView.backgroundColor = UIColor(netHex: 0xf5f5f5)
         
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+
     }
     
     func clearCache()

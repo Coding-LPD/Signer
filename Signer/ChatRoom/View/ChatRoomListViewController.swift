@@ -15,6 +15,8 @@ class ChatRoomListViewController: UIViewController
 {
     @IBOutlet weak var tableView: UITableView!
 
+    let isStudent = UserDefaults.standard.bool(forKey: "isStudent")
+    
     var chatRooms = [ChatRoom]()
     
     lazy var socket: SocketIOClient = {
@@ -25,7 +27,7 @@ class ChatRoomListViewController: UIViewController
     lazy var refreshControl: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
         refreshControl.tintColor = UIColor(netHex: 0x97cc00)
-        refreshControl.addTarget(self, action: #selector(refreshChatRoom), for: .valueChanged)
+        refreshControl.addTarget(self, action: #selector(requestRoomListFromService), for: .valueChanged)
         return refreshControl
     }()
     
@@ -34,6 +36,7 @@ class ChatRoomListViewController: UIViewController
         super.viewDidLoad()
         
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        navigationController?.view.backgroundColor = UIColor.white
         
         tableView.dataSource = self
         tableView.delegate = self
@@ -42,7 +45,7 @@ class ChatRoomListViewController: UIViewController
         tableView.addSubview(refreshControl)
 
         socket.on("connect") {data, ack in
-            self.socket.emit("room-list", Student().id)
+            self.requestRoomListFromService()
         }
         
         socket.on("room-list") {data, ack in
@@ -51,7 +54,7 @@ class ChatRoomListViewController: UIViewController
         }
         
         socket.on("new-msg") { data, ack in
-            self.socket.emit("room-list", Student().id)
+            self.requestRoomListFromService()
         }
         
         socket.connect()
@@ -61,7 +64,7 @@ class ChatRoomListViewController: UIViewController
     {
         super.viewDidAppear(animated)
         
-        self.socket.emit("room-list", Student().id)
+        requestRoomListFromService()
     }
     
     override func viewDidDisappear(_ animated: Bool)
@@ -71,11 +74,12 @@ class ChatRoomListViewController: UIViewController
         refreshControl.endRefreshing()
     }
     
-    func refreshChatRoom()
+    func requestRoomListFromService()
     {
-        self.socket.emit("room-list", Student().id)
-        socket.on("room-list") {data, ack in
-            self.configureUIWith(json: JSON(data[0]))
+        if isStudent {
+            self.socket.emit("room-list", Student().id, "")     // 获取学生的聊天室列表
+        } else {
+            self.socket.emit("room-list", "", Student().id)     // 获取老师的聊天室列表
         }
     }
     
@@ -87,7 +91,7 @@ class ChatRoomListViewController: UIViewController
 
     func configureUIWith(json: JSON)
     {
-        print("json: \(json)")
+       // print("聊天室列表: \(json)")
         
         chatRooms.removeAll()
         

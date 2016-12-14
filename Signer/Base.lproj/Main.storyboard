@@ -324,7 +324,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="KlV-fB-jXJ">
                         <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="2Tv-9p-si2">
-                            <rect key="frame" x="112.5" y="7" width="150" height="30"/>
+                            <rect key="frame" x="113" y="7" width="150" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <segments>
                                 <segment title="课前"/>
@@ -615,7 +615,7 @@
         <!--设置-->
         <scene sceneID="CLL-yz-yRO">
             <objects>
-                <viewController automaticallyAdjustsScrollViewInsets="NO" hidesBottomBarWhenPushed="YES" id="hLa-rN-3eD" customClass="SettingViewController" customModule="华师小签" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SettingViewController" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="hLa-rN-3eD" customClass="SettingViewController" customModule="华师小签" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="cJx-oc-THL"/>
                         <viewControllerLayoutGuide type="bottom" id="ih2-qu-g5b"/>
@@ -736,7 +736,7 @@
                                     <constraint firstAttribute="height" constant="30" id="nwB-ad-Klt"/>
                                 </constraints>
                                 <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="string" keyPath="leftText" value="确认"/>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="leftText" value="    确认"/>
                                     <userDefinedRuntimeAttribute type="string" keyPath="placeHolder" value="请确认密码"/>
                                 </userDefinedRuntimeAttributes>
                             </view>

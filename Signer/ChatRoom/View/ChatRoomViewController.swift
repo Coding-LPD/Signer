@@ -20,6 +20,8 @@ class ChatRoomViewController: JSQMessagesViewController
     weak var socket: SocketIOClient?
     var courseId: String?
 
+    let isStudent = UserDefaults.standard.bool(forKey: "isStudent")
+    
     var totalPageOfMessage = 0      // 总共加载了多少页消息
     let limitOfMsg = 18             // 分页加载消息的每页的消息数量
     var isLoadAllMessage = false    // 是否加载完所有的消息
@@ -69,9 +71,7 @@ class ChatRoomViewController: JSQMessagesViewController
         socket!.on("msg-list") { data, ack in
             self.receiveMessageList(messageListJSON: JSON(data))
         }
-        
-        // 监听新的聊天信息的事件
-        socket!.emit("new-msg", courseId!, Student().id, "", "")
+
         socket!.on("new-msg") { data, ack in
             self.receiveNewMessage(messageJSON: JSON(data))
         }
@@ -159,9 +159,12 @@ class ChatRoomViewController: JSQMessagesViewController
     {
         print("-------------有新消息: \(json)")
         
-        let message = convertJSONToMessage(messageJSON: json[0]["data"])
-        messages.append(message)
-        finishReceivingMessage(animated: true)
+        let courseIdFromService = json[0]["data"]["courseId"].stringValue
+        if courseId! == courseIdFromService {   // 是本聊天室的新消息
+            let message = convertJSONToMessage(messageJSON: json[0]["data"])
+            messages.append(message)
+            finishReceivingMessage(animated: true)
+        }
     }
     
     lazy var dateFormatter: DateFormatter = {
@@ -185,7 +188,11 @@ class ChatRoomViewController: JSQMessagesViewController
 
     func sendMessage(text: String)
     {
-        socket!.emit("new-msg", courseId!, Student().id, text, "")
+        if isStudent {
+            socket!.emit("new-msg", courseId!, Student().id, text, "")      // 学生发消息到服务器
+        } else {
+            socket!.emit("new-msg", courseId!, "", text, Student().id)      // 教师发消息到服务器
+        }
     }
     
     lazy var bubbleFactory: JSQMessagesBubbleImageFactory? = {

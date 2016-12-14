@@ -39,6 +39,8 @@ class MineViewController: UIViewController
             } else if segue.identifier == "ChatRecord" {
                 desVC.recordType = .chat
             }
+        } else if segue.identifier == "Setting", let desVC = segue.destination as? SettingViewController {
+            desVC.hidesBottomBarWhenPushed = true
         }
     }
 

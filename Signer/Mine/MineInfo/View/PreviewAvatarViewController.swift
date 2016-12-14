@@ -41,7 +41,7 @@ class PreviewAvatarViewController: UIViewController
         view.makeToastActivity(.center)
         Alamofire.upload(
             multipartFormData: { (multipartFormData) in
-                if let imageData = UIImageJPEGRepresentation(self.image!, 0.3) {
+                if let imageData = UIImageJPEGRepresentation(self.image!, 0.2) {
                     multipartFormData.append(imageData, withName: "avatar", fileName: "avatar.png", mimeType: "image/png")
                 }},
             to: SignUpRouter.baseAPIURL.appending("/students/images"),

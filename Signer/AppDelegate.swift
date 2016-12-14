@@ -49,10 +49,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate
     // 显示教师主界面
     func showTeacherHomePage()
     {
+        let tabBarVC = UITabBarController()
+        tabBarVC.tabBar.tintColor = ThemeGreenColor
+        
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        if let mainTabBarVC = storyboard.instantiateViewController(withIdentifier: "MainTabBarViewController") as? MainTabBarViewController {
-            window?.rootViewController = mainTabBarVC
-        }
+        
+        let chatRoomVC = storyboard.instantiateViewController(withIdentifier: "ChatRoomNavigation")
+        chatRoomVC.tabBarItem.title = "聊天室"
+        chatRoomVC.tabBarItem.image = UIImage(named: "tab_chatRoom")
+        tabBarVC.addChildViewController(chatRoomVC)
+        
+        let settingVC = storyboard.instantiateViewController(withIdentifier: "SettingViewController")
+        settingVC.tabBarItem.title = "设置"
+        settingVC.tabBarItem.image = UIImage(named: "tab_mine")
+        let navigationVC = UINavigationController(rootViewController: settingVC)
+        navigationVC.navigationBar.tintColor = UIColor(netHex: 0x666666)
+        navigationVC.view.backgroundColor = UIColor.white
+        tabBarVC.addChildViewController(navigationVC)
+        
+        window?.rootViewController = tabBarVC
     }
 }
 
