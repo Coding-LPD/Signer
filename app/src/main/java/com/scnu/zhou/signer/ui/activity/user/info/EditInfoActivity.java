@@ -78,6 +78,13 @@ public class EditInfoActivity extends BaseSlideActivity implements IUserUpdateVi
         text = getIntent().getStringExtra("text");
 
         userPresenter = new UserPresenter(this);
+
+        if (title.equals("学号")){
+            et_info.setMaxLength(15);
+        }
+        else if (title.equals("姓名")){
+            et_info.setMaxLength(6);
+        }
     }
 
 

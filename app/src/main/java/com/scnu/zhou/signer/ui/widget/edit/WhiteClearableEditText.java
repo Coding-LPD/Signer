@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.text.Editable;
+import android.text.InputFilter;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.method.PasswordTransformationMethod;
@@ -133,5 +134,10 @@ public class WhiteClearableEditText extends LinearLayout{
 
         et_text.setSelection(et_text.getText().length());
 
+    }
+
+    public void setMaxLength(int n){
+
+        et_text.setFilters(new InputFilter[]{new InputFilter.LengthFilter(n)});
     }
 }

@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Vibrator;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.SurfaceHolder;
 import android.view.SurfaceHolder.Callback;
@@ -92,6 +93,7 @@ public class CaptureActivity extends BaseSlideActivity implements Callback {
 			}
 		});
 
+		Log.e("camera", UserPermission.getInstance().isCameraPermitted(this)+"");
 		if (!UserPermission.getInstance().isCameraPermitted(this)){
 
 			showMessageDialog();
