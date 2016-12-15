@@ -1,3 +1,5 @@
+var path = require('path');
+var xlsx = require('xlsx');
 var moment = require('moment');
 var express = require('express');
 var router = express.Router();
@@ -6,7 +8,10 @@ var handleErrors = require('../services/error-handler').handleErrors;
 var sendInfo = require('../services/error-handler').sendInfo; 
 var errorCodes = require('../services/error-codes').errorCodes;
 var common = require('../services/common');
+var config = require('../config');
+var Student = require('../services/mongo').Student;
 var Teacher = require('../services/mongo').Teacher;
+var SignStudent = require('../services/mongo').SignStudent;
 var Course = require('../services/mongo').Course;
 var Sign = require('../services/mongo').Sign;
 var SignRecord = require('../services/mongo').SignRecord;
@@ -207,6 +212,72 @@ router.get('/scanning/:code', function (req, res) {
   });
 });
 
+router.post('/export', function (req, res) {
+  var courseId = req.body.courseId;
+  var signId = req.body.signId;
+  var type = req.body.type;
+  var signStudents, signRecords;
+  var promises = [];
+  
+  // 查询课程导入的相应的学生数据，以及某次签到的所有课前记录
+  promises.push(SignStudent.find({ courseId: courseId }));
+  promises.push(SignRecord.find({ courseId: courseId, signId: signId, type: type }))
+  Promise.all(promises)
+    .then(function (results) {
+      signStudents = results[0];
+      signRecords = results[1];
+
+      // 查询每个记录中学生对应的学号
+      return Promise.all(signRecords.map(function (record) {
+        return Student.findById(record.get('studentId'));
+      }));
+    })
+    .then(function (results) {
+      // 将记录转换为纯粹js对象，并添加学生对应的学号
+      signRecords = signRecords.map(function (record, index) {
+        var obj = record.toObject();
+        obj.number = results[index].get('number');
+        return obj;
+      });
+      // 将课程导入的学生转换为纯粹js对象，并添加是否签到的属性
+      signStudents = signStudents.map(function (student) {
+        var obj = student.toObject();
+        obj.isSign = false;
+        return obj;
+      });
+      // 学号从小到大排序
+      signRecords.sort(function (a, b) { return a.number - b.number; });
+      signStudents.sort(function (a, b) { return a.number - b.number; });
+      // 查询学生对应的记录，有记录且教师批准，说明完成签到，否则表示没签到      
+      for (var i=0; i<signStudents.length; i++) {
+        for (var j=0; j<signRecords.length; j++) {
+          if (signStudents[i].number == signRecords[j].number) {
+            signStudents[i].isSign = signRecords[j].state == 1 ? true : false;
+            signRecords.shift();
+            break;
+          } else if (signStudents[i].number < signRecords[j].number) {
+            break;
+          }
+        }
+      }
+      // 将签到情况记录为excel，并提供给客户端下载
+      var savePath = path.resolve(__dirname, '../public/download');
+      var workbook = getSignWorkbook(signStudents);
+      var timestamp = new Date().getTime()
+      var fileName = timestamp + '.xlsx';
+      savePath += '/' + fileName;
+      xlsx.writeFile(workbook, savePath);
+      sendInfo(errorCodes.Success, res,  config.fileDownload + fileName);
+    })
+    .catch(function (err) {
+      if (err.code) {
+        sendInfo(err.code, res, []);
+      } else {
+        handleErrors(err, res, []);
+      }      
+    });
+})
+
 // 检查数据库中是否已有相同签到码，有则重新生成并检查
 function generateDistinctSignCode() {
   var code = Sign.generateSignCode();
@@ -221,6 +292,27 @@ function generateDistinctSignCode() {
         return code;
       }
     })
+}
+
+function getSignWorkbook(signStudents) {    
+  var filePath = path.resolve(__dirname, '../public/template.xlsx');
+  var workbook = xlsx.readFile(filePath);  
+  var worksheet = workbook.Sheets[workbook.SheetNames[0]];
+  var row = 2;
+  // 构造excel表单
+  worksheet['A1'] = { v: '学号' };
+  worksheet['B1'] = { v: '姓名' };
+  worksheet['C1'] = { v: '签到情况' };
+  for (var i=0; i<signStudents.length; i++) {
+    worksheet['A' + row] = { v: signStudents[i].number };
+    worksheet['B' + row] = { v: signStudents[i].name }
+    worksheet['C' + row] = { v: signStudents[i].isSign ? '已签' : '' };
+    row++;
+  }
+  worksheet['!ref'] = 'A1:' + 'C' + (row-1);
+  // 覆盖原有excel表单
+  workbook.Sheets[workbook.SheetNames[0]] = worksheet;
+  return workbook;
 }
 
 module.exports = router;

@@ -12,7 +12,7 @@ var config = {
 
   // mongo
   connection: 'mongodb://lpd:lpd@localhost/signer',
-  debug: true,
+  // debug: true,
 
   // 返回数据时，默认返回10条
   limit: 10,
@@ -30,6 +30,9 @@ var config = {
   userImagesPath: '/public/images/user',
   // 默认头像数量
   defaultImagesCount: 4,
+
+  // 文件下载地址
+  fileDownload: 'http://120.25.65.207:3000/download/',
 
   // connect-multiparty配置
   cmConfig: {

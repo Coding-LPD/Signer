@@ -31,6 +31,9 @@ var config = {
   // 默认头像数量
   defaultImagesCount: 4,
 
+  // 文件下载地址
+  fileDownload: 'http://linkdust.xicp.net:50843/download/',
+
   // connect-multiparty配置
   cmConfig: {
     uploadDir: path.resolve(__dirname, '../public/images')
