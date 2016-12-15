@@ -87,7 +87,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.isLoadAll = false;    
     if (room) {
       this.tip = '';
-      this._socketService.getMsgList(this.selectedRoom.courseId, this.page, 9);
+      this._socketService.getMsgList(this.selectedRoom.courseId, this.page++, 9);
     } else {
       this.tip = '请在右上角选择聊天室';      
     }    
@@ -138,8 +138,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
       if (this.page == 0) {
         this.isToBottom = true;
       }
-      this.msgs = body.data.reverse().concat(this.msgs);
-      this.page++;
+      this.msgs = body.data.reverse().concat(this.msgs);      
     } else {
       alert(body.msg);
     }
@@ -188,7 +187,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
    */
   scrollMsg($event: any) {
     if ($event.target.scrollTop <= 10 && !this.isLoadAll) {
-      this._socketService.getMsgList(this.selectedRoom.courseId, this.page, 9);
+      this._socketService.getMsgList(this.selectedRoom.courseId, this.page++, 9);
       this.lastScrollHeight = this.msgListElem.nativeElement.scrollHeight;
     }
   }
