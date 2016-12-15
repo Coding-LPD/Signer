@@ -18,7 +18,10 @@
   <ul class="chat-list" #msgList (scroll)="scrollMsg($event)">
     <li><loading [isShow]="isLoading && msgs.length > 5" [showLoading]="!isLoadAll" [text]="completeText"></loading></li>
     <li class="wrap" *ngFor="let m of msgs" [ngClass]="msgClass(m)">
-      <img class="avatar" [src]="m.avatar" onerror="javascript:this.src='/public/images/default.png'" />
+      <div class="sender-info">
+        <img class="avatar" [src]="m.avatar" onerror="javascript:this.src='/public/images/default.png'" />
+        <div class="name" [title]="m.name">{{m.name}}</div>
+      </div>
       <div class="caret"></div>
       <div class="msg">
         <div class="time">{{ m.createdAt | date: 'HH:mm' }}</div>
