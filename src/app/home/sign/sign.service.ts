@@ -51,4 +51,10 @@ export class SignService extends BaseService {
       .catch(this.handleError);
   }
 
+  exportSign(courseId: string, signId: string, type: number) {
+    return this._http.post(API.domain + API.signExport, { courseId, signId, type }, this.options)
+      .map(this.extractData)
+      .catch(this.handleError);
+  }
+
 }

@@ -56,6 +56,7 @@ baidu-map {
   display: inline-block;
   width: auto;
   padding: 10px;
+  margin-left: 15px;
   vertical-align: bottom;
 }
 
@@ -123,7 +124,7 @@ baidu-map {
 
 .sign-in-list li {
   display: inline-block;
-  margin: 30px 10px;
+  margin: 30px 15px;
   text-align: center;
   color: #666;
   vertical-align: middle;
@@ -134,14 +135,14 @@ baidu-map {
 }
 
 .avatar {
-  width: 100px;
-  height: 100px;
+  width: 80px;
+  height: 80px;
   border-radius: 50px;
 }
 
 .confirm-group button {
-  width: 35px;
-  height: 35px;
+  width: 25px;
+  height: 25px;
   background-repeat: no-repeat;
   background-size: cover;
   background-color: transparent;
@@ -158,8 +159,8 @@ baidu-map {
 }
 
 .confirm-state {
-  height: 35px;
-  line-height: 35px;
+  height: 25px;
+  line-height: 25px;
 } 
 
 .no-sign-tip {

@@ -238,6 +238,18 @@ export class DetailComponent implements OnInit, OnDestroy {
       })
   }
 
+  exportSign() {
+    var type = this.radiosInactive[0] ? 1 : 0;
+    this._signService.exportSign(this.sign.courseId, this.sign._id, type)
+      .subscribe(body => {
+        if (+body.code == 200) {
+          window.open(body.data);
+        } else {
+          this.popup.show(body.msg);
+        }
+      });
+  }
+
   /**
    * 签到记录的跟踪函数，使angular跟踪id
    */

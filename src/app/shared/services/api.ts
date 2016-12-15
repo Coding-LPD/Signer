@@ -4,8 +4,8 @@ export class API {
   // static ipService = 'https://jsonip.com';
   static ipService = 'http://120.25.65.207:3000/api/positions/ip';
   
-	static domain = process.env.ENV === 'production' ? 
-                    'http://120.25.65.207:3000/api' : 'http://localhost:3000/api';	
+  static domain = process.env.ENV === 'production' ? 
+                    'http://120.25.65.207:3000/api' : 'http://localhost:3000/api';
 
   static publickey = '/publickey';
   static smsCode = '/smsCode';
@@ -28,6 +28,7 @@ export class API {
   static courseAllStatistics = '/courses/{0}/statistics/all';
   static sign = '/signs';
   static signSearch = '/signs/search';
+  static signExport = '/signs/export';
   static signRecord = '/signRecords';
   static signRecordAssent = '/signRecords/{0}/assent';
   static signRecordAssentAll = '/signRecords/assent/all'  
