@@ -9,6 +9,7 @@ import { LoginModule } from './login';
 import { RegisterModule } from './register';
 import { HomeModule, HomeComponent } from './home';
 import { NoContent } from './no-content';
+import { LogoComponent } from './logo';
 
 @NgModule({
   imports: [
@@ -18,10 +19,14 @@ import { NoContent } from './no-content';
     LoginModule.forRoot(),
     RegisterModule.forRoot(),
     HomeModule.forRoot()
-  ],
+  ],  
   declarations: [
     AppComponent,    
-    NoContent
+    NoContent,
+    LogoComponent
+  ],
+  exports: [
+    LogoComponent
   ],
   providers: [
     appRoutingProviders
