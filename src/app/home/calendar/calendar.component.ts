@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, NavigationExtras } from '@angular/router';
 import * as moment from 'moment';
 
 @Component({
@@ -50,13 +50,20 @@ export class CalendarComponent {
     return classes;
   }
 
-  createSign($event: any) {
+  createSign($event: any, date: Date) {
     $event.stopPropagation();
-    this._router.navigate(['/home/sign/create/step1']);
+    var extra: NavigationExtras = { 
+      queryParams: { 'date': moment(date).format('YYYY-MM-DD') }
+    }    
+    this._router.navigate(['/home/sign/create/step1'], extra);
   }
 
-  toDaySignDetail($event: any) {
+  toDaySignDetail($event: any, date: Date) {    
     $event.stopPropagation();
+    var extra: NavigationExtras = { 
+      queryParams: { 'date': moment(date).format('YYYY-MM-DD') }
+    }    
+    this._router.navigate(['/home/sign'], extra);
   }
 
 }

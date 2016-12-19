@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs/Observable';
 import * as moment from 'moment';
 
 import { Sign, OperationOption, HeaderOption, CellOption } from '../../shared';
@@ -46,24 +47,32 @@ export class SignComponent implements OnInit {
   ]; 
 
   constructor(
+    private _route: ActivatedRoute,
     private _router: Router,
     private _loginService: LoginService,
     private _signService: SignService) {}
 
   ngOnInit() {
-    this._loginService.getTeacherInfo().subscribe(body => {
-      if (+body.code == 200) {
-        this._signService.search({ teacherId: body.data[0]._id }, 'createdAt', -1).subscribe(body => {
-          if (+body.code ==200) {
-            this.signs = body.data;
-          } else {
-            alert(body.msg);
-          }
-        });
-      } else {
-        alert(body.msg);
-      }      
-    })    
+    this._loginService.getTeacherInfo()
+      .flatMap(body => {
+        if (+body.code == 200) {
+          return this._signService.search({ teacherId: body.data[0]._id }, 'createdAt', -1);
+        } else {
+          return Observable.of(body);
+        }
+      })
+      .subscribe(body => {
+        if (+body.code == 200) {
+          this.signs = body.data;
+        } else {
+          alert(body.msg);
+        }
+      });
+
+    this._route.queryParams
+      .subscribe(params => {
+        this.selectedDate = params['date'];
+      });    
   }
 
   createSign() {

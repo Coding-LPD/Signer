@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 import { Sign, Course } from '../../../../shared';
 import { LoginService } from '../../../../login';
@@ -21,6 +22,7 @@ export class Step1Component implements OnInit {
   selectedCourseId: any = '';
 
   constructor(
+    private _route: ActivatedRoute,
     private _signService: SignService,
     private _loginService: LoginService) {}
 
@@ -34,7 +36,12 @@ export class Step1Component implements OnInit {
       } else {
         alert(body.msg);
       }
-    })
+    });
+
+    this._route.queryParams
+      .subscribe(params => {
+        this.extra.signDate = params['date'] || '';
+      })
   }
 
   selectCourse(courseId: string) {

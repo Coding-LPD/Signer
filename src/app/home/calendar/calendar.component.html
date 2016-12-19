@@ -52,8 +52,8 @@
                 {{date.getDate()}}
               </div>
               <div class="date-btn-group">
-                <button class="add-btn" type="button" (click)="createSign($event)"></button>
-                <button class="detail-btn" type="button" (click)="toDaySignDetail($event)"></button>                
+                <button class="add-btn" type="button" (click)="createSign($event, date)"></button>
+                <button class="detail-btn" type="button" (click)="toDaySignDetail($event, date)"></button>                
               </div>                            
             </td>            
           </tr>
