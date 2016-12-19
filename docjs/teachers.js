@@ -23,6 +23,38 @@
  */
 
 /**
+ * @api {put} /teachers/:id 修改
+ * @apiVersion 1.0.0
+ * @apiName PutTeacher
+ * @apiGroup Teacher
+ * @apiDescription 根据指定字段名和值修改指定id的教师，禁止修改id和手机号
+ * 
+ * @apiSuccess {String}  code  200表示成功。
+ * @apiSuccess {Object}  data  修改后的教师信息
+ * 
+ * @apiParam {String} name      姓名（可选）
+ * @apiParam {String} school    学校（可选）
+ * @apiParam {String} academy   学院（可选）
+ * @apiParam {String} avatar    头像url（可选）
+ * 
+ * @apiSuccessExample 成功
+ *    HTTP/1.1 200 OK
+ *    {
+ *      code: "200",
+ *      data: {},         // 修改后的教师信息
+ *      msg:  "操作成功"
+ *    }
+ * 
+ * @apiErrorExample 失败：
+ *    HTTP/1.1 200 OK
+ *    {
+ *      code: "XXXX",
+ *      data: {},         // 空对象
+ *      msg:  "错误信息"
+ *    }
+ */
+
+/**
  * @api {post} /teachers/search 查询
  * @apiVersion 1.0.0
  * @apiName PostTeacherSearch

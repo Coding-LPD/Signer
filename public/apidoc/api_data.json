@@ -1334,7 +1334,7 @@
     "version": "1.0.0",
     "name": "PutStudent",
     "group": "Student",
-    "description": "<p>根据指定字段名和值修改指定id的学生</p>",
+    "description": "<p>根据指定字段名和值修改指定id的学生，禁止修改id和手机号</p>",
     "success": {
       "fields": {
         "Success 200": [
@@ -1549,6 +1549,87 @@
         {
           "title": "失败：",
           "content": "HTTP/1.1 200 OK\n{\n  code: \"XXXX\",\n  data: [],         // 空数组\n  msg:  \"错误信息\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "docjs/teachers.js",
+    "groupTitle": "教师"
+  },
+  {
+    "type": "put",
+    "url": "/teachers/:id",
+    "title": "修改",
+    "version": "1.0.0",
+    "name": "PutTeacher",
+    "group": "Teacher",
+    "description": "<p>根据指定字段名和值修改指定id的教师，禁止修改id和手机号</p>",
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "code",
+            "description": "<p>200表示成功。</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Object",
+            "optional": false,
+            "field": "data",
+            "description": "<p>修改后的教师信息</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "成功",
+          "content": "HTTP/1.1 200 OK\n{\n  code: \"200\",\n  data: {},         // 修改后的教师信息\n  msg:  \"操作成功\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "name",
+            "description": "<p>姓名（可选）</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "school",
+            "description": "<p>学校（可选）</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "academy",
+            "description": "<p>学院（可选）</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "avatar",
+            "description": "<p>头像url（可选）</p>"
+          }
+        ]
+      }
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "失败：",
+          "content": "HTTP/1.1 200 OK\n{\n  code: \"XXXX\",\n  data: {},         // 空对象\n  msg:  \"错误信息\"\n}",
           "type": "json"
         }
       ]

@@ -39,6 +39,7 @@ define({
     "GetStudentChatDayDetail",
     "Teacher",
     "GetTeacher",
+    "PutTeacher",
     "PostTeacherSearch",
     "Course",
     "GetCourse",
@@ -66,7 +67,7 @@ define({
   "apidoc": "0.2.0",
   "generator": {
     "name": "apidoc",
-    "time": "2016-11-30T07:49:37.792Z",
+    "time": "2016-12-19T04:01:53.419Z",
     "url": "http://apidocjs.com",
     "version": "0.16.1"
   }

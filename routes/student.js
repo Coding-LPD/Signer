@@ -40,17 +40,23 @@ router.put('/:id', function (req, res) {
   Student.findByIdAndUpdate(req.params['id'], req.body, { new: true })
     .then(function (savedStudent) {
       student = savedStudent;
-      // 修改学生的签到记录相应姓名和头像
-      var obj = {};
+      
+      // 修改学生的签到记录相应姓名和头像，以及发言的姓名和头像
+      var promises = [];      
+      var obj1 = {}, obj2 = {};
       if (req.body.name) {
-        obj.studentName = req.body.name;
+        obj1.studentName = req.body.name;
+        obj2.name = req.body.name;
       }
       if (req.body.avatar) {
-        obj.studentAvatar = req.body.avatar;
+        obj1.studentAvatar = req.body.avatar;
+        obj2.avatar = req.body.avatar;
       }
-      return SignRecord.update({ studentId: savedStudent._id }, obj, { multi: true });
+      promises.push(SignRecord.update({ studentId: savedStudent._id }, obj1, { multi: true }));
+      promises.push(ChatMsg.update({ studentId: studentId }, obj2, { multi: true }));
+      return Promise.all(promises);
     }) 
-    .then(function (savedRecords) {
+    .then(function () {
       sendInfo(errorCodes.Success, res, student);
     })
     .catch(function (err) {

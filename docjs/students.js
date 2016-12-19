@@ -27,10 +27,10 @@
  * @apiVersion 1.0.0
  * @apiName PutStudent
  * @apiGroup Student
- * @apiDescription 根据指定字段名和值修改指定id的学生
+ * @apiDescription 根据指定字段名和值修改指定id的学生，禁止修改id和手机号
  * 
  * @apiSuccess {String}  code  200表示成功。
- * @apiSuccess {Object}   data  修改后的学生信息
+ * @apiSuccess {Object}  data  修改后的学生信息
  * 
  * @apiParam {String} number    学号（可选）
  * @apiParam {String} name      姓名（可选）

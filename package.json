@@ -68,6 +68,7 @@
       "GetStudentChatDayDetail",
       "Teacher",
       "GetTeacher",
+      "PutTeacher",
       "PostTeacherSearch",
       "Course",
       "GetCourse",
