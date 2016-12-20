@@ -73,20 +73,20 @@ router.post('/', function (req, res) {
         return Promise.reject({ code: errorCodes.AfterSignNotOpen });
       }
 
-    //   promises = [];
-    //   promises.push(SignRecord.findOne({ signId: signId, studentId: studentId, type: type}));
-    //   promises.push(SignRecord.findOne({ signId: signId, phoneId: phoneId, type: type }));
-    //   return Promise.all(promises);
-    // })
-    // .then(function (results) {
-    //   // 一个学生只有一次机会参与某次签到（课前一次，课后一次）
-    //   if (results[0]) {
-    //     return Promise.reject({ code: errorCodes.StudentHasSign });
-    //   }
-    //   // 一部手机只有一次机会参与某次签到（课前一次，课后一次）
-    //   if (results[1]) {
-    //     return Promise.reject({ code: errorCodes.PhoneHasSign });
-    //   }
+      promises = [];
+      promises.push(SignRecord.findOne({ signId: signId, studentId: studentId, type: type}));
+      promises.push(SignRecord.findOne({ signId: signId, phoneId: phoneId, type: type }));
+      return Promise.all(promises);
+    })
+    .then(function (results) {
+      // 一个学生只有一次机会参与某次签到（课前一次，课后一次）
+      if (results[0]) {
+        return Promise.reject({ code: errorCodes.StudentHasSign });
+      }
+      // // 一部手机只有一次机会参与某次签到（课前一次，课后一次）
+      // if (results[1]) {
+      //   return Promise.reject({ code: errorCodes.PhoneHasSign });
+      // }
 
       return Position.find({ signId: signId });
     })
@@ -114,6 +114,7 @@ router.post('/', function (req, res) {
       promises = [];
       promises.push(signRecord.save());      
       promises.push(Teacher.findById(sign.get('teacherId')));
+      promises.push(SignStudent.findOneAndUpdate({ courseId: sign.get('courseId'), number: student.get('number')}, { phone: student.get('phone') }));
       return Promise.all(promises);
     })
     .then(function (results) {
