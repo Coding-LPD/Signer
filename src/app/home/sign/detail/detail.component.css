@@ -1,5 +1,6 @@
 :host {
-  display: block;  
+  display: block;
+  min-width: 1080px;  
   border-radius: 5px;
   background-color: white;  
 }

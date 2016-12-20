@@ -52,7 +52,7 @@
       <button type="button" class="blue" (click)="confirmAll(0)">全部同意</button>
       <button type="button" class="red" (click)="confirmAll(1)">全部拒绝</button>
     </div>
-    <button type="button" class="orange" *ngIf="radiosInactive[0] && !sign.isAfterOpen" (click)="openAfterSign()">开放签到</button>
+    <button type="button" class="orange" *ngIf="!sign.isAfterOpen" (click)="openAfterSign()">开放课后签到</button>
     <button type="button" (click)="addSignIn()">补充签到</button>
     <button type="button" class="purple" (click)="exportSign()">导出签到</button>    
   </div>
