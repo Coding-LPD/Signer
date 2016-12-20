@@ -27,6 +27,17 @@ Common.isEmptyObject = function(obj) {
   return true;
 }
 
+/**
+ * 检测一个字符串是否为空或者以空格构成
+ * str: 待检测字符串
+ */
+Common.isEmptyString = function(str) {
+    if (str && str.trim() === '') {
+        return true;
+    }
+    return false;
+}
+
 // 获取0~range的一个随机数
 Common.getRandomNum = function (range) {
   var result = Math.floor(Math.random() * 1000) % range;

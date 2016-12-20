@@ -1,5 +1,6 @@
 var express = require('express');
 var fs = require('fs');
+var path = require('path');
 var xlsx = require('xlsx');
 var multipart = require('connect-multiparty');
 var moment = require('moment');
@@ -10,9 +11,11 @@ var handleErrors = require('../services/error-handler').handleErrors;
 var sendInfo = require('../services/error-handler').sendInfo;
 var errorCodes = require('../services/error-codes').errorCodes;
 var common = require('../services/common');
+var Student = require('../services/mongo').Student;
 var Course = require('../services/mongo').Course;
 var SignStudent = require('../services/mongo').SignStudent;
 var Sign = require('../services/mongo').Sign;
+var SignRecord = require('../services/mongo').SignRecord;
 
 router.get('/', function (req, res) {
   SignStudent.find(function (err, students) {
@@ -24,12 +27,86 @@ router.get('/', function (req, res) {
   });
 });
 
+router.post('/', function (req, res) {
+  var courseId = req.body.courseId;  
+
+  Promise.resolve()
+    .then(function () {
+      if (common.isEmptyString(req.body.name)) {
+        return Promise.reject({ code: errorCodes.SignStudentNameRequired });
+      }
+      if (common.isEmptyString(req.body.number)) {
+        return Promise.reject({ code: errorCodes.SignStudentNumberRequired });
+      }
+
+      return Course.findById(courseId);
+    })  
+    .then(function (findedCourse) {
+      // 课程不存在
+      if (!findedCourse) {
+        return Promise.reject({ code: errorCodes.CourseNotExist });
+      }
+
+      return SignStudent.findOne({ courseId: courseId, number: req.body.number });
+    })
+    .then(function (findedStudent) {
+      // 课程中已经有对应学号的学生
+      if (findedStudent) {
+        return Promise.reject({ code: errorCodes.SignStudentSameNumber });
+      }
+
+      var promises = [];
+      var course = findedCourse;
+
+      // 保存新学生信息
+      var signStudent = new SignStudent(req.body);
+      signStudent.set('teacherId', course.get('teacherId'));
+      signStudent.set('createdAt', moment().format('YYYY-MM-DD'));
+      promises.push(signStudent.save());
+
+      // 修改课程信息
+      promises.push(Course.findByIdAndUpdate(courseId, { $inc: { studentCount: 1 } }, { new: true }));
+
+      // 修改课程相关签到的学生数量，以及使用该课程的学生表的签到的学生数量
+      promises.push(Sign.update({ $or: [ { courseId: courseId }, { relatedId: courseId } ] }, { $inc: { studentCount: 1 } }, { multi: true }));
+
+      return Promise.all(promises);
+    })
+    .then(function (results) {
+      sendInfo(errorCodes.Success, res, results[0]);
+    })
+    .catch(function (err) {
+      if (err.code) {
+        sendInfo(err.code, res, {});
+      } else {
+        handleErrors(err, res, {});
+      }      
+    });  
+});
+
+router.put('/:id', function (req, res) {
+  var studentId = req.params['id'];
+
+  delete req.body._id;
+  delete req.body.courseId;
+  delete req.body.teacherId;
+  delete req.body.createdAt;
+
+  SignStudent.findByIdAndUpdate(studentId, req.body, function (err, savedStudent) {
+    if (err) {
+      handleErrors(err, res, {});
+    } else {
+      sendInfo(errorCodes.Success, res, savedStudent);
+    }
+  });
+});
+
 router.delete('/:id', function (req, res) {
   var student;
   var promises = [];
 
   SignStudent.findByIdAndRemove(req.params['id'])
-    .then(function (deletedStudent) {      
+    .then(function (deletedStudent) {
       student = deletedStudent;
 
       // 课程的学生数量减1
@@ -124,9 +201,8 @@ router.post('/import', multipartMiddleware, function (req, res) {
       course.set('studentCount', studentCount);
       promises.push(course.save());
 
-      // 修改课程相关签到的学生数量
-      promises.push(Sign.update({ $or: [ { courseId: course._id }, { relatedId: course._id } ] }, { studentCount: studentCount }, { multi: true }));
-      // 修改使用该课程的学生表的签到的学生数量
+      // 修改课程相关签到的学生数量，以及使用该课程的学生表的签到的学生数量
+      promises.push(Sign.update({ $or: [ { courseId: course._id }, { relatedId: course._id } ] }, { studentCount: studentCount }, { multi: true }));      
 
       // 保存每一个导入的学生
       for (var i=0; i<signStudents.length; i++) {
@@ -149,6 +225,10 @@ router.post('/import', multipartMiddleware, function (req, res) {
         handleErrors(err, res, []);
       }      
     });
+});
+
+router.post('/export', function (req, res) {
+  
 });
 
 function readHeader(worksheet) { 

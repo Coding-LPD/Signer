@@ -37,6 +37,24 @@ router.post('/', function (req, res) {
   });
 });
 
+router.put('/:id', function (req, res) {
+  var courseId = req.params['id'];
+  var course;
+
+  delete req.body._id;
+  delete req.body.teacherId;
+  delete req.body.studentCount;
+  delete req.body.signCount;
+
+  Course.findByIdAndUpdate(courseId, req.body, { new: true }, function (err, savedCourse) {
+    if (err) {
+      handleErrors(err, res, {});
+    } else {
+      sendInfo(errorCodes.Success, res, savedCourse);
+    }
+  });    
+});
+
 router.delete('/:id', function (req, res) {
   var courseId = req.params['id'];
   var promises = [];
