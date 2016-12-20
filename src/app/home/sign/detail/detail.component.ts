@@ -111,7 +111,8 @@ export class DetailComponent implements OnInit, OnDestroy {
   }
 
   ToggleQRCodeSize() {
-    this.isLargeQRCode = !this.isLargeQRCode;
+    // this.isLargeQRCode = !this.isLargeQRCode;
+    this._router.navigate(['/home/qrcode/', this.sign.code]);
   }
 
   /**
