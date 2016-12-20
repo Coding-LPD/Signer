@@ -8,6 +8,7 @@ import { StudentComponent } from './student';
 import { courseRoutes } from './course';
 import { statisticsRoutes } from './statistics';
 import { ChatComponent } from './chat';
+import { BigQRCodeComponent } from './big-qrcode';
 
 const routes: Routes = [
   { 
@@ -24,6 +25,11 @@ const routes: Routes = [
       ...courseRoutes,
       ...statisticsRoutes
     ]
+  },
+  {
+    path: 'home/qrcode/:code', 
+    component: BigQRCodeComponent,
+    canActivate: [AuthGuardService]
   }
 ];
 

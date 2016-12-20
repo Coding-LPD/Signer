@@ -1,0 +1,28 @@
+.container {
+  padding: 20px 50px;
+}
+
+.back-btn {
+  float: left;
+  width: 50px;
+  height: 50px;
+  background-image: url('/public/images/back.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: transparent;
+}
+
+.qrcode {
+  text-align: center;
+  font-size: 3em;
+}
+
+.qrcode-num {
+  color: #7ED321;
+}
+
+qr-code {
+  display: block;
+  text-align: center;
+  margin-top: 10px;
+}
