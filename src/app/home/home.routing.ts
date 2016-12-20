@@ -4,7 +4,7 @@ import { HomeComponent } from './home.component';
 import { CalendarComponent } from './calendar';
 import { AuthGuardService } from '../login';
 import { signRoutes } from './sign';
-import { StudentComponent } from './student';
+import { studentRoutes } from './student';
 import { courseRoutes } from './course';
 import { statisticsRoutes } from './statistics';
 import { ChatComponent } from './chat';
@@ -18,11 +18,11 @@ const routes: Routes = [
     children: [
       { path: '',           redirectTo: 'calendar',       pathMatch: 'full'   },
       { path: 'calendar',   component: CalendarComponent                      },
-      { path: 'student',    component: StudentComponent                       },
       { path: 'chatRoom',   component: ChatComponent                          },
       { path: 'about',      component: CalendarComponent                      },
       ...signRoutes,
       ...courseRoutes,
+      ...studentRoutes,
       ...statisticsRoutes
     ]
   },

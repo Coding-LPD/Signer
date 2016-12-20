@@ -1,0 +1,27 @@
+<div class="header">
+  <div class="title">{{ isEdit ? '编辑学生' : '添加学生' }}</div>
+</div>
+<form name="studentForm">
+  <div class="form-group wrap">
+    <label class="left" for="number">学号</label>
+    <input type="text" class="right" id="number" name="number" [(ngModel)]="student.number" />
+  </div>
+  <div class="form-group wrap">
+    <label class="left" for="name">姓名</label>
+    <input type="text" class="right" id="name" name="name" [(ngModel)]="student.name" />
+  </div>
+  <div class="form-group wrap">
+    <label class="left">联系方式</label>
+    <input type="text" class="right" id="phone" name="phone" [(ngModel)]="student.phone" />
+  </div>
+  <div class="form-group wrap">
+    <label class="left" for="major">专业</label>
+    <input type="text" class="right" id="major" name="major" [(ngModel)]="student.major" />
+  </div>
+  <div class="form-group wrap">
+    <div class="right">
+      <button type="button" class="save-btn green" (click)="saveStudent()">保存</button>
+      <button type="button" class="cancel-btn red" (click)="cancelEdit()" *ngIf="isEdit">取消</button>      
+    </div>
+  </div>
+</form>

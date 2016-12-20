@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
 
 import { SignStudent, Course, OperationOption, HeaderOption, CellOption } from '../../shared';
 import { LoginService } from '../../login';
@@ -44,6 +45,8 @@ export class StudentComponent implements OnInit {
   ];
   
   constructor(
+    private _route: ActivatedRoute,
+    private _router: Router,
     private _studentService: StudentService,
     private _loginService: LoginService,
     private _courseService: CourseService) {}
@@ -59,6 +62,14 @@ export class StudentComponent implements OnInit {
         })
       }
     });
+
+    this._route.queryParams
+      .subscribe(params => {
+        if (params['courseId']) {
+          this.uploadOptions.data.courseId = params['courseId'];
+          this.getStudent(params['courseId']);
+        }
+      })
   }  
 
   selectCourse(courseId: string) {
@@ -96,6 +107,17 @@ export class StudentComponent implements OnInit {
     this.checkedStudents = students;
   }
 
+  addStudent() {
+    if (!this.uploadOptions.data.courseId) {
+      alert('请先选择课程');
+      return;
+    }
+    var extra: NavigationExtras = {
+      queryParams: { courseId: this.uploadOptions.data.courseId }
+    };
+    this._router.navigate(['/home/student/create'], extra);
+  }
+
   removeStudent(student: SignStudent) {
     if (!confirm('确定删除该学生？')) {
       return;
@@ -110,6 +132,10 @@ export class StudentComponent implements OnInit {
           alert(body.msg);
         }
       });
+  }
+
+  editStudent(student: SignStudent) {
+    this._router.navigate(['/home/student/edit', student._id]);
   }
 
   removeSelected() {

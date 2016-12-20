@@ -1,0 +1,30 @@
+:host {
+  display: block;    
+  border-radius: 5px;
+  background-color: white;  
+}
+
+.header, .form-group {
+  padding: 15px 25px;
+  border-bottom: 1px solid #EFF2F7;
+}
+
+.title {
+  font-size: 1.3em;
+  color: #797979;
+}
+
+.form-group {
+  width: auto;
+  margin-bottom: 0;
+}
+
+.right button {
+  width: auto;
+  padding: 10px 50px;
+}
+
+.save-btn, .cancel-btn {
+  display: inline-block;
+  margin-right: 30px;
+}

@@ -1,24 +1,27 @@
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
-import { UPLOAD_DIRECTIVES } from 'ng2-uploader';
+import { Ng2UploaderModule } from 'ng2-uploader';
 
 import { SharedModule } from '../../shared';
 import { StudentComponent } from './student.component';
 import { StudentService } from './student.service';
+import { CreateComponent } from './create';
 
 @NgModule({
   imports: [
     SharedModule,
     FormsModule,    
-    HttpModule
+    HttpModule,
+    Ng2UploaderModule
   ],
   declarations: [
     StudentComponent,
-    UPLOAD_DIRECTIVES
+    CreateComponent 
   ],
   exports: [
-    StudentComponent
+    StudentComponent,
+    CreateComponent
   ],
   providers: [
     StudentService

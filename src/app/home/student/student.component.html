@@ -11,7 +11,7 @@
     <li><button type="button" (click)="importStudent(fileInput)">导入Excel</button></li>
     <li><button type="button" class="orange">导出Excel</button></li>
     <li><button type="button" class="red" (click)="removeSelected()">删除选中</button></li>
-    <li><button type="button" class="purple">添加学生</button></li>
+    <li><button type="button" class="purple" (click)="addStudent()">添加学生</button></li>
   </ul>
   <select class="course-list" (change)="selectCourse($event.target.value)">
     <option value="">请选择课程</option>
@@ -22,5 +22,6 @@
 </div>
 <list [headerOptions]="headerOptions" [cellOptions]="cellOptions" 
     [operationOption]="operationOption" [datas]="students"
-    (onSelect)="receiveCheckedStudents($event)" (onDelete)="removeStudent($event)">
+    (onSelect)="receiveCheckedStudents($event)" 
+    (onDelete)="removeStudent($event)" (onEdit)="editStudent($event)">
 </list>
