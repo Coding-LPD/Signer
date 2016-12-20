@@ -15,5 +15,6 @@
   <select [ngModel]="endIndex" (ngModelChange)="selectIndex($event, 1)">
     <option *ngFor="let o of options; let i = index" [value]="i+1">第{{i+1}}节</option>
   </select>
+  <button type="button" class="remove-btn" (click)="removeIndex()"></button>
 </div>
 <div class="clear"></div>

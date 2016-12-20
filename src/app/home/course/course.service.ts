@@ -22,6 +22,12 @@ export class CourseService extends BaseService {
       .catch(this.handleError);
   }
 
+  putCourse(course: Course) {
+    return this._http.put(API.domain + API.course + '/' + course._id, course, this.options)
+      .map(this.extractData)
+      .catch(this.handleError);
+  }
+
   deleteCourse(courseId: string) {
     return this._http.delete(API.domain + API.course + '/' + courseId, { withCredentials: true })
       .map(this.extractData)

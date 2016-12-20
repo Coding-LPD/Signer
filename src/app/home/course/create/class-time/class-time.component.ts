@@ -14,6 +14,8 @@ export class ClassTimeComponent {
   maxIndex = 11;
   // 用于生成option选项
   options = new Array(this.maxIndex);
+
+  @Input() dataIndex: number;
   
   // 时间串格式为: "星期一 4节-8节"
   @Input() set time(t: string) {
@@ -34,6 +36,7 @@ export class ClassTimeComponent {
   }
 
   @Output() timeChange = new EventEmitter<string>();
+  @Output('remove') timeRemove = new EventEmitter<number>();
 
   selectDay(day: string) {
     this.day = day; 
@@ -51,6 +54,10 @@ export class ClassTimeComponent {
     this.checkIndex();
     this.timeChange.emit(this.getTimeString());
   }
+
+  removeIndex() {
+    this.timeRemove.emit(this.dataIndex);
+  }  
 
   private getTimeString(): string {
     return `${this.day} ${this.startIndex}节-${this.endIndex}节`;

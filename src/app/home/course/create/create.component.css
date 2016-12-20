@@ -42,3 +42,8 @@ class-time {
   background-size: 30px;
   background-position: 0 center;
 }
+
+.save-btn, .cancel-btn {
+  display: inline-block;
+  margin-right: 30px;
+}

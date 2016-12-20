@@ -1,5 +1,5 @@
 <div class="container">
-  <button class="back-btn" (click)="goBack()"></button>
+  <button type="button" class="back-btn" (click)="goBack()"></button>
   <div class="qrcode">Code: <span class="qrcode-num">{{code}}</span></div>
   <qr-code *ngIf="code" [data]="code" [size]="'500'"></qr-code>
 </div>

@@ -64,7 +64,7 @@ export class CourseComponent implements OnInit {
   }
 
   editCourse(course: Course) {
-
+    this._router.navigate(['/home/course/edit', course._id]);
   }
 
   removeCourse(course: Course) {
