@@ -1,3 +1,8 @@
+:host {
+    display: block;
+    min-width: 1200px;
+}
+
 body{
     background-color: #E4E7EC;
     margin: 0px;
@@ -47,7 +52,8 @@ body{
 #page{
     height: 600px;
     background-repeat:no-repeat;
-    background: url("/public/images/home_pager.png");
+    background-image: url("/public/images/home_pager.png");
+    background-size: cover;    
 }
 
 #page .right{

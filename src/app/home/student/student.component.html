@@ -20,8 +20,11 @@
     </option>    
   </select>
 </div>
-<list [headerOptions]="headerOptions" [cellOptions]="cellOptions" 
+<list *ngIf="!isLoading"
+    [headerOptions]="headerOptions" [cellOptions]="cellOptions" 
     [operationOption]="operationOption" [datas]="students"
     (onSelect)="receiveCheckedStudents($event)" 
     (onDelete)="removeStudent($event)" (onEdit)="editStudent($event)">
 </list>
+
+<loading [isShow]="isLoading" [showLoading]="'true'"></loading>

@@ -19,6 +19,8 @@ export class StudentComponent implements OnInit {
   students: SignStudent[];
   // 当前选中的学生
   checkedStudents: SignStudent[] = [];
+  // 加载中动画
+  isLoading = false;
   // 文件上传指令的基本配置
   uploadOptions = {
     url: this._studentService.getUploadUrl(),
@@ -69,15 +71,17 @@ export class StudentComponent implements OnInit {
           this.uploadOptions.data.courseId = params['courseId'];
           this.getStudent(params['courseId']);
         }
-      })
+      });
   }  
 
   selectCourse(courseId: string) {
     this.uploadOptions.data.courseId = courseId;
     if (!courseId) {
       this.students = [];
+      this.isLoading = false;
       return;
     }
+    this.isLoading = true;
     this.getStudent(courseId);
   }
 
@@ -163,6 +167,7 @@ export class StudentComponent implements OnInit {
       .subscribe(body => {
         if (+body.code == 200) {         
           this.students = body.data;
+          this.isLoading = false;
         } else {
           alert(body.msg);
         }

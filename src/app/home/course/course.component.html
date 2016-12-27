@@ -10,8 +10,11 @@
     <li><button type="button" (click)="createCourse()">创建课程</button></li>
   </ul>
 </div>
-<list [headerOptions]="headerOptions" [cellOptions]="cellOptions" 
+<list *ngIf="courses"
+    [headerOptions]="headerOptions" [cellOptions]="cellOptions" 
     [operationOption]="operationOption" [datas]="courses"
     (onEdit)="editCourse($event)" (onDelete)="removeCourse($event)"
     (onSelect)="receiveCheckedCourses($event)">
 </list>
+
+<loading [isShow]="!courses" [showLoading]="'true'"></loading>
