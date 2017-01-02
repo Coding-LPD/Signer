@@ -8,6 +8,7 @@ var app = require('../app');
 var debug = require('debug')('Signer:server');
 var http = require('http');
 var config = require('../config');
+var schedule = require('../schedule');
 
 /**
  * Get port from environment and store in Express.
@@ -96,4 +97,7 @@ function onListening() {
     ? 'pipe ' + addr
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
+
+  // 监听完毕，则开始定时任务
+  schedule.start();
 }
