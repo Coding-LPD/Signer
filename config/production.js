@@ -32,7 +32,7 @@ var config = {
   defaultImagesCount: 4,
 
   // 文件下载地址
-  fileDownload: 'http://120.25.65.207:3000/download/',
+  fileDownload: 'http://120.25.65.207:3000/temp/',
 
   // connect-multiparty配置
   cmConfig: {

@@ -32,7 +32,7 @@ var config = {
   defaultImagesCount: 4,
 
   // 文件下载地址
-  fileDownload: 'http://linkdust.xicp.net:50843/download/',
+  fileDownload: 'http://linkdust.xicp.net:50843/temp/',
 
   // connect-multiparty配置
   cmConfig: {

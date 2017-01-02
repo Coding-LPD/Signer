@@ -234,7 +234,7 @@ router.post('/export', function (req, res) {
   SignStudent.find({ courseId: courseId }, null, { sort: '-number' })
     .then(function (signStudents) {      
       // 将签到情况记录为excel，并提供给客户端下载
-      var savePath = path.resolve(__dirname, '../public/download');
+      var savePath = path.resolve(__dirname, '../public/temp');
       var workbook = getSignSutdentWorkbook(signStudents);
       var timestamp = new Date().getTime()
       var fileName = timestamp + '.xlsx';

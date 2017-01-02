@@ -38,3 +38,6 @@ jspm_packages
 
 # User images
 public/images/user
+
+# Temp files
+public/temp

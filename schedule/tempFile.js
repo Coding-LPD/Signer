@@ -13,7 +13,7 @@ function start() {
 function emptyDir() {
   console.log('empty download dir...', moment().format('YYYY-MM-DD HH:mm:ss'));
 
-  var dirPath = path.resolve(__dirname, '../public/download');
+  var dirPath = path.resolve(__dirname, '../public/temp');
   fsp.emptyDir(dirPath)
     .then(function () {
       console.log('empty download dir success');
