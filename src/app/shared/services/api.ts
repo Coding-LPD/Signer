@@ -19,6 +19,7 @@ export class API {
   static signStudent = '/signStudents';
   static signStudentSearch = '/signStudents/search';
   static signStudentImport = '/signStudents/import';
+  static signStudentExport = '/signStudents/export';
   static signStudentMutilRemove = '/signStudents/mutil/remove';
   static teacher = '/teachers';
   static teacherSearch = '/teachers/search';

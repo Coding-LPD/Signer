@@ -9,7 +9,7 @@
   <input type="file" style="display:none" ngFileSelect [options]="uploadOptions" (onUpload)="handleUpload($event)" #fileInput>
   <ul class="menu-list">
     <li><button type="button" (click)="importStudent(fileInput)">导入Excel</button></li>
-    <li><button type="button" class="orange">导出Excel</button></li>
+    <li><button type="button" class="orange" (click)="exportStudent()">导出Excel</button></li>
     <li><button type="button" class="red" (click)="removeSelected()">删除选中</button></li>
     <li><button type="button" class="purple" (click)="addStudent()">添加学生</button></li>
   </ul>

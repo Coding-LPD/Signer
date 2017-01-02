@@ -94,6 +94,21 @@ export class StudentComponent implements OnInit {
     fileInput.click();
   }
 
+  exportStudent() {
+    if (!this.uploadOptions.data.courseId) {
+      alert('请先选择课程');
+      return;
+    }
+    this._studentService.exportStudent(this.uploadOptions.data.courseId)
+      .subscribe(body => {
+        if (+body.code == 200) {
+          window.open(body.data);
+        } else {
+          alert(body.msg);
+        }
+      });
+  }
+
   handleUpload(data: any) {
     // 文件上传过程中持续调用该函数，所以要判断后台是否已经响应
     // 有响应的时候才解析得到的数据

@@ -20,6 +20,12 @@ export class StudentService extends BaseService {
     return API.domain + API.signStudentImport;
   }
 
+  exportStudent(courseId: string) {
+    return this._http.post(API.domain + API.signStudentExport, { courseId }, this.options)
+      .map(this.extractData)
+      .catch(this.handleError);
+  }
+
   createStudent(student: SignStudent) {
     return this._http.post(API.domain + API.signStudent, student, this.options)
       .map(this.extractData)
