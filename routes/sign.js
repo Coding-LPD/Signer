@@ -267,14 +267,14 @@ router.post('/export', function (req, res) {
       var fileName = timestamp + '.xlsx';
       savePath += '/' + fileName;
       xlsx.writeFile(workbook, savePath);
-      sendInfo(errorCodes.Success, res,  config.fileDownload + fileName);
+      sendInfo(errorCodes.Success, res, config.fileDownload + fileName);
     })
     .catch(function (err) {
       if (err.code) {
-        sendInfo(err.code, res, []);
+        sendInfo(err.code, res, '');
       } else {
-        handleErrors(err, res, []);
-      }      
+        handleErrors(err, res, '');
+      }
     });
 })
 
@@ -305,7 +305,7 @@ function getSignWorkbook(signStudents) {
   worksheet['C1'] = { v: '签到情况' };
   for (var i=0; i<signStudents.length; i++) {
     worksheet['A' + row] = { v: signStudents[i].number };
-    worksheet['B' + row] = { v: signStudents[i].name }
+    worksheet['B' + row] = { v: signStudents[i].name };
     worksheet['C' + row] = { v: signStudents[i].isSign ? '已签' : '' };
     row++;
   }

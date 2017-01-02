@@ -11,6 +11,7 @@ var handleErrors = require('../services/error-handler').handleErrors;
 var sendInfo = require('../services/error-handler').sendInfo;
 var errorCodes = require('../services/error-codes').errorCodes;
 var common = require('../services/common');
+var config = require('../config');
 var Student = require('../services/mongo').Student;
 var Course = require('../services/mongo').Course;
 var SignStudent = require('../services/mongo').SignStudent;
@@ -228,7 +229,26 @@ router.post('/import', multipartMiddleware, function (req, res) {
 });
 
 router.post('/export', function (req, res) {
-  
+  var courseId = req.body.courseId;
+
+  SignStudent.find({ courseId: courseId }, null, { sort: '-number' })
+    .then(function (signStudents) {      
+      // 将签到情况记录为excel，并提供给客户端下载
+      var savePath = path.resolve(__dirname, '../public/download');
+      var workbook = getSignSutdentWorkbook(signStudents);
+      var timestamp = new Date().getTime()
+      var fileName = timestamp + '.xlsx';
+      savePath += '/' + fileName;
+      xlsx.writeFile(workbook, savePath);
+      sendInfo(errorCodes.Success, res,  config.fileDownload + fileName);
+    })
+    .catch(function (err) {
+      if (err.code) {
+        sendInfo(err.code, res, '');
+      } else {
+        handleErrors(err, res, '');
+      }
+    });
 });
 
 function readHeader(worksheet) { 
@@ -253,6 +273,30 @@ function readBody(worksheet) {
     i = 'A' + ++startRow;
   }
   return signStudents;
+}
+
+function getSignSutdentWorkbook(signStudents) {
+  var filePath = path.resolve(__dirname, '../public/template.xlsx');
+  var workbook = xlsx.readFile(filePath);  
+  var worksheet = workbook.Sheets[workbook.SheetNames[0]];
+  var row = 2, phone;
+  // 构造excel表单
+  worksheet['A1'] = { v: '学号' };
+  worksheet['B1'] = { v: '姓名' };
+  worksheet['C1'] = { v: '专业' };
+  worksheet['D1'] = { v: '联系方式' };
+  for (var i=0; i<signStudents.length; i++) {
+    phone = signStudents[i].get('phone')
+    worksheet['A' + row] = { v: signStudents[i].get('number') };
+    worksheet['B' + row] = { v: signStudents[i].get('name') };
+    worksheet['C' + row] = { v: signStudents[i].get('major') };
+    worksheet['D' + row] = { v: phone ? phone : '暂无' };
+    row++;
+  }
+  worksheet['!ref'] = 'A1:' + 'D' + (row-1);
+  // 覆盖原有excel表单
+  workbook.Sheets[workbook.SheetNames[0]] = worksheet;
+  return workbook;
 }
 
 module.exports = router;
