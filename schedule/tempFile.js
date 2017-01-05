@@ -5,7 +5,7 @@ var schedule = require('node-schedule');
 
 function start() {
   // 每天0点清空临时下载文件
-  schedule.scheduleJob('0 0 * * * *', function () {
+  schedule.scheduleJob('0 0 0 * * *', function () {
     emptyDir();
   });
 }
