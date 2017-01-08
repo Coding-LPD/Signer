@@ -60,6 +60,14 @@ Common.getClientIp = function (req) {
       req.connection.socket.remoteAddress;
 };
 
+/**
+ * 将字符串中包含的正则特殊字符，均加上转义字符
+ */
+Common.replaceRegSpecial = function (str) {
+  var pattern = /(\^|\.|\*|\?|\!|\/|\\|\$|\#|\&|\||,|\[|\]|\{|\}|\(|\)|\-|\+|\=)/g;
+  return str.replace(pattern, '\\$1');
+};
+
 Common.EARTH_RADIUS = 6378137.0;    //单位M
 Common.PI = Math.PI;
 

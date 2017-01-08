@@ -162,7 +162,11 @@ router.post('/search', function (req, res) {
     sendInfo(errorCodes.SearchEmpty, res, []);
     return;
   }
-  Sign.find(req.body, null, options, function (err, signs) {
+  var conditions = req.body;
+  if (conditions.courseName) {
+    conditions.courseName = new RegExp(common.replaceRegSpecial(conditions.courseName));
+  }
+  Sign.find(conditions, null, options, function (err, signs) {
     if (!err) {
       sendInfo(errorCodes.Success, res, signs);
     } else {
