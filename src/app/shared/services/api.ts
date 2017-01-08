@@ -23,6 +23,7 @@ export class API {
   static signStudentMutilRemove = '/signStudents/mutil/remove';
   static teacher = '/teachers';
   static teacherSearch = '/teachers/search';
+  static teacherSignsInPeriod = '/teachers/{0}/signsInPeriod';
   static course = '/courses';
   static courseSearch = '/courses/search';
   static courseLatestStatistics = '/courses/{0}/statistics/latest';

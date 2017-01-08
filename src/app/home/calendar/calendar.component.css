@@ -130,6 +130,7 @@
 .body td {
   position: relative;
   height: 97px;
+  padding-bottom: 10px;
   border: solid #ddd;
   border-width: 0 0 1px 1px;
   overflow: hidden;    
@@ -141,9 +142,9 @@
   border-right-width: 1px;
 }
 
-.day-number {
-  float: right;
+.day-number {  
   padding: 0 2px;
+  text-align: right;
   color: #646464;
 }
 
@@ -152,11 +153,28 @@
 }
 
 .day-number.selected {
-  color: #7ED321;
-  font-size: 1.4em;
+  color: #FF1300;
 }
 
-.date-btn-group {    
+.note {
+  max-width: 118px;
+  margin: 5px auto;
+  padding: 3px 10px;
+  border-radius: 10px;
+  text-align: center;
+  color: white;
+  background-color: #7ED321;  
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.note.inactive {
+  opacity: 0.3;
+  background-color: #646464 !important;
+}
+
+.date-btn-group {
   position: absolute;
   top: -100%; left: 0; right: 0;
   height: 100%;
@@ -171,11 +189,12 @@
 }
 
 .date-btn-group button {
+  position: absolute;
+  top: 0; bottom: 0; left: 60px; right: 0;  
   display: inline-block;
   width: 35px;
   height: 35px;
-  margin-top: 35px;
-  margin-left: 10%;
+  margin: auto;
   padding: 0;
   background-color: transparent;
   background-repeat: no-repeat;
@@ -188,7 +207,7 @@
 }
 
 .date-btn-group button:first-child {
-  margin-left: 0;
+  left: -60px;
 }
 
 .add-btn {

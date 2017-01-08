@@ -10,6 +10,13 @@ export class TeacherService extends BaseService {
     super();
   }
 
+  getSignsInPeriod(teacherId: string, startTime: string, endTime: string) {
+    var url = API.stringReplace(API.domain + API.teacherSignsInPeriod, [teacherId]);
+    return this._http.post(url, { startTime, endTime }, this.options)
+      .map(this.extractData)
+      .catch(this.handleError);
+  }
+
   search(conditions: Object) {
     return this._http.post(API.domain + API.teacherSearch, conditions, { withCredentials: true })
       .map(this.extractData)

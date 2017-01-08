@@ -46,15 +46,21 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let weeks of calendarDate | calendarMonth">
-            <td *ngFor="let date of weeks" (click)="selectDate(date)">
+          <tr *ngFor="let weeks of dates; let i = index">
+            <td *ngFor="let date of weeks; let j = index" (click)="selectDate(date)">
               <div class="day-number" [ngClass]="setDayNumberClass(date)">
                 {{date.getDate()}}
+              </div>
+              <div *ngFor="let sign of signs[i*7+j]"
+                  class="note border-box"
+                  [ngClass]="setSignClass(date)"
+                  [style.background-color]="sign.color">
+                {{sign.courseName}}
               </div>
               <div class="date-btn-group">
                 <button class="add-btn" type="button" (click)="createSign($event, date)"></button>
                 <button class="detail-btn" type="button" (click)="toDaySignDetail($event, date)"></button>                
-              </div>                            
+              </div>
             </td>            
           </tr>
         </tbody>
