@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { Subject } from 'rxjs/Subject';
+import { Observable } from 'rxjs/Observable';
 
-import { Course, Teacher, OperationOption, HeaderOption, CellOption } from '../../shared';
+import { Course, Teacher, OperationOption, HeaderOption, CellOption, PopUpComponent } from '../../shared';
 import { LoginService } from '../../login';
 import { TeacherService } from '../teacher';
 import { CourseService } from './course.service';
@@ -12,6 +14,8 @@ import { CourseService } from './course.service';
   styleUrls: ['./course.component.css']
 })
 export class CourseComponent implements OnInit {
+
+  @ViewChild(PopUpComponent) popup: PopUpComponent;
 
   // 所有课程数据
   courses: Course[];
@@ -31,6 +35,8 @@ export class CourseComponent implements OnInit {
     { prop: 'signCount',    default: '0'  },
     { prop: 'location',     default: '无' }
   ];
+  // 查询流
+  searchTerms = new Subject<string>();
 
   constructor(
     private _router: Router,
@@ -39,28 +45,41 @@ export class CourseComponent implements OnInit {
     private _courseService: CourseService) { }
 
   ngOnInit() {
-    this._loginService.getTeacherInfo().subscribe(body => {
-      if (+body.code == 200) {
-        var teacherId = body.data[0]._id;
-        this._courseService.search({teacherId}, 'createdAt', -1).subscribe(body => {
-          if (+body.code == 200) {
-            this.courses = body.data;
-          } else {
-            alert(body.msg);
+
+    // 输入课程名搜索
+    this.searchTerms
+      .startWith('')
+      .debounceTime(300)
+      .distinctUntilChanged()
+      .combineLatest(this._loginService.getTeacherInfo())
+      .switchMap(arr => {
+        let [term, body] = arr;
+        var condition = {};
+        if (+body.code == 200) {          
+          if (term) {
+            condition['name'] = term;
           }
-        });
-      } else {
-        alert(body.msg);
-      }
-    })
+          condition['teacherId'] = body.data[0]._id;
+          return this._courseService.search(condition, 'createdAt', -1);
+        } else {
+          return Observable.of(body);
+        }
+      })
+      .subscribe(body => {
+        if (+body.code == 200) {
+          this.courses = body.data;
+        } else {
+          this.popup.show(body.msg);
+        }
+      });
   }
 
   createCourse() {
     this._router.navigate(['/home/course/create']);
   }
 
-  receiveCheckedCourses(courses: Course[]) {
-    console.log(courses);
+  searchCourse(name: string) {
+    this.searchTerms.next(name);
   }
 
   editCourse(course: Course) {
@@ -74,12 +93,12 @@ export class CourseComponent implements OnInit {
     this._courseService.deleteCourse(course._id) 
       .subscribe(body => {
         if (+body.code == 200) {
-          alert('删除成功');
+          this.popup.show('删除成功');
           var index = this.courses.indexOf(course);
           this.courses.splice(index, 1);
           this.courses = this.courses.slice(0);
         } else {
-          alert(body.msg);
+          this.popup.show(body.msg);
         }
       });
   }

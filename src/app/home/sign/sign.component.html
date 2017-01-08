@@ -2,7 +2,8 @@
   <div class="title">我的签到</div>
   <div class="search-box wrap">
     <div class="title">搜索</div>
-    <input class="search" type="text" />
+    <input class="search" type="text" #searchBox
+      (keyup)="searchSign(searchBox.value)" />
   </div>
 </div>
 <div class="menu wrap">
@@ -21,8 +22,8 @@
     [headerOptions]="headerOptions" [cellOptions]="cellOptions" 
     [operationOption]="operationOption"  
     [datas]="signs | filter:selectedCourseName:'courseName' | filterDate:selectedDate:'startTime'"    
-    (onSelect)="receiveCheckedSigns($event)" (onDelete)="removeSign($event)"
-    (onRowClick)="toDetail($event)">
+    (onDelete)="removeSign($event)" (onRowClick)="toDetail($event)">
 </list>
 
 <loading [isShow]="!signs" [showLoading]="'true'"></loading>
+<pop-up></pop-up>

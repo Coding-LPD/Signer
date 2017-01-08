@@ -2,7 +2,8 @@
   <div class="title">我的课程</div>
   <div class="search-box wrap">
     <div class="title">搜索</div>
-    <input class="search" type="text" />
+    <input class="search" type="text" autocomplete="off" #searchBox
+      (keyup)="searchCourse(searchBox.value)" />
   </div>
 </div>
 <div class="menu wrap">
@@ -13,8 +14,8 @@
 <list *ngIf="courses"
     [headerOptions]="headerOptions" [cellOptions]="cellOptions" 
     [operationOption]="operationOption" [datas]="courses"
-    (onEdit)="editCourse($event)" (onDelete)="removeCourse($event)"
-    (onSelect)="receiveCheckedCourses($event)">
+    (onEdit)="editCourse($event)" (onDelete)="removeCourse($event)">
 </list>
 
 <loading [isShow]="!courses" [showLoading]="'true'"></loading>
+<pop-up></pop-up>
