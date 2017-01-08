@@ -21,12 +21,16 @@ export class LoginService extends BaseService {
   }
 
   loginWithPassword(phone: string, password: string) {
-    var data = {
-      phone,
-      password: this._jsEncryptService.encrypt(password)
-    };
-    return this._http.post(API.domain + API.loginWithPassword, data, { withCredentials: true })
-      .map(this.extractData)
+    return this._jsEncryptService.encrypt(password)
+      .flatMap(body => {
+        if (+body.code == 200) {
+          var data = { phone, password: body.data };
+          return this._http.post(API.domain + API.loginWithPassword, data, this.options)
+                           .map(this.extractData);
+        } else {
+          return Observable.of(body);
+        }
+      })
       .map(body => {
         if (+body.code == 200) {
           this.isLoggedIn = true;
@@ -34,7 +38,7 @@ export class LoginService extends BaseService {
         }
         return body;
       })
-      .catch(this.handleError)
+      .catch(this.handleError);
   }
 
   loginWithSmsCode(phone: string, smsCode: string) {

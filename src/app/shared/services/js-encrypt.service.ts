@@ -14,20 +14,27 @@ export class JsEncryptService extends BaseService {
 
   constructor(private _http: Http) {
     super();
-    this.getPublickey()
-      .subscribe(body => {
-        if (+body.code == 200) {
-          this.publickey = body.data;
-        } else {          
-          alert('获取公钥失败');
-        }    
-      });    
+    // this.getPublickey()
+    //   .subscribe(body => {
+    //     if (+body.code == 200) {
+    //       this.publickey = body.data;
+    //     } else {          
+    //       alert('获取公钥失败');
+    //     }    
+    //   });
   }
 
-  encrypt(content: string): string {
-    var encrypt = new JSEncrypt();    
-    encrypt.setPublicKey(this.publickey);
-    return encrypt.encrypt(content);
+  encrypt(content: string): Observable<any> {
+    return this.getPublickey()
+      .map(body => {
+        if (+body.code == 200) {
+          var encrypt = new JSEncrypt();    
+          encrypt.setPublicKey(this.publickey);
+          return { code: 200, data: encrypt.encrypt(content) };
+        } else {
+          return body;
+        }
+      });
   }
 
   getPublickey(): Observable<any> {     
@@ -41,6 +48,12 @@ export class JsEncryptService extends BaseService {
     // 未获取公钥，则发送请求获取
     return this._http.get(API.domain + API.publickey)
             .map(this.extractData)
+            .map(body => {
+              if (+body.code == 200) {
+                this.publickey = body.data;
+              }
+              return body;
+            })
             .catch(this.handleError)            
   }
 

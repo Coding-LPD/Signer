@@ -1,6 +1,12 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import * as moment from 'moment';
 
+/**
+ * 从原始数据中筛选出指定日期的数据
+ * date：指定日期
+ * prop：原始数据中用于比较日期的字段
+ * granularity：日期比较的精度(默认为'day')
+ */
 @Pipe({
   name: 'filterDate'
 })

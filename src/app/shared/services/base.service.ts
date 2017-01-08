@@ -22,7 +22,7 @@ export class BaseService {
 
   protected handleError(error: any) {
     let errMsg = (error.message) ? error.message : 
-      error.status ? `${error.status} - ${error.statusText}` : `http请求异常`;    
+      error.status ? `${error.status} - ${error.statusText}` : `无法连接到服务器，请检查网络连接`;    
     return Observable.of<any>({
       code: '600',
       msg: errMsg
