@@ -2,7 +2,9 @@
   <div class="title">我的学生</div>
   <div class="search-box wrap">
     <div class="title">搜索</div>
-    <input class="search" type="text" />
+    <input class="search" type="text" #searchBox
+      placeholder="请输入姓名或学号"
+      (keyup)="searchStudent(searchBox.value)" />
   </div>
 </div>
 <div class="menu wrap">
@@ -28,3 +30,4 @@
 </list>
 
 <loading [isShow]="isLoading" [showLoading]="'true'"></loading>
+<pop-up></pop-up>

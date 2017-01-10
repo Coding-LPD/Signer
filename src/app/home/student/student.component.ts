@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
+import { Subject } from 'rxjs/Subject';
+import { Observable } from 'rxjs/Observable';
 
-import { SignStudent, Course, OperationOption, HeaderOption, CellOption } from '../../shared';
+import { SignStudent, Course, OperationOption, HeaderOption, CellOption, PopUpComponent } from '../../shared';
 import { LoginService } from '../../login';
 import { CourseService } from '../course';
 import { StudentService } from './student.service';
@@ -12,6 +14,8 @@ import { StudentService } from './student.service';
   styleUrls: ['./student.component.css']
 })
 export class StudentComponent implements OnInit {
+
+  @ViewChild(PopUpComponent) popup: PopUpComponent;
   
   // 教师对应的所有课程
   courses: Course[];
@@ -45,6 +49,10 @@ export class StudentComponent implements OnInit {
     { prop: 'major',      default: '无' },
     { prop: 'createdAt',  default: '无' } 
   ];
+  // 查询流
+  searchTerms = new Subject<string>();
+  // 选择的课程组成的流
+  selectedCourseIdSource = new Subject<string>();
   
   constructor(
     private _route: ActivatedRoute,
@@ -65,16 +73,53 @@ export class StudentComponent implements OnInit {
       }
     });
 
-    this._route.queryParams
-      .subscribe(params => {
-        if (params['courseId']) {
-          this.uploadOptions.data.courseId = params['courseId'];
-          this.getStudent(params['courseId']);
+    this.searchTerms
+      .startWith('')
+      .debounceTime(300)
+      .distinctUntilChanged()
+      .combineLatest(this.selectedCourseIdSource)
+      .switchMap(arr => {
+        let [term, courseId] = arr;
+        if (courseId) {
+          var conditions = { courseId };
+          // 根据关键词的类型来判断是按学号还是按姓名来查询
+          if (term) {
+            if (!isNaN(Number(term))) {
+              conditions['number'] = term;
+            } else {
+              conditions['name'] = term;
+            }
+          }
+          return this._studentService.search(conditions);
+        } else {
+          return Observable.of({ code: 200, data: [] })
+        }
+      })
+      .subscribe(body => {
+        if (+body.code == 200) {         
+          this.students = body.data;
+          this.isLoading = false;
+        } else {
+          this.popup.show(body.msg);
         }
       });
-  }  
+
+    this._route.queryParams
+      .subscribe(params => {
+        var courseId = params['courseId'];
+        if (courseId) {
+          this.uploadOptions.data.courseId = courseId;
+          this.selectedCourseIdSource.next(courseId);
+        }
+      });
+  }
+
+  searchStudent(term: string) {
+    this.searchTerms.next(term);
+  }
 
   selectCourse(courseId: string) {
+    this.selectedCourseIdSource.next(courseId);
     this.uploadOptions.data.courseId = courseId;
     if (!courseId) {
       this.students = [];
@@ -82,12 +127,11 @@ export class StudentComponent implements OnInit {
       return;
     }
     this.isLoading = true;
-    this.getStudent(courseId);
   }
 
   importStudent(fileInput: any) {
     if (!this.uploadOptions.data.courseId) {
-      alert('请先选择课程');
+      this.popup.show('请先选择课程');
       return;
     }
     // 触发文件上传控件
@@ -96,7 +140,7 @@ export class StudentComponent implements OnInit {
 
   exportStudent() {
     if (!this.uploadOptions.data.courseId) {
-      alert('请先选择课程');
+      this.popup.show('请先选择课程');
       return;
     }
     this._studentService.exportStudent(this.uploadOptions.data.courseId)
@@ -104,7 +148,7 @@ export class StudentComponent implements OnInit {
         if (+body.code == 200) {
           window.open(body.data);
         } else {
-          alert(body.msg);
+          this.popup.show(body.msg);
         }
       });
   }
@@ -117,7 +161,7 @@ export class StudentComponent implements OnInit {
       if (+res.code == 200) {
         this.students = this.students.concat(res.data);              
       } else {
-        alert(res.msg);
+        this.popup.show(res.msg);
       }
     }
   }
@@ -128,7 +172,7 @@ export class StudentComponent implements OnInit {
 
   addStudent() {
     if (!this.uploadOptions.data.courseId) {
-      alert('请先选择课程');
+      this.popup.show('请先选择课程');
       return;
     }
     var extra: NavigationExtras = {
@@ -148,7 +192,7 @@ export class StudentComponent implements OnInit {
           this.students.splice(index, 1);
           this.students = this.students.slice(0);          
         } else {
-          alert(body.msg);
+          this.popup.show(body.msg);
         }
       });
   }
@@ -159,7 +203,7 @@ export class StudentComponent implements OnInit {
 
   removeSelected() {
     if (this.checkedStudents.length <= 0) {
-      alert('请先选择要删除的学生');
+      this.popup.show('请先选择要删除的学生');
       return;
     }
     if (!confirm('确定删除这些学生？')) {
@@ -170,23 +214,11 @@ export class StudentComponent implements OnInit {
     this._studentService.removeMulti(courseId, ids)
       .subscribe(body => {
         if (body.code == 200) {
-          this.getStudent(courseId);
+          this.selectedCourseIdSource.next(courseId);
         } else {
-          alert(body.msg);
+          this.popup.show(body.msg);
         }
       })
-  }
-
-  private getStudent(courseId: string) {
-    this._studentService.search({courseId})
-      .subscribe(body => {
-        if (+body.code == 200) {         
-          this.students = body.data;
-          this.isLoading = false;
-        } else {
-          alert(body.msg);
-        }
-      });
   }
 
 }
