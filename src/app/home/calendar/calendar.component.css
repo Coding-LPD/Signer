@@ -144,6 +144,7 @@
 
 .day-number {  
   padding: 0 2px;
+  font-size: 1.4em;
   text-align: right;
   color: #646464;
 }
