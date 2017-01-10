@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 
 import { LoginService } from '../../login';
-import { Course } from '../../shared';
+import { Course, PopUpComponent } from '../../shared';
 import { StatisticsService } from './statistics.service';
 
 @Component({
@@ -11,6 +11,8 @@ import { StatisticsService } from './statistics.service';
   styleUrls: ['./statistics.component.css']
 })
 export class StatisticsComponent implements OnInit {
+
+  @ViewChild(PopUpComponent) popup: PopUpComponent;
 
   isOpenSelect = false;
   selectedCourse: Course;
@@ -28,7 +30,7 @@ export class StatisticsComponent implements OnInit {
         if (+body.code == 200) {
           this.courses = body.data;
         } else {
-          alert(body.msg);
+          this.popup.show(body.msg);
         }
       });
 

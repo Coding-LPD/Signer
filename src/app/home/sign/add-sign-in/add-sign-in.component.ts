@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
 
-import { Sign, SignRecordService } from '../../../shared';
+import { Sign, SignRecordService, PopUpComponent } from '../../../shared';
 import { StudentService } from '../../student';
 import { SignService } from '../sign.service';
 
@@ -13,6 +13,8 @@ import { SignService } from '../sign.service';
   styleUrls: ['./add-sign-in.component.css']
 }) 
 export class AddSignInComponent implements OnInit {
+
+  @ViewChild(PopUpComponent) popup: PopUpComponent;
 
   searchTerms = new Subject<string>();
   sign: Sign;
@@ -40,7 +42,7 @@ export class AddSignInComponent implements OnInit {
           if (+body.code == 200) {            
             this.sign = body.data[0];  
           } else {
-            alert(body.msg);
+            this.popup.show(body.msg);
           }
         });
 
@@ -76,10 +78,12 @@ export class AddSignInComponent implements OnInit {
     this._signRecordService.addition(this.sign._id, this.sign.courseId, this.student.number, null)
       .subscribe(body => {
         if (+body.code == 200) {
-          alert('补签成功');
-          this._router.navigate(['/home/sign', this.sign._id, 'detail']);
+          this.popup.show('补签成功');
+          setTimeout(() => {
+            this._router.navigate(['/home/sign', this.sign._id, 'detail'])
+          }, 1000);
         } else {
-          alert(body.msg);
+          this.popup.show(body.msg);
         }        
       })
   }

@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 
 import { SignService } from '../../sign.service';
-import { Sign, Course } from '../../../../shared';
+import { Sign, Course, PopUpComponent } from '../../../../shared';
 import { LoginService } from '../../../../login';
 
 @Component({
@@ -10,6 +10,8 @@ import { LoginService } from '../../../../login';
   styleUrls: ['./step2.component.css']
 })
 export class Step2Component implements OnInit {
+
+  @ViewChild(PopUpComponent) popup: PopUpComponent;
 
   colors = ['#F5A623', '#97CC00', '#F8E71C', '#9013FE', '#58C9F3', '#FF6C60'];
   selectedColor = this.colors[0];
@@ -29,7 +31,7 @@ export class Step2Component implements OnInit {
         this.courses = body.data;
         this.selectedCourseId = this._signService.sign.relatedId ? this._signService.sign.relatedId : '';        
       } else {
-        alert(body.msg);
+        this.popup.show(body.msg);
       }
     }) 
   }

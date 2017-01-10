@@ -1,9 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 
 import { StudentService } from '../student.service';
-import { SignStudent } from '../../../shared';
+import { SignStudent, PopUpComponent } from '../../../shared';
 
 @Component({
   selector: 'create',
@@ -12,6 +12,8 @@ import { SignStudent } from '../../../shared';
 })
 export class CreateComponent {
   
+  @ViewChild(PopUpComponent) popup: PopUpComponent;
+
   student = new SignStudent();
   isEdit = false;
 
@@ -46,11 +48,11 @@ export class CreateComponent {
 
   saveStudent() {
     if (!this.student.number || !this.student.number.trim()) {
-      alert('学号不能为空');
+      this.popup.show('学号不能为空');
       return;
     }
     if (!this.student.name || !this.student.name.trim()) {
-      alert('姓名不能为空');
+      this.popup.show('姓名不能为空');
       return;
     }
     var tip = this.isEdit ? '修改成功' : '创建成功';
@@ -59,10 +61,10 @@ export class CreateComponent {
     
     observable.subscribe(body => {
       if (+body.code == 200) {
-        alert(tip);
+        this.popup.show(tip);
         this.backToList();
       } else {
-        alert(body.msg);
+        this.popup.show(body.msg);
       }
     });
   }

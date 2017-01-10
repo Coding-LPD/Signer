@@ -68,6 +68,8 @@ export class StudentComponent implements OnInit {
         this._courseService.search({teacherId}, 'createdAt', 0).subscribe(body => {
           if (+body.code == 200) {
             this.courses = body.data;
+          } else {
+            this.popup.show(body.msg);
           }
         })
       }

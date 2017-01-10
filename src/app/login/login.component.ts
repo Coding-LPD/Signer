@@ -56,7 +56,7 @@ export class LoginComponent {
 
   resetPassword($event: any) {
     $event.preventDefault();
-    alert('暂未开放该功能');
+    this.popup.show('暂未开放该功能');
   }
 
   handleError($event: any) {

@@ -14,14 +14,6 @@ export class JsEncryptService extends BaseService {
 
   constructor(private _http: Http) {
     super();
-    // this.getPublickey()
-    //   .subscribe(body => {
-    //     if (+body.code == 200) {
-    //       this.publickey = body.data;
-    //     } else {          
-    //       alert('获取公钥失败');
-    //     }    
-    //   });
   }
 
   encrypt(content: string): Observable<any> {

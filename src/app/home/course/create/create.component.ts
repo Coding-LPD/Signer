@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 
-import { Course } from '../../../shared';
+import { Course, PopUpComponent } from '../../../shared';
 import { LoginService } from '../../../login';
 import { CourseService } from '../course.service';
 
@@ -16,6 +16,8 @@ interface WrapString {
   styleUrls: ['./create.component.css']
 })
 export class CreateComponent implements OnInit {
+
+  @ViewChild(PopUpComponent) popup: PopUpComponent;
 
   private _defaultTime = '星期一 1节-2节';
   course = new Course();  
@@ -55,7 +57,7 @@ export class CreateComponent implements OnInit {
 
   saveCourse(course: Course) {
     if (this.courseTimes.length <= 0) {
-      alert('请输入至少一个上课时间');
+      this.popup.show('请输入至少一个上课时间');
       return;
     }
     var times = this.courseTimes.map(t => t.value);
@@ -66,10 +68,10 @@ export class CreateComponent implements OnInit {
     
     observable.subscribe(body => {
       if (+body.code == 200) {
-        alert(tip);
+        this.popup.show(tip);
         this._router.navigate(['/home/course']);
       } else {
-        alert(body.msg);
+        this.popup.show(body.msg);
       }
     });
   }

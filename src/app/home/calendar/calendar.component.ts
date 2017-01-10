@@ -1,8 +1,9 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import { Router, NavigationExtras } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import * as moment from 'moment';
 
+import { PopUpComponent } from '../../shared';
 import { LoginService } from '../../login';
 import { TeacherService } from '../teacher';
 import { CalendarPipe } from './calendar.pipe';
@@ -14,6 +15,7 @@ import { CalendarPipe } from './calendar.pipe';
 })
 export class CalendarComponent implements OnInit {
   
+  @ViewChild(PopUpComponent) popup: PopUpComponent;
   // 由于代码中要调用该管道，所以直接实例化
   @Inject(CalendarPipe) calendarPipe: CalendarPipe = new CalendarPipe();
 
@@ -121,7 +123,7 @@ export class CalendarComponent implements OnInit {
           // 同一天的签到按照开始时间倒序排序
           this.signs = body.data;
         } else {
-          alert(body.msg);
+          this.popup.show(body.msg);
         }
       });
   }

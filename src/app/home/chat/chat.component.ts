@@ -48,7 +48,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
           this.teacher = body.data[0];
           this._socketService.connect('sign').getRoomList(this.teacher._id);
         } else {
-          alert(body.msg);
+          this.popup.show(body.msg);
         }
       });
 
@@ -118,7 +118,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     if (+body.code == 200) {
       this.rooms = body.data;
     } else {
-      alert(body.msg);
+      this.popup.show(body.msg);
     }
   }
 
@@ -140,7 +140,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
       }
       this.msgs = body.data.reverse().concat(this.msgs);      
     } else {
-      alert(body.msg);
+      this.popup.show(body.msg);
     }
   }
 
@@ -161,7 +161,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         this.popup.show('有新消息');
       }
     } else {
-      alert(body.msg);
+      this.popup.show(body.msg);
     }
   }
 

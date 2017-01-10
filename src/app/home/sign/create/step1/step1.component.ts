@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { Sign, Course } from '../../../../shared';
+import { Sign, Course, PopUpComponent } from '../../../../shared';
 import { LoginService } from '../../../../login';
 import { SignService } from '../../sign.service';
 
@@ -12,6 +12,8 @@ import { SignService } from '../../sign.service';
 })
 export class Step1Component implements OnInit {
   
+  @ViewChild(PopUpComponent) popup: PopUpComponent;
+
   sign: Sign;
   extra = {
     signDate: '',
@@ -34,7 +36,7 @@ export class Step1Component implements OnInit {
         this.courses = body.data;
         this.selectedCourseId = this._signService.sign.courseId ? this._signService.sign.courseId : '';
       } else {
-        alert(body.msg);
+        this.popup.show(body.msg);
       }
     });
 

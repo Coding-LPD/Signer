@@ -106,12 +106,12 @@ export class SignComponent implements OnInit {
     this._signService.remove(sign._id)
       .subscribe(body => {
         if (+body.code == 200) {
-          alert('删除成功');
+          this.popup.show('删除成功');
           var index = this.signs.indexOf(sign);
           this.signs.splice(index, 1);
           this.signs = this.signs.slice(0);
         } else {
-          alert(body.msg);
+          this.popup.show(body.msg);
         }
       })
   }
