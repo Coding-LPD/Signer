@@ -1,0 +1,50 @@
+body{
+    background-color: white;
+    margin: 0px;
+}
+
+.div_logo{
+    margin-top: 20px;
+    text-align: center;    
+}
+
+.div_logo .logo{
+    width: 90px;
+    height: 90px;
+}
+
+.div_logo .title{
+    font-family:"微软雅黑 Light";
+    color: #333;
+    font-size: 16px;
+    margin: 0px;
+    text-align: center;
+}
+
+
+.div_title{
+    margin-left: 5%;
+    margin-right: 5%;
+}
+
+.div_title{
+    margin-top: 40px;
+}
+
+.div_title .title{
+    width: 78px;
+    margin-bottom: 1em;
+    font-family:"微软雅黑 Light";
+    color: #333;
+    font-size: 18px;
+    border-bottom:solid 4px #97CC00;
+    text-align: center;
+}
+
+.div_title .text{
+    font-family: 微软雅黑;
+    color: #666;
+    font-size: 14px;
+    line-height: 25px;
+    margin: 0px;
+}

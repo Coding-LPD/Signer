@@ -14,6 +14,7 @@ import { TeacherModule } from './teacher';
 import { StatisticsModule } from './statistics';
 import { ChatModule } from './chat';
 import { BigQRCodeComponent } from './big-qrcode';
+import { AboutModule } from './about';
 
 @NgModule({
   imports: [
@@ -26,7 +27,8 @@ import { BigQRCodeComponent } from './big-qrcode';
     TeacherModule,
     StatisticsModule,
     ChatModule,
-    homeRouting  
+    AboutModule,
+    homeRouting    
   ],
   declarations: [
     HomeComponent,

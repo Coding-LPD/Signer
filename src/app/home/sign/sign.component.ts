@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
 import * as moment from 'moment';
 
-import { Sign, OperationOption, HeaderOption, CellOption } from '../../shared';
+import { Sign, OperationOption, HeaderOption, CellOption, PopUpComponent } from '../../shared';
 import { LoginService } from '../../login';
 import { SignService } from './sign.service';
 
@@ -13,6 +14,8 @@ import { SignService } from './sign.service';
   styleUrls: ['./sign.component.css']
 })
 export class SignComponent implements OnInit {
+
+  @ViewChild(PopUpComponent) popup: PopUpComponent;
 
   signs: Sign[];
   selectedCourseName = '';
@@ -44,7 +47,9 @@ export class SignComponent implements OnInit {
       default: '无'
     },
     { prop: 'createdAt',    default: '无' }
-  ]; 
+  ];
+  // 查询流
+  searchTerms = new Subject<string>();
 
   constructor(
     private _route: ActivatedRoute,
@@ -53,10 +58,21 @@ export class SignComponent implements OnInit {
     private _signService: SignService) {}
 
   ngOnInit() {
-    this._loginService.getTeacherInfo()
-      .flatMap(body => {
+    // 输入签到课程名搜索
+    this.searchTerms
+      .startWith('')
+      .debounceTime(300)
+      .distinctUntilChanged()
+      .combineLatest(this._loginService.getTeacherInfo())
+      .switchMap(arr => {
+        let [term, body] = arr;
+        var condition = {};
         if (+body.code == 200) {
-          return this._signService.search({ teacherId: body.data[0]._id }, 'createdAt', -1);
+          if (term) {
+            condition['courseName'] = term;
+          }
+          condition['teacherId'] = body.data[0]._id;
+          return this._signService.search(condition, 'createdAt', -1);
         } else {
           return Observable.of(body);
         }
@@ -65,22 +81,22 @@ export class SignComponent implements OnInit {
         if (+body.code == 200) {
           this.signs = body.data;
         } else {
-          alert(body.msg);
+          this.popup.show(body.msg);
         }
       });
 
     this._route.queryParams
       .subscribe(params => {
         this.selectedDate = params['date'];
-      });    
+      });
   }
 
   createSign() {
     this._router.navigate(['/home/sign/create/step1']);
   }
 
-  receiveCheckedSigns(signs: Sign[]) {
-    console.log(signs);
+  searchSign(courseName: string) {
+    this.searchTerms.next(courseName);
   }
 
   removeSign(sign: Sign) {

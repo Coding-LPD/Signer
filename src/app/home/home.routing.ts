@@ -9,6 +9,7 @@ import { courseRoutes } from './course';
 import { statisticsRoutes } from './statistics';
 import { ChatComponent } from './chat';
 import { BigQRCodeComponent } from './big-qrcode';
+import { AboutComponent } from './about';
 
 const routes: Routes = [
   { 
@@ -19,7 +20,7 @@ const routes: Routes = [
       { path: '',           redirectTo: 'calendar',       pathMatch: 'full'   },
       { path: 'calendar',   component: CalendarComponent                      },
       { path: 'chatRoom',   component: ChatComponent                          },
-      { path: 'about',      component: CalendarComponent                      },
+      { path: 'about',      component: AboutComponent                         },
       ...signRoutes,
       ...courseRoutes,
       ...studentRoutes,
