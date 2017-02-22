@@ -4,7 +4,7 @@ import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 
 import { MyDateDirective } from './my-date';
-import { FilterDatePipe, DistinctPipe, FilterPipe } from './pipes';
+import { FilterDatePipe, DistinctPipe, FilterPipe, DatexPipe } from './pipes';
 import { 
   API, UserService, JsEncryptService, PositionService,
   SignRecordService, SocketService
@@ -28,6 +28,7 @@ import {
     FilterDatePipe,
     DistinctPipe,
     FilterPipe,
+    DatexPipe,
     CircleProgressComponent,
     BaiduMapComponent,
     LoadingComponent
@@ -43,6 +44,7 @@ import {
     FilterDatePipe,
     DistinctPipe,
     FilterPipe,
+    DatexPipe,
     CircleProgressComponent,
     BaiduMapComponent,
     LoadingComponent
