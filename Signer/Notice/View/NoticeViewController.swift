@@ -158,7 +158,7 @@ class NoticeViewController: UIViewController
     
     func refreshNoticesFor(type: NoticeType, newNotices notices: [Notice])
     {
-        print("刷新\(notices.count)条通知")
+//        print("刷新\(notices.count)条通知")
         
         if noticeType == .beforeClass {
             beforeNotices.removeAll()
@@ -233,7 +233,7 @@ class NoticeViewController: UIViewController
     // 将网页中获取到的第page页的新通知加到数据源中，更新tableView
     func addNotices(newNotices: [Notice], noticeType: NoticeType, page: Int)
     {
-        print("新加载\(newNotices.count)条通知")
+      //  print("新加载\(newNotices.count)条通知")
 
         if noticeType == .beforeClass {
             beforeNotices.append(contentsOf: newNotices)

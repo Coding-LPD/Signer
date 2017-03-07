@@ -134,7 +134,7 @@ class RecordViewController: UIViewController
                 switch response.result {
                 case .success(let value):
                     let json = JSON(value)
-                    print("获取\(dateString)的签到记录: \(json)")
+//                    print("获取\(dateString)的签到记录: \(json)")
                     if json["code"] == "200" {
                         self.convertSignRecordsAtDateFrom(json: json["data"])
                     } else {
@@ -183,7 +183,7 @@ class RecordViewController: UIViewController
                 switch response.result {
                 case .success(let value):
                     let json = JSON(value)
-                    print("获取\(dateString)的发言记录: \(json)")
+//                    print("获取\(dateString)的发言记录: \(json)")
                     if json["code"] == "200" {
                         self.convertChatRecordsAtDateFrom(json: json["data"])
                     } else {
@@ -263,7 +263,7 @@ extension RecordViewController: CalendarViewDelegate
         let dayString = day < 10 ? "0\(day)" : "\(day)"
         let dateString = "\(year)-\(monthString)-\(dayString)"
         
-        print("点击\(dateString)")
+//        print("点击\(dateString)")
         
         switch recordType! {
         case .sign:

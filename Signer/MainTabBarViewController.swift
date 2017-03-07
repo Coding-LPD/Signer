@@ -123,7 +123,7 @@ class MainTabBarViewController: UITabBarController
         }
         
         socket.on("notice") {data, ack in
-            print("------------notice")
+//            print("------------notice")
             self.newNoticeCount += 1
             
         }

@@ -61,7 +61,7 @@ class LogInViewController: UIViewController, LoadingButtonDelegate
                 switch response.result {
                 case .success(let value):
                     let json = JSON(value)
-                    print("登录: \(json)")
+//                    print("登录: \(json)")
                     DispatchQueue.main.async {
                         if json["code"] == "200" {
                             self.saveInformationWith(json: json["data"], phoneNumber: phoneNumber)

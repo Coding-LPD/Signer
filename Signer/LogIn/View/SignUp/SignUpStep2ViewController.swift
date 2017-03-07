@@ -61,7 +61,7 @@ class SignUpStep2ViewController: UIViewController, CountdownUnderlineTextFieldDe
                 switch response.result {
                 case .success(let value):
                     let json = JSON(value)
-                    print("验证手机号和验证码: \(json)")
+//                    print("验证手机号和验证码: \(json)")
                     DispatchQueue.main.async {
                         if(json["code"] == "200") {
                             self.performSegue(withIdentifier: "Step3", sender: nil)
@@ -92,7 +92,7 @@ class SignUpStep2ViewController: UIViewController, CountdownUnderlineTextFieldDe
             switch response.result {
             case .success(let value):
                 let json = JSON(value)
-                print("发送验证码: \(json)")
+//                print("发送验证码: \(json)")
                 DispatchQueue.main.async {
                     if json["code"] == "200" {
                         self.view.makeToast("发送验证码成功", duration: 1.0, position: .center)

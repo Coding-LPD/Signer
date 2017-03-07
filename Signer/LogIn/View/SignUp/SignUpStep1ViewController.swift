@@ -63,7 +63,7 @@ class SignUpStep1ViewController: UIViewController, LoadingButtonDelegate
                 switch response.result {
                 case .success(let value):
                     let json = JSON(value)
-                    print("发送验证码: \(json)")
+//                    print("发送验证码: \(json)")
                     DispatchQueue.main.async {
                         if json["code"] == "200" {
                             self.performSegue(withIdentifier: "Step2", sender: nil)
