@@ -139,7 +139,6 @@ class ChatRoomViewController: JSQMessagesViewController
                     self.scrollToBottom(animated: true)
                 } else {
                     self.finishReceivingMessage(animated: false)
-                    self.collectionView.layoutIfNeeded()
                     self.collectionView.contentOffset = CGPoint(x: 0, y: self.collectionView.contentSize.height - oldBottomOffset)
                 }
                 

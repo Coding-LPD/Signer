@@ -60,24 +60,27 @@ class SignUpStep3ViewController: UIViewController, LoadingButtonDelegate
         
         doneButton.startWaiting()
 
-        Alamofire.request(SignUpRouter.signUpStudent(phoneNumber, encryptedPassword)).responseJSON { (response) in
-            switch response.result {
-            case .success(let value):
-                let json = JSON(value)
-                print("学生注册: \(json)")
-                DispatchQueue.main.async {
-                    self.doneButton.stopWaiting()
-                    if json["code"] == "200" {
-                        LogInViewController.writeLogInStatus(isLogged: true, isStudent: true, id: json["data"]["person"]["_id"].stringValue, phone: phoneNumber, name: json["data"]["person"]["name"].stringValue, avatarUrl: json["data"]["person"]["avatar"].stringValue)
-                        self.showHomePage()
-                    } else {
-                        self.view.makeToast("注册失败，检查网络连接", duration: 1.0, position: .center)
+        Alamofire
+            .request(SignUpRouter.signUpStudent(phoneNumber, encryptedPassword))
+            .responseJSON { (response) in
+                self.doneButton.stopWaiting()
+                
+                switch response.result {
+                case .success(let value):
+                    let json = JSON(value)
+                    print("学生注册: \(json)")
+                    DispatchQueue.main.async {
+                        if json["code"] == "200" {
+                            LogInViewController.writeLogInStatus(isLogged: true, isStudent: true, id: json["data"]["person"]["_id"].stringValue, phone: phoneNumber, name: json["data"]["person"]["name"].stringValue, avatarUrl: json["data"]["person"]["avatar"].stringValue)
+                            self.showHomePage()
+                        } else {
+                            fatalError("注册失败")
+                        }
                     }
+                case .failure:
+                    self.view.makeToast("注册失败，检查网络连接", duration: 1.0, position: .center)
                 }
-            case .failure(let error):
-                fatalError("注册失败: \(error.localizedDescription)")
             }
-        }
     }
 
     @IBAction func backAction(_ sender: UIBarButtonItem)

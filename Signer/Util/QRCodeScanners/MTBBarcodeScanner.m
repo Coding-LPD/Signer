@@ -228,7 +228,8 @@ static const NSInteger kErrorCodeSessionIsClosed = 1001;
     }
 }
 
-- (void)startScanningWithError:(NSError **)error {
+- (void)startScanningWithError:(NSError **)error
+{
     [self startScanningWithResultBlock:self.resultBlock error:error];
 }
 

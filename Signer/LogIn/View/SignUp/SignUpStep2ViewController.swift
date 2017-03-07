@@ -47,31 +47,32 @@ class SignUpStep2ViewController: UIViewController, CountdownUnderlineTextFieldDe
     
     func didClickButton()
     {
-        performSegue(withIdentifier: "Step3", sender: nil)
+        guard let verifyCode = verifyCodeTextField.text, let phoneNumber = phoneNumber else {
+            return
+        }
+    
+        nextStepButton.startWaiting()
         
-//        guard let verifyCode = verifyCodeTextField.text, let phoneNumber = phoneNumber else {
-//            return
-//        }
-//    
-//        nextStepButton.startWaiting()
-//        
-//        Alamofire.request(SignUpRouter.validatePhoneAndCode(phoneNumber, verifyCode)).responseJSON { (response) in
-//            switch response.result {
-//            case .success(let value):
-//                let json = JSON(value)
-//                print("验证手机号和验证码: \(json)")
-//                DispatchQueue.main.async {
-//                    self.nextStepButton.stopWaiting()
-//                    if(json["code"] == "200") {
-//                        self.performSegue(withIdentifier: "Step3", sender: nil)
-//                    } else {
-//                        self.view.makeToast("验证码错误", duration: 1.0, position: .center)
-//                    }
-//                }
-//            case .failure(let error):
-//                fatalError("验证手机号和验证码失败: \(error.localizedDescription)")
-//            }
-//        }
+        Alamofire
+            .request(SignUpRouter.validatePhoneAndCode(phoneNumber, verifyCode))
+            .responseJSON { (response) in
+                self.nextStepButton.stopWaiting()
+                
+                switch response.result {
+                case .success(let value):
+                    let json = JSON(value)
+                    print("验证手机号和验证码: \(json)")
+                    DispatchQueue.main.async {
+                        if(json["code"] == "200") {
+                            self.performSegue(withIdentifier: "Step3", sender: nil)
+                        } else {
+                            self.view.makeToast("验证码错误，请重新输入", duration: 1.0, position: .center)
+                        }
+                    }
+                case .failure:
+                    self.view.makeToast("检查网络连接", duration: 1.0, position: .center)
+                }
+            }
     }
 
     

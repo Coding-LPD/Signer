@@ -84,7 +84,6 @@
 		ADCCAC411DE6C64200757525 /* SignCourseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADCCAC401DE6C64200757525 /* SignCourseCell.swift */; };
 		ADD643401DFEAD080019102B /* RecordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADD6433F1DFEAD080019102B /* RecordViewController.swift */; };
 		ADD643421DFEAD3B0019102B /* RecordCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADD643411DFEAD3B0019102B /* RecordCell.swift */; };
-		ADD87F201DE3E5060093A25F /* Reveal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ADD87F1F1DE3E5060093A25F /* Reveal.framework */; };
 		ADDEC3651DFF949500E2EC77 /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADDEC3641DFF949500E2EC77 /* AboutViewController.swift */; };
 		ADEF11DB1D869D99001F9C19 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADEF11DA1D869D99001F9C19 /* AppDelegate.swift */; };
 		ADEF11E21D869D99001F9C19 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ADEF11E01D869D99001F9C19 /* Main.storyboard */; };
@@ -188,7 +187,6 @@
 		ADCCAC401DE6C64200757525 /* SignCourseCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignCourseCell.swift; sourceTree = "<group>"; };
 		ADD6433F1DFEAD080019102B /* RecordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordViewController.swift; sourceTree = "<group>"; };
 		ADD643411DFEAD3B0019102B /* RecordCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordCell.swift; sourceTree = "<group>"; };
-		ADD87F1F1DE3E5060093A25F /* Reveal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Reveal.framework; sourceTree = "<group>"; };
 		ADDEC3641DFF949500E2EC77 /* AboutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
 		ADEF11D71D869D99001F9C19 /* 华师小签.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "华师小签.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADEF11DA1D869D99001F9C19 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -226,7 +224,6 @@
 				AD75AA871DEBDDAE0056DED8 /* BaiduMapAPI_Base.framework in Frameworks */,
 				AD75AA881DEBDDAE0056DED8 /* BaiduMapAPI_Location.framework in Frameworks */,
 				4289AA9668495BCDD69083EB /* Pods_Signer.framework in Frameworks */,
-				ADD87F201DE3E5060093A25F /* Reveal.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -313,7 +310,6 @@
 				AD75AA851DEBDDAE0056DED8 /* BaiduMapAPI_Base.framework */,
 				AD75AA861DEBDDAE0056DED8 /* BaiduMapAPI_Location.framework */,
 				ADCCAC3A1DE6ABE700757525 /* SystemConfiguration.framework */,
-				ADD87F1F1DE3E5060093A25F /* Reveal.framework */,
 				FEB9F7DA29CDEF2318471B66 /* Pods_Signer.framework */,
 			);
 			name = Frameworks;
@@ -1000,6 +996,7 @@
 					"$(PROJECT_DIR)/Signer/frameworks",
 				);
 				INFOPLIST_FILE = Signer/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -1021,8 +1018,6 @@
 					"\"Toast_Swift\"",
 					"-ObjC",
 					"-lz",
-					"-framework",
-					Reveal,
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = cn.edu.scnu.Signer;
 				PRODUCT_NAME = "华师小签";
@@ -1050,6 +1045,7 @@
 					"$(PROJECT_DIR)/Signer/frameworks",
 				);
 				INFOPLIST_FILE = Signer/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -1071,8 +1067,6 @@
 					"\"Toast_Swift\"",
 					"-ObjC",
 					"-lz",
-					"-framework",
-					Reveal,
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = cn.edu.scnu.Signer;
 				PRODUCT_NAME = "华师小签";

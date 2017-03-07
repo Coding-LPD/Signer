@@ -56,16 +56,17 @@ class LogInViewController: UIViewController, LoadingButtonDelegate
         Alamofire
             .request(SignUpRouter.logInStudent(phone: phoneNumber, encryptedPassword: encryptedPassword))
             .responseJSON { (response) in
+                self.logInButton.stopWaiting()
+                
                 switch response.result {
                 case .success(let value):
                     let json = JSON(value)
                     print("登录: \(json)")
                     DispatchQueue.main.async {
-                        self.logInButton.stopWaiting()
                         if json["code"] == "200" {
                             self.saveInformationWith(json: json["data"], phoneNumber: phoneNumber)
                         } else {
-                                self.view.makeToast("登录失败，手机号与密码不匹配", duration: 1.0, position: .center)
+                            self.view.makeToast("登录失败，手机号与密码不匹配", duration: 1.0, position: .center)
                         }
                     }
                 case .failure:
