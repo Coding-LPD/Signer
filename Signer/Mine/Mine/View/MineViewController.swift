@@ -83,7 +83,7 @@ extension MineViewController: UITableViewDataSource, UITableViewDelegate
         if indexPath.section == 1 && indexPath.row == 0 {
             cell.configureCell(imageName: "sign", text: "我的签到", isLineHidden: false)
         } else if indexPath.section == 1 && indexPath.row == 1 {
-            cell.configureCell(imageName: "speak", text: "我的发言", isLineHidden: false)
+            cell.configureCell(imageName: "speak", text: "我的发言", isLineHidden: true)
         } else if indexPath.section == 2 && indexPath.row == 0 {
             cell.configureCell(imageName: "setting", text: "设置", isLineHidden: true)
         }
