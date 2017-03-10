@@ -98,6 +98,8 @@ class SignUpStep3ViewController: UIViewController, LoadingButtonDelegate
     private func showHomePage()
     {
         if let mainTabBarVC = storyboard?.instantiateViewController(withIdentifier: "MainTabBarViewController") as? MainTabBarViewController {
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            appDelegate.monitorNewNotice()          // 学生监听新的签到通知
             present(mainTabBarVC, animated: true, completion: nil)
         }
     }

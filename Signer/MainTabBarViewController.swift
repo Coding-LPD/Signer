@@ -7,34 +7,24 @@
 //
 
 import UIKit
-import SocketIO
 
 class MainTabBarViewController: UITabBarController
 {
     let centerButtonIndex = 2
-
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
         
         tabBar.tintColor = ThemeGreenColor
+        
         addAllChildViewController()
         
-        connectToServer()
+        NotificationCenter.default.addObserver(self, selector: #selector(receiveNewNotice), name: NSNotification.Name(rawValue: Constant.receiveNewNoticeNotification), object: nil)
     }
     
-    override func viewDidAppear(_ animated: Bool)
-    {
-        super.viewDidAppear(animated)
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(clearNoticeCountHandler), name: NSNotification.Name(rawValue: "ClearNoticeCountNotification"), object: nil)
-    }
-    
-    override func viewDidDisappear(_ animated: Bool)
-    {
-        super.viewDidDisappear(animated)
-        
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: "ClearNoticeCountNotification"), object: nil)
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
     
     func addAllChildViewController()
@@ -50,13 +40,12 @@ class MainTabBarViewController: UITabBarController
         // 我的
         addChildVC("MineNavigation", title: "我的", image: "tab_mine")
     }
-
+    
     func addChildVC(_ identifier: String, title: String?, image: String)
     {
         if let childVC = storyboard?.instantiateViewController(withIdentifier: identifier) {
             childVC.tabBarItem.title = title
             childVC.tabBarItem.image = UIImage(named: image)
-
             addChildViewController(childVC)
         }
     }
@@ -70,19 +59,19 @@ class MainTabBarViewController: UITabBarController
         placeHolderVC.tabBarItem.image = buttonImage
         placeHolderVC.tabBarItem.tag = centerButtonIndex
         placeHolderVC.tabBarItem.imageInsets = UIEdgeInsetsMake(5, 0, -5, 0)
-
+        
         addChildViewController(placeHolderVC)
     }
-
+    
     override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem)
     {
         if item.tag == centerButtonIndex {
-            signButtonClicked()
+            signInAction()
         }
     }
     
-    // 点击签到按钮
-    func signButtonClicked()
+    // 签到
+    func signInAction()
     {
         guard let signNavigation = storyboard?.instantiateViewController(withIdentifier: "SignNavigation") as? UINavigationController,
             let signViewController = signNavigation.viewControllers[0] as? SignViewController else {
@@ -90,45 +79,20 @@ class MainTabBarViewController: UITabBarController
         }
         
         let currentSelectedIndex = selectedIndex
-        
         signViewController.dismissViewControllerBlock = { [weak self] in
             self?.selectedIndex = currentSelectedIndex
         }
         
         present(signNavigation, animated: true, completion: nil)
     }
-
-    lazy var socket: SocketIOClient = {
-        let socket = SocketIOClient(socketURL: URL(string: SignUpRouter.baseSocketUrl)!, config: [.log(false), .nsp("/sign"), .forceNew(true), .reconnects(true)])
-        return socket
-    }()
-
-    var newNoticeCount = 0 {
-        didSet {
-            DispatchQueue.main.async {
-                self.tabBar.items?[3].badgeValue = self.newNoticeCount == 0 ? nil : "\(self.newNoticeCount)"
-            }
-        }
-    }
     
-    func clearNoticeCountHandler()
+    func receiveNewNotice()
     {
-        newNoticeCount = 0
+        if let unreadNoticeString = self.tabBar.items?[3].badgeValue, let unreadNoticeCount = Int(unreadNoticeString) {
+            self.tabBar.items?[3].badgeValue = "\(unreadNoticeCount + 1)"
+        } else {
+            self.tabBar.items?[3].badgeValue = "1"
+        }
     }
-    
-    func connectToServer()
-    {
-        socket.on("connect") {data, ack in
-            self.socket.emit("student-in", Student().id)        // 触发此事件才能接收到通知
-        }
-        
-        socket.on("notice") {data, ack in
-//            print("------------notice")
-            self.newNoticeCount += 1
-            
-        }
 
-        socket.connect()
-    }
-    
 }

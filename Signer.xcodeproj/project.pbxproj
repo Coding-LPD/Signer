@@ -174,7 +174,7 @@
 		ADA682721DF160C800C6D841 /* Date+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+extension.swift"; sourceTree = "<group>"; };
 		ADABF3AE1DD8498600226D86 /* StudentRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudentRouter.swift; sourceTree = "<group>"; };
 		ADB19E971DF94A3800D8B46A /* Message.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
-		ADB19E991DF951B300D8B46A /* Constant.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
+		ADB19E991DF951B300D8B46A /* Constant.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Constant.swift; path = Signer/Util/Constant.swift; sourceTree = "<group>"; };
 		ADB299691DF6526800297842 /* ChatRoomViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatRoomViewController.swift; sourceTree = "<group>"; };
 		ADB2998D1DF685F600297842 /* SocketManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketManager.swift; sourceTree = "<group>"; };
 		ADBB2D311DE57D8600F1A251 /* CALayer+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CALayer+extension.swift"; sourceTree = "<group>"; };
@@ -522,6 +522,7 @@
 			isa = PBXGroup;
 			children = (
 				ADEF11D91D869D99001F9C19 /* Signer */,
+				ADB19E991DF951B300D8B46A /* Constant.swift */,
 				ADEF11D81D869D99001F9C19 /* Products */,
 				2EC3B7D8ABD1F07926DF1845 /* Pods */,
 				63BB714A2E03054C3FE51A59 /* Frameworks */,
@@ -609,7 +610,6 @@
 				ADEF11FD1D869ECB001F9C19 /* CustomView */,
 				ADEF11FC1D869EC3001F9C19 /* Extension */,
 				AD63C2BB1DD1CEE100BA1276 /* RSA */,
-				ADB19E991DF951B300D8B46A /* Constant.swift */,
 				ADEF12081D869F6B001F9C19 /* Color.swift */,
 				AD08D82D1D86A0DB007C7ECD /* Signer-Bridging-Header.h */,
 			);

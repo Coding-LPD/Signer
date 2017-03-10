@@ -74,7 +74,7 @@ class PreviewAvatarViewController: UIViewController
                 switch response.result {
                 case .success(let value):
                     let json = JSON(value)
-//                    print("修改学生头像: \(json)")
+                    print("修改学生头像: \(json)")
                     if json["code"] == "200" {
                         DispatchQueue.main.async {
                             let userDefaults = UserDefaults.standard
@@ -88,6 +88,7 @@ class PreviewAvatarViewController: UIViewController
                     }
                 case .failure(_):
                     DispatchQueue.main.async {
+                        self.view.hideToastActivity()
                         self.view.makeToast("修改头像失败，检查网络连接", duration: 1.0, position: .center)
                     }
                 }

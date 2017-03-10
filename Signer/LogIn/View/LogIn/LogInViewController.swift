@@ -86,6 +86,8 @@ class LogInViewController: UIViewController, LoadingButtonDelegate
         if role == 0 {
             // 学生
             LogInViewController.writeLogInStatus(isLogged: true, isStudent: true, id: id, phone: phoneNumber, name: name, avatarUrl: avatarUrl)
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            appDelegate.monitorNewNotice()          // 学生监听新的签到通知
             showStudentHomePage()
         } else if role == 1 {
             // 老师

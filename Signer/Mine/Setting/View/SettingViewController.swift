@@ -98,6 +98,10 @@ extension SettingViewController: UITableViewDataSource, UITableViewDelegate
         } else if indexPath.section == 3 && indexPath.row == 0 {
             let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
             let logOutAction = UIAlertAction(title: "退出登录", style: .destructive, handler: { (action) in
+                if UserDefaults.standard.bool(forKey: "isStudent") {
+                    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                    appDelegate.stopMonitorNewNotice()          // 不再监听签到通知
+                }
                 if let bundle = Bundle.main.bundleIdentifier {
                     UserDefaults.standard.removePersistentDomain(forName: bundle)
                 }

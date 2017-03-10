@@ -16,5 +16,9 @@ struct Constant
     
     // 默认头像Url
     static let defaultAvatar1Url = Constant.baseImageUrl + "/user/1.png"
+    
+    // MARK: - 通知
+    
+    static let receiveNewNoticeNotification = "receiveNewNoticeNotification"
 }
 
