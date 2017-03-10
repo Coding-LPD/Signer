@@ -47,7 +47,6 @@ class SearchResultViewController: UIViewController
                 switch response.result {
                 case .success(let value):
                     let json = JSON(value)
-//                    print("搜索课程: \(json)")
                     if json["code"] == "200" {
                         self?.configureUIWith(json: json["data"])
                     } else {
@@ -55,7 +54,6 @@ class SearchResultViewController: UIViewController
                     }
                 case .failure(let error):
                     self?.view.makeToast("搜索课程失败，检查网络连接", duration: 1.0, position: .center)
-//                    print(error.localizedDescription)
                 }
         }
     }

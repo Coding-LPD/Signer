@@ -37,7 +37,6 @@ class SignRecordCalendarViewController: UIViewController
                 switch response.result {
                 case .success(let value):
                     let json = JSON(value)
-//                    print("获取签到记录: \(json)")
                     if json["code"] == "200" {
                         self.getRecordFrom(json: json["data"])
                     } else {

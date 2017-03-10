@@ -54,7 +54,6 @@ class PreviewAvatarViewController: UIViewController
                         switch response.result {
                         case .success(let value):
                             let json = JSON(value)
-//                            print("上传返回: \(value)")
                             self.modifyAvatarWith(newAvatarURL: json["data"].stringValue)
                         case .failure(_):
                             self.view.makeToast("上传失败，请检查网络连接", duration: 1.0, position: .center)
@@ -74,7 +73,6 @@ class PreviewAvatarViewController: UIViewController
                 switch response.result {
                 case .success(let value):
                     let json = JSON(value)
-                    print("修改学生头像: \(json)")
                     if json["code"] == "200" {
                         DispatchQueue.main.async {
                             let userDefaults = UserDefaults.standard

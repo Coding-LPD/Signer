@@ -96,7 +96,6 @@ class CourseDetailViewController: UIViewController, BMKLocationServiceDelegate
                 switch response.result {
                 case .success(let value):
                     let json = JSON(value)
-             //       print("获取课程详情: \(json)")
                     if json["code"] == "200" {
                         self.configureUIWith(json: json["data"])
                     } else {
@@ -125,7 +124,6 @@ class CourseDetailViewController: UIViewController, BMKLocationServiceDelegate
                 switch response.result {
                 case .success(let value):
                     let json = JSON(value)
-          //          print("获取课程详情: \(json)")
                     if json["code"] == "200" {
                         self.configureUIWith(json: json["data"])
                     } else {
@@ -247,7 +245,6 @@ class CourseDetailViewController: UIViewController, BMKLocationServiceDelegate
                 switch response.result {
                 case .success(let value):
                     let json = JSON(value)
-          //          print("学生签到: \(json)")
                     if json["code"] == "200" {
                         self.battery = json["data"]["battery"].int
                         self.distance = json["data"]["distance"].int

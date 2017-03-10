@@ -68,7 +68,6 @@ class SignUpStep3ViewController: UIViewController, LoadingButtonDelegate
                 switch response.result {
                 case .success(let value):
                     let json = JSON(value)
-//                    print("学生注册: \(json)")
                     DispatchQueue.main.async {
                         if json["code"] == "200" {
                             LogInViewController.writeLogInStatus(isLogged: true, isStudent: true, id: json["data"]["person"]["_id"].stringValue, phone: phoneNumber, name: json["data"]["person"]["name"].stringValue, avatarUrl: json["data"]["person"]["avatar"].stringValue)

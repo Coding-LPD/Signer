@@ -74,7 +74,6 @@ class ModifyPasswordViewController: UIViewController, LoadingButtonDelegate
                 case .success(let value):
                     self.modifyButton.stopWaiting()
                     let json = JSON(value)
-//                    print("修改密码时登录: \(json)")
                     if json["code"] == "200" {
                         
                         self.modifyButton.startWaiting()
@@ -85,7 +84,6 @@ class ModifyPasswordViewController: UIViewController, LoadingButtonDelegate
                                 switch response.result {
                                 case .success(let value):
                                     let json = JSON(value)
-//                                    print("修改密码: \(json)")
                                     if json["code"] == "200" {
                                         DispatchQueue.main.async {
                                             self.oldPasswordTextField.text = nil

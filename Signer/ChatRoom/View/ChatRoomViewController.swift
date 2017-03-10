@@ -156,8 +156,6 @@ class ChatRoomViewController: JSQMessagesViewController
     
     func receiveNewMessage(messageJSON json: JSON)
     {
-        print("-------------有新消息: \(json)")
-        
         let courseIdFromService = json[0]["data"]["courseId"].stringValue
         if courseId! == courseIdFromService {   // 是本聊天室的新消息
             let message = convertJSONToMessage(messageJSON: json[0]["data"])

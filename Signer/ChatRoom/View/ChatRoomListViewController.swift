@@ -91,8 +91,6 @@ class ChatRoomListViewController: UIViewController
 
     func configureUIWith(json: JSON)
     {
-       // print("聊天室列表: \(json)")
-        
         chatRooms.removeAll()
         
         if json["code"] == "200" {

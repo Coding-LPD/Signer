@@ -46,7 +46,6 @@ class MineInfoViewController: UITableViewController
                 switch response.result {
                 case .success(let value):
                     let json = JSON(value)
-//                    print("查询学生成功: \(json)")
                     DispatchQueue.main.async {
                         self.configureUIWith(json: json["data"][0])
                         self.json = json["data"][0]
@@ -83,7 +82,6 @@ class MineInfoViewController: UITableViewController
                 switch response.result {
                 case .success(let value):
                     let json = JSON(value)
-//                    print("获取学生签到数和发言数: \(json)")
                     if json["code"] == "200" {
                         let signCount = json["data"]["signCount"].intValue
                         let msgCount = json["data"]["msgCount"].intValue
@@ -141,7 +139,6 @@ class MineInfoViewController: UITableViewController
                 switch response.result {
                 case .success(let value):
                     let json = JSON(value)
-//                    print(json)
                     if json["code"] == "200" {
                         DispatchQueue.main.async {
                             self.configureUIWith(json: json["data"])

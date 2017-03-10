@@ -49,7 +49,6 @@ class FeedBackViewController: UIViewController
                 switch response.result {
                 case .success(let value):
                     let json = JSON(value)
-//                    print("发送反馈: \(json)")
                     if json["code"] == "200" {
                         DispatchQueue.main.async {
                             self.view.makeToast("发送反馈成功", duration: 1.0, position: .center)

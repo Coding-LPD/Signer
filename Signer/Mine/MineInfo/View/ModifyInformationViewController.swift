@@ -100,7 +100,6 @@ class ModifyInformationViewController: UIViewController
                 switch response.result {
                 case .success(let value):
                     let json = JSON(value)
-//                    print("修改学生信息: \(json)")
                     if json["code"] == "200" {
                         _ = self.navigationController?.popViewController(animated: true)
                     } else {
