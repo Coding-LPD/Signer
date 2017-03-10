@@ -5,7 +5,7 @@ import { Observable } from 'rxjs/Observable';
 import { BaseService, User, API, JsEncryptService } from '../shared';
 
 @Injectable()
-export class RegisterService extends BaseService {
+export class ForgetService extends BaseService {
 
   constructor(
     private _http: Http,
@@ -13,16 +13,13 @@ export class RegisterService extends BaseService {
       super();
   }
 
-  register(phone: string, password: string, role: string) {
+  changePassword(phone: string, password: string) {
+    var url = API.domain + API.stringReplace(API.userPhone, [phone]);
+
     return this._jsEncryptService.encrypt(password)
       .flatMap(body => {
         if (body.code == 200) {
-          var data = {
-            phone,
-            password: body.data,
-            role
-          };
-          return this._http.post(API.domain + API.user, data, { withCredentials: true });
+          return this._http.put(url, { password: body.data }, { withCredentials: true });
         }
         return Observable.of<any>(body);
       })

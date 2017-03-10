@@ -56,7 +56,7 @@ export class LoginComponent {
 
   resetPassword($event: any) {
     $event.preventDefault();
-    this.popup.show('暂未开放该功能');
+    this._router.navigate(['/forget']);
   }
 
   handleError($event: any) {

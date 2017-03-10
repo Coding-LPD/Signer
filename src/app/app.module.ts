@@ -10,6 +10,7 @@ import { RegisterModule } from './register';
 import { HomeModule, HomeComponent } from './home';
 import { NoContent } from './no-content';
 import { LogoComponent } from './logo';
+import { ForgetModule } from './forget';
 
 @NgModule({
   imports: [
@@ -18,7 +19,8 @@ import { LogoComponent } from './logo';
     SharedModule.forRoot(),
     LoginModule.forRoot(),
     RegisterModule.forRoot(),
-    HomeModule.forRoot()
+    HomeModule.forRoot(),
+    ForgetModule.forRoot()
   ],  
   declarations: [
     AppComponent,    
