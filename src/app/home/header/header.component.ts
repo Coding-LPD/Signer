@@ -40,7 +40,7 @@ export class HeaderComponent implements OnInit {
   }
 
   logout() {
-    this._router.navigate(['/home/login']);
+    this._router.navigate(['/login']);
   }
 
 }
